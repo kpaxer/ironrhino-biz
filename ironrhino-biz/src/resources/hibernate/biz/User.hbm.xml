@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ironrhino.biz.model"
+	default-lazy="true">
+	<class name="User" table="user">
+		<id name="id" type="java.lang.String" length="32" unsaved-value="null">
+			<generator class="uuid" />
+		</id>
+		<natural-id>
+			<property name="username" not-null="true" />
+		</natural-id>
+		<property name="password" not-null="true" />
+		<property name="name" />
+		<property name="address" />
+		<property name="postCode" />
+		<property name="phone" />
+		<property name="mobile" />
+		<property name="enabled" />
+		<property name="createDate" />
+		<set name="roles" table="user_role" cascade="none"
+			fetch="subselect" lazy="false" inverse="false">
+			<key column="userId" />
+			<many-to-many class="Role" column="roleId" />
+		</set>
+	</class>
+</hibernate-mapping>

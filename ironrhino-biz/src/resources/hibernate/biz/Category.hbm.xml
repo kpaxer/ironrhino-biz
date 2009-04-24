@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.ironrhino.biz.model"
+	default-lazy="true">
+	<class name="Category" table="category">
+		<id name="id" type="java.lang.Integer" unsaved-value="null">
+			<generator class="identity" />
+		</id>
+		<natural-id mutable="true">
+			<property name="name" not-null="true" />
+		</natural-id>
+		<property name="level" />
+		<property name="displayOrder" />
+		<property name="fullId" />
+		<many-to-one name="parent" class="Category" column="parentId" />
+		<set name="children" lazy="true" inverse="true" cascade="none"
+			order-by="displayOrder,name">
+			<key column="parentId" />
+			<one-to-many class="Category" />
+		</set>
+	</class>
+</hibernate-mapping>

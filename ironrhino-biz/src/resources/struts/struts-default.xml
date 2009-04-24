@@ -1,0 +1,24 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="default" namespace="/" extends="ironrhino-default">
+		<action name="index">
+			<result type="autoConfig" />
+		</action>
+		<action name="switchUser">
+			<result type="autoConfig" />
+		</action>
+		<action name="securityConfig">
+			<result type="autoConfig" />
+		</action>
+		<action name="controlPanel">
+			<result type="autoConfig" />
+		</action>
+		<!-- 
+		<action name="region" class="org.ironrhino.common.action.RegionTreeAction">
+			<result name="success"> /WEB-INF/view/jsp/region_tree.jsp</result>
+		</action>
+		 -->
+	</package>
+</struts>
