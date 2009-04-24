@@ -49,7 +49,7 @@
 		p:rolePrefix="" />
 
 	<bean id="accessDeniedHandler" class="org.springframework.security.ui.AccessDeniedHandlerImpl">
-		<property name="errorPage" value="/accessDenied.jsp" />
+		<property name="errorPage" value="/WEB-INF/view/jsp/error/403.jsp" />
 	</bean>
 
 	<bean id="filterInvocationInterceptorObjectDefinitionSource"
