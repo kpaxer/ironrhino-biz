@@ -10,10 +10,10 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.ResultPage;
+import org.ironrhino.common.util.BeanUtils;
 import org.ironrhino.core.annotation.Authorize;
 import org.ironrhino.core.ext.struts.BaseAction;
 import org.ironrhino.core.service.BaseManager;
-import org.ironrhino.core.util.BeanUtils;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Role;
