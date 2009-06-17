@@ -26,11 +26,12 @@
 <script src="<c:url value="/scripts/jquery.js"/>" type="text/javascript"></script>
 <script src="<c:url value="/scripts/jquery.form.js"/>"
 	type="text/javascript"></script>
-<script src="<c:url value="/scripts/datagridtable.js"/>"
+<script src="<c:url value="/scripts/ironrhino.core.js"/>"
 	type="text/javascript"></script>
-<script src="<c:url value="/scripts/application.js"/>"
+<script src="<c:url value="/scripts/ironrhino.datagridtable.js"/>"
 	type="text/javascript"></script>
-<script type="text/javascript" src="<c:url value="/scripts/richtable.js"/>"></script>
+<script type="text/javascript"
+	src="<c:url value="/scripts/ironrhino.richtable.js"/>"></script>
 <decorator:head />
 </head>
 <body>
