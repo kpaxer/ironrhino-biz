@@ -3,9 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title>出入库审核历史记录</title>
-<link rel="stylesheet" href="${base}/themes/ui.datepicker.css" type="text/css" media="screen" />
-<script type="text/javascript" src="${base}/scripts/ui.datepicker.js"></script>
-<script type="text/javascript" src="${base}/scripts/ui.datepicker-zh-CN.js"></script>
 </head>
 <body>
 

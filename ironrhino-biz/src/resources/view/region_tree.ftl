@@ -3,11 +3,6 @@
 <head>
 <title>请选择</title>
 <meta name="decorator" content="simple" />
-<link href="${base}/styles/jquery.treeview.css" media="screen" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${base}/scripts/jquery.treeview.js"></script>
-<#if async>
-<script type="text/javascript" src="${base}/scripts/jquery.treeview.async.my.js"></script>
-</#if>
 <script type="text/javascript">
 	function _click(){
 		<#if Parameters['input']?exists>
