@@ -92,7 +92,7 @@ public class Order extends BaseEntity {
 	public BigDecimal getGrandTotal() {
 		BigDecimal bd = new BigDecimal(0.0);
 		for (OrderItem item : items)
-			bd.add(item.getSubtotal());
+			bd = bd.add(item.getSubtotal());
 		return bd;
 	}
 

@@ -24,13 +24,13 @@ public class RegionAction extends BaseAction {
 
 	private Integer parentId;
 
-	private BaseManager<Region> baseManager;
+	private transient BaseManager<Region> baseManager;
 
 	private Collection<Region> list;
 
 	private Collection<Region> children;
 
-	private RegionTreeControl regionTreeControl;
+	private transient RegionTreeControl regionTreeControl;
 
 	private boolean async = true;
 

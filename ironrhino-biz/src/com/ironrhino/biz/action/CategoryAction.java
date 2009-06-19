@@ -24,11 +24,11 @@ public class CategoryAction extends BaseAction {
 
 	private Integer parentId;
 
-	private BaseManager<Category> baseManager;
+	private transient BaseManager<Category> baseManager;
 
 	private Collection<Category> list;
 
-	private CategoryTreeControl categoryTreeControl;
+	private transient CategoryTreeControl categoryTreeControl;
 
 	private boolean async;
 
