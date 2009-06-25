@@ -11,7 +11,7 @@
 	<@s.textfield label="%{getText('name')}" name="category.name" />
 	<@s.textfield label="%{getText('displayOrder')}"
 		name="category.displayOrder" />
-	<@s.submit value="Save" />
+	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>
 </html>

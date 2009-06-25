@@ -6,6 +6,7 @@
 </head>
 <body>
 <#assign config={"code":{},"name":{"cellEdit":"input"},"address":{"cellEdit":"input"},"postCode":{"cellEdit":"input"},"phone":{"cellEdit":"input"},"mobile":{"cellEdit":"input"},"description":{"cellEdit":"input"}}>
-<@richtable entityName="customer" config=config actionColumnWidth="260px" actionColumnButtons='<button type="button" onclick="Richtable.save(\'#id\')">保存</button><button type="button" onclick="Richtable.input(\'#id\')">编辑</button><button type="button" onclick="Richtable.open(Richtable.getUrl(\'region\',\'#id\'),true)">地区</button><button type="button" onclick="Richtable.del(\'#id\')">删除</button>'/>
+<#assign actionColumnButtons=btn("Richtable.save('#id')",action.getText('save'))+btn("Richtable.input('#id')",action.getText('edit'))+btn("Richtable.open(Richtable.getUrl('region','#id'),true)","地区")+btn("Richtable.del('#id')",action.getText('delete'))>
+<@richtable entityName="customer" config=config actionColumnWidth="180px" actionColumnButtons=actionColumnButtons/>
 </body>
 </html>

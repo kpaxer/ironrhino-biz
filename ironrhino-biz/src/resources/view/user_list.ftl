@@ -6,7 +6,8 @@
 </head>
 <body>
 <#assign config={"username":{},"name":{},"password":{"value":"********","trimPrefix":true,"cellEdit":"input,ec_edit_template_password","class":"include_if_edited"}}>
-<@richtable entityName="user" config=config actionColumnWidth="260px" actionColumnButtons='<button type="button" onclick="Richtable.save(\'#id\')">保存</button><button type="button" onclick="Richtable.input(\'#id\')">编辑</button><button type="button" onclick="Richtable.open(Richtable.getUrl(\'role\',\'#id\'))">角色</button><button type="button" onclick="Richtable.del(\'#id\')">删除</button>'/>
+<#assign actionColumnButtons=btn("Richtable.save('#id')",action.getText('save'))+btn("Richtable.input('#id')",action.getText('edit'))+btn("Richtable.open(Richtable.getUrl('role','#id'))",action.getText('role'))+btn("Richtable.del('#id')",action.getText('delete'))>
+<@richtable entityName="user" config=config actionColumnWidth="180px" actionColumnButtons=actionColumnButtons/>
 <div style="display: none;">
 <textarea id="ec_edit_template_password">
 	<input type="password" class="inputtext" value=""

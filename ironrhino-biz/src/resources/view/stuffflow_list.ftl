@@ -6,12 +6,13 @@
 </head>
 <body>
 <#assign config={"stuff":{},"quantity":{},"amount":{},"requestUser":{},"requestDate":{}}>
+<#assign actionColumnButtons=btn("Richtable.execute('confirm','#id')",action.getText('confirm'))+btn("Richtable.execute('cancel','#id')",action.getText('cancel'))>
 <@richtable 
 entityName="stuffflow" 
 config=config 
-actionColumnWidth="150px" 
-actionColumnButtons='<button type="button" onclick="Richtable.execute(\'confirm\',\'#id\')">确认</button><button type="button" onclick="Richtable.execute(\'cancel\',\'#id\')">退回</button>' 
-bottomButtons='<button type="button" onclick="Richtable.reload()">刷新</button>'
+actionColumnWidth="100px" 
+actionColumnButtons=actionColumnButtons 
+bottomButtons=btn("Richtable.reload()",action.getText('reload'))
 />
 </body>
 </html>

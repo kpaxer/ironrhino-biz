@@ -66,6 +66,7 @@ import org.hibernate.MappingException;
 import org.hibernate.MappingNotFoundException;
 import org.hibernate.SessionFactory;
 import org.hibernate.SessionFactoryObserver;
+import org.hibernate.tuple.entity.EntityTuplizerFactory;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.MySQLDialect;
 import org.hibernate.dialect.function.SQLFunction;
@@ -158,6 +159,10 @@ public class Configuration implements Serializable {
 	protected Map sqlFunctions;
 	protected Map namedQueries;
 	protected Map namedSqlQueries;
+
+	private EntityTuplizerFactory entityTuplizerFactory;
+//	private ComponentTuplizerFactory componentTuplizerFactory; todo : HHH-3517 and HHH-1907
+
 	/**
 	 * Map<String, SqlResultSetMapping> result set name, result set description
 	 */
@@ -172,7 +177,7 @@ public class Configuration implements Serializable {
 	private Interceptor interceptor;
 	private Properties properties;
 	private EntityResolver entityResolver;
-	private transient EntityNotFoundDelegate entityNotFoundDelegate;
+	private EntityNotFoundDelegate entityNotFoundDelegate;
 
 	protected transient XMLHelper xmlHelper;
 	protected transient Map typeDefs;
@@ -184,6 +189,17 @@ public class Configuration implements Serializable {
 	protected final SettingsFactory settingsFactory;
 
 	private SessionFactoryObserver sessionFactoryObserver;
+
+	private transient Mapping mapping = buildMapping();
+
+	protected Configuration(SettingsFactory settingsFactory) {
+		this.settingsFactory = settingsFactory;
+		reset();
+	}
+
+	public Configuration() {
+		this( new SettingsFactory() );
+	}
 
 	protected void reset() {
 		classes = new HashMap();
@@ -209,20 +225,18 @@ public class Configuration implements Serializable {
 		columnNameBindingPerTable = new HashMap();
 		namingStrategy = DefaultNamingStrategy.INSTANCE;
 		sqlFunctions = new HashMap();
+
+		entityTuplizerFactory = new EntityTuplizerFactory();
+//		componentTuplizerFactory = new ComponentTuplizerFactory();
 	}
 
-	private transient Mapping mapping = buildMapping();
-
-
-
-	protected Configuration(SettingsFactory settingsFactory) {
-		this.settingsFactory = settingsFactory;
-		reset();
+	public EntityTuplizerFactory getEntityTuplizerFactory() {
+		return entityTuplizerFactory;
 	}
 
-	public Configuration() {
-		this( new SettingsFactory() );
-	}
+//	public ComponentTuplizerFactory getComponentTuplizerFactory() {
+//		return componentTuplizerFactory;
+//	}
 
 	/**
 	 * Iterate the entity mappings
@@ -1034,7 +1048,7 @@ public class Configuration implements Serializable {
 						ForeignKey fk = (ForeignKey) subIter.next();
 						if ( fk.isPhysicalConstraint() ) {
 							boolean create = tableInfo == null || (
-									tableInfo.getForeignKeyMetadata( fk.getName() ) == null && (
+									tableInfo.getForeignKeyMetadata( fk ) == null && (
 											//Icky workaround for MySQL bug:
 											!( dialect instanceof MySQLDialect ) ||
 													tableInfo.getIndexMetadata( fk.getName() ) == null
@@ -2094,11 +2108,18 @@ public class Configuration implements Serializable {
 	public Settings buildSettings() throws HibernateException {
 		Properties clone = ( Properties ) properties.clone();
 		PropertiesHelper.resolvePlaceHolders( clone );
-		return settingsFactory.buildSettings( clone );
+		return buildSettingsInternal( clone );
 	}
 
 	public Settings buildSettings(Properties props) throws HibernateException {
-		return settingsFactory.buildSettings( props );
+		return buildSettingsInternal( props );
+	}
+
+	private Settings buildSettingsInternal(Properties props) {
+		final Settings settings = settingsFactory.buildSettings( props );
+		settings.setEntityTuplizerFactory( this.getEntityTuplizerFactory() );
+//		settings.setComponentTuplizerFactory( this.getComponentTuplizerFactory() );
+		return settings;
 	}
 
 	public Map getNamedSQLQueries() {
@@ -2200,8 +2221,8 @@ public class Configuration implements Serializable {
 	public void setSessionFactoryObserver(SessionFactoryObserver sessionFactoryObserver) {
 		this.sessionFactoryObserver = sessionFactoryObserver;
 	}
-	
-	//TODO start add by zhouyanming for customizing entity
+
+	// TODO start add by zhouyanming for customizing entity
 	public void updateMapping(String entityClass, URL url) {
 		classes.remove(entityClass);
 		this.addURL(url);
@@ -2211,5 +2232,5 @@ public class Configuration implements Serializable {
 		return this.mapping;
 	}
 	// end add by zhouyanming
-
+	
 }

@@ -6,6 +6,7 @@
 </head>
 <body>
 <#assign config={"name":{},"stock":{},"criticalStock":{},"spec":{},"category":{}}>
-<@richtable entityName="product" config=config  celleditable=false actionColumnWidth="200px" actionColumnButtons='<button type="button" onclick="Richtable.input(\'#id\')">编辑</button><button type="button" onclick="Richtable.open(Richtable.getUrl(\'category\',\'#id\'),true)">目录</button><button type="button" onclick="Richtable.del(\'#id\')">删除</button>'/>
+<#assign actionColumnButtons=btn("Richtable.input('#id')",action.getText('edit'))+btn("Richtable.open(Richtable.getUrl('category','#id'),true,true)","目录")+btn("Richtable.del('#id')",action.getText('delete'))>
+<@richtable entityName="product" config=config celleditable=false actionColumnButtons=actionColumnButtons/>
 </body>
 </html>

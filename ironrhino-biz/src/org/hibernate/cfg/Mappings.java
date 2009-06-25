@@ -75,7 +75,7 @@ public class Mappings implements Serializable {
 	protected boolean autoImport;
 	protected boolean defaultLazy;
 	protected final List propertyReferences;
-	protected final NamingStrategy namingStrategy;
+	protected transient final NamingStrategy namingStrategy;
 	protected final Map filterDefinitions;
 	protected final List auxiliaryDatabaseObjects;
 
@@ -142,7 +142,13 @@ public class Mappings implements Serializable {
 		}
 	}
 	public void addCollection(Collection collection) throws MappingException {
-		collections.put( collection.getRole(), collection );
+		 collections.put( collection.getRole(), collection );
+		 /** comment by zhouyanming
+		 Object old = collections.put( collection.getRole(), collection );
+			if ( old!=null ) {
+				throw new DuplicateMappingException( "collection role", collection.getRole() );
+			}
+			*/
 	}
 	public PersistentClass getClass(String className) {
 		return (PersistentClass) classes.get(className);
