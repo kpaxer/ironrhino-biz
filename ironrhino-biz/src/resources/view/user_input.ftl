@@ -18,7 +18,7 @@
 		<@s.password label="%{getText('confirmPassword')}"
 			name="confirmPassword" required="true" cssClass="required"/>
 	</@s.else>
-	<@s.textfield label="%{getText('user.name')}" name="user.name"
+	<@s.textfield label="%{getText('name')}" name="user.name"
 		required="true" cssClass="required"/>
 	<@s.hidden id="regionId" name="regionId"/>
 	<@s.textfield id="address" label="%{getText('address')}" name="user.address"/>

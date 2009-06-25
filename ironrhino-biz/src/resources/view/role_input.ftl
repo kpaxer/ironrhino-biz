@@ -6,7 +6,7 @@
 <body>
 <@s.form action="save" method="post" cssClass="ajax">
 	<@s.hidden name="role.id" />
-	<@s.textfield label="%{getText('role.name')}" name="role.name" cssClass="required"/>
+	<@s.textfield label="%{getText('name')}" name="role.name" cssClass="required"/>
 	<@s.submit value="%{getText('save')}"/>
 </@s.form>
 </body>
