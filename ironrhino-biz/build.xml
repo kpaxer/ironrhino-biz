@@ -134,6 +134,7 @@
 				<file name="${webapp.dir}/scripts/jquery.dragable.js" />
 				<file name="${webapp.dir}/scripts/jquery.treeview.js" />
 				<file name="${webapp.dir}/scripts/jquery.treeview.async.my.js" />
+				<file name="${webapp.dir}/scripts/ironrhino.messagebundle.js" />
 				<file name="${webapp.dir}/scripts/ironrhino.core.js" />
 				<file name="${webapp.dir}/scripts/ironrhino.checkbox.js" />
 				<file name="${webapp.dir}/scripts/ironrhino.sortabletable.js" />

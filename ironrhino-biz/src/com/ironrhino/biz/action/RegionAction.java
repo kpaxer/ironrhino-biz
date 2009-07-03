@@ -172,7 +172,7 @@ public class RegionAction extends BaseAction {
 	}
 
 	@Authorize(ifAnyGranted = Constants.ROLE_BUILTIN_ANONYMOUS)
-	@JsonConfig(top = "children")
+	@JsonConfig(root = "children")
 	public String children() {
 		Region region;
 		if (root < 1)
