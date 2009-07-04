@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,9 +15,8 @@ public class ImportRegion {
 
 	public static void main(String... strings) throws Exception {
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				new String[] { "resources/spring/applicationContext-base.xml",
-						"resources/spring/applicationContext-hibernate.xml",
-						"resources/spring/applicationContext-aop.xml" });
+				new String[] { "applicationContext-base.xml",
+						"resources/spring/applicationContext-hibernate.xml" });
 		baseManager = (BaseManager) ctx.getBean("baseManager");
 		baseManager.bulkUpdate("delete from Region");
 		List<Region> regions = RegionParser.parse();

@@ -16,7 +16,9 @@
 		<property name="status">
 			<type name="org.hibernate.type.EnumType">
 				<param name="enumClass">org.ironrhino.common.model.Status</param>
-				<param name="type">12</param>
+				<!-- if set type=12 then use name not ordinal
+					<param name="type">12</param>
+					-->
 			</type>
 		</property>
 		<many-to-one name="requestUser" column="requestUserId" fetch="join"/>
