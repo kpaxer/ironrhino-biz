@@ -5,7 +5,7 @@
 <script>
 Initialization.init = function(){
 	ApplicationContextConsole.get('filterInvocationInterceptorObjectDefinitionSource.definitionAsText',function(text){$('#fsource').val(text)});
-	ApplicationContextConsole.get('channelProcessingFilterInvocationDefinitionSource.definitionAsText',function(text){$('#csource').val(text)});
+	//ApplicationContextConsole.get('channelProcessingFilterInvocationDefinitionSource.definitionAsText',function(text){$('#csource').val(text)});
 }
 </script>
 </head>
@@ -24,6 +24,7 @@ Initialization.init = function(){
 	<span><span>${action.getText('reload')}</span></span>
 	</button>
 	</div>
+	<!--
 <div>ChannelProcessingFilterInvocationDefinitionSource<br />
 <textarea id="csource"
 	name="channelProcessingFilterInvocationDefinitionSource" rows="15"
@@ -36,5 +37,6 @@ Initialization.init = function(){
 	onclick="ApplicationContextConsole.call('channelProcessingFilterInvocationDefinitionSource.refresh()',null,function(){alert('success');})" >
 	<span><span>${action.getText('reload')}</span></span>
 	</button></div>
+	-->
 </body>
 </html>
