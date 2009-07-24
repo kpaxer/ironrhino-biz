@@ -24,7 +24,7 @@
 		<#if !(async?if_exists)>
 			$("#treeview span").click(_click);
 			<#if customer.region?exists>
-			$("#<@s.property value="customer.region.id"/>").parents("li.expandable").find(">div.hitarea").click();
+			$("#${customer.region.id}").parents("li.expandable").find(">div.hitarea").click();
 			</#if>
 		</#if>
 	};

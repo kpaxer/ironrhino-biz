@@ -6,10 +6,10 @@ import java.util.Set;
 import org.ironrhino.core.annotation.AutoConfig;
 import org.ironrhino.core.annotation.NaturalId;
 import org.ironrhino.core.annotation.NotInCopy;
-import org.ironrhino.core.annotation.Recordable;
+import org.ironrhino.core.annotation.RecordAware;
 import org.ironrhino.core.model.BaseEntity;
 
-@Recordable
+@RecordAware
 @AutoConfig
 public class Role extends BaseEntity {
 

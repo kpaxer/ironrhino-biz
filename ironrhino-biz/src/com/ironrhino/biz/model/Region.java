@@ -1,10 +1,10 @@
 package com.ironrhino.biz.model;
 
 import org.ironrhino.core.annotation.AutoConfig;
-import org.ironrhino.core.annotation.Publishable;
+import org.ironrhino.core.annotation.PublishAware;
 import org.ironrhino.core.model.BaseTreeableEntity;
 
-@Publishable
+@PublishAware
 @AutoConfig
 public class Region extends BaseTreeableEntity<Region> {
 

@@ -24,7 +24,7 @@
 		<#if !(async?if_exists)>
 			$("#treeview span").click(_click);
 			<#if product.category?exists>
-			$("#<@s.property value="product.category.id"/>").parents("li.expandable").find(">div.hitarea").click();
+			$("#${product.category.id}").parents("li.expandable").find(">div.hitarea").click();
 			</#if>
 		</#if>
 	};

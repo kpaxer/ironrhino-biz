@@ -9,7 +9,7 @@ import org.ironrhino.common.util.BeanUtils;
 import org.ironrhino.core.event.EntityOperationEvent;
 import org.ironrhino.core.event.EntityOperationType;
 import org.ironrhino.core.service.BaseManager;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
@@ -19,12 +19,8 @@ public class CategoryTreeControl implements ApplicationListener {
 
 	private Category categoryTree;
 
+	@Autowired
 	private BaseManager<Category> baseManager;
-
-	@Required
-	public void setBaseManager(BaseManager<Category> baseManager) {
-		this.baseManager = baseManager;
-	}
 
 	@PostConstruct
 	public void afterPropertiesSet() throws Exception {

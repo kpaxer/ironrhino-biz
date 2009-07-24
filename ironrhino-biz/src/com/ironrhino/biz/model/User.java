@@ -10,12 +10,12 @@ import org.ironrhino.common.util.CodecUtils;
 import org.ironrhino.core.annotation.AutoConfig;
 import org.ironrhino.core.annotation.NaturalId;
 import org.ironrhino.core.annotation.NotInCopy;
-import org.ironrhino.core.annotation.Recordable;
+import org.ironrhino.core.annotation.RecordAware;
 import org.ironrhino.core.model.BaseEntity;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
 
-@Recordable
+@RecordAware
 @AutoConfig
 @Searchable(alias = "user")
 public class User extends BaseEntity implements UserDetails {
