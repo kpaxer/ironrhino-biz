@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title>原料管理</title>
 </head>
@@ -7,4 +7,4 @@
 <#assign config={"name":{},"stock":{},"criticalStock":{},"spec":{},"vendor":{}}>
 <@richtable entityName="stuff" config=config celleditable=false actionColumnWidth="140px"/>
 </body>
-</html>
+</html></#escape>
