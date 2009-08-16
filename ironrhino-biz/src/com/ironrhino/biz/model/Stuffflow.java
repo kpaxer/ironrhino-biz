@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.ironrhino.common.model.Status;
-import org.ironrhino.core.annotation.AutoConfig;
+import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.model.BaseEntity;
 
 @AutoConfig

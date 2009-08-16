@@ -3,7 +3,7 @@
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.ironrhino.common.util.AuthzUtils;
-import org.ironrhino.core.annotation.AutoConfig;
+import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.ext.struts.BaseAction;
 
 import com.ironrhino.biz.model.User;

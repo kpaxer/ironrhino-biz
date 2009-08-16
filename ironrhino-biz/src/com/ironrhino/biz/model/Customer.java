@@ -4,9 +4,9 @@ import java.util.Date;
 
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableProperty;
-import org.ironrhino.core.annotation.AutoConfig;
-import org.ironrhino.core.annotation.NaturalId;
-import org.ironrhino.core.annotation.NotInCopy;
+import org.ironrhino.core.metadata.AutoConfig;
+import org.ironrhino.core.metadata.NaturalId;
+import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
 
 @Searchable(alias = "customer")
