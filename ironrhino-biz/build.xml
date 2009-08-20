@@ -10,10 +10,7 @@
 	<property name="test.src.dir" location="${basedir}/test/src" />
 	<property name="test.classes.dir" location="${basedir}/test/classes" />
 	<property name="test.results.dir" location="${basedir}/test/results" />
-	<property name="jar.name" value="ironrhino.jar" />
-	<property name="core-jar.name" value="ironrhino-core.jar" />
-	<property name="ums-jar.name" value="ironrhino-ums.jar" />
-	<property name="war.name" value="ironrhino.war" />
+	<property name="war.name" value="ironrhino-biz.war" />
 
 	<path id="lib.classpath">
 		<fileset dir="${lib.dir}">
