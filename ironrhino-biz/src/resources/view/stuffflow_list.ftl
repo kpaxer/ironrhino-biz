@@ -5,13 +5,13 @@
 </head>
 <body>
 <#assign config={"stuff":{},"quantity":{},"amount":{},"requestUser":{},"requestDate":{}}>
-<#assign actionColumnButtons=btn("Richtable.execute('confirm','#id')",action.getText('confirm'))+btn("Richtable.execute('cancel','#id')",action.getText('cancel'))>
+<#assign actionColumnButtons=btn(action.getText('confirm'),"Richtable.execute('confirm','#id')")+btn(action.getText('cancel'),"Richtable.execute('cancel','#id')")>
 <@richtable 
 entityName="stuffflow" 
 config=config 
 actionColumnWidth="100px" 
 actionColumnButtons=actionColumnButtons 
-bottomButtons=btn("Richtable.reload()",action.getText('reload'))
+bottomButtons=btn(action.getText('reload'),"Richtable.reload()")
 />
 </body>
 </html></#escape>

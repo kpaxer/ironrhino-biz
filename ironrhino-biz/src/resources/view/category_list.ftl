@@ -5,7 +5,7 @@
 </head>
 <body>
 <#assign config={"name":{"cellEdit":"input"},"displayOrder":{"cellEdit":"input"}}>
-<#assign actionColumnButtons=btn("Richtable.enter('#id')",action.getText('enter'))+btn("Richtable.save('#id')",action.getText('save'))+btn("Richtable.del('#id')",action.getText('delete'))+btn("Richtable.open(Richtable.getUrl('tree','#id'),true,true)",action.getText('move'))+btn("Richtable.enter('#id','product?categoryId={parentId}')","产品")>
+<#assign actionColumnButtons=btn(action.getText('enter'),"Richtable.enter('#id')")+btn(action.getText('save'),"Richtable.save('#id')")+btn(action.getText('delete'),"Richtable.del('#id')")+btn(action.getText('move'),"Richtable.open(Richtable.getUrl('tree','#id'),true,true)")+btn(action.getText('product'),"Richtable.enter('#id','product?categoryId={parentId}')")>
 <@richtable entityName="category" config=config actionColumnWidth="220px" actionColumnButtons=actionColumnButtons/>
 </body>
 </html></#escape>
