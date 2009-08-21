@@ -27,9 +27,9 @@ public class CustomerAction extends BaseAction {
 
 	private Integer regionId;
 
-	private BaseManager<Region> baseManager;
+	private transient BaseManager<Region> baseManager;
 
-	private CustomerManager customerManager;
+	private transient CustomerManager customerManager;
 
 	public ResultPage<Customer> getResultPage() {
 		return resultPage;

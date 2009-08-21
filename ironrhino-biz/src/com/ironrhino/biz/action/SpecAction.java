@@ -25,7 +25,7 @@ public class SpecAction extends BaseAction {
 
 	private ResultPage<Spec> resultPage;
 
-	private BaseManager<Spec> baseManager;
+	private transient BaseManager<Spec> baseManager;
 
 	public Spec getSpec() {
 		return spec;

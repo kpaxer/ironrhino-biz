@@ -31,9 +31,9 @@ public class ProductAction extends BaseAction {
 
 	private List<Spec> specList;
 
-	private BaseManager baseManager;
+	private transient BaseManager baseManager;
 
-	private ProductManager productManager;
+	private transient ProductManager productManager;
 
 	public ResultPage<Product> getResultPage() {
 		return resultPage;

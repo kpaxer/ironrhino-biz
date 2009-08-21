@@ -42,7 +42,7 @@ public class StuffflowAction extends BaseAction {
 
 	private ResultPage<Stuffflow> resultPage;
 
-	private BaseManager baseManager;
+	private transient BaseManager baseManager;
 
 	public QueryForm getQueryForm() {
 		return queryForm;

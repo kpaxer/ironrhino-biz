@@ -32,7 +32,7 @@ public class RoleAction extends BaseAction {
 
 	private ResultPage<Role> resultPage;
 
-	private BaseManager<Role> baseManager;
+	private transient BaseManager<Role> baseManager;
 
 	public Role getRole() {
 		return role;

@@ -19,7 +19,7 @@ public class ChangePasswordAction extends BaseAction {
 
 	private static final long serialVersionUID = 6152147578696153533L;
 
-	protected Log log = LogFactory.getLog(getClass());
+	protected static Log log = LogFactory.getLog(ChangePasswordAction.class);
 
 	private String currentPassword;
 
@@ -27,7 +27,7 @@ public class ChangePasswordAction extends BaseAction {
 
 	private String confirmPassword;
 
-	private UserManager userManager;
+	private transient UserManager userManager;
 
 	public String getConfirmPassword() {
 		return confirmPassword;

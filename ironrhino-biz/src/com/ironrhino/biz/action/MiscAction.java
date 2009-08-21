@@ -19,9 +19,9 @@ public class MiscAction extends BaseAction {
 
 	private static final long serialVersionUID = 7038201018786069091L;
 
-	private UserManager userManager;
+	private transient UserManager userManager;
 
-	private BaseManager baseManager;
+	private transient BaseManager baseManager;
 
 	public void setBaseManager(BaseManager baseManager) {
 		this.baseManager = baseManager;

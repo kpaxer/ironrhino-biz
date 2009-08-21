@@ -40,9 +40,9 @@ public class UserAction extends BaseAction {
 
 	private String confirmPassword;
 
-	private UserManager userManager;
+	private transient UserManager userManager;
 
-	private BaseManager<Role> baseManager;
+	private transient BaseManager<Role> baseManager;
 
 	public String[] getRoleId() {
 		return roleId;

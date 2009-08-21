@@ -38,7 +38,7 @@ public class StuffAction extends BaseAction {
 
 	private ResultPage<Stuff> resultPage;
 
-	private BaseManager baseManager;
+	private transient BaseManager baseManager;
 
 	public String getVendorId() {
 		return vendorId;

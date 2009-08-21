@@ -179,7 +179,7 @@ public class Configuration implements Serializable {
 	private Interceptor interceptor;
 	private Properties properties;
 	private EntityResolver entityResolver;
-	private EntityNotFoundDelegate entityNotFoundDelegate;
+	private transient EntityNotFoundDelegate entityNotFoundDelegate;
 
 	protected transient XMLHelper xmlHelper;
 	protected transient Map typeDefs;
