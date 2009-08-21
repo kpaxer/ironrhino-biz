@@ -41,7 +41,7 @@
 		<li><a>基础数据</a>
 		<ul>
 			<li><a href="${base}/spec">规格管理</a></li>
-			<li><a href="${base}/region">区域管理</a></li>
+			<li><a href="${base}/common/region">区域管理</a></li>
 		</ul>
 		</li>
 		<li><a>用户管理</a>

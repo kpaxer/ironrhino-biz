@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableProperty;
+import org.ironrhino.common.model.Region;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
@@ -12,6 +13,8 @@ import org.ironrhino.core.model.BaseEntity;
 @AutoConfig
 @Searchable(alias = "vendor")
 public class Vendor extends BaseEntity {
+
+	private static final long serialVersionUID = 1677846132555978091L;
 
 	@NaturalId
 	@SearchableProperty(boost = 3)

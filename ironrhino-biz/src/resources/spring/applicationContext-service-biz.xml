@@ -8,5 +8,5 @@
 	<bean id="customerManager" class="com.ironrhino.biz.service.CustomerManagerImpl" />
 	<bean id="orderManager" class="com.ironrhino.biz.service.OrderManagerImpl" />
 	<bean id="categoryTreeControl" class="com.ironrhino.biz.support.CategoryTreeControl" />
-	<bean id="regionTreeControl" class="com.ironrhino.biz.support.RegionTreeControl" />
+	<bean id="regionTreeControl" class="org.ironrhino.common.support.RegionTreeControl" />
 </beans>

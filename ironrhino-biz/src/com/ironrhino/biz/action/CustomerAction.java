@@ -5,19 +5,21 @@ import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.common.model.Region;
 import org.ironrhino.common.model.ResultPage;
 import org.ironrhino.common.util.BeanUtils;
-import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.ext.struts.BaseAction;
+import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.service.BaseManager;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Customer;
-import com.ironrhino.biz.model.Region;
 import com.ironrhino.biz.service.CustomerManager;
 
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
 public class CustomerAction extends BaseAction {
+
+	private static final long serialVersionUID = 4331302727890834065L;
 
 	private Customer customer;
 
