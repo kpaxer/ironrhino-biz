@@ -24,6 +24,8 @@ import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
 public class RoleAction extends BaseAction {
 
+	private static final long serialVersionUID = -3030909718541990696L;
+
 	protected static final Log log = LogFactory.getLog(RoleAction.class);
 
 	private Role role;

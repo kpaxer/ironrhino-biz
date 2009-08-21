@@ -9,6 +9,8 @@ import org.ironrhino.core.model.BaseEntity;
 @AutoConfig
 public class Spec extends BaseEntity {
 
+	private static final long serialVersionUID = -5598869269986567651L;
+
 	private String basicPackName;
 
 	private Double basicQuantity;

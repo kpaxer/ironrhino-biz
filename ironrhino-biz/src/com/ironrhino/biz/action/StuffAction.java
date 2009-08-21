@@ -22,6 +22,8 @@ import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 public class StuffAction extends BaseAction {
 
+	private static final long serialVersionUID = -3091345003472881248L;
+
 	protected static final Log log = LogFactory.getLog(StuffAction.class);
 
 	private String vendorId;

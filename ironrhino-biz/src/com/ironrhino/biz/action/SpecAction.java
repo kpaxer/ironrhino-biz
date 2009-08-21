@@ -17,6 +17,8 @@ import com.ironrhino.biz.model.Spec;
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
 public class SpecAction extends BaseAction {
 
+	private static final long serialVersionUID = -5776482217589240704L;
+
 	protected static final Log log = LogFactory.getLog(SpecAction.class);
 
 	private Spec spec;

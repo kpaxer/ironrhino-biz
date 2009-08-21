@@ -19,6 +19,8 @@ import com.ironrhino.biz.service.ProductManager;
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
 public class ProductAction extends BaseAction {
 
+	private static final long serialVersionUID = -7021713504816843968L;
+
 	private Product product;
 
 	private ResultPage<Product> resultPage;

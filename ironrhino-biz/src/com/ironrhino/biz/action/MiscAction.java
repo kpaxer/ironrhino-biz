@@ -17,6 +17,8 @@ import com.ironrhino.biz.service.UserManager;
 @AutoConfig
 public class MiscAction extends BaseAction {
 
+	private static final long serialVersionUID = 7038201018786069091L;
+
 	private UserManager userManager;
 
 	private BaseManager baseManager;

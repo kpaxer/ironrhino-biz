@@ -13,6 +13,8 @@ import org.springframework.security.ui.savedrequest.SavedRequest;
 @AutoConfig
 public class LoginAction extends BaseAction {
 
+	private static final long serialVersionUID = -805406832083053373L;
+
 	private String error;
 
 	private String username;

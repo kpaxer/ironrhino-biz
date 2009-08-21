@@ -20,6 +20,8 @@ import com.opensymphony.xwork2.util.CreateIfNull;
 @AutoConfig
 public class Order extends BaseEntity {
 
+	private static final long serialVersionUID = -3191022860732749749L;
+
 	@NaturalId
 	@SearchableProperty(boost = 3)
 	private String code;

@@ -20,6 +20,8 @@ import com.ironrhino.biz.support.CategoryTreeControl;
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
 public class CategoryAction extends BaseAction {
 
+	private static final long serialVersionUID = -2735040460711165402L;
+
 	private Category category;
 
 	private Integer parentId;

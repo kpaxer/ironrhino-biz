@@ -28,6 +28,8 @@ import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 public class StuffflowAction extends BaseAction {
 
+	private static final long serialVersionUID = 3919769173051324935L;
+
 	protected static final Log log = LogFactory.getLog(StuffflowAction.class);
 
 	private String stuffId;

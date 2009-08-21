@@ -14,6 +14,8 @@ import org.ironrhino.core.model.BaseTreeableEntity;
 @AutoConfig
 public class Category extends BaseTreeableEntity<Category> {
 
+	private static final long serialVersionUID = 2394113154991389750L;
+
 	public Category() {
 
 	}
@@ -32,8 +34,8 @@ public class Category extends BaseTreeableEntity<Category> {
 	public Collection<Category> getChildren() {
 		return children;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return this.name;
 	}
 

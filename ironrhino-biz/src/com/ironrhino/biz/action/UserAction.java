@@ -26,6 +26,8 @@ import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
 public class UserAction extends BaseAction {
 
+	private static final long serialVersionUID = -79191921685741502L;
+
 	private User user;
 
 	private String[] roleId;

@@ -10,6 +10,8 @@ import org.ironrhino.core.model.BaseEntity;
 @AutoConfig
 public class Stuffflow extends BaseEntity {
 
+	private static final long serialVersionUID = -1796500601044183359L;
+
 	private BigDecimal amount;
 
 	private int quantity;

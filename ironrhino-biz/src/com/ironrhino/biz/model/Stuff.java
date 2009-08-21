@@ -8,6 +8,8 @@ import org.ironrhino.core.model.BaseEntity;
 @AutoConfig
 public class Stuff extends BaseEntity {
 
+	private static final long serialVersionUID = 8649365520461282768L;
+
 	@NaturalId
 	private String name;
 

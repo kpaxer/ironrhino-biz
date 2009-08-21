@@ -17,6 +17,8 @@ import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 @AutoConfig
 public class ChangePasswordAction extends BaseAction {
 
+	private static final long serialVersionUID = 6152147578696153533L;
+
 	protected Log log = LogFactory.getLog(getClass());
 
 	private String currentPassword;

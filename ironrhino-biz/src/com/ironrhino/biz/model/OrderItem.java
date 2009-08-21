@@ -8,6 +8,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class OrderItem implements Serializable {
 
+	private static final long serialVersionUID = -5603601574402741053L;
+
 	private int quantity;
 
 	private String unit;

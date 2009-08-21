@@ -118,23 +118,24 @@ import org.hibernate.util.CollectionHelper;
 import org.hibernate.util.ReflectHelper;
 import org.hibernate.util.EmptyIterator;
 
-
 /**
- * Concrete implementation of the <tt>SessionFactory</tt> interface. Has the following
- * responsibilites
+ * Concrete implementation of the <tt>SessionFactory</tt> interface. Has the
+ * following responsibilites
  * <ul>
  * <li>caches configuration settings (immutably)
  * <li>caches "compiled" mappings ie. <tt>EntityPersister</tt>s and
- *     <tt>CollectionPersister</tt>s (immutable)
+ * <tt>CollectionPersister</tt>s (immutable)
  * <li>caches "compiled" queries (memory sensitive cache)
  * <li>manages <tt>PreparedStatement</tt>s
- * <li> delegates JDBC <tt>Connection</tt> management to the <tt>ConnectionProvider</tt>
+ * <li>delegates JDBC <tt>Connection</tt> management to the
+ * <tt>ConnectionProvider</tt>
  * <li>factory for instances of <tt>SessionImpl</tt>
  * </ul>
- * This class must appear immutable to clients, even if it does all kinds of caching
- * and pooling under the covers. It is crucial that the class is not only thread
- * safe, but also highly concurrent. Synchronization must be used extremely sparingly.
- *
+ * This class must appear immutable to clients, even if it does all kinds of
+ * caching and pooling under the covers. It is crucial that the class is not
+ * only thread safe, but also highly concurrent. Synchronization must be used
+ * extremely sparingly.
+ * 
  * @see org.hibernate.connection.ConnectionProvider
  * @see org.hibernate.classic.Session
  * @see org.hibernate.hql.QueryTranslator
@@ -142,9 +143,12 @@ import org.hibernate.util.EmptyIterator;
  * @see org.hibernate.persister.collection.CollectionPersister
  * @author Gavin King
  */
-public final class SessionFactoryImpl implements SessionFactory, SessionFactoryImplementor {
+public final class SessionFactoryImpl implements SessionFactory,
+		SessionFactoryImplementor {
 
-	private static final Logger log = LoggerFactory.getLogger(SessionFactoryImpl.class);
+	private static final long serialVersionUID = 300262210156139815L;
+	private static final Logger log = LoggerFactory
+			.getLogger(SessionFactoryImpl.class);
 	private static final IdentifierGenerator UUID_GENERATOR = new UUIDHexGenerator();
 
 	private final String name;
@@ -178,287 +182,320 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 	private final transient SessionFactoryObserver observer;
 	private final transient HashMap entityNameResolvers = new HashMap();
 
-	private final QueryPlanCache queryPlanCache = new QueryPlanCache( this );
+	private final QueryPlanCache queryPlanCache = new QueryPlanCache(this);
 
 	private transient boolean isClosed = false;
 
-	public SessionFactoryImpl(
-			Configuration cfg,
-	        Mapping mapping,
-	        Settings settings,
-	        EventListeners listeners,
+	public SessionFactoryImpl(Configuration cfg, Mapping mapping,
+			Settings settings, EventListeners listeners,
 			SessionFactoryObserver observer) throws HibernateException {
 
 		log.info("building session factory");
 
 		this.properties = new Properties();
-		this.properties.putAll( cfg.getProperties() );
+		this.properties.putAll(cfg.getProperties());
 		this.interceptor = cfg.getInterceptor();
 		this.settings = settings;
-		this.sqlFunctionRegistry = new SQLFunctionRegistry(settings.getDialect(), cfg.getSqlFunctions());
-        this.eventListeners = listeners;
-		this.observer = observer != null ? observer : new SessionFactoryObserver() {
-			public void sessionFactoryCreated(SessionFactory factory) {
-			}
-			public void sessionFactoryClosed(SessionFactory factory) {
-			}
-		};
-		this.filters = new HashMap();
-		this.filters.putAll( cfg.getFilterDefinitions() );
+		this.sqlFunctionRegistry = new SQLFunctionRegistry(settings
+				.getDialect(), cfg.getSqlFunctions());
+		this.eventListeners = listeners;
+		this.observer = observer != null ? observer
+				: new SessionFactoryObserver() {
+					private static final long serialVersionUID = -7573346933307506703L;
 
-		if ( log.isDebugEnabled() ) {
-			log.debug("Session factory constructed with filter configurations : " + filters);
+					public void sessionFactoryCreated(SessionFactory factory) {
+					}
+
+					public void sessionFactoryClosed(SessionFactory factory) {
+					}
+				};
+		this.filters = new HashMap();
+		this.filters.putAll(cfg.getFilterDefinitions());
+
+		if (log.isDebugEnabled()) {
+			log
+					.debug("Session factory constructed with filter configurations : "
+							+ filters);
 		}
 
-		if ( log.isDebugEnabled() ) {
-			log.debug(
-					"instantiating session factory with properties: " + properties
-			);
+		if (log.isDebugEnabled()) {
+			log.debug("instantiating session factory with properties: "
+					+ properties);
 		}
 
 		// Caches
-		settings.getRegionFactory().start( settings, properties );
+		settings.getRegionFactory().start(settings, properties);
 
-		//Generators:
+		// Generators:
 
 		identifierGenerators = new HashMap();
 		Iterator classes = cfg.getClassMappings();
-		while ( classes.hasNext() ) {
+		while (classes.hasNext()) {
 			PersistentClass model = (PersistentClass) classes.next();
-			if ( !model.isInherited() ) {
-				IdentifierGenerator generator = model.getIdentifier().createIdentifierGenerator(
-						settings.getDialect(),
-				        settings.getDefaultCatalogName(),
-				        settings.getDefaultSchemaName(),
-				        (RootClass) model
-					);
-				identifierGenerators.put( model.getEntityName(), generator );
+			if (!model.isInherited()) {
+				IdentifierGenerator generator = model.getIdentifier()
+						.createIdentifierGenerator(settings.getDialect(),
+								settings.getDefaultCatalogName(),
+								settings.getDefaultSchemaName(),
+								(RootClass) model);
+				identifierGenerators.put(model.getEntityName(), generator);
 			}
 		}
 
-
-		///////////////////////////////////////////////////////////////////////
+		// /////////////////////////////////////////////////////////////////////
 		// Prepare persisters and link them up with their cache
 		// region/access-strategy
 
-		final String cacheRegionPrefix = settings.getCacheRegionPrefix() == null ? "" : settings.getCacheRegionPrefix() + ".";
+		final String cacheRegionPrefix = settings.getCacheRegionPrefix() == null ? ""
+				: settings.getCacheRegionPrefix() + ".";
 
 		entityPersisters = new HashMap();
 		Map entityAccessStrategies = new HashMap();
 		Map classMeta = new HashMap();
 		classes = cfg.getClassMappings();
-		while ( classes.hasNext() ) {
+		while (classes.hasNext()) {
 			final PersistentClass model = (PersistentClass) classes.next();
-			model.prepareTemporaryTables( mapping, settings.getDialect() );
-			final String cacheRegionName = cacheRegionPrefix + model.getRootClass().getCacheRegionName();
+			model.prepareTemporaryTables(mapping, settings.getDialect());
+			final String cacheRegionName = cacheRegionPrefix
+					+ model.getRootClass().getCacheRegionName();
 			// cache region is defined by the root-class in the hierarchy...
-			EntityRegionAccessStrategy accessStrategy = ( EntityRegionAccessStrategy ) entityAccessStrategies.get( cacheRegionName );
-			if ( accessStrategy == null && settings.isSecondLevelCacheEnabled() ) {
-				final AccessType accessType = AccessType.parse( model.getCacheConcurrencyStrategy() );
-				if ( accessType != null ) {
-					log.trace( "Building cache for entity data [" + model.getEntityName() + "]" );
-					EntityRegion entityRegion = settings.getRegionFactory().buildEntityRegion( cacheRegionName, properties, CacheDataDescriptionImpl.decode( model ) );
-					accessStrategy = entityRegion.buildAccessStrategy( accessType );
-					entityAccessStrategies.put( cacheRegionName, accessStrategy );
-					allCacheRegions.put( cacheRegionName, entityRegion );
+			EntityRegionAccessStrategy accessStrategy = (EntityRegionAccessStrategy) entityAccessStrategies
+					.get(cacheRegionName);
+			if (accessStrategy == null && settings.isSecondLevelCacheEnabled()) {
+				final AccessType accessType = AccessType.parse(model
+						.getCacheConcurrencyStrategy());
+				if (accessType != null) {
+					log.trace("Building cache for entity data ["
+							+ model.getEntityName() + "]");
+					EntityRegion entityRegion = settings.getRegionFactory()
+							.buildEntityRegion(cacheRegionName, properties,
+									CacheDataDescriptionImpl.decode(model));
+					accessStrategy = entityRegion
+							.buildAccessStrategy(accessType);
+					entityAccessStrategies.put(cacheRegionName, accessStrategy);
+					allCacheRegions.put(cacheRegionName, entityRegion);
 				}
 			}
-			EntityPersister cp = PersisterFactory.createClassPersister( model, accessStrategy, this, mapping );
-			entityPersisters.put( model.getEntityName(), cp );
-			classMeta.put( model.getEntityName(), cp.getClassMetadata() );
+			EntityPersister cp = PersisterFactory.createClassPersister(model,
+					accessStrategy, this, mapping);
+			entityPersisters.put(model.getEntityName(), cp);
+			classMeta.put(model.getEntityName(), cp.getClassMetadata());
 		}
 		classMetadata = Collections.unmodifiableMap(classMeta);
 
 		Map tmpEntityToCollectionRoleMap = new HashMap();
 		collectionPersisters = new HashMap();
 		Iterator collections = cfg.getCollectionMappings();
-		while ( collections.hasNext() ) {
+		while (collections.hasNext()) {
 			Collection model = (Collection) collections.next();
-			final String cacheRegionName = cacheRegionPrefix + model.getCacheRegionName();
-			final AccessType accessType = AccessType.parse( model.getCacheConcurrencyStrategy() );
+			final String cacheRegionName = cacheRegionPrefix
+					+ model.getCacheRegionName();
+			final AccessType accessType = AccessType.parse(model
+					.getCacheConcurrencyStrategy());
 			CollectionRegionAccessStrategy accessStrategy = null;
-			if ( accessType != null && settings.isSecondLevelCacheEnabled() ) {
-				log.trace( "Building cache for collection data [" + model.getRole() + "]" );
-				CollectionRegion collectionRegion = settings.getRegionFactory().buildCollectionRegion( cacheRegionName, properties, CacheDataDescriptionImpl.decode( model ) );
-				accessStrategy = collectionRegion.buildAccessStrategy( accessType );
-				entityAccessStrategies.put( cacheRegionName, accessStrategy );
-				allCacheRegions.put( cacheRegionName, collectionRegion );
+			if (accessType != null && settings.isSecondLevelCacheEnabled()) {
+				log.trace("Building cache for collection data ["
+						+ model.getRole() + "]");
+				CollectionRegion collectionRegion = settings.getRegionFactory()
+						.buildCollectionRegion(cacheRegionName, properties,
+								CacheDataDescriptionImpl.decode(model));
+				accessStrategy = collectionRegion
+						.buildAccessStrategy(accessType);
+				entityAccessStrategies.put(cacheRegionName, accessStrategy);
+				allCacheRegions.put(cacheRegionName, collectionRegion);
 			}
-			CollectionPersister persister = PersisterFactory.createCollectionPersister( cfg, model, accessStrategy, this) ;
-			collectionPersisters.put( model.getRole(), persister.getCollectionMetadata() );
+			CollectionPersister persister = PersisterFactory
+					.createCollectionPersister(cfg, model, accessStrategy, this);
+			collectionPersisters.put(model.getRole(), persister
+					.getCollectionMetadata());
 			Type indexType = persister.getIndexType();
-			if ( indexType != null && indexType.isAssociationType() && !indexType.isAnyType() ) {
-				String entityName = ( ( AssociationType ) indexType ).getAssociatedEntityName( this );
-				Set roles = ( Set ) tmpEntityToCollectionRoleMap.get( entityName );
-				if ( roles == null ) {
+			if (indexType != null && indexType.isAssociationType()
+					&& !indexType.isAnyType()) {
+				String entityName = ((AssociationType) indexType)
+						.getAssociatedEntityName(this);
+				Set roles = (Set) tmpEntityToCollectionRoleMap.get(entityName);
+				if (roles == null) {
 					roles = new HashSet();
-					tmpEntityToCollectionRoleMap.put( entityName, roles );
+					tmpEntityToCollectionRoleMap.put(entityName, roles);
 				}
-				roles.add( persister.getRole() );
+				roles.add(persister.getRole());
 			}
 			Type elementType = persister.getElementType();
-			if ( elementType.isAssociationType() && !elementType.isAnyType() ) {
-				String entityName = ( ( AssociationType ) elementType ).getAssociatedEntityName( this );
-				Set roles = ( Set ) tmpEntityToCollectionRoleMap.get( entityName );
-				if ( roles == null ) {
+			if (elementType.isAssociationType() && !elementType.isAnyType()) {
+				String entityName = ((AssociationType) elementType)
+						.getAssociatedEntityName(this);
+				Set roles = (Set) tmpEntityToCollectionRoleMap.get(entityName);
+				if (roles == null) {
 					roles = new HashSet();
-					tmpEntityToCollectionRoleMap.put( entityName, roles );
+					tmpEntityToCollectionRoleMap.put(entityName, roles);
 				}
-				roles.add( persister.getRole() );
+				roles.add(persister.getRole());
 			}
 		}
 		collectionMetadata = Collections.unmodifiableMap(collectionPersisters);
 		Iterator itr = tmpEntityToCollectionRoleMap.entrySet().iterator();
-		while ( itr.hasNext() ) {
-			final Map.Entry entry = ( Map.Entry ) itr.next();
-			entry.setValue( Collections.unmodifiableSet( ( Set ) entry.getValue() ) );
+		while (itr.hasNext()) {
+			final Map.Entry entry = (Map.Entry) itr.next();
+			entry.setValue(Collections.unmodifiableSet((Set) entry.getValue()));
 		}
-		collectionRolesByEntityParticipant = Collections.unmodifiableMap( tmpEntityToCollectionRoleMap );
+		collectionRolesByEntityParticipant = Collections
+				.unmodifiableMap(tmpEntityToCollectionRoleMap);
 
-		//Named Queries:
-		namedQueries = new HashMap( cfg.getNamedQueries() );
-		namedSqlQueries = new HashMap( cfg.getNamedSQLQueries() );
-		sqlResultSetMappings = new HashMap( cfg.getSqlResultSetMappings() );
-		imports = new HashMap( cfg.getImports() );
+		// Named Queries:
+		namedQueries = new HashMap(cfg.getNamedQueries());
+		namedSqlQueries = new HashMap(cfg.getNamedSQLQueries());
+		sqlResultSetMappings = new HashMap(cfg.getSqlResultSetMappings());
+		imports = new HashMap(cfg.getImports());
 
 		// after *all* persisters and named queries are registered
 		Iterator iter = entityPersisters.values().iterator();
-		while ( iter.hasNext() ) {
-			final EntityPersister persister = ( ( EntityPersister ) iter.next() );
+		while (iter.hasNext()) {
+			final EntityPersister persister = ((EntityPersister) iter.next());
 			persister.postInstantiate();
-			registerEntityNameResolvers( persister );
+			registerEntityNameResolvers(persister);
 
 		}
 		iter = collectionPersisters.values().iterator();
-		while ( iter.hasNext() ) {
-			final CollectionPersister persister = ( ( CollectionPersister ) iter.next() );
+		while (iter.hasNext()) {
+			final CollectionPersister persister = ((CollectionPersister) iter
+					.next());
 			persister.postInstantiate();
 		}
 
-		//JNDI + Serialization:
+		// JNDI + Serialization:
 
 		name = settings.getSessionFactoryName();
 		try {
 			uuid = (String) UUID_GENERATOR.generate(null, null);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new AssertionFailure("Could not generate UUID");
 		}
 		SessionFactoryObjectFactory.addInstance(uuid, name, this, properties);
 
 		log.debug("instantiated session factory");
 
-		if ( settings.isAutoCreateSchema() ) {
-			new SchemaExport( cfg, settings ).create( false, true );
+		if (settings.isAutoCreateSchema()) {
+			new SchemaExport(cfg, settings).create(false, true);
 		}
-		if ( settings.isAutoUpdateSchema() ) {
-			new SchemaUpdate( cfg, settings ).execute( false, true );
+		if (settings.isAutoUpdateSchema()) {
+			new SchemaUpdate(cfg, settings).execute(false, true);
 		}
-		if ( settings.isAutoValidateSchema() ) {
-			new SchemaValidator( cfg, settings ).validate();
+		if (settings.isAutoValidateSchema()) {
+			new SchemaValidator(cfg, settings).validate();
 		}
-		if ( settings.isAutoDropSchema() ) {
-			schemaExport = new SchemaExport( cfg, settings );
+		if (settings.isAutoDropSchema()) {
+			schemaExport = new SchemaExport(cfg, settings);
 		}
 
-		if ( settings.getTransactionManagerLookup()!=null ) {
+		if (settings.getTransactionManagerLookup() != null) {
 			log.debug("obtaining JTA TransactionManager");
-			transactionManager = settings.getTransactionManagerLookup().getTransactionManager(properties);
-		}
-		else {
-			if ( settings.getTransactionFactory().isTransactionManagerRequired() ) {
-				throw new HibernateException("The chosen transaction strategy requires access to the JTA TransactionManager");
+			transactionManager = settings.getTransactionManagerLookup()
+					.getTransactionManager(properties);
+		} else {
+			if (settings.getTransactionFactory().isTransactionManagerRequired()) {
+				throw new HibernateException(
+						"The chosen transaction strategy requires access to the JTA TransactionManager");
 			}
 			transactionManager = null;
 		}
 
 		currentSessionContext = buildCurrentSessionContext();
 
-		if ( settings.isQueryCacheEnabled() ) {
-			updateTimestampsCache = new UpdateTimestampsCache(settings, properties);
-			queryCache = settings.getQueryCacheFactory()
-			        .getQueryCache(null, updateTimestampsCache, settings, properties);
+		if (settings.isQueryCacheEnabled()) {
+			updateTimestampsCache = new UpdateTimestampsCache(settings,
+					properties);
+			queryCache = settings.getQueryCacheFactory().getQueryCache(null,
+					updateTimestampsCache, settings, properties);
 			queryCaches = new HashMap();
-			allCacheRegions.put( updateTimestampsCache.getRegion().getName(), updateTimestampsCache.getRegion() );
-			allCacheRegions.put( queryCache.getRegion().getName(), queryCache.getRegion() );
-		}
-		else {
+			allCacheRegions.put(updateTimestampsCache.getRegion().getName(),
+					updateTimestampsCache.getRegion());
+			allCacheRegions.put(queryCache.getRegion().getName(), queryCache
+					.getRegion());
+		} else {
 			updateTimestampsCache = null;
 			queryCache = null;
 			queryCaches = null;
 		}
 
-		//checking for named queries
-		if ( settings.isNamedQueryStartupCheckingEnabled() ) {
+		// checking for named queries
+		if (settings.isNamedQueryStartupCheckingEnabled()) {
 			Map errors = checkNamedQueries();
-			if ( !errors.isEmpty() ) {
+			if (!errors.isEmpty()) {
 				Set keys = errors.keySet();
-				StringBuffer failingQueries = new StringBuffer( "Errors in named queries: " );
-				for ( Iterator iterator = keys.iterator() ; iterator.hasNext() ; ) {
-					String queryName = ( String ) iterator.next();
-					HibernateException e = ( HibernateException ) errors.get( queryName );
-					failingQueries.append( queryName );
-					if ( iterator.hasNext() ) {
-						failingQueries.append( ", " );
+				StringBuffer failingQueries = new StringBuffer(
+						"Errors in named queries: ");
+				for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
+					String queryName = (String) iterator.next();
+					HibernateException e = (HibernateException) errors
+							.get(queryName);
+					failingQueries.append(queryName);
+					if (iterator.hasNext()) {
+						failingQueries.append(", ");
 					}
-					log.error( "Error in named query: " + queryName, e );
+					log.error("Error in named query: " + queryName, e);
 				}
-				throw new HibernateException( failingQueries.toString() );
+				throw new HibernateException(failingQueries.toString());
 			}
 		}
 
-		//stats
-		getStatistics().setStatisticsEnabled( settings.isStatisticsEnabled() );
+		// stats
+		getStatistics().setStatisticsEnabled(settings.isStatisticsEnabled());
 
 		// EntityNotFoundDelegate
-		EntityNotFoundDelegate entityNotFoundDelegate = cfg.getEntityNotFoundDelegate();
-		if ( entityNotFoundDelegate == null ) {
+		EntityNotFoundDelegate entityNotFoundDelegate = cfg
+				.getEntityNotFoundDelegate();
+		if (entityNotFoundDelegate == null) {
 			entityNotFoundDelegate = new EntityNotFoundDelegate() {
-				public void handleEntityNotFound(String entityName, Serializable id) {
-					throw new ObjectNotFoundException( id, entityName );
+				public void handleEntityNotFound(String entityName,
+						Serializable id) {
+					throw new ObjectNotFoundException(id, entityName);
 				}
 			};
 		}
 		this.entityNotFoundDelegate = entityNotFoundDelegate;
 
-		this.observer.sessionFactoryCreated( this );
+		this.observer.sessionFactoryCreated(this);
 	}
 
 	private void registerEntityNameResolvers(EntityPersister persister) {
-		if ( persister.getEntityMetamodel() == null || persister.getEntityMetamodel().getTuplizerMapping() == null ) {
+		if (persister.getEntityMetamodel() == null
+				|| persister.getEntityMetamodel().getTuplizerMapping() == null) {
 			return;
 		}
-		Iterator itr = persister.getEntityMetamodel().getTuplizerMapping().iterateTuplizers();
-		while ( itr.hasNext() ) {
-			final EntityTuplizer tuplizer = ( EntityTuplizer ) itr.next();
-			registerEntityNameResolvers( tuplizer );
+		Iterator itr = persister.getEntityMetamodel().getTuplizerMapping()
+				.iterateTuplizers();
+		while (itr.hasNext()) {
+			final EntityTuplizer tuplizer = (EntityTuplizer) itr.next();
+			registerEntityNameResolvers(tuplizer);
 		}
 	}
 
 	private void registerEntityNameResolvers(EntityTuplizer tuplizer) {
 		EntityNameResolver[] resolvers = tuplizer.getEntityNameResolvers();
-		if ( resolvers == null ) {
+		if (resolvers == null) {
 			return;
 		}
 
-		for ( int i = 0; i < resolvers.length; i++ ) {
-			registerEntityNameResolver( resolvers[i], tuplizer.getEntityMode() );
+		for (int i = 0; i < resolvers.length; i++) {
+			registerEntityNameResolver(resolvers[i], tuplizer.getEntityMode());
 		}
 	}
 
-	public void registerEntityNameResolver(EntityNameResolver resolver, EntityMode entityMode) {
-		LinkedHashSet resolversForMode = ( LinkedHashSet ) entityNameResolvers.get( entityMode );
-		if ( resolversForMode == null ) {
+	public void registerEntityNameResolver(EntityNameResolver resolver,
+			EntityMode entityMode) {
+		LinkedHashSet resolversForMode = (LinkedHashSet) entityNameResolvers
+				.get(entityMode);
+		if (resolversForMode == null) {
 			resolversForMode = new LinkedHashSet();
-			entityNameResolvers.put( entityMode, resolversForMode );
+			entityNameResolvers.put(entityMode, resolversForMode);
 		}
-		resolversForMode.add( resolver );
+		resolversForMode.add(resolver);
 	}
 
 	public Iterator iterateEntityNameResolvers(EntityMode entityMode) {
-		Set actualEntityNameResolvers = ( Set ) entityNameResolvers.get( entityMode );
-		return actualEntityNameResolvers == null
-				? EmptyIterator.INSTANCE
+		Set actualEntityNameResolvers = (Set) entityNameResolvers
+				.get(entityMode);
+		return actualEntityNameResolvers == null ? EmptyIterator.INSTANCE
 				: actualEntityNameResolvers.iterator();
 	}
 
@@ -472,61 +509,59 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 		// Check named HQL queries
 		log.debug("Checking " + namedQueries.size() + " named HQL queries");
 		Iterator itr = namedQueries.entrySet().iterator();
-		while ( itr.hasNext() ) {
-			final Map.Entry entry = ( Map.Entry ) itr.next();
-			final String queryName = ( String ) entry.getKey();
-			final NamedQueryDefinition qd = ( NamedQueryDefinition ) entry.getValue();
+		while (itr.hasNext()) {
+			final Map.Entry entry = (Map.Entry) itr.next();
+			final String queryName = (String) entry.getKey();
+			final NamedQueryDefinition qd = (NamedQueryDefinition) entry
+					.getValue();
 			// this will throw an error if there's something wrong.
 			try {
 				log.debug("Checking named query: " + queryName);
-				//TODO: BUG! this currently fails for named queries for non-POJO entities
-				queryPlanCache.getHQLQueryPlan( qd.getQueryString(), false, CollectionHelper.EMPTY_MAP );
-			}
-			catch ( QueryException e ) {
-				errors.put( queryName, e );
-			}
-			catch ( MappingException e ) {
-				errors.put( queryName, e );
+				// TODO: BUG! this currently fails for named queries for
+				// non-POJO entities
+				queryPlanCache.getHQLQueryPlan(qd.getQueryString(), false,
+						CollectionHelper.EMPTY_MAP);
+			} catch (QueryException e) {
+				errors.put(queryName, e);
+			} catch (MappingException e) {
+				errors.put(queryName, e);
 			}
 		}
 
 		log.debug("Checking " + namedSqlQueries.size() + " named SQL queries");
 		itr = namedSqlQueries.entrySet().iterator();
-		while ( itr.hasNext() ) {
-			final Map.Entry entry = ( Map.Entry ) itr.next();
-			final String queryName = ( String ) entry.getKey();
-			final NamedSQLQueryDefinition qd = ( NamedSQLQueryDefinition ) entry.getValue();
+		while (itr.hasNext()) {
+			final Map.Entry entry = (Map.Entry) itr.next();
+			final String queryName = (String) entry.getKey();
+			final NamedSQLQueryDefinition qd = (NamedSQLQueryDefinition) entry
+					.getValue();
 			// this will throw an error if there's something wrong.
 			try {
 				log.debug("Checking named SQL query: " + queryName);
-				// TODO : would be really nice to cache the spec on the query-def so as to not have to re-calc the hash;
-				// currently not doable though because of the resultset-ref stuff...
+				// TODO : would be really nice to cache the spec on the
+				// query-def so as to not have to re-calc the hash;
+				// currently not doable though because of the resultset-ref
+				// stuff...
 				NativeSQLQuerySpecification spec;
-				if ( qd.getResultSetRef() != null ) {
-					ResultSetMappingDefinition definition = ( ResultSetMappingDefinition ) sqlResultSetMappings.get( qd.getResultSetRef() );
-					if ( definition == null ) {
-						throw new MappingException( "Unable to find resultset-ref definition: " + qd.getResultSetRef() );
+				if (qd.getResultSetRef() != null) {
+					ResultSetMappingDefinition definition = (ResultSetMappingDefinition) sqlResultSetMappings
+							.get(qd.getResultSetRef());
+					if (definition == null) {
+						throw new MappingException(
+								"Unable to find resultset-ref definition: "
+										+ qd.getResultSetRef());
 					}
-					spec = new NativeSQLQuerySpecification(
-							qd.getQueryString(),
-					        definition.getQueryReturns(),
-					        qd.getQuerySpaces()
-					);
+					spec = new NativeSQLQuerySpecification(qd.getQueryString(),
+							definition.getQueryReturns(), qd.getQuerySpaces());
+				} else {
+					spec = new NativeSQLQuerySpecification(qd.getQueryString(),
+							qd.getQueryReturns(), qd.getQuerySpaces());
 				}
-				else {
-					spec =  new NativeSQLQuerySpecification(
-							qd.getQueryString(),
-					        qd.getQueryReturns(),
-					        qd.getQuerySpaces()
-					);
-				}
-				queryPlanCache.getNativeSQLQueryPlan( spec );
-			}
-			catch ( QueryException e ) {
-				errors.put( queryName, e );
-			}
-			catch ( MappingException e ) {
-				errors.put( queryName, e );
+				queryPlanCache.getNativeSQLQueryPlan(spec);
+			} catch (QueryException e) {
+				errors.put(queryName, e);
+			} catch (MappingException e) {
+				errors.put(queryName, e);
 			}
 		}
 
@@ -534,105 +569,94 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 	}
 
 	public StatelessSession openStatelessSession() {
-		return new StatelessSessionImpl( null, this );
+		return new StatelessSessionImpl(null, this);
 	}
 
 	public StatelessSession openStatelessSession(Connection connection) {
-		return new StatelessSessionImpl( connection, this );
+		return new StatelessSessionImpl(connection, this);
 	}
 
-	private SessionImpl openSession(
-		Connection connection,
-	    boolean autoClose,
-	    long timestamp,
-	    Interceptor sessionLocalInterceptor
-	) {
-		return new SessionImpl(
-		        connection,
-		        this,
-		        autoClose,
-		        timestamp,
-		        sessionLocalInterceptor == null ? interceptor : sessionLocalInterceptor,
-		        settings.getDefaultEntityMode(),
-		        settings.isFlushBeforeCompletionEnabled(),
-		        settings.isAutoCloseSessionEnabled(),
-		        settings.getConnectionReleaseMode()
-			);
+	private SessionImpl openSession(Connection connection, boolean autoClose,
+			long timestamp, Interceptor sessionLocalInterceptor) {
+		return new SessionImpl(connection, this, autoClose, timestamp,
+				sessionLocalInterceptor == null ? interceptor
+						: sessionLocalInterceptor, settings
+						.getDefaultEntityMode(), settings
+						.isFlushBeforeCompletionEnabled(), settings
+						.isAutoCloseSessionEnabled(), settings
+						.getConnectionReleaseMode());
 	}
 
-	public org.hibernate.classic.Session openSession(Connection connection, Interceptor sessionLocalInterceptor) {
-		return openSession(connection, false, Long.MIN_VALUE, sessionLocalInterceptor);
+	public org.hibernate.classic.Session openSession(Connection connection,
+			Interceptor sessionLocalInterceptor) {
+		return openSession(connection, false, Long.MIN_VALUE,
+				sessionLocalInterceptor);
 	}
 
-	public org.hibernate.classic.Session openSession(Interceptor sessionLocalInterceptor)
-	throws HibernateException {
+	public org.hibernate.classic.Session openSession(
+			Interceptor sessionLocalInterceptor) throws HibernateException {
 		// note that this timestamp is not correct if the connection provider
 		// returns an older JDBC connection that was associated with a
 		// transaction that was already begun before openSession() was called
 		// (don't know any possible solution to this!)
 		long timestamp = settings.getRegionFactory().nextTimestamp();
-		return openSession( null, true, timestamp, sessionLocalInterceptor );
+		return openSession(null, true, timestamp, sessionLocalInterceptor);
 	}
 
 	public org.hibernate.classic.Session openSession(Connection connection) {
-		return openSession(connection, interceptor); //prevents this session from adding things to cache
+		return openSession(connection, interceptor); // prevents this session
+		// from adding things to
+		// cache
 	}
 
-	public org.hibernate.classic.Session openSession() throws HibernateException {
+	public org.hibernate.classic.Session openSession()
+			throws HibernateException {
 		return openSession(interceptor);
 	}
 
-	public org.hibernate.classic.Session openTemporarySession() throws HibernateException {
-		return new SessionImpl(
-				null,
-		        this,
-		        true,
-		        settings.getRegionFactory().nextTimestamp(),
-		        interceptor,
-		        settings.getDefaultEntityMode(),
-		        false,
-		        false,
-		        ConnectionReleaseMode.AFTER_STATEMENT
-			);
+	public org.hibernate.classic.Session openTemporarySession()
+			throws HibernateException {
+		return new SessionImpl(null, this, true, settings.getRegionFactory()
+				.nextTimestamp(), interceptor, settings.getDefaultEntityMode(),
+				false, false, ConnectionReleaseMode.AFTER_STATEMENT);
 	}
 
 	public org.hibernate.classic.Session openSession(
 			final Connection connection,
-	        final boolean flushBeforeCompletionEnabled,
-	        final boolean autoCloseSessionEnabled,
-	        final ConnectionReleaseMode connectionReleaseMode) throws HibernateException {
-		return new SessionImpl(
-				connection,
-		        this,
-		        true,
-		        settings.getRegionFactory().nextTimestamp(),
-		        interceptor,
-		        settings.getDefaultEntityMode(),
-		        flushBeforeCompletionEnabled,
-		        autoCloseSessionEnabled,
-		        connectionReleaseMode
-			);
+			final boolean flushBeforeCompletionEnabled,
+			final boolean autoCloseSessionEnabled,
+			final ConnectionReleaseMode connectionReleaseMode)
+			throws HibernateException {
+		return new SessionImpl(connection, this, true, settings
+				.getRegionFactory().nextTimestamp(), interceptor, settings
+				.getDefaultEntityMode(), flushBeforeCompletionEnabled,
+				autoCloseSessionEnabled, connectionReleaseMode);
 	}
 
-	public org.hibernate.classic.Session getCurrentSession() throws HibernateException {
-		if ( currentSessionContext == null ) {
-			throw new HibernateException( "No CurrentSessionContext configured!" );
+	public org.hibernate.classic.Session getCurrentSession()
+			throws HibernateException {
+		if (currentSessionContext == null) {
+			throw new HibernateException("No CurrentSessionContext configured!");
 		}
 		return currentSessionContext.currentSession();
 	}
 
-	public EntityPersister getEntityPersister(String entityName) throws MappingException {
-		EntityPersister result = (EntityPersister) entityPersisters.get(entityName);
-		if (result==null) {
-			throw new MappingException( "Unknown entity: " + entityName );
+	public EntityPersister getEntityPersister(String entityName)
+			throws MappingException {
+		EntityPersister result = (EntityPersister) entityPersisters
+				.get(entityName);
+		if (result == null) {
+			throw new MappingException("Unknown entity: " + entityName);
 		}
 		return result;
 	}
 
-	public CollectionPersister getCollectionPersister(String role) throws MappingException {
-		CollectionPersister result = (CollectionPersister) collectionPersisters.get(role);
-		if (result==null) {
-			throw new MappingException( "Unknown collection role: " + role );
+	public CollectionPersister getCollectionPersister(String role)
+			throws MappingException {
+		CollectionPersister result = (CollectionPersister) collectionPersisters
+				.get(role);
+		if (result == null) {
+			throw new MappingException("Unknown collection role: " + role);
 		}
 		return result;
 	}
@@ -645,8 +669,7 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 		return settings.getDialect();
 	}
 
-	public Interceptor getInterceptor()
-	{
+	public Interceptor getInterceptor() {
 		return interceptor;
 	}
 
@@ -663,36 +686,33 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 	}
 
 	public Set getCollectionRolesByEntityParticipant(String entityName) {
-		return ( Set ) collectionRolesByEntityParticipant.get( entityName );
+		return (Set) collectionRolesByEntityParticipant.get(entityName);
 	}
 
 	// from javax.naming.Referenceable
 	public Reference getReference() throws NamingException {
 		log.debug("Returning a Reference to the SessionFactory");
-		return new Reference(
-			SessionFactoryImpl.class.getName(),
-		    new StringRefAddr("uuid", uuid),
-		    SessionFactoryObjectFactory.class.getName(),
-		    null
-		);
+		return new Reference(SessionFactoryImpl.class.getName(),
+				new StringRefAddr("uuid", uuid),
+				SessionFactoryObjectFactory.class.getName(), null);
 	}
 
 	private Object readResolve() throws ObjectStreamException {
 		log.trace("Resolving serialized SessionFactory");
 		// look for the instance by uuid
 		Object result = SessionFactoryObjectFactory.getInstance(uuid);
-		if (result==null) {
-			// in case we were deserialized in a different JVM, look for an instance with the same name
+		if (result == null) {
+			// in case we were deserialized in a different JVM, look for an
+			// instance with the same name
 			// (alternatively we could do an actual JNDI lookup here....)
 			result = SessionFactoryObjectFactory.getNamedInstance(name);
-			if (result==null) {
-				throw new InvalidObjectException("Could not find a SessionFactory named: " + name);
-			}
-			else {
+			if (result == null) {
+				throw new InvalidObjectException(
+						"Could not find a SessionFactory named: " + name);
+			} else {
 				log.debug("resolved SessionFactory by name");
 			}
-		}
-		else {
+		} else {
 			log.debug("resolved SessionFactory by uid");
 		}
 		return result;
@@ -707,17 +727,21 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 	}
 
 	public ResultSetMappingDefinition getResultSetMapping(String resultSetName) {
-		return (ResultSetMappingDefinition) sqlResultSetMappings.get(resultSetName);
+		return (ResultSetMappingDefinition) sqlResultSetMappings
+				.get(resultSetName);
 	}
 
 	public Type getIdentifierType(String className) throws MappingException {
 		return getEntityPersister(className).getIdentifierType();
 	}
-	public String getIdentifierPropertyName(String className) throws MappingException {
+
+	public String getIdentifierPropertyName(String className)
+			throws MappingException {
 		return getEntityPersister(className).getIdentifierPropertyName();
 	}
 
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+	private void readObject(ObjectInputStream in) throws IOException,
+			ClassNotFoundException {
 		log.trace("deserializing");
 		in.defaultReadObject();
 		log.debug("deserialized: " + uuid);
@@ -730,92 +754,100 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 	}
 
 	public Type[] getReturnTypes(String queryString) throws HibernateException {
-		return queryPlanCache.getHQLQueryPlan( queryString, false, CollectionHelper.EMPTY_MAP ).getReturnMetadata().getReturnTypes();
+		return queryPlanCache.getHQLQueryPlan(queryString, false,
+				CollectionHelper.EMPTY_MAP).getReturnMetadata()
+				.getReturnTypes();
 	}
 
-	public String[] getReturnAliases(String queryString) throws HibernateException {
-		return queryPlanCache.getHQLQueryPlan( queryString, false, CollectionHelper.EMPTY_MAP ).getReturnMetadata().getReturnAliases();
+	public String[] getReturnAliases(String queryString)
+			throws HibernateException {
+		return queryPlanCache.getHQLQueryPlan(queryString, false,
+				CollectionHelper.EMPTY_MAP).getReturnMetadata()
+				.getReturnAliases();
 	}
 
-	public ClassMetadata getClassMetadata(Class persistentClass) throws HibernateException {
-		return getClassMetadata( persistentClass.getName() );
+	public ClassMetadata getClassMetadata(Class persistentClass)
+			throws HibernateException {
+		return getClassMetadata(persistentClass.getName());
 	}
 
-	public CollectionMetadata getCollectionMetadata(String roleName) throws HibernateException {
+	public CollectionMetadata getCollectionMetadata(String roleName)
+			throws HibernateException {
 		return (CollectionMetadata) collectionMetadata.get(roleName);
 	}
 
-	public ClassMetadata getClassMetadata(String entityName) throws HibernateException {
+	public ClassMetadata getClassMetadata(String entityName)
+			throws HibernateException {
 		return (ClassMetadata) classMetadata.get(entityName);
 	}
 
 	/**
-	 * Return the names of all persistent (mapped) classes that extend or implement the
-	 * given class or interface, accounting for implicit/explicit polymorphism settings
-	 * and excluding mapped subclasses/joined-subclasses of other classes in the result.
+	 * Return the names of all persistent (mapped) classes that extend or
+	 * implement the given class or interface, accounting for implicit/explicit
+	 * polymorphism settings and excluding mapped subclasses/joined-subclasses
+	 * of other classes in the result.
 	 */
 	public String[] getImplementors(String className) throws MappingException {
 
 		final Class clazz;
 		try {
 			clazz = ReflectHelper.classForName(className);
-		}
-		catch (ClassNotFoundException cnfe) {
-			return new String[] { className }; //for a dynamic-class
+		} catch (ClassNotFoundException cnfe) {
+			return new String[] { className }; // for a dynamic-class
 		}
 
 		ArrayList results = new ArrayList();
 		Iterator iter = entityPersisters.values().iterator();
-		while ( iter.hasNext() ) {
-			//test this entity to see if we must query it
+		while (iter.hasNext()) {
+			// test this entity to see if we must query it
 			EntityPersister testPersister = (EntityPersister) iter.next();
-			if ( testPersister instanceof Queryable ) {
+			if (testPersister instanceof Queryable) {
 				Queryable testQueryable = (Queryable) testPersister;
 				String testClassName = testQueryable.getEntityName();
 				boolean isMappedClass = className.equals(testClassName);
-				if ( testQueryable.isExplicitPolymorphism() ) {
-					if ( isMappedClass ) {
-						return new String[] {className}; //NOTE EARLY EXIT
+				if (testQueryable.isExplicitPolymorphism()) {
+					if (isMappedClass) {
+						return new String[] { className }; // NOTE EARLY EXIT
 					}
-				}
-				else {
+				} else {
 					if (isMappedClass) {
 						results.add(testClassName);
-					}
-					else {
-						final Class mappedClass = testQueryable.getMappedClass( EntityMode.POJO );
-						if ( mappedClass!=null && clazz.isAssignableFrom( mappedClass ) ) {
+					} else {
+						final Class mappedClass = testQueryable
+								.getMappedClass(EntityMode.POJO);
+						if (mappedClass != null
+								&& clazz.isAssignableFrom(mappedClass)) {
 							final boolean assignableSuperclass;
-							if ( testQueryable.isInherited() ) {
-								Class mappedSuperclass = getEntityPersister( testQueryable.getMappedSuperclass() ).getMappedClass( EntityMode.POJO);
-								assignableSuperclass = clazz.isAssignableFrom(mappedSuperclass);
-							}
-							else {
+							if (testQueryable.isInherited()) {
+								Class mappedSuperclass = getEntityPersister(
+										testQueryable.getMappedSuperclass())
+										.getMappedClass(EntityMode.POJO);
+								assignableSuperclass = clazz
+										.isAssignableFrom(mappedSuperclass);
+							} else {
 								assignableSuperclass = false;
 							}
-							if ( !assignableSuperclass ) {
-								results.add( testClassName );
+							if (!assignableSuperclass) {
+								results.add(testClassName);
 							}
 						}
 					}
 				}
 			}
 		}
-		return (String[]) results.toArray( new String[ results.size() ] );
+		return (String[]) results.toArray(new String[results.size()]);
 	}
 
 	public String getImportedClassName(String className) {
 		String result = (String) imports.get(className);
-		if (result==null) {
+		if (result == null) {
 			try {
 				ReflectHelper.classForName(className);
 				return className;
-			}
-			catch (ClassNotFoundException cnfe) {
+			} catch (ClassNotFoundException cnfe) {
 				return null;
 			}
-		}
-		else {
+		} else {
 			return result;
 		}
 	}
@@ -830,22 +862,22 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 
 	/**
 	 * Closes the session factory, releasing all held resources.
-	 *
+	 * 
 	 * <ol>
 	 * <li>cleans up used cache regions and "stops" the cache provider.
 	 * <li>close the JDBC connection
 	 * <li>remove the JNDI binding
 	 * </ol>
-	 *
-	 * Note: Be aware that the sessionfactory instance still can
-	 * be a "heavy" object memory wise after close() has been called.  Thus
-	 * it is important to not keep referencing the instance to let the garbage
-	 * collector release the memory.
+	 * 
+	 * Note: Be aware that the sessionfactory instance still can be a "heavy"
+	 * object memory wise after close() has been called. Thus it is important to
+	 * not keep referencing the instance to let the garbage collector release
+	 * the memory.
 	 */
 	public void close() throws HibernateException {
 
-		if ( isClosed ) {
-			log.trace( "already closed" );
+		if (isClosed) {
+			log.trace("already closed");
 			return;
 		}
 
@@ -854,26 +886,26 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 		isClosed = true;
 
 		Iterator iter = entityPersisters.values().iterator();
-		while ( iter.hasNext() ) {
+		while (iter.hasNext()) {
 			EntityPersister p = (EntityPersister) iter.next();
-			if ( p.hasCache() ) {
+			if (p.hasCache()) {
 				p.getCacheAccessStrategy().getRegion().destroy();
 			}
 		}
 
 		iter = collectionPersisters.values().iterator();
-		while ( iter.hasNext() ) {
+		while (iter.hasNext()) {
 			CollectionPersister p = (CollectionPersister) iter.next();
-			if ( p.hasCache() ) {
+			if (p.hasCache()) {
 				p.getCacheAccessStrategy().getRegion().destroy();
 			}
 		}
 
-		if ( settings.isQueryCacheEnabled() )  {
+		if (settings.isQueryCacheEnabled()) {
 			queryCache.destroy();
 
 			iter = queryCaches.values().iterator();
-			while ( iter.hasNext() ) {
+			while (iter.hasNext()) {
 				QueryCache cache = (QueryCache) iter.next();
 				cache.destroy();
 			}
@@ -882,86 +914,94 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 
 		settings.getRegionFactory().stop();
 
-		if ( settings.isAutoDropSchema() ) {
-			schemaExport.drop( false, true );
+		if (settings.isAutoDropSchema()) {
+			schemaExport.drop(false, true);
 		}
 
 		try {
 			settings.getConnectionProvider().close();
-		}
-		finally {
+		} finally {
 			SessionFactoryObjectFactory.removeInstance(uuid, name, properties);
 		}
 
-		observer.sessionFactoryClosed( this );
+		observer.sessionFactoryClosed(this);
 		eventListeners.destroyListeners();
 	}
 
-	public void evictEntity(String entityName, Serializable id) throws HibernateException {
-		EntityPersister p = getEntityPersister( entityName );
-		if ( p.hasCache() ) {
-			if ( log.isDebugEnabled() ) {
-				log.debug( "evicting second-level cache: " + MessageHelper.infoString(p, id, this) );
+	public void evictEntity(String entityName, Serializable id)
+			throws HibernateException {
+		EntityPersister p = getEntityPersister(entityName);
+		if (p.hasCache()) {
+			if (log.isDebugEnabled()) {
+				log.debug("evicting second-level cache: "
+						+ MessageHelper.infoString(p, id, this));
 			}
-			CacheKey cacheKey = new CacheKey( id, p.getIdentifierType(), p.getRootEntityName(), EntityMode.POJO, this );
-			p.getCacheAccessStrategy().evict( cacheKey );
+			CacheKey cacheKey = new CacheKey(id, p.getIdentifierType(), p
+					.getRootEntityName(), EntityMode.POJO, this);
+			p.getCacheAccessStrategy().evict(cacheKey);
 		}
 	}
 
 	public void evictEntity(String entityName) throws HibernateException {
-		EntityPersister p = getEntityPersister( entityName );
-		if ( p.hasCache() ) {
-			if ( log.isDebugEnabled() ) {
-				log.debug( "evicting second-level cache: " + p.getEntityName() );
+		EntityPersister p = getEntityPersister(entityName);
+		if (p.hasCache()) {
+			if (log.isDebugEnabled()) {
+				log.debug("evicting second-level cache: " + p.getEntityName());
 			}
 			p.getCacheAccessStrategy().evictAll();
 		}
 	}
 
-	public void evict(Class persistentClass, Serializable id) throws HibernateException {
-		EntityPersister p = getEntityPersister( persistentClass.getName() );
-		if ( p.hasCache() ) {
-			if ( log.isDebugEnabled() ) {
-				log.debug( "evicting second-level cache: " + MessageHelper.infoString(p, id, this) );
+	public void evict(Class persistentClass, Serializable id)
+			throws HibernateException {
+		EntityPersister p = getEntityPersister(persistentClass.getName());
+		if (p.hasCache()) {
+			if (log.isDebugEnabled()) {
+				log.debug("evicting second-level cache: "
+						+ MessageHelper.infoString(p, id, this));
 			}
-			CacheKey cacheKey = new CacheKey( id, p.getIdentifierType(), p.getRootEntityName(), EntityMode.POJO, this );
-			p.getCacheAccessStrategy().evict( cacheKey );
+			CacheKey cacheKey = new CacheKey(id, p.getIdentifierType(), p
+					.getRootEntityName(), EntityMode.POJO, this);
+			p.getCacheAccessStrategy().evict(cacheKey);
 		}
 	}
 
 	public void evict(Class persistentClass) throws HibernateException {
-		EntityPersister p = getEntityPersister( persistentClass.getName() );
-		if ( p.hasCache() ) {
-			if ( log.isDebugEnabled() ) {
-				log.debug( "evicting second-level cache: " + p.getEntityName() );
+		EntityPersister p = getEntityPersister(persistentClass.getName());
+		if (p.hasCache()) {
+			if (log.isDebugEnabled()) {
+				log.debug("evicting second-level cache: " + p.getEntityName());
 			}
 			p.getCacheAccessStrategy().evictAll();
 		}
 	}
 
-	public void evictCollection(String roleName, Serializable id) throws HibernateException {
-		CollectionPersister p = getCollectionPersister( roleName );
-		if ( p.hasCache() ) {
-			if ( log.isDebugEnabled() ) {
-				log.debug( "evicting second-level cache: " + MessageHelper.collectionInfoString(p, id, this) );
+	public void evictCollection(String roleName, Serializable id)
+			throws HibernateException {
+		CollectionPersister p = getCollectionPersister(roleName);
+		if (p.hasCache()) {
+			if (log.isDebugEnabled()) {
+				log.debug("evicting second-level cache: "
+						+ MessageHelper.collectionInfoString(p, id, this));
 			}
-			CacheKey cacheKey = new CacheKey( id, p.getKeyType(), p.getRole(), EntityMode.POJO, this );
-			p.getCacheAccessStrategy().evict( cacheKey );
+			CacheKey cacheKey = new CacheKey(id, p.getKeyType(), p.getRole(),
+					EntityMode.POJO, this);
+			p.getCacheAccessStrategy().evict(cacheKey);
 		}
 	}
 
 	public void evictCollection(String roleName) throws HibernateException {
-		CollectionPersister p = getCollectionPersister( roleName );
-		if ( p.hasCache() ) {
-			if ( log.isDebugEnabled() ) {
-				log.debug( "evicting second-level cache: " + p.getRole() );
+		CollectionPersister p = getCollectionPersister(roleName);
+		if (p.hasCache()) {
+			if (log.isDebugEnabled()) {
+				log.debug("evicting second-level cache: " + p.getRole());
 			}
 			p.getCacheAccessStrategy().evictAll();
 		}
 	}
 
 	public Type getReferencedPropertyType(String className, String propertyName)
-		throws MappingException {
+			throws MappingException {
 		return getEntityPersister(className).getPropertyType(propertyName);
 	}
 
@@ -977,35 +1017,40 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 		return queryCache;
 	}
 
-	public QueryCache getQueryCache(String regionName) throws HibernateException {
-		if ( regionName == null ) {
+	public QueryCache getQueryCache(String regionName)
+			throws HibernateException {
+		if (regionName == null) {
 			return getQueryCache();
 		}
 
-		if ( !settings.isQueryCacheEnabled() ) {
+		if (!settings.isQueryCacheEnabled()) {
 			return null;
 		}
 
-		synchronized ( allCacheRegions ) {
-			QueryCache currentQueryCache = ( QueryCache ) queryCaches.get( regionName );
-			if ( currentQueryCache == null ) {
-				currentQueryCache = settings.getQueryCacheFactory().getQueryCache( regionName, updateTimestampsCache, settings, properties );
-				queryCaches.put( regionName, currentQueryCache );
-				allCacheRegions.put( currentQueryCache.getRegion().getName(), currentQueryCache.getRegion() );
+		synchronized (allCacheRegions) {
+			QueryCache currentQueryCache = (QueryCache) queryCaches
+					.get(regionName);
+			if (currentQueryCache == null) {
+				currentQueryCache = settings.getQueryCacheFactory()
+						.getQueryCache(regionName, updateTimestampsCache,
+								settings, properties);
+				queryCaches.put(regionName, currentQueryCache);
+				allCacheRegions.put(currentQueryCache.getRegion().getName(),
+						currentQueryCache.getRegion());
 			}
 			return currentQueryCache;
 		}
 	}
 
 	public Region getSecondLevelCacheRegion(String regionName) {
-		synchronized ( allCacheRegions ) {
-			return ( Region ) allCacheRegions.get( regionName );
+		synchronized (allCacheRegions) {
+			return (Region) allCacheRegions.get(regionName);
 		}
 	}
 
 	public Map getAllSecondLevelCacheRegions() {
-		synchronized ( allCacheRegions ) {
-			return new HashMap( allCacheRegions );
+		synchronized (allCacheRegions) {
+			return new HashMap(allCacheRegions);
 		}
 	}
 
@@ -1022,20 +1067,21 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 	}
 
 	public void evictQueries() throws HibernateException {
-		if ( settings.isQueryCacheEnabled() ) {
+		if (settings.isQueryCacheEnabled()) {
 			queryCache.clear();
 		}
 	}
 
 	public void evictQueries(String cacheRegion) throws HibernateException {
-		if (cacheRegion==null) {
-			throw new NullPointerException("use the zero-argument form to evict the default query cache");
-		}
-		else {
+		if (cacheRegion == null) {
+			throw new NullPointerException(
+					"use the zero-argument form to evict the default query cache");
+		} else {
 			synchronized (allCacheRegions) {
-				if ( settings.isQueryCacheEnabled() ) {
-					QueryCache currentQueryCache = (QueryCache) queryCaches.get(cacheRegion);
-					if ( currentQueryCache != null ) {
+				if (settings.isQueryCacheEnabled()) {
+					QueryCache currentQueryCache = (QueryCache) queryCaches
+							.get(cacheRegion);
+					if (currentQueryCache != null) {
 						currentQueryCache.clear();
 					}
 				}
@@ -1043,10 +1089,12 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 		}
 	}
 
-	public FilterDefinition getFilterDefinition(String filterName) throws HibernateException {
-		FilterDefinition def = ( FilterDefinition ) filters.get( filterName );
-		if ( def == null ) {
-			throw new HibernateException( "No such filter configured [" + filterName + "]" );
+	public FilterDefinition getFilterDefinition(String filterName)
+			throws HibernateException {
+		FilterDefinition def = (FilterDefinition) filters.get(filterName);
+		if (def == null) {
+			throw new HibernateException("No such filter configured ["
+					+ filterName + "]");
 		}
 		return def;
 	}
@@ -1064,43 +1112,41 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 	}
 
 	private CurrentSessionContext buildCurrentSessionContext() {
-		String impl = properties.getProperty( Environment.CURRENT_SESSION_CONTEXT_CLASS );
+		String impl = properties
+				.getProperty(Environment.CURRENT_SESSION_CONTEXT_CLASS);
 		// for backward-compatability
-		if ( impl == null && transactionManager != null ) {
+		if (impl == null && transactionManager != null) {
 			impl = "jta";
 		}
 
-		if ( impl == null ) {
+		if (impl == null) {
 			return null;
-		}
-		else if ( "jta".equals( impl ) ) {
-			if ( settings.getTransactionFactory().areCallbacksLocalToHibernateTransactions() ) {
-				log.warn( "JTASessionContext being used with JDBCTransactionFactory; auto-flush will not operate correctly with getCurrentSession()" );
+		} else if ("jta".equals(impl)) {
+			if (settings.getTransactionFactory()
+					.areCallbacksLocalToHibernateTransactions()) {
+				log
+						.warn("JTASessionContext being used with JDBCTransactionFactory; auto-flush will not operate correctly with getCurrentSession()");
 			}
-			return new JTASessionContext( this );
-		}
-		else if ( "thread".equals( impl ) ) {
-			return new ThreadLocalSessionContext( this );
-		}
-		else if ( "managed".equals( impl ) ) {
-			return new ManagedSessionContext( this );
-		}
-		else {
+			return new JTASessionContext(this);
+		} else if ("thread".equals(impl)) {
+			return new ThreadLocalSessionContext(this);
+		} else if ("managed".equals(impl)) {
+			return new ManagedSessionContext(this);
+		} else {
 			try {
-				Class implClass = ReflectHelper.classForName( impl );
-				return ( CurrentSessionContext ) implClass
-						.getConstructor( new Class[] { SessionFactoryImplementor.class } )
-						.newInstance( new Object[] { this } );
-			}
-			catch( Throwable t ) {
-				log.error( "Unable to construct current session context [" + impl + "]", t );
+				Class implClass = ReflectHelper.classForName(impl);
+				return (CurrentSessionContext) implClass.getConstructor(
+						new Class[] { SessionFactoryImplementor.class })
+						.newInstance(new Object[] { this });
+			} catch (Throwable t) {
+				log.error("Unable to construct current session context ["
+						+ impl + "]", t);
 				return null;
 			}
 		}
 	}
 
-	public EventListeners getEventListeners()
-	{
+	public EventListeners getEventListeners() {
 		return eventListeners;
 	}
 
@@ -1110,59 +1156,69 @@ public final class SessionFactoryImpl implements SessionFactory, SessionFactoryI
 
 	/**
 	 * Custom serialization hook used during Session serialization.
-	 *
-	 * @param oos The stream to which to write the factory
-	 * @throws IOException Indicates problems writing out the serial data stream
+	 * 
+	 * @param oos
+	 *            The stream to which to write the factory
+	 * @throws IOException
+	 *             Indicates problems writing out the serial data stream
 	 */
 	void serialize(ObjectOutputStream oos) throws IOException {
-		oos.writeUTF( uuid );
-		oos.writeBoolean( name != null );
-		if ( name != null ) {
-			oos.writeUTF( name );
+		oos.writeUTF(uuid);
+		oos.writeBoolean(name != null);
+		if (name != null) {
+			oos.writeUTF(name);
 		}
 	}
 
 	/**
 	 * Custom deserialization hook used during Session deserialization.
-	 *
-	 * @param ois The stream from which to "read" the factory
+	 * 
+	 * @param ois
+	 *            The stream from which to "read" the factory
 	 * @return The deserialized factory
-	 * @throws IOException indicates problems reading back serial data stream
-	 * @throws ClassNotFoundException indicates problems reading back serial data stream
+	 * @throws IOException
+	 *             indicates problems reading back serial data stream
+	 * @throws ClassNotFoundException
+	 *             indicates problems reading back serial data stream
 	 */
-	static SessionFactoryImpl deserialize(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+	static SessionFactoryImpl deserialize(ObjectInputStream ois)
+			throws IOException, ClassNotFoundException {
 		String uuid = ois.readUTF();
 		boolean isNamed = ois.readBoolean();
 		String name = null;
-		if ( isNamed ) {
+		if (isNamed) {
 			name = ois.readUTF();
 		}
-		Object result = SessionFactoryObjectFactory.getInstance( uuid );
-		if ( result == null ) {
-			log.trace( "could not locate session factory by uuid [" + uuid + "] during session deserialization; trying name" );
-			if ( isNamed ) {
-				result = SessionFactoryObjectFactory.getNamedInstance( name );
+		Object result = SessionFactoryObjectFactory.getInstance(uuid);
+		if (result == null) {
+			log.trace("could not locate session factory by uuid [" + uuid
+					+ "] during session deserialization; trying name");
+			if (isNamed) {
+				result = SessionFactoryObjectFactory.getNamedInstance(name);
 			}
-			if ( result == null ) {
-				throw new InvalidObjectException( "could not resolve session factory during session deserialization [uuid=" + uuid + ", name=" + name + "]" );
+			if (result == null) {
+				throw new InvalidObjectException(
+						"could not resolve session factory during session deserialization [uuid="
+								+ uuid + ", name=" + name + "]");
 			}
 		}
-		return ( SessionFactoryImpl ) result;
+		return (SessionFactoryImpl) result;
 	}
 
 	public SQLFunctionRegistry getSqlFunctionRegistry() {
 		return sqlFunctionRegistry;
 	}
-	//TODO start add by zhouyanming for customizing entity
+
+	// TODO start add by zhouyanming for customizing entity
 	public void updatePersistentClass(PersistentClass model, Mapping mapping) {
 		if (!entityPersisters.containsKey(model.getEntityName()))
 			return;
-		//disable second level cache
-		EntityPersister cp = PersisterFactory.createClassPersister(model,
-				null, this, mapping);
+		// disable second level cache
+		EntityPersister cp = PersisterFactory.createClassPersister(model, null,
+				this, mapping);
 		cp.postInstantiate();
 		entityPersisters.put(model.getEntityName(), cp);
 	}
 	// end add by zhouyanming
-	
+
 }
