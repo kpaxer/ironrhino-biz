@@ -77,13 +77,13 @@ public class RoleAction extends BaseAction {
 		return INPUT;
 	}
 
-	@Validations(requiredStrings = { @RequiredStringValidator(type = ValidatorType.FIELD, fieldName = "role.name", trim = true, key = "role.name.required", message = "请输入名字") })
+	@Validations(requiredStrings = { @RequiredStringValidator(type = ValidatorType.FIELD, fieldName = "role.name", trim = true, key = "validation.required") })
 	public String save() {
 		if (role.isNew()) {
 			role.setName(role.getName().toUpperCase());
 			if (role.getName().startsWith("ROLE_BUILTIN_")
 					|| baseManager.getByNaturalId("name", role.getName()) != null) {
-				addFieldError("role.name", getText("role.name.exists"));
+				addFieldError("role.name", getText("validation.already.exists"));
 				return INPUT;
 			}
 		} else {
@@ -91,14 +91,13 @@ public class RoleAction extends BaseAction {
 			role = baseManager.get(temp.getId());
 			if (!temp.getName().equals(role.getName())
 					&& baseManager.getByNaturalId("name", temp.getName()) != null) {
-				addFieldError("role.name", getText("role.name.exists"));
+				addFieldError("role.name", getText("validation.already.exists"));
 				return INPUT;
 			}
 			BeanUtils.copyProperties(temp, role);
 		}
 		baseManager.save(role);
-		addActionMessage(getText("save.success", "save {0} successfully",
-				new String[] { role.getName() }));
+		addActionMessage(getText("save.success"));
 		return SUCCESS;
 	}
 
@@ -109,17 +108,9 @@ public class RoleAction extends BaseAction {
 			dc.add(Restrictions.in("id", id));
 			List<Role> list = baseManager.getListByCriteria(dc);
 			if (list.size() > 0) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("(");
-				for (Role role : list) {
+				for (Role role : list)
 					baseManager.delete(role);
-					sb.append(role.getName() + ",");
-				}
-				sb.deleteCharAt(sb.length() - 1);
-				sb.append(")");
-				addActionMessage(getText("delete.success",
-						"delete {0} successfully",
-						new String[] { sb.toString() }));
+				addActionMessage(getText("delete.success"));
 			}
 		}
 		return SUCCESS;

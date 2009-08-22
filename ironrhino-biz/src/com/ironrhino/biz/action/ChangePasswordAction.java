@@ -58,7 +58,7 @@ public class ChangePasswordAction extends BaseAction {
 	}
 
 	@InputConfig
-	@Validations(stringLengthFields = { @StringLengthFieldValidator(type = ValidatorType.FIELD, trim = true, minLength = "6", maxLength = "20", fieldName = "password", key = "password.required", message = "密码的长度为6-20") }, expressions = { @ExpressionValidator(expression = "password == confirmPassword", key = "confirmPassword.error", message = "两次输入密码不一致") })
+	@Validations(stringLengthFields = { @StringLengthFieldValidator(type = ValidatorType.FIELD, trim = true, minLength = "6", maxLength = "20", fieldName = "password", key = "validation.required") }, expressions = { @ExpressionValidator(expression = "password == confirmPassword", key = "confirmPassword.error") })
 	public String execute() {
 		User user = AuthzUtils.getUserDetails(User.class);
 		if (user == null || !user.isPasswordValid(currentPassword)) {
@@ -68,7 +68,7 @@ public class ChangePasswordAction extends BaseAction {
 		user.setLegiblePassword(password);
 		log.info("'" + user.getUsername() + "' changed password");
 		userManager.save(user);
-		addActionMessage(getText("change.password.successfully"));
+		addActionMessage(getText("save.success"));
 		return INPUT;
 	}
 }

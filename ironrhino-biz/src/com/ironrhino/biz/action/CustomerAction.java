@@ -92,7 +92,8 @@ public class CustomerAction extends BaseAction {
 			return INPUT;
 		if (customer.isNew()) {
 			if (customerManager.getByNaturalId("code", customer.getCode()) != null) {
-				addFieldError("customer.code", getText("customer.code.exists"));
+				addFieldError("customer.code",
+						getText("validation.already.exists"));
 				return INPUT;
 			}
 			if (regionId != null) {
@@ -105,8 +106,7 @@ public class CustomerAction extends BaseAction {
 			BeanUtils.copyProperties(temp, customer);
 		}
 		customerManager.save(customer);
-		addActionMessage(getText("save.success", "save {0} successfully",
-				new String[] { customer.getCode() }));
+		addActionMessage(getText("save.success"));
 		return SUCCESS;
 	}
 
@@ -122,17 +122,9 @@ public class CustomerAction extends BaseAction {
 			dc.add(Restrictions.in("id", id));
 			List<Customer> list = customerManager.getListByCriteria(dc);
 			if (list.size() > 0) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("(");
-				for (Customer customer : list) {
+				for (Customer customer : list)
 					customerManager.delete(customer);
-					sb.append(customer.getCode() + ",");
-				}
-				sb.deleteCharAt(sb.length() - 1);
-				sb.append(")");
-				addActionMessage(getText("delete.success",
-						"delete {0} successfully",
-						new String[] { sb.toString() }));
+				addActionMessage(getText("delete.success"));
 			}
 		}
 		return SUCCESS;
@@ -143,9 +135,7 @@ public class CustomerAction extends BaseAction {
 		if (customer != null && regionId != null) {
 			customer.setRegion(baseManager.get(regionId));
 			customerManager.save(customer);
-			addActionMessage(getText("change.region.success",
-					"change region to {0} successfully",
-					new String[] { customer.getRegion().getName() }));
+			addActionMessage(getText("operation.success"));
 		}
 		return "region";
 	}

@@ -66,8 +66,7 @@ public class SpecAction extends BaseAction {
 
 	public String save() {
 		baseManager.save(spec);
-		addActionMessage(getText("save.success", "save {0} successfully",
-				new String[] { spec.getName() }));
+		addActionMessage(getText("save.success"));
 		return SUCCESS;
 	}
 
@@ -78,18 +77,10 @@ public class SpecAction extends BaseAction {
 			dc.add(Restrictions.in("id", id));
 			List<Spec> list = baseManager.getListByCriteria(dc);
 			if (list.size() > 0) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("(");
-				for (Spec spec : list) {
+				for (Spec spec : list) 
 					// TODO check if can delete
 					baseManager.delete(spec);
-					sb.append(spec.getName() + ",");
-				}
-				sb.deleteCharAt(sb.length() - 1);
-				sb.append(")");
-				addActionMessage(getText("delete.success",
-						"delete {0} successfully",
-						new String[] { sb.toString() }));
+				addActionMessage(getText("delete.success"));
 			}
 		}
 		return SUCCESS;

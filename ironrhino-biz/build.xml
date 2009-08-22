@@ -30,7 +30,7 @@
 	<target name="compile">
 		<antcall target="clean" />
 		<antcall target="init" />
-		<javac srcdir="${src.dir}" destdir="${classes.dir}">
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" encoding="UTF-8">
 			<classpath refid="lib.classpath" />
 		</javac>
 		<copy todir="${classes.dir}">
@@ -93,17 +93,6 @@
 				<fileset dir="${test.classes.dir}" includes="**/*Test.class" />
 			</batchtest>
 		</junit>
-	</target>
-
-	<target name="war">
-		<mkdir dir="${target.dir}" />
-		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}" webxml="${webapp.dir}/WEB-INF/web.xml" />
-	</target>
-
-	<target name="clean">
-		<delete dir="${classes.dir}" />
-		<delete dir="${test.classes.dir}" />
-		<delete dir="${target.dir}" />
 	</target>
 
 	<target name="compress">
@@ -175,5 +164,15 @@
 		</java>
 	</target>
 
+	<target name="war" depends="compile,compress">
+		<mkdir dir="${target.dir}" />
+		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}" webxml="${webapp.dir}/WEB-INF/web.xml" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${classes.dir}" />
+		<delete dir="${test.classes.dir}" />
+		<delete dir="${target.dir}" />
+	</target>
 
 </project>

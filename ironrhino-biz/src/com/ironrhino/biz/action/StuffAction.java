@@ -129,7 +129,7 @@ public class StuffAction extends BaseAction {
 			baseManager.setEntityClass(Stuff.class);
 			if (baseManager.getByNaturalId("name", stuff.getName(), "spec",
 					stuff.getSpec()) != null) {
-				addActionError(getText("exists"));
+				addActionError(getText("validation.already.exists"));
 				return input();
 			}
 			baseManager.setEntityClass(Vendor.class);
@@ -158,17 +158,9 @@ public class StuffAction extends BaseAction {
 			dc.add(Restrictions.in("id", id));
 			List<Stuff> list = baseManager.getListByCriteria(dc);
 			if (list.size() > 0) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("(");
-				for (Stuff stuff : list) {
+				for (Stuff stuff : list)
 					baseManager.delete(stuff);
-					sb.append(stuff + ",");
-				}
-				sb.deleteCharAt(sb.length() - 1);
-				sb.append(")");
-				addActionMessage(getText("delete.success",
-						"delete {0} successfully",
-						new String[] { sb.toString() }));
+				addActionMessage(getText("delete.success"));
 			}
 		}
 		return SUCCESS;

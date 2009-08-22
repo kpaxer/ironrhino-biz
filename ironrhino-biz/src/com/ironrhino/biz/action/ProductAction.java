@@ -123,7 +123,7 @@ public class ProductAction extends BaseAction {
 				product.setSpec(spec);
 			if (productManager.getByNaturalId("name", product.getName(),
 					"spec", product.getSpec()) != null) {
-				addActionError(getText("exists"));
+				addActionError(getText("validation.already.exists"));
 				return INPUT;
 			}
 			if (categoryId != null) {
@@ -139,8 +139,7 @@ public class ProductAction extends BaseAction {
 			product.setCriticalStock(temp.getCriticalStock());
 		}
 		productManager.save(product);
-		addActionMessage(getText("save.success", "save {0} successfully",
-				new String[] { product.toString() }));
+		addActionMessage(getText("save.success"));
 		return SUCCESS;
 	}
 
@@ -151,17 +150,9 @@ public class ProductAction extends BaseAction {
 			dc.add(Restrictions.in("id", id));
 			List<Product> list = productManager.getListByCriteria(dc);
 			if (list.size() > 0) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("(");
-				for (Product product : list) {
+				for (Product product : list)
 					productManager.delete(product);
-					sb.append(product + ",");
-				}
-				sb.deleteCharAt(sb.length() - 1);
-				sb.append(")");
-				addActionMessage(getText("delete.success",
-						"delete {0} successfully",
-						new String[] { sb.toString() }));
+				addActionMessage(getText("delete.success"));
 			}
 		}
 		return SUCCESS;
@@ -173,9 +164,7 @@ public class ProductAction extends BaseAction {
 			baseManager.setEntityClass(Category.class);
 			product.setCategory((Category) baseManager.get(categoryId));
 			productManager.save(product);
-			addActionMessage(getText("change.category.success",
-					"change category to {0} successfully",
-					new String[] { product.getCategory().getName() }));
+			addActionMessage(getText("operation.success"));
 		}
 		return "category";
 	}

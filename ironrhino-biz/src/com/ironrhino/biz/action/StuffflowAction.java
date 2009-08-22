@@ -113,7 +113,7 @@ public class StuffflowAction extends BaseAction {
 		Stuff stuff;
 		if (StringUtils.isBlank(stuffId)
 				|| (stuff = (Stuff) baseManager.get(stuffId)) == null) {
-			addFieldError("stuffId", getText("stuff.not.selected"));
+			addFieldError("stuffId", getText("validation.required"));
 			return inputIn();
 		}
 		stuffflow.setStuff(stuff);
@@ -139,7 +139,7 @@ public class StuffflowAction extends BaseAction {
 		Stuff stuff;
 		if (StringUtils.isBlank(stuffId)
 				|| (stuff = (Stuff) baseManager.get(stuffId)) == null) {
-			addFieldError("stuffId", getText("stuff.not.selected"));
+			addFieldError("stuffId", getText("validation.required"));
 			return inputOut();
 		}
 		stuffflow.setQuantity(-stuffflow.getQuantity());

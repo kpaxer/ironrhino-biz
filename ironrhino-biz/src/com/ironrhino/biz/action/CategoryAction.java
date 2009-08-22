@@ -107,7 +107,8 @@ public class CategoryAction extends BaseAction {
 	public String save() {
 		if (category.isNew()) {
 			if (baseManager.getByNaturalId("name", category.getName()) != null) {
-				addFieldError("category.name", getText("category.name.exists"));
+				addFieldError("category.name",
+						getText("validation.already.exists"));
 				return INPUT;
 			}
 			if (parentId != null) {
@@ -119,15 +120,15 @@ public class CategoryAction extends BaseAction {
 			category = baseManager.get(temp.getId());
 			if (!category.getName().equals(temp.getName())
 					&& baseManager.getByNaturalId("name", temp.getName()) != null) {
-				addFieldError("category.name", getText("category.name.exists"));
+				addFieldError("category.name",
+						getText("validation.already.exists"));
 				return INPUT;
 			}
 			category.setName(temp.getName());
 			category.setDisplayOrder(temp.getDisplayOrder());
 		}
 		baseManager.save(category);
-		addActionMessage(getText("save.success", "save {0} successfully",
-				new String[] { category.getName() }));
+		addActionMessage(getText("save.success"));
 		return SUCCESS;
 	}
 
@@ -155,17 +156,9 @@ public class CategoryAction extends BaseAction {
 			dc.add(Restrictions.in("id", id));
 			List<Category> list = baseManager.getListByCriteria(dc);
 			if (list.size() > 0) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("(");
-				for (Category category : list) {
+				for (Category category : list)
 					baseManager.delete(category);
-					sb.append(category.getName() + ",");
-				}
-				sb.deleteCharAt(sb.length() - 1);
-				sb.append(")");
-				addActionMessage(getText("delete.success",
-						"delete {0} successfully",
-						new String[] { sb.toString() }));
+				addActionMessage(getText("delete.success"));
 			}
 		}
 		return SUCCESS;

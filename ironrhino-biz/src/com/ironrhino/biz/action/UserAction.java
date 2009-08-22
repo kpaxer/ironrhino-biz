@@ -121,7 +121,8 @@ public class UserAction extends BaseAction {
 		if (user.isNew()) {
 			user.setUsername(user.getUsername().toLowerCase());
 			if (userManager.getByNaturalId("username", user.getUsername()) != null) {
-				addFieldError("user.username", getText("user.username.exists"));
+				addFieldError("user.username",
+						getText("validation.already.exists"));
 				return INPUT;
 			}
 			user.setLegiblePassword(password);
@@ -143,9 +144,7 @@ public class UserAction extends BaseAction {
 						&& !password.equals("********"))
 					user.setLegiblePassword(password);
 				userManager.save(user);
-				addActionMessage(getText("save.success",
-						"save {0} successfully", new String[] { user
-								.getUsername() }));
+				addActionMessage(getText("save.success"));
 			}
 		}
 		return SUCCESS;
@@ -158,17 +157,9 @@ public class UserAction extends BaseAction {
 			dc.add(Restrictions.in("id", id));
 			List<User> list = userManager.getListByCriteria(dc);
 			if (list.size() > 0) {
-				StringBuilder sb = new StringBuilder();
-				sb.append("(");
-				for (User user : list) {
+				for (User user : list)
 					userManager.delete(user);
-					sb.append(user.getUsername() + ",");
-				}
-				sb.deleteCharAt(sb.length() - 1);
-				sb.append(")");
-				addActionMessage(getText("delete.success",
-						"delete {0} successfully",
-						new String[] { sb.toString() }));
+				addActionMessage(getText("delete.success"));
 			}
 		}
 		return SUCCESS;
