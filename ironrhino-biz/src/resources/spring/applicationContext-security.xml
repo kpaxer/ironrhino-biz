@@ -1,152 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<bean id="filterChainProxy" class="org.springframework.security.util.FilterChainProxy">
-		<property name="filterInvocationDefinitionSource">
-			<value>
-				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
-				PATTERN_TYPE_APACHE_ANT
-				/**=httpSessionContextIntegrationFilter,securityContextHolderAwareRequestFilter,logoutFilter,authenticationProcessingFilter,rememberMeProcessingFilter,anonymousProcessingFilter,exceptionTranslationFilter,filterInvocationInterceptor,switchUserProcessingFilter
-			</value>
-		</property>
-	</bean>
-
-	<bean id="anonymousProcessingFilter"
-		class="org.springframework.security.providers.anonymous.AnonymousProcessingFilter">
-		<property name="key" value="anonymous" />
-		<property name="userAttribute">
-			<value>anonymousUser,ROLE_BUILTIN_ANONYMOUS
-			</value>
-		</property>
-	</bean>
-
-	<bean id="anonymousAuthenticationProvider"
-		class="org.springframework.security.providers.anonymous.AnonymousAuthenticationProvider">
-		<property name="key" value="anonymous" />
-	</bean>
-
-	<bean id="httpSessionContextIntegrationFilter"
-		class="org.springframework.security.context.HttpSessionContextIntegrationFilter" />
-
-	<bean id="securityContextLogoutHandler"
-		class="org.springframework.security.ui.logout.SecurityContextLogoutHandler" />
-
-	<bean id="securityContextHolderAwareRequestFilter"
-		class="org.springframework.security.wrapper.SecurityContextHolderAwareRequestFilter" />
-
-	<bean id="httpRequestAccessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
-		<property name="allowIfAllAbstainDecisions" value="false" />
-		<property name="decisionVoters">
-			<list>
-				<ref bean="roleVoter" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="roleVoter" class="org.springframework.security.vote.RoleVoter"
-		p:rolePrefix="" />
-
-	<bean id="accessDeniedHandler" class="org.springframework.security.ui.AccessDeniedHandlerImpl">
-		<property name="errorPage" value="/WEB-INF/view/jsp/error/403.jsp" />
-	</bean>
-
-	<bean id="filterInvocationInterceptorObjectDefinitionSource"
-		class="org.ironrhino.core.ext.spring.security.RefreshableFilterInvocationDefinitionSource" />
-
-	<bean id="authenticationManager" class="org.springframework.security.providers.ProviderManager">
-		<property name="providers">
-			<list>
-				<ref bean="daoAuthenticationProvider" />
-				<ref bean="anonymousAuthenticationProvider" />
-				<ref bean="rememberMeAuthenticationProvider" />
-			</list>
-		</property>
-	</bean>
-	<bean id="passwordEncoder" class="org.ironrhino.core.ext.spring.security.PasswordEncoder" />
-	<bean id="daoAuthenticationProvider"
-		class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
-		<property name="userDetailsService" ref="userManager" />
-		<property name="passwordEncoder" ref="passwordEncoder" />
-	</bean>
+	<security:http access-denied-page="/WEB-INF/view/jsp/error/403.jsp"
+		entry-point-ref="entryPoint">
+		<security:intercept-url pattern="/scripts/**" access="ROLE_BUILTIN_ANONYMOUS"/>
+		<security:intercept-url pattern="/styles/**" access="ROLE_BUILTIN_ANONYMOUS"/>
+		<security:intercept-url pattern="/images/**" access="ROLE_BUILTIN_ANONYMOUS"/>
+		<security:intercept-url pattern="/dwr/**" access="ROLE_SUPERVISOR"/>
+		<security:intercept-url pattern="/common/**" access="ROLE_SUPERVISOR"/>
+		<security:intercept-url pattern="/login" access="ROLE_BUILTIN_ANONYMOUS"/>
+		<security:intercept-url pattern="/**" access="ROLE_BUILTIN_USER"/>
+		<security:anonymous granted-authority="ROLE_BUILTIN_ANONYMOUS" username="anonymousUser" key="anonymous" />
+		<security:remember-me services-ref="rememberMeServices" />
+		<security:logout logout-url="/logout" logout-success-url="/" invalidate-session="true" />
+	</security:http>
 	
-	<bean id="rememberMeProcessingFilter"
-		class="org.springframework.security.ui.rememberme.RememberMeProcessingFilter">
-		<property name="authenticationManager" ref="authenticationManager" />
-		<property name="rememberMeServices" ref="rememberMeServices" />
-	</bean>
 	<bean id="rememberMeServices"
-		class="org.ironrhino.core.ext.spring.security.CustomizableTokenBasedRememberMeServices">
-		<property name="userDetailsService" ref="userManager" />
-		<property name="key" value="youcannotguessme" />
-		<property name="parameter" value="rememberme" />
-		<property name="cookieName" value="REMEMBERME" />
-	</bean>
-	<bean id="rememberMeAuthenticationProvider"
-		class="org.springframework.security.providers.rememberme.RememberMeAuthenticationProvider">
-		<property name="key" value="youcannotguessme" />
-	</bean>
-	<bean id="logoutFilter" class="org.springframework.security.ui.logout.LogoutFilter">
-		<constructor-arg value="/index" />
-		<constructor-arg>
-			<list>
-				<ref bean="rememberMeServices" />
-				<ref bean="securityContextLogoutHandler" />
-			</list>
-		</constructor-arg>
-		<property name="filterProcessesUrl" value="/logout" />
-	</bean>
-	<bean id="exceptionTranslationFilter"
-		class="org.springframework.security.ui.ExceptionTranslationFilter">
-		<property name="authenticationEntryPoint" ref="authenticationProcessingFilterEntryPoint" />
-		<property name="accessDeniedHandler" ref="accessDeniedHandler" />
-	</bean>
+		class="org.ironrhino.core.ext.spring.security.CustomizableTokenBasedRememberMeServices"
+		p:key="youcannotguessme" p:parameter="rememberme" p:cookieName="REMEMBERME"
+		p:userDetailsService-ref="userManager" />
+	<bean id="passwordEncoder"
+		class="org.ironrhino.core.ext.spring.security.PasswordEncoder" />
+
+	<bean id="SWITCH_USER_FILTER"
+		class="org.springframework.security.ui.switchuser.SwitchUserProcessingFilter"
+		p:userDetailsService-ref="userManager" p:switchUserUrl="/switch"
+		p:exitUserUrl="/exit" p:targetUrl="/" />
+
+	<security:authentication-manager alias="authenticationManager"/>
+	<security:authentication-provider user-service-ref="userManager">
+		<security:password-encoder ref="passwordEncoder" />
+	</security:authentication-provider>
+	<bean id="entryPoint"
+		class="org.springframework.security.ui.webapp.AuthenticationProcessingFilterEntryPoint"
+		p:loginFormUrl="/login" p:forceHttps="false" />
 	<bean id="authenticationProcessingFilter"
-		class="org.springframework.security.ui.webapp.AuthenticationProcessingFilter">
-		<property name="usernameParameter" value="username" />
-		<property name="passwordParameter" value="password" />
-		<property name="authenticationManager" ref="authenticationManager" />
-		<property name="authenticationFailureUrl" value="/login?error=account.bad.credentials" />
-		<property name="defaultTargetUrl" value="/index" />
+		class="org.springframework.security.ui.webapp.AuthenticationProcessingFilter"
+		p:usernameParameter="username" p:passwordParameter="password"
+		p:authenticationFailureUrl="/login?error=user.bad.credentials"
+		p:defaultTargetUrl="/" p:filterProcessesUrl="/check"
+		p:serverSideRedirect="true" p:authenticationManager-ref="authenticationManager"
+		p:rememberMeServices-ref="rememberMeServices">
+		<security:custom-filter position="AUTHENTICATION_PROCESSING_FILTER" />
 		<property name="targetUrlResolver">
-			<bean class="org.ironrhino.core.ext.spring.security.GracefulTargetUrlResolver" />
+			<bean
+				class="org.ironrhino.core.ext.spring.security.GracefulTargetUrlResolver" />
 		</property>
-		<property name="filterProcessesUrl" value="/check" />
-		<property name="rememberMeServices" ref="rememberMeServices" />
-		<property name="serverSideRedirect" value="true" />
 		<property name="exceptionMappings">
 			<value>
-				org.springframework.security.DisabledException=/login?error=account.disabled
-				org.springframework.security.BadCredentialsException=/login?error=account.bad.credentials
-				org.springframework.security.LockedException=/login?error=account.locked
-				org.springframework.security.AccountExpiredException=/login?error=account.expired
-				org.springframework.security.concurrent.ConcurrentLoginException=/login?error=account.concurrent.login
-				org.springframework.security.CredentialsExpiredException=/login?error=account.credentials.expired
+						org.springframework.security.DisabledException=/login?error=user.disabled
+						org.springframework.security.BadCredentialsException=/login?error=user.bad.credentials
+						org.springframework.security.LockedException=/login?error=user.locked
+						org.springframework.security.AccountExpiredException=/login?error=user.expired
+						org.springframework.security.concurrent.ConcurrentLoginException=/login?error=user.concurrent.login
+						org.springframework.security.CredentialsExpiredException=/login?error=user.credentials.expired
 			</value>
 		</property>
 	</bean>
-	<bean id="authenticationProcessingFilterEntryPoint"
-		class="org.springframework.security.ui.webapp.AuthenticationProcessingFilterEntryPoint">
-		<property name="loginFormUrl" value="/login" />
-		<property name="forceHttps" value="false" />
-	</bean>
-	<bean id="switchUserProcessingFilter"
-		class="org.springframework.security.ui.switchuser.SwitchUserProcessingFilter">
-		<property name="userDetailsService" ref="userManager" />
-		<property name="switchUserUrl" value="/switch" />
-		<property name="exitUserUrl" value="/exit" />
-		<property name="targetUrl" value="/index" />
-	</bean>
-	<bean id="filterInvocationInterceptor"
-		class="org.springframework.security.intercept.web.FilterSecurityInterceptor">
-		<property name="authenticationManager" ref="authenticationManager" />
-		<property name="accessDecisionManager" ref="httpRequestAccessDecisionManager" />
-		<property name="objectDefinitionSource">
-			<bean class="org.springframework.aop.framework.ProxyFactoryBean">
-				<property name="targetSource"
-					ref="filterInvocationInterceptorObjectDefinitionSource" />
-			</bean>
-		</property>
-	</bean>
+
 </beans>

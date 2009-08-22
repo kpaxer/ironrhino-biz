@@ -39,9 +39,6 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/jta-1.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/mysql-connector-java-5.1.7.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/openid4java-0.9.3.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/openxri-client-1.0.1.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/openxri-syntax-1.0.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/oro-2.0.8.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/person-directory-api-1.1.2.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/person-directory-impl-1.1.2.jar"/>
@@ -53,14 +50,10 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-binding-1.0.5.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-security-cas-client-2.0.4.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-security-core-2.0.4.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-security-openid-2.0.4.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-security-taglibs-2.0.4.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-webflow-1.0.5.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/standard-1.1.2.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/xbean-spring-3.4.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/xerces-2.9.1.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/xmldsig-1.0.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/xmlsec-1.4.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/pinyin4j-2.5.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/bcpg-jdk16-143.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/bcprov-jdk16-143.jar"/>

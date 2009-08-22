@@ -14,8 +14,6 @@
 <![endif]-->
 <link rel="alternate" href="${base}/product/feed" title="ironrhino products" type="application/atom+xml" />
 <script src="${base}/scripts/all-min.js" type="text/javascript"></script>
-<script type="text/javascript" src="${base}/dwr/engine.js"></script>
-<script type="text/javascript" src="${base}/dwr/interface/ApplicationContextConsole.js"></script>
 <#noescape>${head}</#noescape>
 </head>
 
@@ -29,11 +27,10 @@
 
 	</ul>
 	</li>
-	<@authorize ifAnyGranted="系统管理员">
+	<@authorize ifAnyGranted="ROLE_SUPERVISOR">
 		<li><a>系统配置</a>
 		<ul>
-			<li><a href="${base}/controlPanel">控制面板</a></li>
-			<li><a href="${base}/securityConfig">安全配置</a></li>
+			<li><a href="${base}/common/controlPanel">控制面板</a></li>
 			<li><a href="${base}/common/setting">参数设置</a></li>
 			<li><a href="${base}/common/customizeEntity">属性定制</a></li>
 		</ul>
@@ -51,7 +48,7 @@
 		</ul>
 		</li>
 	</@authorize>
-	<@authorize ifAnyGranted="系统管理员,仓管员">
+	<@authorize ifAnyGranted="ROLE_SUPERVISOR,仓管员">
 		<li><a>仓库管理</a>
 		<ul>
 			<@authorize ifAnyGranted="系统管理员">
