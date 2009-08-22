@@ -77,7 +77,7 @@
 		<property name="rememberMeServices" ref="rememberMeServices" />
 	</bean>
 	<bean id="rememberMeServices"
-		class="org.ironrhino.core.ext.spring.security.TokenBasedRememberMeServices">
+		class="org.ironrhino.core.ext.spring.security.CustomizableTokenBasedRememberMeServices">
 		<property name="userDetailsService" ref="userManager" />
 		<property name="key" value="youcannotguessme" />
 		<property name="parameter" value="rememberme" />
@@ -110,7 +110,7 @@
 		<property name="authenticationFailureUrl" value="/login?error=account.bad.credentials" />
 		<property name="defaultTargetUrl" value="/index" />
 		<property name="targetUrlResolver">
-			<bean class="org.ironrhino.core.ext.spring.security.TargetUrlResolver" />
+			<bean class="org.ironrhino.core.ext.spring.security.GracefulTargetUrlResolver" />
 		</property>
 		<property name="filterProcessesUrl" value="/check" />
 		<property name="rememberMeServices" ref="rememberMeServices" />
