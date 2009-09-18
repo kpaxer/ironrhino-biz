@@ -8,10 +8,12 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.util.DateUtils;
 import org.ironrhino.common.util.NumberUtils;
 import org.ironrhino.core.service.BaseManagerImpl;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.model.Order;
 
+@Component("orderManager")
 public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		OrderManager {
 

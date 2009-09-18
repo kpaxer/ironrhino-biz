@@ -1,4 +1,4 @@
-﻿package com.ironrhino.biz.action;
+package com.ironrhino.biz.action;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

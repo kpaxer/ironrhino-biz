@@ -12,9 +12,11 @@ import org.ironrhino.core.service.BaseManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
 
 import com.ironrhino.biz.model.Category;
 
+@Component("categoryTreeControl")
 public class CategoryTreeControl implements ApplicationListener {
 
 	private Category categoryTree;

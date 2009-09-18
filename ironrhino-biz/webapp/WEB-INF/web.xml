@@ -17,6 +17,10 @@
 		<filter-class>org.ironrhino.core.ext.servlet.WebProxyFilter</filter-class>
 	</filter>
 	<filter>
+		<filter-name>captchaFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
@@ -58,7 +62,16 @@
 		</init-param>
 	</filter>
 	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
 		<filter-name>WebProxy</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>captchaFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
@@ -68,10 +81,6 @@
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>OpenSessionInViewFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
@@ -101,23 +110,6 @@
 		<listener-class>
 			org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
-	<servlet>
-		<servlet-name>dwr</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>captcha</servlet-name>
-		<servlet-class>org.ironrhino.core.ext.captcha.ImageCaptchaServlet</servlet-class>
-		<load-on-startup>3</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>dwr</servlet-name>
-		<url-pattern>/dwr/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>captcha</servlet-name>
-		<url-pattern>/captcha.jpg</url-pattern>
-	</servlet-mapping>
 	<mime-mapping>
 		<extension>ico</extension>
 		<mime-type>image/x-icon</mime-type>

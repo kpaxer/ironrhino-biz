@@ -17,12 +17,14 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Role;
 import com.ironrhino.biz.model.User;
 
+@Component("userManager")
 public class UserManagerImpl extends BaseManagerImpl<User> implements
 		UserManager {
 
