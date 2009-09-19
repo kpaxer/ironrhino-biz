@@ -30,7 +30,7 @@ form fieldset div.label {
 	}
 
 	function redirect() {
-		<#if targetUrl?exists>
+		<#if targetUrl??>
 			top.location.href = '<#if !targetUrl?string?contains('://')>${base}</#if>${targetUrl}';
 		<#else>
 			top.location.href = '${base}';

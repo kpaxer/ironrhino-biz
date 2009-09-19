@@ -13,7 +13,7 @@
 	}
 	Initialization.treeview= function(){
 		$("#treeview").treeview({
-			<#if async?if_exists>
+			<#if async??&&async>
 			url: "${base}/region/children",
 			click:_click,
 			</#if>
@@ -21,9 +21,9 @@
 			unique: true
 
 		});
-		<#if !(async?if_exists)>
+		<#if !(async??&&async)>
 			$("#treeview span").click(_click);
-			<#if customer.region?exists>
+			<#if customer.region??>
 			$("#${customer.region.id}").parents("li.expandable").find(">div.hitarea").click();
 			</#if>
 		</#if>
