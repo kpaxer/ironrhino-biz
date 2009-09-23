@@ -11,6 +11,7 @@ import org.ironrhino.common.util.BeanUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.ext.struts.BaseAction;
 import org.ironrhino.core.service.BaseManager;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Role;
@@ -40,9 +41,10 @@ public class UserAction extends BaseAction {
 
 	private String confirmPassword;
 
-	private transient UserManager userManager;
-
 	private transient BaseManager<Role> baseManager;
+
+	@Autowired
+	private transient UserManager userManager;
 
 	public String[] getRoleId() {
 		return roleId;

@@ -4,6 +4,7 @@ import org.ironrhino.common.util.AuthzUtils;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.ext.struts.BaseAction;
 import org.ironrhino.core.service.BaseManager;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Category;
@@ -19,16 +20,13 @@ public class MiscAction extends BaseAction {
 
 	private static final long serialVersionUID = 7038201018786069091L;
 
-	private transient UserManager userManager;
-
 	private transient BaseManager baseManager;
+
+	@Autowired
+	private transient UserManager userManager;
 
 	public void setBaseManager(BaseManager baseManager) {
 		this.baseManager = baseManager;
-	}
-
-	public void setUserManager(UserManager userManager) {
-		this.userManager = userManager;
 	}
 
 	public String execute() {

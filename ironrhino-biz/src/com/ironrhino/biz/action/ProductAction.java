@@ -9,6 +9,7 @@ import org.ironrhino.common.model.ResultPage;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.ext.struts.BaseAction;
 import org.ironrhino.core.service.BaseManager;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Category;
@@ -33,6 +34,7 @@ public class ProductAction extends BaseAction {
 
 	private transient BaseManager baseManager;
 
+	@Autowired
 	private transient ProductManager productManager;
 
 	public ResultPage<Product> getResultPage() {
@@ -74,10 +76,6 @@ public class ProductAction extends BaseAction {
 	public void setBaseManager(BaseManager baseManager) {
 		this.baseManager = baseManager;
 
-	}
-
-	public void setProductManager(ProductManager productManager) {
-		this.productManager = productManager;
 	}
 
 	public String execute() {

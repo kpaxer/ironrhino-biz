@@ -3,8 +3,9 @@ package com.ironrhino.biz.action;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.ironrhino.common.util.AuthzUtils;
-import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.ext.struts.BaseAction;
+import org.ironrhino.core.metadata.AutoConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.model.User;
 import com.ironrhino.biz.service.UserManager;
@@ -27,6 +28,7 @@ public class ChangePasswordAction extends BaseAction {
 
 	private String confirmPassword;
 
+	@Autowired
 	private transient UserManager userManager;
 
 	public String getConfirmPassword() {
@@ -51,10 +53,6 @@ public class ChangePasswordAction extends BaseAction {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public void setUserManager(UserManager userManager) {
-		this.userManager = userManager;
 	}
 
 	@InputConfig

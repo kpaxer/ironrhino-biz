@@ -11,6 +11,7 @@ import org.ironrhino.common.util.BeanUtils;
 import org.ironrhino.core.ext.struts.BaseAction;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.service.BaseManager;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Customer;
@@ -29,6 +30,7 @@ public class CustomerAction extends BaseAction {
 
 	private transient BaseManager<Region> baseManager;
 
+	@Autowired
 	private transient CustomerManager customerManager;
 
 	public ResultPage<Customer> getResultPage() {
@@ -58,10 +60,6 @@ public class CustomerAction extends BaseAction {
 	public void setBaseManager(BaseManager<Region> baseManager) {
 		this.baseManager = baseManager;
 		baseManager.setEntityClass(Region.class);
-	}
-
-	public void setCustomerManager(CustomerManager customerManager) {
-		this.customerManager = customerManager;
 	}
 
 	public String execute() {

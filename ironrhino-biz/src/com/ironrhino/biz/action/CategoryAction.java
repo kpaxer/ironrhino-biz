@@ -12,6 +12,7 @@ import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.ext.struts.BaseAction;
 import org.ironrhino.core.service.BaseManager;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Category;
@@ -26,11 +27,12 @@ public class CategoryAction extends BaseAction {
 
 	private Integer parentId;
 
-	private transient BaseManager<Category> baseManager;
-
 	private Collection<Category> list;
 
+	@Autowired
 	private transient CategoryTreeControl categoryTreeControl;
+
+	private transient BaseManager<Category> baseManager;
 
 	private boolean async;
 
@@ -54,10 +56,6 @@ public class CategoryAction extends BaseAction {
 
 	public Collection<Category> getList() {
 		return list;
-	}
-
-	public void setCategoryTreeControl(CategoryTreeControl categoryTreeControl) {
-		this.categoryTreeControl = categoryTreeControl;
 	}
 
 	public Integer getParentId() {
