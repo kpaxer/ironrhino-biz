@@ -9,7 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.ResultPage;
 import org.ironrhino.core.util.BeanUtils;
 import org.ironrhino.core.metadata.Authorize;
-import org.ironrhino.core.ext.struts.BaseAction;
+import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.service.BaseManager;
 import org.springframework.beans.factory.annotation.Autowired;
 

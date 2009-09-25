@@ -8,7 +8,9 @@
 	<context:property-placeholder
 		location="/WEB-INF/conf/applicationContext.properties" />
 	<context:annotation-config />
-	<context:component-scan base-package="org.ironrhino,com.ironrhino.biz"/>
+	<context:component-scan base-package="org.ironrhino,com.ironrhino.biz">
+		<context:exclude-filter type="regex" expression="org.ironrhino.core.search.*"/>
+	</context:component-scan>
 	<aop:aspectj-autoproxy />
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
@@ -26,7 +28,7 @@
 		</property>
 	</bean>	
 	<bean id="templateProvider"
-		class="org.ironrhino.core.ext.struts.TemplateProvider">
+		class="org.ironrhino.core.struts.TemplateProvider">
 		<property name="allSharedVariables">
 			<map>
 				<entry key="siteBaseUrl" value="${siteBaseUrl}" />

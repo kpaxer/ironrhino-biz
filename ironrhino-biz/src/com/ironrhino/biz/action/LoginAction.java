@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.ironrhino.core.metadata.AutoConfig;
-import org.ironrhino.core.ext.struts.BaseAction;
+import org.ironrhino.core.struts.BaseAction;
 import org.springframework.security.ui.AbstractProcessingFilter;
 import org.springframework.security.ui.savedrequest.SavedRequest;
 
