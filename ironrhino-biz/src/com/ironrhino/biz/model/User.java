@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableProperty;
-import org.ironrhino.common.util.CodecUtils;
+import org.ironrhino.core.util.CodecUtils;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;

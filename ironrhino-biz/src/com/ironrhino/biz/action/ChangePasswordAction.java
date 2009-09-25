@@ -2,7 +2,7 @@ package com.ironrhino.biz.action;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.ironrhino.common.util.AuthzUtils;
+import org.ironrhino.core.util.AuthzUtils;
 import org.ironrhino.core.ext.struts.BaseAction;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.springframework.beans.factory.annotation.Autowired;

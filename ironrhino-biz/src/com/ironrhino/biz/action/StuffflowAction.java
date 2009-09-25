@@ -12,7 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.QueryForm;
 import org.ironrhino.common.model.ResultPage;
 import org.ironrhino.common.model.Status;
-import org.ironrhino.common.util.AuthzUtils;
+import org.ironrhino.core.util.AuthzUtils;
 import org.ironrhino.core.metadata.Redirect;
 import org.ironrhino.core.ext.struts.BaseAction;
 import org.ironrhino.core.service.BaseManager;

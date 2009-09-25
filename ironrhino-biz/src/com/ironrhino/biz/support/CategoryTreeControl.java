@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.ironrhino.common.util.BeanUtils;
+import org.ironrhino.core.util.BeanUtils;
 import org.ironrhino.core.event.EntityOperationEvent;
 import org.ironrhino.core.event.EntityOperationType;
 import org.ironrhino.core.service.BaseManager;

@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.ironrhino.common.util.HtmlUtils;
+import org.ironrhino.core.util.HtmlUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.ext.struts.BaseAction;

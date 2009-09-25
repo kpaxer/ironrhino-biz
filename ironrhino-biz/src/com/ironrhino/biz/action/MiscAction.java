@@ -1,6 +1,6 @@
 package com.ironrhino.biz.action;
 
-import org.ironrhino.common.util.AuthzUtils;
+import org.ironrhino.core.util.AuthzUtils;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.ext.struts.BaseAction;
 import org.ironrhino.core.service.BaseManager;
