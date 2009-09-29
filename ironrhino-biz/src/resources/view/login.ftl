@@ -60,7 +60,7 @@ form fieldset div.label {
 			cssClass="required" labelposition="left" />
 		<@s.password label="%{getText('password')}" name="password"
 			cssClass="required" labelposition="left" />
-		<div class="fieldset"><@s.submit value="登录" /></div>
+		<div class="fieldset"><@s.submit value="%{getText('login')}" /></div>
 	</@s.form></div>
 </@authorize>
 <p
