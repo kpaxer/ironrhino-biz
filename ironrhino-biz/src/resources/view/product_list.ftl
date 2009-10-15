@@ -5,7 +5,7 @@
 </head>
 <body>
 <#assign config={"name":{},"stock":{},"criticalStock":{},"spec":{},"category":{}}>
-<#assign actionColumnButtons=btn(action.getText('edit'),"Richtable.input('#id')")+btn(action.getText('category'),"Richtable.open(Richtable.getUrl('category','#id'),true,true)")+btn(action.getText('delete'),"Richtable.del('#id')")>
+<#assign actionColumnButtons=btn(action.getText('edit'),r"Richtable.input('${rowid}')")+btn(action.getText('category'),r"Richtable.open(Richtable.getUrl('category','${rowid}'),true,true)")+btn(action.getText('delete'),r"Richtable.del('${rowid}')")>
 <@richtable entityName="product" config=config celleditable=false actionColumnButtons=actionColumnButtons/>
 </body>
 </html></#escape>
