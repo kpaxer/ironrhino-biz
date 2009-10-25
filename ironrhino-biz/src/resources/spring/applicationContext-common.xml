@@ -9,7 +9,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:resources/spring/applicationContext.properties</value>
-				<value>file:///${user.home}/app/conf/applicationContext.properties</value>
+				<value>file:///${ironrhino-biz.apphome}/conf/applicationContext.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -35,7 +35,7 @@
 		class="org.ironrhino.core.struts.TemplateProvider">
 		<property name="allSharedVariables">
 			<map>
-				<entry key="siteBaseUrl" value="${siteBaseUrl}" />
+				<entry key="base" value="${base}" />
 			</map>
 		</property>
 	</bean>

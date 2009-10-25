@@ -16,7 +16,7 @@ import com.ironrhino.biz.model.Vendor;
 import com.ironrhino.biz.service.UserManager;
 
 @AutoConfig
-public class MiscAction extends BaseAction {
+public class SetupAction extends BaseAction {
 
 	private static final long serialVersionUID = 7038201018786069091L;
 
@@ -30,11 +30,6 @@ public class MiscAction extends BaseAction {
 	}
 
 	public String execute() {
-		return NONE;
-	}
-
-	public String setup() throws Exception {
-
 		int cnt = userManager.countAll();
 		if (cnt == 0) {
 			initUser();
