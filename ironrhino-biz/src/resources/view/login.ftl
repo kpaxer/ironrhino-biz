@@ -31,9 +31,9 @@ form fieldset div.label {
 
 	function redirect() {
 		<#if targetUrl??>
-			top.location.href = '<#if !targetUrl?string?contains('://')>${base}</#if>${targetUrl}';
+			top.location.href = '<#if !targetUrl?string?contains('://')><@uri value="/"/></#if>${targetUrl}';
 		<#else>
-			top.location.href = '${base}';
+			top.location.href = '<@uri value="/"/>';
 		</#if>
 	}
 </script>
@@ -42,14 +42,14 @@ form fieldset div.label {
 
 <body>
 <div style="margin-top: 50px;"><img
-	src="${base}/assets/images/login.jpg"
+	src="<@uri value="/assets/images/login.jpg"/>"
 	style="display: block; margin-left: auto; margin-right: auto" />
 <h1 id="title"
 	style="width: 550px; margin-left: auto; margin-right: auto; text-align: center; color: #4A708B;">IronRhino</h1>
 </div>
 <@authorize ifAnyGranted="ROLE_BUILTIN_USER">
-	<p style="text-align: center;">您已经以${authentication('name')}身份登录,换个用户名请先<a href="${base}/logout">注销</a>,<a
-		href="${base}">进入</a></p>
+	<p style="text-align: center;">您已经以${authentication('name')}身份登录,换个用户名请先<a href="<@uri value="/logout"/>">注销</a>,<a
+		href="<@uri value="/"/>">进入</a></p>
 </@authorize>
 <@authorize ifNotGranted="ROLE_BUILTIN_USER">
 	<div
