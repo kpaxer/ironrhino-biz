@@ -42,7 +42,7 @@ form fieldset div.label {
 
 <body>
 <div style="margin-top: 50px;"><img
-	src="${base}/images/login.jpg"
+	src="${base}/assets/images/login.jpg"
 	style="display: block; margin-left: auto; margin-right: auto" />
 <h1 id="title"
 	style="width: 550px; margin-left: auto; margin-right: auto; text-align: center; color: #4A708B;">IronRhino</h1>

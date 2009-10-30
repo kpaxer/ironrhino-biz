@@ -7,10 +7,7 @@
 
 	<security:http access-denied-page="/WEB-INF/view/jsp/error/403.jsp"
 		entry-point-ref="entryPoint">
-		<security:intercept-url pattern="/scripts/**" access="ROLE_BUILTIN_ANONYMOUS"/>
-		<security:intercept-url pattern="/styles/**" access="ROLE_BUILTIN_ANONYMOUS"/>
-		<security:intercept-url pattern="/images/**" access="ROLE_BUILTIN_ANONYMOUS"/>
-		<security:intercept-url pattern="/dwr/**" access="ROLE_SUPERVISOR"/>
+		<security:intercept-url pattern="/assets/**" access="ROLE_BUILTIN_ANONYMOUS"/>
 		<security:intercept-url pattern="/common/**" access="ROLE_SUPERVISOR"/>
 		<security:intercept-url pattern="/login" access="ROLE_BUILTIN_ANONYMOUS"/>
 		<security:intercept-url pattern="/setup" access="ROLE_BUILTIN_ANONYMOUS"/>

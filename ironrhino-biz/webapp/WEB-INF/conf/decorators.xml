@@ -2,12 +2,7 @@
 
 <decorators defaultdir="/WEB-INF/view/ftl/decorator">
 	<excludes>
-		<pattern>/cas/*</pattern>
-		<pattern>/scripts/*</pattern>
-		<pattern>/styles/*</pattern>
-		<pattern>/struts/*</pattern>
-		<pattern>/components/*</pattern>
-		<pattern>/dwr/*</pattern>
+		<pattern>/assets/*</pattern>
 	</excludes>
 	<decorator name="none" />
 	<decorator name="simple" page="simple.ftl" />
