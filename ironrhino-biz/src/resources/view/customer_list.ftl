@@ -5,7 +5,7 @@
 </head>
 <body>
 <#assign config={"code":{},"name":{"cellEdit":"input"},"address":{"cellEdit":"input"},"postCode":{"cellEdit":"input"},"phone":{"cellEdit":"input"},"mobile":{"cellEdit":"input"},"description":{"cellEdit":"input"}}>
-<#assign actionColumnButtons=btn(action.getText('save'),r"Richtable.save('${rowid}')")+btn(action.getText('edit'),r"Richtable.input('${rowid}')")+btn(action.getText('region'),r"Richtable.open(Richtable.getUrl('region','${rowid}'),true)")+btn(action.getText('delete'),r"Richtable.del('${rowid}')")>
+<#assign actionColumnButtons=btn(action.getText('save'),null,'save')+btn(action.getText('edit'),null,'input')+btn(action.getText('region'),r"Richtable.open(Richtable.getUrl('region','${rowid}'),true)")+btn(action.getText('delete'),null,'del')>
 <@richtable entityName="customer" config=config actionColumnWidth="180px" actionColumnButtons=actionColumnButtons/>
 </body>
 </html></#escape>

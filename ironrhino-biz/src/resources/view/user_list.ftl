@@ -5,7 +5,7 @@
 </head>
 <body>
 <#assign config={"username":{},"name":{},"password":{"value":"********","trimPrefix":true,"cellEdit":"input,ec_edit_template_password","class":"include_if_edited"}}>
-<#assign actionColumnButtons=btn(action.getText('save'),r"Richtable.save('${rowid}')")+btn(action.getText('edit'),r"Richtable.input('${rowid}')")+btn(action.getText('role'),r"Richtable.open(Richtable.getUrl('role','${rowid}'))")+btn(action.getText('delete'),r"Richtable.del('${rowid}')")>
+<#assign actionColumnButtons=btn(action.getText('save'),null,'save')+btn(action.getText('edit'),null,'input')+btn(action.getText('role'),r"Richtable.open(Richtable.getUrl('role','${rowid}'))")+btn(action.getText('delete'),null,'del')>
 <@richtable entityName="user" config=config actionColumnWidth="180px" actionColumnButtons=actionColumnButtons/>
 <div style="display: none;">
 <textarea id="ec_edit_template_password">
