@@ -5,9 +5,9 @@
 <hibernate-mapping package="com.ironrhino.biz.model"
 	default-lazy="true">
 	<class name="Spec" table="spec">
-		<id name="id" type="java.lang.String" length="32"
+		<id name="id" type="java.lang.String" length="22"
 			unsaved-value="null">
-			<generator class="uuid" />
+			<generator class="org.ironrhino.core.hibernate.StringIdGenerator" />
 		</id>
 		<property name="basicPackName" not-null="true" />
 		<property name="basicQuantity"/>
