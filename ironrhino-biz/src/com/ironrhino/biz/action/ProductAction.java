@@ -26,7 +26,7 @@ public class ProductAction extends BaseAction {
 
 	private ResultPage<Product> resultPage;
 
-	private Integer categoryId;
+	private Long categoryId;
 
 	private String specId;
 
@@ -57,11 +57,11 @@ public class ProductAction extends BaseAction {
 		return specList;
 	}
 
-	public Integer getCategoryId() {
+	public Long getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(Integer categoryId) {
+	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
 	}
 

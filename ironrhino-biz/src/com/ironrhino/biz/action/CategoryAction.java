@@ -25,7 +25,7 @@ public class CategoryAction extends BaseAction {
 
 	private Category category;
 
-	private Integer parentId;
+	private Long parentId;
 
 	private Collection<Category> list;
 
@@ -36,13 +36,13 @@ public class CategoryAction extends BaseAction {
 
 	private boolean async;
 
-	private int root;
+	private long root;
 
-	public int getRoot() {
+	public long getRoot() {
 		return root;
 	}
 
-	public void setRoot(int root) {
+	public void setRoot(long root) {
 		this.root = root;
 	}
 
@@ -58,11 +58,11 @@ public class CategoryAction extends BaseAction {
 		return list;
 	}
 
-	public Integer getParentId() {
+	public Long getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(Integer parentId) {
+	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}
 
