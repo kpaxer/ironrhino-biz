@@ -8,13 +8,13 @@
 		var name=$(this).text();
 		if(!confirm('change to '+name+'?'))
 		return;
-		var url='<@uri value="/customer/region/${Parameters.id}?regionId="/>'+id;
+		var url='<@url value="/customer/region/${Parameters.id}?regionId="/>'+id;
 		ajax({url:url,dataType:'json'});
 	}
 	Initialization.treeview= function(){
 		$("#treeview").treeview({
 			<#if async??&&async>
-			url: "<@uri value="/region/children"/>",
+			url: "<@url value="/region/children"/>",
 			click:_click,
 			</#if>
 			collapsed: true,
