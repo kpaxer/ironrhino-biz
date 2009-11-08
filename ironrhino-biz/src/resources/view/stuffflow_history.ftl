@@ -8,7 +8,7 @@
 <#assign config={"stuff":{},"quantity":{},"amount":{},"status":{"renderLink":true},"requestUser":{"renderLink":true},"requestDate":{},"auditUser":{"renderLink":true},"auditDate":{}}>
 <@richtable entityName="stuffflow" action="history" config=config readonly=true/>
 
-<form action="history" method="post" class="ajax view" replacement="richtable_main_content">
+<form action="<@url value="history"/>" method="post" class="ajax view" replacement="richtable_main_content">
 	<@s.select theme="simple" name="queryForm.status" list="@org.ironrhino.common.model.Status@values()" listKey="name" listValue="displayName" headerKey="" headerValue="${action.getText('all')}"/>
 	<@s.textfield theme="simple" name="queryForm.startDate" size="10" cssClass="date"/>---<@s.textfield theme="simple" name="queryForm.endDate" size="10" cssClass="date"/>
 	<@s.submit theme="simple" value="%{getText('search')}" />
