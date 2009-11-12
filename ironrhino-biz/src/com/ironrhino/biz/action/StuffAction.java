@@ -8,9 +8,9 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.ironrhino.common.model.ResultPage;
-import org.ironrhino.core.struts.BaseAction;
+import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.service.BaseManager;
+import org.ironrhino.core.struts.BaseAction;
 
 import com.ironrhino.biz.model.Spec;
 import com.ironrhino.biz.model.Stuff;

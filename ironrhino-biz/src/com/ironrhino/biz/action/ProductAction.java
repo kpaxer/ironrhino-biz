@@ -5,10 +5,10 @@ import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.ironrhino.common.model.ResultPage;
 import org.ironrhino.core.metadata.Authorize;
-import org.ironrhino.core.struts.BaseAction;
+import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.service.BaseManager;
+import org.ironrhino.core.struts.BaseAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.Constants;

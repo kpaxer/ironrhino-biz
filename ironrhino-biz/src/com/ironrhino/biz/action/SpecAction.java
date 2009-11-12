@@ -6,10 +6,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
-import org.ironrhino.common.model.ResultPage;
 import org.ironrhino.core.metadata.Authorize;
-import org.ironrhino.core.struts.BaseAction;
+import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.service.BaseManager;
+import org.ironrhino.core.struts.BaseAction;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Spec;
