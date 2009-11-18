@@ -35,7 +35,7 @@ public class SpecAction extends BaseAction {
 		this.spec = spec;
 	}
 
-	public ResultPage<Spec> getResultPage() {
+	public ResultPage<Spec> findByResultPage() {
 		return resultPage;
 	}
 
@@ -53,7 +53,7 @@ public class SpecAction extends BaseAction {
 		if (resultPage == null)
 			resultPage = new ResultPage<Spec>();
 		resultPage.setDetachedCriteria(dc);
-		resultPage = baseManager.getResultPage(resultPage);
+		resultPage = baseManager.findByResultPage(resultPage);
 		return LIST;
 	}
 
@@ -75,7 +75,7 @@ public class SpecAction extends BaseAction {
 		if (id != null) {
 			DetachedCriteria dc = baseManager.detachedCriteria();
 			dc.add(Restrictions.in("id", id));
-			List<Spec> list = baseManager.getListByCriteria(dc);
+			List<Spec> list = baseManager.findListByCriteria(dc);
 			if (list.size() > 0) {
 				for (Spec spec : list) 
 					// TODO check if can delete

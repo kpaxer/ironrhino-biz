@@ -37,7 +37,7 @@ public class ProductAction extends BaseAction {
 	@Autowired
 	private transient ProductManager productManager;
 
-	public ResultPage<Product> getResultPage() {
+	public ResultPage<Product> findByResultPage() {
 		return resultPage;
 	}
 
@@ -90,13 +90,13 @@ public class ProductAction extends BaseAction {
 			resultPage = new ResultPage<Product>();
 		resultPage.setDetachedCriteria(dc);
 		resultPage.addOrder(Order.asc("name"));
-		resultPage = productManager.getResultPage(resultPage);
+		resultPage = productManager.findByResultPage(resultPage);
 		return LIST;
 	}
 
 	public String input() {
 		baseManager.setEntityClass(Spec.class);
-		specList = baseManager.getAll();
+		specList = baseManager.findAll();
 		product = productManager.get(getUid());
 		if (product == null)
 			product = new Product();
@@ -119,7 +119,7 @@ public class ProductAction extends BaseAction {
 			baseManager.setEntityClass(Spec.class);
 			if ((spec = (Spec) baseManager.get(specId)) != null)
 				product.setSpec(spec);
-			if (productManager.getByNaturalId("name", product.getName(),
+			if (productManager.findByNaturalId("name", product.getName(),
 					"spec", product.getSpec()) != null) {
 				addActionError(getText("validation.already.exists"));
 				return INPUT;
@@ -146,7 +146,7 @@ public class ProductAction extends BaseAction {
 		if (id != null) {
 			DetachedCriteria dc = productManager.detachedCriteria();
 			dc.add(Restrictions.in("id", id));
-			List<Product> list = productManager.getListByCriteria(dc);
+			List<Product> list = productManager.findListByCriteria(dc);
 			if (list.size() > 0) {
 				for (Product product : list)
 					productManager.delete(product);

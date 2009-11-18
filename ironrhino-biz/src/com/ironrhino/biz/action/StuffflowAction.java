@@ -72,7 +72,7 @@ public class StuffflowAction extends BaseAction {
 		this.stuffflow = stuffflow;
 	}
 
-	public ResultPage<Stuffflow> getResultPage() {
+	public ResultPage<Stuffflow> findByResultPage() {
 		return resultPage;
 	}
 
@@ -94,13 +94,13 @@ public class StuffflowAction extends BaseAction {
 			resultPage = new ResultPage<Stuffflow>();
 		resultPage.setDetachedCriteria(dc);
 		resultPage.addOrder(Order.desc("requestDate"));
-		resultPage = baseManager.getResultPage(resultPage);
+		resultPage = baseManager.findByResultPage(resultPage);
 		return LIST;
 	}
 
 	public String inputIn() {
 		baseManager.setEntityClass(Stuff.class);
-		stuffList = baseManager.getAll();
+		stuffList = baseManager.findAll();
 		return "in";
 	}
 
@@ -126,7 +126,7 @@ public class StuffflowAction extends BaseAction {
 
 	public String inputOut() {
 		baseManager.setEntityClass(Stuff.class);
-		stuffList = baseManager.getAll();
+		stuffList = baseManager.findAll();
 		return "out";
 	}
 
@@ -195,7 +195,7 @@ public class StuffflowAction extends BaseAction {
 			resultPage = new ResultPage<Stuffflow>();
 		resultPage.setDetachedCriteria(dc);
 		resultPage.addOrder(Order.desc("requestDate"));
-		resultPage = baseManager.getResultPage(resultPage);
+		resultPage = baseManager.findByResultPage(resultPage);
 		return "history";
 	}
 

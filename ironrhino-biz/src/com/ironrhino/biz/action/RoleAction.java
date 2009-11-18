@@ -42,7 +42,7 @@ public class RoleAction extends BaseAction {
 		this.role = role;
 	}
 
-	public ResultPage<Role> getResultPage() {
+	public ResultPage<Role> findByResultPage() {
 		return resultPage;
 	}
 
@@ -66,7 +66,7 @@ public class RoleAction extends BaseAction {
 			resultPage = new ResultPage<Role>();
 		resultPage.setDetachedCriteria(dc);
 		resultPage.addOrder(Order.asc("name"));
-		resultPage = baseManager.getResultPage(resultPage);
+		resultPage = baseManager.findByResultPage(resultPage);
 		return LIST;
 	}
 
@@ -82,7 +82,7 @@ public class RoleAction extends BaseAction {
 		if (role.isNew()) {
 			role.setName(role.getName().toUpperCase());
 			if (role.getName().startsWith("ROLE_BUILTIN_")
-					|| baseManager.getByNaturalId("name", role.getName()) != null) {
+					|| baseManager.findByNaturalId("name", role.getName()) != null) {
 				addFieldError("role.name", getText("validation.already.exists"));
 				return INPUT;
 			}
@@ -90,7 +90,7 @@ public class RoleAction extends BaseAction {
 			Role temp = role;
 			role = baseManager.get(temp.getId());
 			if (!temp.getName().equals(role.getName())
-					&& baseManager.getByNaturalId("name", temp.getName()) != null) {
+					&& baseManager.findByNaturalId("name", temp.getName()) != null) {
 				addFieldError("role.name", getText("validation.already.exists"));
 				return INPUT;
 			}
@@ -106,7 +106,7 @@ public class RoleAction extends BaseAction {
 		if (id != null) {
 			DetachedCriteria dc = baseManager.detachedCriteria();
 			dc.add(Restrictions.in("id", id));
-			List<Role> list = baseManager.getListByCriteria(dc);
+			List<Role> list = baseManager.findListByCriteria(dc);
 			if (list.size() > 0) {
 				for (Role role : list)
 					baseManager.delete(role);

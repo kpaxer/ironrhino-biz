@@ -33,7 +33,7 @@ public class CustomerAction extends BaseAction {
 	@Autowired
 	private transient CustomerManager customerManager;
 
-	public ResultPage<Customer> getResultPage() {
+	public ResultPage<Customer> findByResultPage() {
 		return resultPage;
 	}
 
@@ -74,7 +74,7 @@ public class CustomerAction extends BaseAction {
 			resultPage = new ResultPage<Customer>();
 		resultPage.setDetachedCriteria(dc);
 		resultPage.addOrder(Order.asc("code"));
-		resultPage = customerManager.getResultPage(resultPage);
+		resultPage = customerManager.findByResultPage(resultPage);
 		return LIST;
 	}
 
@@ -89,7 +89,7 @@ public class CustomerAction extends BaseAction {
 		if (customer == null)
 			return INPUT;
 		if (customer.isNew()) {
-			if (customerManager.getByNaturalId("code", customer.getCode()) != null) {
+			if (customerManager.findByNaturalId("code", customer.getCode()) != null) {
 				addFieldError("customer.code",
 						getText("validation.already.exists"));
 				return INPUT;
@@ -118,7 +118,7 @@ public class CustomerAction extends BaseAction {
 		if (id != null) {
 			DetachedCriteria dc = customerManager.detachedCriteria();
 			dc.add(Restrictions.in("id", id));
-			List<Customer> list = customerManager.getListByCriteria(dc);
+			List<Customer> list = customerManager.findListByCriteria(dc);
 			if (list.size() > 0) {
 				for (Customer customer : list)
 					customerManager.delete(customer);

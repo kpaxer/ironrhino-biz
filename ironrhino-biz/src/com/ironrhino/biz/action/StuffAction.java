@@ -72,7 +72,7 @@ public class StuffAction extends BaseAction {
 		this.stuff = stuff;
 	}
 
-	public ResultPage<Stuff> getResultPage() {
+	public ResultPage<Stuff> findByResultPage() {
 		return resultPage;
 	}
 
@@ -93,15 +93,15 @@ public class StuffAction extends BaseAction {
 			resultPage = new ResultPage<Stuff>();
 		resultPage.setDetachedCriteria(dc);
 		resultPage.addOrder(Order.asc("name"));
-		resultPage = baseManager.getResultPage(resultPage);
+		resultPage = baseManager.findByResultPage(resultPage);
 		return LIST;
 	}
 
 	public String input() {
 		baseManager.setEntityClass(Vendor.class);
-		vendorList = baseManager.getAll();
+		vendorList = baseManager.findAll();
 		baseManager.setEntityClass(Spec.class);
-		specList = baseManager.getAll();
+		specList = baseManager.findAll();
 		baseManager.setEntityClass(Stuff.class);
 		stuff = (Stuff) baseManager.get(getUid());
 		if (stuff != null) {
@@ -127,7 +127,7 @@ public class StuffAction extends BaseAction {
 			if ((spec = (Spec) baseManager.get(specId)) != null)
 				stuff.setSpec(spec);
 			baseManager.setEntityClass(Stuff.class);
-			if (baseManager.getByNaturalId("name", stuff.getName(), "spec",
+			if (baseManager.findByNaturalId("name", stuff.getName(), "spec",
 					stuff.getSpec()) != null) {
 				addActionError(getText("validation.already.exists"));
 				return input();
@@ -156,7 +156,7 @@ public class StuffAction extends BaseAction {
 			baseManager.setEntityClass(Stuff.class);
 			DetachedCriteria dc = baseManager.detachedCriteria();
 			dc.add(Restrictions.in("id", id));
-			List<Stuff> list = baseManager.getListByCriteria(dc);
+			List<Stuff> list = baseManager.findListByCriteria(dc);
 			if (list.size() > 0) {
 				for (Stuff stuff : list)
 					baseManager.delete(stuff);

@@ -45,7 +45,7 @@ public class UserManagerImpl extends BaseManagerImpl<User> implements
 	}
 
 	public User getUserByUsername(String username) {
-		return getByNaturalId(true, "username", username);
+		return findByNaturalId(true, "username", username);
 	}
 
 	private void populateAuthorities(User user) {
