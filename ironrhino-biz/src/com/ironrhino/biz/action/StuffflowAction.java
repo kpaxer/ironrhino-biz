@@ -86,6 +86,7 @@ public class StuffflowAction extends BaseAction {
 	}
 
 	// @Authorize(ifAnyGranted = Constants.ROLE_CEO)
+	@Override
 	public String execute() {
 		baseManager.setEntityClass(Stuffflow.class);
 		DetachedCriteria dc = baseManager.detachedCriteria();

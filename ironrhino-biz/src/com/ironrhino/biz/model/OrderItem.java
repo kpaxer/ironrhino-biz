@@ -54,11 +54,13 @@ public class OrderItem implements Serializable {
 		return price.multiply(new BigDecimal(quantity));
 	}
 
+	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(this.quantity).append(this.name)
 				.toHashCode();
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof OrderItem))
 			return false;

@@ -24,17 +24,20 @@ public class Category extends BaseTreeableEntity<Category> {
 		this.name = name;
 	}
 
+	@Override
 	@NaturalId
 	public String getName() {
 		return this.name;
 	}
 
+	@Override
 	@NotInCopy
 	// @NotInJson
 	public Collection<Category> getChildren() {
 		return children;
 	}
 
+	@Override
 	public String toString() {
 		return this.name;
 	}

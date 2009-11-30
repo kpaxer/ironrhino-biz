@@ -2,6 +2,8 @@ package com.ironrhino.biz.action;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
@@ -11,7 +13,6 @@ import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Role;
@@ -43,7 +44,7 @@ public class UserAction extends BaseAction {
 
 	private transient BaseManager<Role> baseManager;
 
-	@Autowired
+	@Inject
 	private transient UserManager userManager;
 
 	public String[] getRoleId() {
@@ -99,6 +100,7 @@ public class UserAction extends BaseAction {
 		this.baseManager.setEntityClass(Role.class);
 	}
 
+	@Override
 	public String execute() {
 		DetachedCriteria dc = userManager.detachedCriteria();
 		if (resultPage == null)
@@ -109,6 +111,7 @@ public class UserAction extends BaseAction {
 		return LIST;
 	}
 
+	@Override
 	public String input() {
 		user = userManager.get(getUid());
 		if (user == null)
@@ -138,6 +141,7 @@ public class UserAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	@Override
 	public String save() {
 		if (user != null && user.getId() != null) {
 			user = userManager.get(user.getId());
@@ -152,6 +156,7 @@ public class UserAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	@Override
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {

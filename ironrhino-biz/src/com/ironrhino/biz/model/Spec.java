@@ -1,10 +1,10 @@
 package com.ironrhino.biz.model;
 
 import org.apache.commons.lang.StringUtils;
-import org.ironrhino.core.util.NumberUtils;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
+import org.ironrhino.core.util.NumberUtils;
 
 @AutoConfig
 public class Spec extends BaseEntity {
@@ -116,6 +116,7 @@ public class Spec extends BaseEntity {
 		return sb.toString();
 	}
 
+	@Override
 	public String toString() {
 		return getName();
 	}

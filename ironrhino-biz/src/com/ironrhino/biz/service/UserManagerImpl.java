@@ -6,6 +6,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
@@ -17,17 +20,18 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Role;
 import com.ironrhino.biz.model.User;
 
-@Component("userManager")
+@Singleton
+@Named("userManager")
 public class UserManagerImpl extends BaseManagerImpl<User> implements
 		UserManager {
 
+	@Override
 	@Transactional
 	@FlushCache(key = "user_${args[0].username}")
 	public void save(User user) {

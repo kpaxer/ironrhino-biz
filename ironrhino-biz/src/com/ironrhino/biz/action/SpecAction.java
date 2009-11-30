@@ -48,6 +48,7 @@ public class SpecAction extends BaseAction {
 		this.baseManager.setEntityClass(Spec.class);
 	}
 
+	@Override
 	public String execute() {
 		DetachedCriteria dc = baseManager.detachedCriteria();
 		if (resultPage == null)
@@ -57,6 +58,7 @@ public class SpecAction extends BaseAction {
 		return LIST;
 	}
 
+	@Override
 	public String input() {
 		spec = baseManager.get(getUid());
 		if (spec == null)
@@ -64,12 +66,14 @@ public class SpecAction extends BaseAction {
 		return INPUT;
 	}
 
+	@Override
 	public String save() {
 		baseManager.save(spec);
 		addActionMessage(getText("save.success"));
 		return SUCCESS;
 	}
 
+	@Override
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {

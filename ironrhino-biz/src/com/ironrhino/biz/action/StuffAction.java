@@ -86,6 +86,7 @@ public class StuffAction extends BaseAction {
 	}
 
 	// @Authorize(ifAnyGranted = Constants.ROLE_CEO)
+	@Override
 	public String execute() {
 		baseManager.setEntityClass(Stuff.class);
 		DetachedCriteria dc = baseManager.detachedCriteria();
@@ -97,6 +98,7 @@ public class StuffAction extends BaseAction {
 		return LIST;
 	}
 
+	@Override
 	public String input() {
 		baseManager.setEntityClass(Vendor.class);
 		vendorList = baseManager.findAll();
@@ -115,6 +117,7 @@ public class StuffAction extends BaseAction {
 		return INPUT;
 	}
 
+	@Override
 	@InputConfig(methodName = "input")
 	@Validations(requiredFields = {
 			@RequiredFieldValidator(type = ValidatorType.FIELD, fieldName = "stuff.name", key = "stuff.name.required"),
@@ -150,6 +153,7 @@ public class StuffAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	@Override
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {

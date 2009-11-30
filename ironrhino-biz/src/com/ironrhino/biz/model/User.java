@@ -6,12 +6,12 @@ import java.util.Set;
 
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableProperty;
-import org.ironrhino.core.util.CodecUtils;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.RecordAware;
 import org.ironrhino.core.model.BaseEntity;
+import org.ironrhino.core.util.CodecUtils;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
 
@@ -167,6 +167,7 @@ public class User extends BaseEntity implements UserDetails {
 		return this.password.equals(CodecUtils.digest(legiblePassword));
 	}
 
+	@Override
 	public String toString() {
 		return this.name;
 	}

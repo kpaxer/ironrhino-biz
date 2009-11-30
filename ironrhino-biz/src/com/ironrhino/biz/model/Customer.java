@@ -130,6 +130,7 @@ public class Customer extends BaseEntity {
 		this.region = region;
 	}
 
+	@Override
 	public String toString() {
 		return this.code;
 	}

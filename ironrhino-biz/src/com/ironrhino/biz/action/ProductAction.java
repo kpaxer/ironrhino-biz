@@ -2,6 +2,8 @@ package com.ironrhino.biz.action;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -9,7 +11,6 @@ import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Category;
@@ -34,7 +35,7 @@ public class ProductAction extends BaseAction {
 
 	private transient BaseManager baseManager;
 
-	@Autowired
+	@Inject
 	private transient ProductManager productManager;
 
 	public ResultPage<Product> findByResultPage() {
@@ -78,6 +79,7 @@ public class ProductAction extends BaseAction {
 
 	}
 
+	@Override
 	public String execute() {
 		DetachedCriteria dc = productManager.detachedCriteria();
 		Category category = null;
@@ -94,6 +96,7 @@ public class ProductAction extends BaseAction {
 		return LIST;
 	}
 
+	@Override
 	public String input() {
 		baseManager.setEntityClass(Spec.class);
 		specList = baseManager.findAll();
@@ -111,6 +114,7 @@ public class ProductAction extends BaseAction {
 		return INPUT;
 	}
 
+	@Override
 	public String save() {
 		if (product == null)
 			return INPUT;
@@ -141,6 +145,7 @@ public class ProductAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	@Override
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {

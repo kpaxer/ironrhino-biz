@@ -98,6 +98,7 @@ public class Order extends BaseEntity {
 		return bd;
 	}
 
+	@Override
 	public String toString() {
 		return this.code;
 	}

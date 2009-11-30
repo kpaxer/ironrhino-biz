@@ -35,6 +35,7 @@ public class LoginAction extends BaseAction {
 		this.error = error;
 	}
 
+	@Override
 	@SkipValidation
 	public String execute() {
 		if (StringUtils.isNotBlank(error))

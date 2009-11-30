@@ -3,16 +3,17 @@ package com.ironrhino.biz.action;
 import java.util.Collection;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.ironrhino.core.util.HtmlUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
-import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.service.BaseManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.ironrhino.core.struts.BaseAction;
+import org.ironrhino.core.util.HtmlUtils;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Category;
@@ -29,7 +30,7 @@ public class CategoryAction extends BaseAction {
 
 	private Collection<Category> list;
 
-	@Autowired
+	@Inject
 	private transient CategoryTreeControl categoryTreeControl;
 
 	private transient BaseManager<Category> baseManager;
@@ -79,6 +80,7 @@ public class CategoryAction extends BaseAction {
 		this.baseManager.setEntityClass(Category.class);
 	}
 
+	@Override
 	public String execute() {
 		if (parentId != null && parentId > 0) {
 			category = baseManager.get(parentId);
@@ -94,6 +96,7 @@ public class CategoryAction extends BaseAction {
 		return LIST;
 	}
 
+	@Override
 	public String input() {
 		if (getUid() != null)
 			category = baseManager.get(new Integer(getUid()));
@@ -102,6 +105,7 @@ public class CategoryAction extends BaseAction {
 		return INPUT;
 	}
 
+	@Override
 	public String save() {
 		if (category.isNew()) {
 			if (baseManager.findByNaturalId("name", category.getName()) != null) {
@@ -144,6 +148,7 @@ public class CategoryAction extends BaseAction {
 		return "tree";
 	}
 
+	@Override
 	public String delete() {
 		String[] arr = getId();
 		Integer[] id = new Integer[arr.length];

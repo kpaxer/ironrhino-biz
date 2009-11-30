@@ -114,6 +114,7 @@ public class Vendor extends BaseEntity {
 		this.region = region;
 	}
 
+	@Override
 	public String toString() {
 		return this.name;
 	}

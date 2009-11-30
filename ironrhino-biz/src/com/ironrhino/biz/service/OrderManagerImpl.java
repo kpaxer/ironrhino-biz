@@ -2,26 +2,29 @@ package com.ironrhino.biz.service;
 
 import java.util.Date;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import org.ironrhino.core.service.BaseManagerImpl;
 import org.ironrhino.core.util.CodecUtils;
 import org.ironrhino.core.util.DateUtils;
 import org.ironrhino.core.util.NumberUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.model.Order;
 
-@Component("orderManager")
+@Singleton
+@Named("orderManager")
 public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		OrderManager {
 
-	@Autowired
-	@Qualifier("orderCodeSequence")
+	@Inject
+	@Named("orderCodeSequence")
 	private DataFieldMaxValueIncrementer orderCodeSequence;
 
+	@Override
 	@Transactional
 	public void save(Order order) {
 		if (order.isNew())

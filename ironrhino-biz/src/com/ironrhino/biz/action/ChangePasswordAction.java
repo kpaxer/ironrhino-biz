@@ -1,11 +1,12 @@
 package com.ironrhino.biz.action;
 
+import javax.inject.Inject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.ironrhino.core.util.AuthzUtils;
-import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.metadata.AutoConfig;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.ironrhino.core.struts.BaseAction;
+import org.ironrhino.core.util.AuthzUtils;
 
 import com.ironrhino.biz.model.User;
 import com.ironrhino.biz.service.UserManager;
@@ -28,7 +29,7 @@ public class ChangePasswordAction extends BaseAction {
 
 	private String confirmPassword;
 
-	@Autowired
+	@Inject
 	private transient UserManager userManager;
 
 	public String getConfirmPassword() {
@@ -55,6 +56,7 @@ public class ChangePasswordAction extends BaseAction {
 		this.password = password;
 	}
 
+	@Override
 	@InputConfig
 	@Validations(stringLengthFields = { @StringLengthFieldValidator(type = ValidatorType.FIELD, trim = true, minLength = "6", maxLength = "20", fieldName = "password", key = "validation.required") }, expressions = { @ExpressionValidator(expression = "password == confirmPassword", key = "confirmPassword.error") })
 	public String execute() {

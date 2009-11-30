@@ -83,6 +83,7 @@ public class Stuff extends BaseEntity {
 		return name + "(" + spec.getName() + ")";
 	}
 
+	@Override
 	public String toString() {
 		return getFullname();
 	}

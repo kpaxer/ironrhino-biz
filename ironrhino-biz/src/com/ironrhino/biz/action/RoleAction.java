@@ -55,6 +55,7 @@ public class RoleAction extends BaseAction {
 		this.baseManager.setEntityClass(Role.class);
 	}
 
+	@Override
 	public String execute() {
 		DetachedCriteria dc = baseManager.detachedCriteria();
 		if (role != null) {
@@ -70,6 +71,7 @@ public class RoleAction extends BaseAction {
 		return LIST;
 	}
 
+	@Override
 	public String input() {
 		role = baseManager.get(getUid());
 		if (role == null)
@@ -77,6 +79,7 @@ public class RoleAction extends BaseAction {
 		return INPUT;
 	}
 
+	@Override
 	@Validations(requiredStrings = { @RequiredStringValidator(type = ValidatorType.FIELD, fieldName = "role.name", trim = true, key = "validation.required") })
 	public String save() {
 		if (role.isNew()) {
@@ -101,6 +104,7 @@ public class RoleAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	@Override
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {

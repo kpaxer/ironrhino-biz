@@ -1,10 +1,11 @@
 package com.ironrhino.biz.action;
 
-import org.ironrhino.core.util.AuthzUtils;
+import javax.inject.Inject;
+
 import org.ironrhino.core.metadata.AutoConfig;
-import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.service.BaseManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.ironrhino.core.struts.BaseAction;
+import org.ironrhino.core.util.AuthzUtils;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Category;
@@ -22,13 +23,14 @@ public class SetupAction extends BaseAction {
 
 	private transient BaseManager baseManager;
 
-	@Autowired
+	@Inject
 	private transient UserManager userManager;
 
 	public void setBaseManager(BaseManager baseManager) {
 		this.baseManager = baseManager;
 	}
 
+	@Override
 	public String execute() {
 		int cnt = userManager.countAll();
 		if (cnt == 0) {

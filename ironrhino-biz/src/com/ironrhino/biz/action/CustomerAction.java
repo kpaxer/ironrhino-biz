@@ -2,6 +2,8 @@ package com.ironrhino.biz.action;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -11,7 +13,6 @@ import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Customer;
@@ -30,7 +31,7 @@ public class CustomerAction extends BaseAction {
 
 	private transient BaseManager<Region> baseManager;
 
-	@Autowired
+	@Inject
 	private transient CustomerManager customerManager;
 
 	public ResultPage<Customer> findByResultPage() {
@@ -62,6 +63,7 @@ public class CustomerAction extends BaseAction {
 		baseManager.setEntityClass(Region.class);
 	}
 
+	@Override
 	public String execute() {
 		DetachedCriteria dc = customerManager.detachedCriteria();
 		Region region = null;
@@ -78,6 +80,7 @@ public class CustomerAction extends BaseAction {
 		return LIST;
 	}
 
+	@Override
 	public String input() {
 		customer = customerManager.get(getUid());
 		if (customer == null)
@@ -85,6 +88,7 @@ public class CustomerAction extends BaseAction {
 		return INPUT;
 	}
 
+	@Override
 	public String save() {
 		if (customer == null)
 			return INPUT;
@@ -108,11 +112,13 @@ public class CustomerAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	@Override
 	public String view() {
 		customer = customerManager.get(getUid());
 		return VIEW;
 	}
 
+	@Override
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {

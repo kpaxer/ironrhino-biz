@@ -78,6 +78,7 @@ public class Product extends BaseEntity {
 		return name + "(" + spec.getName() + ")";
 	}
 
+	@Override
 	public String toString() {
 		return getFullname();
 	}
