@@ -1,5 +1,6 @@
 package com.ironrhino.biz.model;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,8 +13,8 @@ import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.RecordAware;
 import org.ironrhino.core.model.BaseEntity;
 import org.ironrhino.core.util.CodecUtils;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @RecordAware
 @AutoConfig
@@ -44,7 +45,7 @@ public class User extends BaseEntity implements UserDetails {
 	@SearchableProperty
 	private String mobile;
 
-	private GrantedAuthority[] authorities;
+	private Collection<GrantedAuthority> authorities;
 
 	private boolean enabled;
 
@@ -115,10 +116,6 @@ public class User extends BaseEntity implements UserDetails {
 		this.roles = roles;
 	}
 
-	public void setAuthorities(GrantedAuthority[] authorities) {
-		this.authorities = authorities;
-	}
-
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
@@ -139,8 +136,12 @@ public class User extends BaseEntity implements UserDetails {
 		return password;
 	}
 
-	public GrantedAuthority[] getAuthorities() {
-		return this.authorities;
+	public Collection<GrantedAuthority> getAuthorities() {
+		return authorities;
+	}
+
+	public void setAuthorities(Collection<GrantedAuthority> authorities) {
+		this.authorities = authorities;
 	}
 
 	public boolean isAccountNonExpired() {

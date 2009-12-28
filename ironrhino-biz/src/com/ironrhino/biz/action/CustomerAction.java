@@ -34,7 +34,7 @@ public class CustomerAction extends BaseAction {
 	@Inject
 	private transient CustomerManager customerManager;
 
-	public ResultPage<Customer> findByResultPage() {
+	public ResultPage<Customer> getResultPage() {
 		return resultPage;
 	}
 

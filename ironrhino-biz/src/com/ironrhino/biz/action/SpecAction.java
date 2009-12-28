@@ -35,7 +35,7 @@ public class SpecAction extends BaseAction {
 		this.spec = spec;
 	}
 
-	public ResultPage<Spec> findByResultPage() {
+	public ResultPage<Spec> getResultPage() {
 		return resultPage;
 	}
 

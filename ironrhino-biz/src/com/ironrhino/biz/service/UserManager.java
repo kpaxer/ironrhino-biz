@@ -1,7 +1,7 @@
 package com.ironrhino.biz.service;
 
 import org.ironrhino.core.service.BaseManager;
-import org.springframework.security.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.ironrhino.biz.model.User;
 

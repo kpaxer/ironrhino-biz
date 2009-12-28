@@ -42,7 +42,7 @@ public class RoleAction extends BaseAction {
 		this.role = role;
 	}
 
-	public ResultPage<Role> findByResultPage() {
+	public ResultPage<Role> getResultPage() {
 		return resultPage;
 	}
 

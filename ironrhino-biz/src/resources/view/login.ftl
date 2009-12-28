@@ -22,28 +22,9 @@ form fieldset div.label {
 	width: 100px;
 }
 </style>
-<@authorize ifNotGranted="ROLE_BUILTIN_USER">
-	<script>
-	Initialization.initForm = function() {
-		$('#login_form')[0].onsuccess = redirect;
-		$('#targetUrl').val(self.location.href);
-	}
-
-	function redirect() {
-		<#if targetUrl??>
-			top.location.href = '<#if !targetUrl?string?contains('://')><@url value="/"/></#if>${targetUrl}';
-		<#else>
-			top.location.href = '<@url value="/"/>';
-		</#if>
-	}
-</script>
-</@authorize>
 </head>
 
 <body>
-<div style="margin-top: 50px;"><img
-	src="<@url value="/assets/images/login.jpg"/>"
-	style="display: block; margin-left: auto; margin-right: auto" />
 <h1 id="title"
 	style="width: 550px; margin-left: auto; margin-right: auto; text-align: center; color: #4A708B;">IronRhino</h1>
 </div>
@@ -54,7 +35,7 @@ form fieldset div.label {
 <@authorize ifNotGranted="ROLE_BUILTIN_USER">
 	<div
 		style="margin-left: auto; margin-right: auto; width: 550px; font-size: 140%;">
-	<@s.form id="login_form" action="check" method="post" cssClass="ajax">
+	<@s.form id="login" action="login" method="post" cssClass="ajax">
 		<@s.hidden id="targetUrl" name="targetUrl" />
 		<@s.textfield label="%{getText('username')}" name="username"
 			cssClass="required" labelposition="left" />

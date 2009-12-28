@@ -72,7 +72,7 @@ public class StuffflowAction extends BaseAction {
 		this.stuffflow = stuffflow;
 	}
 
-	public ResultPage<Stuffflow> findByResultPage() {
+	public ResultPage<Stuffflow> getResultPage() {
 		return resultPage;
 	}
 

@@ -17,9 +17,9 @@ import org.ironrhino.core.metadata.CheckCache;
 import org.ironrhino.core.metadata.FlushCache;
 import org.ironrhino.core.service.BaseManagerImpl;
 import org.springframework.orm.hibernate3.HibernateCallback;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.GrantedAuthorityImpl;
-import org.springframework.security.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.Constants;
@@ -75,7 +75,7 @@ public class UserManagerImpl extends BaseManagerImpl<User> implements
 		auths.add(new GrantedAuthorityImpl(Constants.ROLE_BUILTIN_USER));
 		for (Role role : roles)
 			auths.add(new GrantedAuthorityImpl(role.getName()));
-		user.setAuthorities(auths.toArray(new GrantedAuthority[auths.size()]));
+		user.setAuthorities(auths);
 	}
 
 }

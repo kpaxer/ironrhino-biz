@@ -38,7 +38,7 @@ public class ProductAction extends BaseAction {
 	@Inject
 	private transient ProductManager productManager;
 
-	public ResultPage<Product> findByResultPage() {
+	public ResultPage<Product> getResultPage() {
 		return resultPage;
 	}
 

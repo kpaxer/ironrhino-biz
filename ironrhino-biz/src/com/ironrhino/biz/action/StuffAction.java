@@ -72,7 +72,7 @@ public class StuffAction extends BaseAction {
 		this.stuff = stuff;
 	}
 
-	public ResultPage<Stuff> findByResultPage() {
+	public ResultPage<Stuff> getResultPage() {
 		return resultPage;
 	}
 

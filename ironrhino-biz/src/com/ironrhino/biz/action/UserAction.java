@@ -83,7 +83,7 @@ public class UserAction extends BaseAction {
 		this.user = user;
 	}
 
-	public ResultPage<User> findByResultPage() {
+	public ResultPage<User> getResultPage() {
 		return resultPage;
 	}
 
