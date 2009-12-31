@@ -4,7 +4,7 @@
 <title>List Customers</title>
 </head>
 <body>
-<#assign config={"code":{},"name":{"cellEdit":"input"},"address":{"cellEdit":"input"},"postCode":{"cellEdit":"input"},"phone":{"cellEdit":"input"},"mobile":{"cellEdit":"input"},"description":{"cellEdit":"input"}}>
+<#assign config={"code":{},"name":{"cellEdit":"click"},"address":{"cellEdit":"click"},"postCode":{"cellEdit":"click"},"phone":{"cellEdit":"click"},"mobile":{"cellEdit":"click"},"description":{"cellEdit":"click"}}>
 <#assign actionColumnButtons=btn(action.getText('save'),null,'save')+btn(action.getText('edit'),null,'input')+btn(action.getText('region'),r"Richtable.open(Richtable.getUrl('region','${rowid}'),true)")+btn(action.getText('delete'),null,'del')>
 <@richtable entityName="customer" config=config actionColumnWidth="180px" actionColumnButtons=actionColumnButtons/>
 </body>
