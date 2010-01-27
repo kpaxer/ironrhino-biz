@@ -2,10 +2,7 @@
 <web-app id="WebApp_ID" version="2.4"
 	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<context-param>
-		<param-name>app.name</param-name>
-		<param-value>ironrhino-biz</param-value>
-	</context-param>
+	<display-name>ironrhino-biz</display-name>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
@@ -13,19 +10,7 @@
 		</param-value>
 	</context-param>
 	<filter>
-		<filter-name>WebProxy</filter-name>
-		<filter-class>org.ironrhino.core.servlet.WebProxyFilter</filter-class>
-	</filter>
-	<filter>
-		<filter-name>captchaFilter</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter>
-		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-name>characterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
@@ -37,7 +22,23 @@
 		</init-param>
 	</filter>
 	<filter>
-		<filter-name>OpenSessionInViewFilter</filter-name>
+		<filter-name>webProxyFilter</filter-name>
+		<filter-class>org.ironrhino.core.servlet.WebProxyFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>captchaFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter>
+		<filter-name>accessLogFilter</filter-name>
+		<filter-class>org.ironrhino.core.servlet.AccessLogFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter>
+		<filter-name>openSessionInViewFilter</filter-name>
 		<filter-class>
 			org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
 		<init-param>
@@ -46,11 +47,11 @@
 		</init-param>
 	</filter>
 	<filter>
-		<filter-name>struts-prepare</filter-name>
+		<filter-name>strutsPrepareFilter</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareFilter</filter-class>
 	</filter>
 	<filter>
-		<filter-name>struts-execute</filter-name>
+		<filter-name>strutsExecuteFilter</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsExecuteFilter</filter-class>
 	</filter>
 	<filter>
@@ -62,29 +63,31 @@
 		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-name>characterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
-		<filter-name>WebProxy</filter-name>
+		<filter-name>webProxyFilter</filter-name>
 		<url-pattern>/webproxy/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>captchaFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>accessLogFilter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
-		<filter-name>OpenSessionInViewFilter</filter-name>
+		<filter-name>openSessionInViewFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
-		<filter-name>struts-prepare</filter-name>
+		<filter-name>strutsPrepareFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
@@ -95,7 +98,7 @@
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	<filter-mapping>
-		<filter-name>struts-execute</filter-name>
+		<filter-name>strutsExecuteFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
@@ -110,10 +113,6 @@
 		<listener-class>
 			org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
-	<mime-mapping>
-		<extension>ico</extension>
-		<mime-type>image/x-icon</mime-type>
-	</mime-mapping>
 	<welcome-file-list>
 		<welcome-file>index</welcome-file>
 		<welcome-file>index.html</welcome-file>
