@@ -1,15 +1,21 @@
 package com.ironrhino.biz.action;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.inject.Inject;
 
+import org.ironrhino.common.model.Region;
+import org.ironrhino.common.util.RegionParser;
 import org.ironrhino.core.metadata.AutoConfig;
+import org.ironrhino.core.model.SimpleElement;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.AuthzUtils;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Category;
-import com.ironrhino.biz.model.Role;
 import com.ironrhino.biz.model.Spec;
 import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.User;
@@ -37,7 +43,7 @@ public class SetupAction extends BaseAction {
 			initUser();
 			initStuff();
 			initProduct();
-
+			initRegion();
 		} else {
 			if (!AuthzUtils.getRoleNames().contains(Constants.ROLE_SUPERVISOR))
 				return ACCESSDENIED;
@@ -47,27 +53,13 @@ public class SetupAction extends BaseAction {
 	}
 
 	private void initUser() {
-		// init role
-		Role supervisor = new Role(Constants.ROLE_SUPERVISOR);
-		baseManager.save(supervisor);
-		Role ceo = new Role(Constants.ROLE_CEO);
-		baseManager.save(ceo);
-		Role cfo = new Role(Constants.ROLE_CFO);
-		baseManager.save(cfo);
-		Role warehouseman = new Role(Constants.ROLE_WAREHOUSEMAN);
-		baseManager.save(warehouseman);
-		Role packer = new Role(Constants.ROLE_PACKER);
-		baseManager.save(packer);
-		Role deliveryman = new Role(Constants.ROLE_DELIVERYMAN);
-		baseManager.save(deliveryman);
-		Role salesman = new Role(Constants.ROLE_SALESMAN);
-		baseManager.save(salesman);
+
 		// init user
 		User admin = new User();
 		admin.setUsername("admin");
 		admin.setLegiblePassword("password");
 		admin.setName(Constants.ROLE_SUPERVISOR);
-		admin.getRoles().add(supervisor);
+		admin.getRoles().add(new SimpleElement(Constants.ROLE_SUPERVISOR));
 		userManager.save(admin);
 	}
 
@@ -77,6 +69,8 @@ public class SetupAction extends BaseAction {
 		baseManager.save(yx);
 		Vendor yp = new Vendor("伊品");
 		baseManager.save(yp);
+		Vendor xl = new Vendor("湘陵");
+		baseManager.save(xl);
 
 		// init spec
 		Spec s25 = new Spec();
@@ -116,4 +110,26 @@ public class SetupAction extends BaseAction {
 
 	}
 
+	private void initRegion() {
+		List<Region> regions = null;
+		try {
+			regions = RegionParser.parse();
+		} catch (Exception e) {
+
+		}
+		if (regions != null)
+			for (Region region : regions) {
+				save(region);
+			}
+	}
+
+	private void save(Region region) {
+		baseManager.save(region);
+		List<Region> list = new ArrayList<Region>();
+		for (Region child : region.getChildren())
+			list.add(child);
+		Collections.sort(list);
+		for (Region child : list)
+			save(child);
+	}
 }

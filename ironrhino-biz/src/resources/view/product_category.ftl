@@ -9,7 +9,7 @@
 		if(!confirm('change to '+name+'?'))
 		return;
 		var url='<@url value="/product/category/${Parameters.id}?categoryId="/>'+id;
-		ajax({url:url,dataType:'json'});
+		ajax({url:url,dataType:'json',success:function(){$('#treeview li').removeClass('highlight');$('#'+id).addClass('highlight')}});
 	}
 	Initialization.treeview= function(){
 		$("#treeview").treeview({
@@ -24,7 +24,7 @@
 		<#if !(async??&&async)>
 			$("#treeview span").click(_click);
 			<#if product.category??>
-			$("#${product.category.id}").parents("li.expandable").find(">div.hitarea").click();
+			$("#${product.category.id}").addClass('highlight').parents("li.expandable").find(">div.hitarea").click();
 			</#if>
 		</#if>
 	};

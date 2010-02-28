@@ -5,13 +5,16 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
+import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.metadata.RecordAware;
 import org.ironrhino.core.model.BaseEntity;
+import org.ironrhino.core.model.SimpleElement;
 import org.ironrhino.core.util.CodecUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,13 +40,7 @@ public class User extends BaseEntity implements UserDetails {
 	private String address;
 
 	@SearchableProperty
-	private String postCode;
-
-	@SearchableProperty
 	private String phone;
-
-	@SearchableProperty
-	private String mobile;
 
 	private Collection<GrantedAuthority> authorities;
 
@@ -53,7 +50,8 @@ public class User extends BaseEntity implements UserDetails {
 	private Date createDate;
 
 	@NotInCopy
-	private Set<Role> roles = new HashSet<Role>(0);
+	@NotInJson
+	private Set<SimpleElement> roles = new HashSet<SimpleElement>(0);
 
 	public User() {
 		createDate = new Date();
@@ -80,14 +78,6 @@ public class User extends BaseEntity implements UserDetails {
 		this.address = address;
 	}
 
-	public String getPostCode() {
-		return postCode;
-	}
-
-	public void setPostCode(String postCode) {
-		this.postCode = postCode;
-	}
-
 	public String getPhone() {
 		return phone;
 	}
@@ -96,24 +86,25 @@ public class User extends BaseEntity implements UserDetails {
 		this.phone = phone;
 	}
 
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public Set<Role> getRoles() {
+	public Set<SimpleElement> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Set<SimpleElement> roles) {
 		this.roles = roles;
+	}
+
+	@NotInCopy
+	public String getRolesAsString() {
+		return StringUtils.join(roles.iterator(), ',');
+	}
+
+	public void setRolesAsString(String rolesAsString) {
+		SimpleElement.fillCollectionWithString(roles, rolesAsString);
 	}
 
 	public void setEnabled(boolean enabled) {

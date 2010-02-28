@@ -6,20 +6,17 @@
 	default-lazy="true">
 	<class name="Customer" table="customer" dynamic-insert="true"
 		dynamic-update="true">
-		<id name="id" type="java.lang.String"  length="32" unsaved-value="null">
-			<generator class="org.ironrhino.core.hibernate.StringIdGenerator" />
+		<id name="id" type="java.lang.Long" length="32" unsaved-value="null">
+			<generator class="identity" />
 		</id>
-		<natural-id>
-			<property name="code" not-null="true" />
-		</natural-id>
 		<property name="name" not-null="true" />
 		<property name="address" />
-		<property name="postCode" />
 		<property name="linkman" />
 		<property name="phone" />
 		<property name="fax" />
-		<property name="mobile" />
+		<property name="memo" />
 		<property name="createDate" />
-		<many-to-one name="region" column="regionId" />
+		<many-to-one name="region" column="regionId" lazy="false"
+			fetch="join" />
 	</class>
 </hibernate-mapping>

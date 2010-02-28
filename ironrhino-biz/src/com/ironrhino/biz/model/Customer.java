@@ -3,31 +3,28 @@ package com.ironrhino.biz.model;
 import java.util.Date;
 
 import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableId;
 import org.compass.annotations.SearchableProperty;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.core.metadata.AutoConfig;
-import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
-import org.ironrhino.core.model.BaseEntity;
+import org.ironrhino.core.metadata.NotInJson;
+import org.ironrhino.core.model.Entity;
 
 @Searchable(alias = "customer")
 @AutoConfig
-public class Customer extends BaseEntity {
+public class Customer extends Entity<Long> {
 
 	private static final long serialVersionUID = 4207375657699283494L;
 
-	@NaturalId
-	@SearchableProperty(boost = 3)
-	private String code;
+	@SearchableId(converter = "long")
+	private Long id;
 
 	@SearchableProperty(boost = 3)
 	private String name;
 
-	@SearchableProperty
+	@SearchableProperty(boost = 3)
 	private String address;
-
-	@SearchableProperty
-	private String postCode;
 
 	@SearchableProperty
 	private String phone;
@@ -35,15 +32,16 @@ public class Customer extends BaseEntity {
 	@SearchableProperty
 	private String fax;
 
-	@SearchableProperty
-	private String mobile;
+	@SearchableProperty(boost = 3)
+	private String linkman;
 
 	@SearchableProperty
-	private String linkman;
+	private String memo;
 
 	@NotInCopy
 	private Date createDate;
 
+	@NotInCopy
 	private Region region;
 
 	public Customer() {
@@ -66,12 +64,12 @@ public class Customer extends BaseEntity {
 		this.fax = fax;
 	}
 
-	public String getCode() {
-		return code;
+	public String getMemo() {
+		return memo;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
 
 	public String getLinkman() {
@@ -98,28 +96,12 @@ public class Customer extends BaseEntity {
 		this.address = address;
 	}
 
-	public String getPostCode() {
-		return postCode;
-	}
-
-	public void setPostCode(String postCode) {
-		this.postCode = postCode;
-	}
-
 	public String getPhone() {
 		return phone;
 	}
 
 	public void setPhone(String phone) {
 		this.phone = phone;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
 	}
 
 	public Region getRegion() {
@@ -131,8 +113,22 @@ public class Customer extends BaseEntity {
 	}
 
 	@Override
+	@NotInJson
+	public boolean isNew() {
+		return id == null || id == 0;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@Override
 	public String toString() {
-		return this.code;
+		return String.valueOf(this.id);
 	}
 
 }

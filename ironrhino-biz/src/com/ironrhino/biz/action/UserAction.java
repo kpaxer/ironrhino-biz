@@ -10,15 +10,12 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
-import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 
 import com.ironrhino.biz.Constants;
-import com.ironrhino.biz.model.Role;
 import com.ironrhino.biz.model.User;
 import com.ironrhino.biz.service.UserManager;
-import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.FieldExpressionValidator;
 import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
@@ -34,15 +31,13 @@ public class UserAction extends BaseAction {
 
 	private String[] roleId;
 
-	private List<Role> roleList;
+	private String rolesAsString;
 
 	private ResultPage<User> resultPage;
 
 	private String password;
 
 	private String confirmPassword;
-
-	private transient BaseManager<Role> baseManager;
 
 	@Inject
 	private transient UserManager userManager;
@@ -55,8 +50,12 @@ public class UserAction extends BaseAction {
 		this.roleId = roleId;
 	}
 
-	public List<Role> getRoleList() {
-		return roleList;
+	public String getRolesAsString() {
+		return rolesAsString;
+	}
+
+	public void setRolesAsString(String rolesAsString) {
+		this.rolesAsString = rolesAsString;
 	}
 
 	public String getConfirmPassword() {
@@ -93,11 +92,6 @@ public class UserAction extends BaseAction {
 
 	public void setUserManager(UserManager userManager) {
 		this.userManager = userManager;
-	}
-
-	public void setBaseManager(BaseManager<Role> baseManager) {
-		this.baseManager = baseManager;
-		this.baseManager.setEntityClass(Role.class);
 	}
 
 	@Override
@@ -149,6 +143,8 @@ public class UserAction extends BaseAction {
 				if (StringUtils.isNotBlank(password)
 						&& !password.equals("********"))
 					user.setLegiblePassword(password);
+				if (rolesAsString != null)
+					user.setRolesAsString(rolesAsString);
 				userManager.save(user);
 				addActionMessage(getText("save.success"));
 			}
@@ -172,34 +168,4 @@ public class UserAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	public String inputRole() {
-		user = userManager.get(getUid());
-		if (user == null)
-			return ERROR;
-		roleId = new String[user.getRoles().size()];
-		int i = -1;
-		for (Role r : user.getRoles()) {
-			i++;
-			roleId[i] = r.getId();
-		}
-		roleList = baseManager.findAll();
-		return "role";
-	}
-
-	@InputConfig(methodName = "inputRole")
-	public String role() {
-		user = userManager.get(getUid());
-		if (user == null)
-			return ERROR;
-		user.getRoles().clear();
-		userManager.save(user);
-		for (String id : roleId) {
-			Role r = baseManager.get(id);
-			if (r != null)
-				user.getRoles().add(r);
-		}
-		userManager.save(user);
-		addActionMessage(getText("save.success"));
-		return SUCCESS;
-	}
 }

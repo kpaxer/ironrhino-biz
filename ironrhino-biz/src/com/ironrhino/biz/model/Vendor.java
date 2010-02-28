@@ -24,9 +24,6 @@ public class Vendor extends BaseEntity {
 	private String address;
 
 	@SearchableProperty
-	private String postCode;
-
-	@SearchableProperty
 	private String phone;
 
 	@SearchableProperty
@@ -56,14 +53,6 @@ public class Vendor extends BaseEntity {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public String getPostCode() {
-		return postCode;
-	}
-
-	public void setPostCode(String postCode) {
-		this.postCode = postCode;
 	}
 
 	public String getPhone() {

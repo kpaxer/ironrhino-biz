@@ -4,8 +4,7 @@
 <title>List Customers</title>
 </head>
 <body>
-<#assign config={"code":{},"name":{"cellEdit":"click"},"address":{"cellEdit":"click"},"postCode":{"cellEdit":"click"},"phone":{"cellEdit":"click"},"mobile":{"cellEdit":"click"},"description":{"cellEdit":"click"}}>
-<#assign actionColumnButtons=btn(action.getText('save'),null,'save')+btn(action.getText('edit'),null,'input')+btn(action.getText('region'),r"Richtable.open(Richtable.getUrl('region','${rowid}'),true)")+btn(action.getText('delete'),null,'del')>
-<@richtable entityName="customer" config=config actionColumnWidth="180px" actionColumnButtons=actionColumnButtons/>
+<#assign config={"id":{"width":"80px"},"name":{"width":"300px","cellEdit":"click"},"address":{"width":"300px","class":"include_if_edited","template":r"<#if entity.region??>${entity.region.fullname!}</#if>${entity.address!}"},"linkman":{"cellEdit":"click"},"phone":{"cellEdit":"click"}}>
+<@richtable entityName="customer" config=config/>
 </body>
 </html></#escape>

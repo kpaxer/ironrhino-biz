@@ -22,9 +22,7 @@
 		required="true" cssClass="required"/>
 	<@s.hidden id="regionId" name="regionId"/>
 	<@s.textfield id="address" label="%{getText('address')}" name="user.address"/>
-	<@s.textfield label="%{getText('postCode')}" name="user.postCode"/>
 	<@s.textfield label="%{getText('phone')}" name="user.phone"/>
-	<@s.textfield label="%{getText('mobile')}" name="user.mobile"/>
 	<@s.checkbox label="%{getText('enabled')}" name="user.enabled" />
 	<@s.submit value="%{getText('save')}" />
 </@s.form>

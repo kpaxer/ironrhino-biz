@@ -14,7 +14,6 @@
 		</natural-id>
 		<property name="description" />
 		<property name="address" />
-		<property name="postCode" />
 		<property name="phone" />
 		<property name="fax" />
 		<property name="createDate" />
