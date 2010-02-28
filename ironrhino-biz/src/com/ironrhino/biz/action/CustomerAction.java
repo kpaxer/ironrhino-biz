@@ -102,6 +102,10 @@ public class CustomerAction extends BaseAction {
 		this.ps = ps;
 	}
 
+	public Region getRegionTree() {
+		return regionTreeControl.getRegionTree();
+	}
+
 	@Override
 	public String execute() {
 		DetachedCriteria dc = customerManager.detachedCriteria();
@@ -109,8 +113,14 @@ public class CustomerAction extends BaseAction {
 		if (regionId != null) {
 			region = regionTreeControl.getRegionTree().getDescendantOrSelfById(
 					regionId);
-			if (region != null)
-				dc.add(Restrictions.eq("region", region));
+			if (region != null && !region.isRoot()) {
+				if (region.isLeaf()) {
+					dc.add(Restrictions.eq("region", region));
+				} else {
+					dc.add(Restrictions.in("region", region
+							.getDescendantsAndSelf()));
+				}
+			}
 		}
 		if (resultPage == null)
 			resultPage = new ResultPage<Customer>();
@@ -218,6 +228,10 @@ public class CustomerAction extends BaseAction {
 			}
 		}
 		return "search";
+	}
+
+	public String region() {
+		return "region";
 	}
 
 }
