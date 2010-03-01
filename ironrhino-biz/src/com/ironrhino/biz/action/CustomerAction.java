@@ -112,9 +112,10 @@ public class CustomerAction extends BaseAction {
 			resultPage.setDetachedCriteria(dc);
 			resultPage.addOrder(Order.asc("id"));
 			resultPage = customerManager.findByResultPage(resultPage);
-			for(Customer c : resultPage.getResult())
-				if(c.getRegion()!=null)
-					c.setRegion(regionTreeControl.getRegionTree().getDescendantOrSelfById(c.getRegion().getId()));
+			for (Customer c : resultPage.getResult())
+				if (c.getRegion() != null)
+					c.setRegion(regionTreeControl.getRegionTree()
+							.getDescendantOrSelfById(c.getRegion().getId()));
 		} else {
 			String query = q.trim();
 			CompassCriteria cc = new CompassCriteria();
@@ -129,11 +130,14 @@ public class CustomerAction extends BaseAction {
 			CompassHit[] hits = searchResults.getHits();
 			if (hits != null) {
 				List<Customer> list = new ArrayList<Customer>(hits.length);
-				for (CompassHit ch : searchResults.getHits()){
+				for (CompassHit ch : searchResults.getHits()) {
 					Customer c = (Customer) ch.getData();
 					c = customerManager.get(c.getId());
-					if(c.getRegion()!=null)
-						c.setRegion(regionTreeControl.getRegionTree().getDescendantOrSelfById(c.getRegion().getId()));
+					if (c.getRegion() != null)
+						c
+								.setRegion(regionTreeControl.getRegionTree()
+										.getDescendantOrSelfById(
+												c.getRegion().getId()));
 					list.add(c);
 				}
 				resultPage.setResult(list);
@@ -188,6 +192,8 @@ public class CustomerAction extends BaseAction {
 			}
 			if (temp.getAddress() == null)
 				temp.setAddress(customer.getAddress());
+			if (temp.getMemo() == null)
+				temp.setMemo(customer.getMemo());
 			BeanUtils.copyProperties(temp, customer);
 		}
 		customerManager.save(customer);
@@ -198,8 +204,14 @@ public class CustomerAction extends BaseAction {
 	@Override
 	public String view() {
 		String id = getUid();
-		if (StringUtils.isNumeric(id))
+		if (StringUtils.isNumeric(id)) {
 			customer = customerManager.get(Long.valueOf(id));
+			if (customer.getRegion() != null)
+				customer.setRegion(regionTreeControl.getRegionTree()
+						.getDescendantOrSelfById(customer.getRegion().getId()));
+		} else {
+			return ACCESSDENIED;
+		}
 		return VIEW;
 	}
 
