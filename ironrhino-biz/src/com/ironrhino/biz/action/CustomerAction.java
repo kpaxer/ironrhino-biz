@@ -1,10 +1,13 @@
 package com.ironrhino.biz.action;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.compass.core.CompassHit;
 import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
@@ -35,10 +38,6 @@ public class CustomerAction extends BaseAction {
 	private Long regionId;
 
 	private String q;
-
-	private int pn;
-
-	private int ps = 20;
 
 	private transient CompassSearchResults searchResults;
 
@@ -87,47 +86,61 @@ public class CustomerAction extends BaseAction {
 		this.q = q;
 	}
 
-	public int getPn() {
-		return pn;
-	}
-
-	public void setPn(int pn) {
-		this.pn = pn;
-	}
-
-	public int getPs() {
-		return ps;
-	}
-
-	public void setPs(int ps) {
-		this.ps = ps;
-	}
-
 	public Region getRegionTree() {
 		return regionTreeControl.getRegionTree();
 	}
 
 	@Override
 	public String execute() {
-		DetachedCriteria dc = customerManager.detachedCriteria();
-		Region region = null;
-		if (regionId != null) {
-			region = regionTreeControl.getRegionTree().getDescendantOrSelfById(
-					regionId);
-			if (region != null && !region.isRoot()) {
-				if (region.isLeaf()) {
-					dc.add(Restrictions.eq("region", region));
-				} else {
-					dc.add(Restrictions.in("region", region
-							.getDescendantsAndSelf()));
+		if (StringUtils.isBlank(q)) {
+			DetachedCriteria dc = customerManager.detachedCriteria();
+			Region region = null;
+			if (regionId != null) {
+				region = regionTreeControl.getRegionTree()
+						.getDescendantOrSelfById(regionId);
+				if (region != null && !region.isRoot()) {
+					if (region.isLeaf()) {
+						dc.add(Restrictions.eq("region", region));
+					} else {
+						dc.add(Restrictions.in("region", region
+								.getDescendantsAndSelf()));
+					}
 				}
 			}
+			if (resultPage == null)
+				resultPage = new ResultPage<Customer>();
+			resultPage.setDetachedCriteria(dc);
+			resultPage.addOrder(Order.asc("id"));
+			resultPage = customerManager.findByResultPage(resultPage);
+			for(Customer c : resultPage.getResult())
+				if(c.getRegion()!=null)
+					c.setRegion(regionTreeControl.getRegionTree().getDescendantOrSelfById(c.getRegion().getId()));
+		} else {
+			String query = q.trim();
+			CompassCriteria cc = new CompassCriteria();
+			cc.setQuery(query);
+			cc.setAliases(new String[] { "customer" });
+			if (resultPage == null)
+				resultPage = new ResultPage<Customer>();
+			cc.setPageNo(resultPage.getPageNo());
+			cc.setPageSize(resultPage.getPageSize());
+			searchResults = compassSearchService.search(cc);
+			resultPage.setTotalRecord(searchResults.getTotalHits());
+			CompassHit[] hits = searchResults.getHits();
+			if (hits != null) {
+				List<Customer> list = new ArrayList<Customer>(hits.length);
+				for (CompassHit ch : searchResults.getHits()){
+					Customer c = (Customer) ch.getData();
+					c = customerManager.get(c.getId());
+					if(c.getRegion()!=null)
+						c.setRegion(regionTreeControl.getRegionTree().getDescendantOrSelfById(c.getRegion().getId()));
+					list.add(c);
+				}
+				resultPage.setResult(list);
+			} else {
+				resultPage.setResult(Collections.EMPTY_LIST);
+			}
 		}
-		if (resultPage == null)
-			resultPage = new ResultPage<Customer>();
-		resultPage.setDetachedCriteria(dc);
-		resultPage.addOrder(Order.asc("id"));
-		resultPage = customerManager.findByResultPage(resultPage);
 		return LIST;
 	}
 
@@ -207,28 +220,6 @@ public class CustomerAction extends BaseAction {
 			}
 		}
 		return SUCCESS;
-	}
-
-	public String search() {
-		if (StringUtils.isNotBlank(q)) {
-			String query = q.trim();
-			CompassCriteria cc = new CompassCriteria();
-			cc.setQuery(query);
-			cc.setAliases(new String[] { "customer" });
-			if (pn > 0)
-				cc.setPageNo(pn);
-			if (ps > 0)
-				cc.setPageSize(ps);
-			if (ps > 100)
-				cc.setPageSize(100);
-			searchResults = compassSearchService.search(cc);
-			if (searchResults.getTotalHits() == 1) {
-				customer = (Customer) searchResults.getHits()[0].getData();
-				targetUrl = "/customer/view/" + customer.getId();
-				return REDIRECT;
-			}
-		}
-		return "search";
 	}
 
 	public String region() {
