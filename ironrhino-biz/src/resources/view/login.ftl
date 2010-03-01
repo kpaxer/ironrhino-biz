@@ -25,16 +25,13 @@ form fieldset div.label {
 </head>
 
 <body>
-<h1 id="title"
-	style="width: 550px; margin-left: auto; margin-right: auto; text-align: center; color: #4A708B;">IronRhino</h1>
-</div>
 <@authorize ifAnyGranted="ROLE_BUILTIN_USER">
 	<p style="text-align: center;">您已经以${authentication('name')}身份登录,换个用户名请先<a href="<@url value="/logout"/>">注销</a>,<a
 		href="<@url value="/"/>">进入</a></p>
 </@authorize>
 <@authorize ifNotGranted="ROLE_BUILTIN_USER">
 	<div
-		style="margin-left: auto; margin-right: auto; width: 550px; font-size: 140%;">
+		style="margin-left: auto; margin-right: auto; width: 300px; font-size: 120%;">
 	<@s.form id="login" action="login" method="post" cssClass="ajax">
 		<@s.hidden id="targetUrl" name="targetUrl" />
 		<@s.textfield label="%{getText('username')}" name="username"
@@ -44,10 +41,5 @@ form fieldset div.label {
 		<div class="fieldset"><@s.submit value="%{getText('login')}" /></div>
 	</@s.form></div>
 </@authorize>
-<p
-	style="width: 550px; margin-top: 10px; margin-left: auto; margin-right: auto; text-align: center; color: #4A708B;">Copyright
-&copy; IronRhino</p>
-
-
 </body>
 </html></#escape>

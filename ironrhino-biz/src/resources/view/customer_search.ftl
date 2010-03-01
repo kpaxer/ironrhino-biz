@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
-<title>search</title>
+<title>搜索客户</title>
 </head>
 <body>
-<form id="search_form" action="search" method="get">
-<span><input id="q" type="text" name="q" size="30" maxlength="256" class="autocomplete_off" value="${Parameters.q!}" /></span>
+<form id="search_form" action="<@url value="/customer/search"/>" method="get">
+<span><input id="q" type="text" name="q" size="20" maxlength="256" class="autocomplete_off" value="${Parameters.q!}" /></span>
 <span><@s.submit value="搜索" theme="simple" /></span>
 </form>
 <div id="search_result">

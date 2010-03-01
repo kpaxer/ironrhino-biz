@@ -39,12 +39,7 @@
 			<li><a href="<@url value="/common/region"/>">区域管理</a></li>
 		</ul>
 		</li>
-		<li><a>用户管理</a>
-		<ul>
-			<li><a href="<@url value="/user"/>">用户管理</a></li>
-			<li><a href="<@url value="/role"/>">角色管理</a></li>
-		</ul>
-		</li>
+		<li><a href="<@url value="/user"/>">用户管理</a></li>
 	</@authorize>
 	<@authorize ifAnyGranted="ROLE_SUPERVISOR,仓管员">
 		<li><a>仓库管理</a>
@@ -85,7 +80,6 @@
 <#noescape>${body}</#noescape>
 </div>
 </div>
-<div id="footer"></div>
 </div>
 </body>
 </html></#escape></#compress>
