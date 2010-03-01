@@ -20,11 +20,7 @@
 <div id="header" style="height: 40px">
 <div id="menu">
 <ul class="nav">
-	<li><a>日常工作</a>
-	<ul>
-
-	</ul>
-	</li>
+	<li><a href="<@url value="/index"/>">首页</a></li>
 	<@authorize ifAnyGranted="ROLE_SUPERVISOR">
 		<li><a>系统配置</a>
 		<ul>
@@ -41,7 +37,7 @@
 		</li>
 		<li><a href="<@url value="/user"/>">用户管理</a></li>
 	</@authorize>
-	<@authorize ifAnyGranted="ROLE_SUPERVISOR,仓管员">
+	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_WAREHOUSEMAN">
 		<li><a>仓库管理</a>
 		<ul>
 			<@authorize ifAnyGranted="系统管理员">
@@ -56,6 +52,7 @@
 		</ul>
 		</li>
 	</@authorize>
+	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_SALESMAN">
 	<li><a>产品管理</a>
 	<ul>
 		<li><a href="<@url value="/category"/>">目录管理</a></li>
@@ -64,7 +61,7 @@
 	</li>
 	<li><a href="<@url value="/customer"/>">客户管理</a></li>
 	<li><a href="<@url value="/order"/>">订单管理</a></li>
-
+	</@authorize>
 	<li><a href="<@url value="/changePassword"/>">修改密码</a></li>
 	<li><a href="<@url value="/logout"/>">注销</a></li>
 </ul>
