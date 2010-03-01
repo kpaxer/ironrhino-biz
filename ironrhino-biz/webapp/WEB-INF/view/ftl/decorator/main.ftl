@@ -37,6 +37,16 @@
 		</li>
 		<li><a href="<@url value="/user"/>">用户管理</a></li>
 	</@authorize>
+	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_SALESMAN">
+	<li><a>产品管理</a>
+	<ul>
+		<li><a href="<@url value="/category"/>">目录管理</a></li>
+		<li><a href="<@url value="/product"/>">产品管理</a></li>
+	</ul>
+	</li>
+	<li><a href="<@url value="/customer"/>">客户管理</a></li>
+	<li><a href="<@url value="/order"/>">订单管理</a></li>
+	</@authorize>
 	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_WAREHOUSEMAN">
 		<li><a>仓库管理</a>
 		<ul>
@@ -51,16 +61,6 @@
 
 		</ul>
 		</li>
-	</@authorize>
-	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_SALESMAN">
-	<li><a>产品管理</a>
-	<ul>
-		<li><a href="<@url value="/category"/>">目录管理</a></li>
-		<li><a href="<@url value="/product"/>">产品管理</a></li>
-	</ul>
-	</li>
-	<li><a href="<@url value="/customer"/>">客户管理</a></li>
-	<li><a href="<@url value="/order"/>">订单管理</a></li>
 	</@authorize>
 	<li><a href="<@url value="/changePassword"/>">修改密码</a></li>
 	<li><a href="<@url value="/logout"/>">注销</a></li>

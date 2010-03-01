@@ -27,7 +27,7 @@
 			</#list></p>
 		</#if>
 	<#else>
-	没有找到结果
+	没有找到结果,<a href="<@url value="/customer/region"/>">按区域检索?</a>
 	</#if>
 </#if>
 </div>

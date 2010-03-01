@@ -4,7 +4,8 @@
 <title>List Customers</title>
 </head>
 <body>
-<#assign config={"id":{"width":"80px"},"name":{"width":"300px","cellEdit":"click"},"address":{"width":"300px","class":"include_if_edited","template":r"<#if entity.region??>${entity.region.fullname!}</#if>${entity.address!}"},"linkman":{"cellEdit":"click"},"phone":{"cellEdit":"click"}}>
-<@richtable entityName="customer" config=config/>
+<#assign config={"id":{"width":"80px"},"name":{"width":"300px","cellEdit":"click"},"address":{"width":"300px","class":"include_if_edited","template":r'<#if entity.region??><a title="点击查看${entity.region.name}所有客户" href="customer?regionId=${entity.region.id}" style="text-decoration:none;">${entity.region.fullname}${entity.address!}</a><#else>${entity.address!}</#if>'},"linkman":{"cellEdit":"click"},"phone":{"cellEdit":"click"}}>
+<#assign actionColumnButtons=btn(action.getText('save'),null,'save')+btn(action.getText('edit'),null,'input')+btn(action.getText('view'),r"Richtable.open(Richtable.getUrl('view','${rowid}'),true)")+btn(action.getText('delete'),null,'del')>
+<@richtable entityName="customer" config=config actionColumnWidth="180px" actionColumnButtons=actionColumnButtons/>
 </body>
 </html></#escape>
