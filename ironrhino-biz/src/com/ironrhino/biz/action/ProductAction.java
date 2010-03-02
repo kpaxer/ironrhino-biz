@@ -135,7 +135,7 @@ public class ProductAction extends BaseAction {
 		Collections.sort(brandList);
 		String id = getUid();
 		if (StringUtils.isNumeric(id))
-			product = productManager.get(getUid());
+			product = productManager.get(Long.valueOf(id));
 		if (product != null) {
 			if (product.getSpec() != null)
 				specId = product.getSpec().getId();
