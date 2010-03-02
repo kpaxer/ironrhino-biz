@@ -31,7 +31,7 @@
 		</li>
 		<li><a>基础数据</a>
 		<ul>
-			<li><a href="<@url value="/category"/>">目录管理</a></li>
+			<li><a href="<@url value="/category"/>">品种管理</a></li>
 			<li><a href="<@url value="/brand"/>">商标管理</a></li>
 			<li><a href="<@url value="/spec"/>">规格管理</a></li>
 			<li><a href="<@url value="/common/region"/>">区域管理</a></li>

@@ -13,6 +13,7 @@
 			<property name="code" not-null="true" />
 		</natural-id>
 		<property name="discount" />
+		<property name="grandTotal" />
 		<property name="paid" />
 		<property name="shipped" />
 		<property name="cancelled" />

@@ -40,6 +40,8 @@ public class Order extends BaseEntity {
 
 	private boolean cancelled;
 
+	private BigDecimal grandTotal;
+
 	private Customer customer;
 
 	@CreateIfNull
@@ -117,13 +119,19 @@ public class Order extends BaseEntity {
 		this.discount = discount;
 	}
 
+	public void setGrandTotal(BigDecimal grandTotal) {
+		this.grandTotal = grandTotal;
+	}
+
 	public BigDecimal getGrandTotal() {
-		BigDecimal bd = new BigDecimal(0.0);
-		for (OrderItem item : items)
-			bd = bd.add(item.getSubtotal());
-		if (discount != null)
-			bd = bd.subtract(discount);
-		return bd;
+		if (grandTotal == null) {
+			grandTotal = new BigDecimal(0.0);
+			for (OrderItem item : items)
+				grandTotal = grandTotal.add(item.getSubtotal());
+			if (discount != null)
+				grandTotal = grandTotal.subtract(discount);
+		}
+		return grandTotal;
 	}
 
 	@Override
