@@ -26,30 +26,24 @@ public class Order extends BaseEntity {
 	@SearchableProperty(boost = 3)
 	private String code;
 
+	private BigDecimal discount;
+
 	@SearchableProperty
-	private String description;
+	private String memo;
 
 	@NotInCopy
-	private Date orderDate;
+	private Date orderDate = new Date();
+
+	private boolean paid;
+
+	private boolean shipped;
+
+	private boolean cancelled;
 
 	private Customer customer;
 
-	private boolean printed;
-
 	@CreateIfNull
 	private List<OrderItem> items = new ArrayList<OrderItem>(0);
-
-	public Order() {
-		orderDate = new Date();
-	}
-
-	public boolean isPrinted() {
-		return printed;
-	}
-
-	public void setPrinted(boolean printed) {
-		this.printed = printed;
-	}
 
 	public String getCode() {
 		return code;
@@ -59,12 +53,36 @@ public class Order extends BaseEntity {
 		this.code = code;
 	}
 
-	public String getDescription() {
-		return description;
+	public boolean isPaid() {
+		return paid;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
+
+	public boolean isShipped() {
+		return shipped;
+	}
+
+	public void setShipped(boolean shipped) {
+		this.shipped = shipped;
+	}
+
+	public boolean isCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(boolean cancelled) {
+		this.cancelled = cancelled;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
 
 	public Date getOrderDate() {
@@ -91,10 +109,20 @@ public class Order extends BaseEntity {
 		this.items = items;
 	}
 
+	public BigDecimal getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(BigDecimal discount) {
+		this.discount = discount;
+	}
+
 	public BigDecimal getGrandTotal() {
 		BigDecimal bd = new BigDecimal(0.0);
 		for (OrderItem item : items)
 			bd = bd.add(item.getSubtotal());
+		if (discount != null)
+			bd = bd.subtract(discount);
 		return bd;
 	}
 

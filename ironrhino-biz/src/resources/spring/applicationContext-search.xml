@@ -8,6 +8,7 @@
 				<value>org.ironrhino.core.model.SimpleElement</value>
 				<value>org.ironrhino.core.model.Attribute</value>
 				<value>com.ironrhino.biz.model.Customer</value>
+				<value>com.ironrhino.biz.model.Order</value>
 			</list>
 		</property>
 		<property name="compassConfiguration">

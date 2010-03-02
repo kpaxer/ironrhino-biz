@@ -6,22 +6,27 @@
 	default-lazy="true">
 	<class name="Order" table="orders" dynamic-insert="true"
 		dynamic-update="true">
-		<id name="id" type="java.lang.String"  length="32" unsaved-value="null">
+		<id name="id" type="java.lang.String" length="32" unsaved-value="null">
 			<generator class="org.ironrhino.core.hibernate.StringIdGenerator" />
 		</id>
 		<natural-id>
 			<property name="code" not-null="true" />
 		</natural-id>
+		<property name="discount" />
+		<property name="paid" />
+		<property name="shipped" />
+		<property name="cancelled" />
 		<property name="orderDate" />
-		<property name="description" />
-		<property name="printed" />
-		<many-to-one name="customer" column="customerId" not-null="true" />
-		<list name="items" table="orderItem" cascade="all">
+		<property name="memo" />
+		<many-to-one name="customer" column="customerId" not-null="true"
+			lazy="false" fetch="join" />
+		<list name="items" table="orderItem" cascade="all" lazy="true"
+			fetch="subselect">
 			<key column="orderId" />
 			<list-index column="lineNumber" />
 			<composite-element class="OrderItem">
-				<property name="name" />
-				<property name="unit" />
+				<many-to-one name="product" column="productId" not-null="true"
+					lazy="false" fetch="join" />
 				<property name="quantity" />
 				<property name="price" />
 			</composite-element>

@@ -10,7 +10,7 @@ text-decoration:none;
 </style>
 </head>
 <body>
-<#assign config={"id":{"width":"80px"},"name":{"width":"300px","cellEdit":"click"},"address":{"width":"300px","template":r'<#if entity.region??><a class="region" title="点击查看${entity.region.fullname}所有客户" href="customer?regionId=${entity.region.id}">${entity.region.fullname}</a></#if>${entity.address!}'},"linkman":{"cellEdit":"click"},"phone":{"cellEdit":"click"}}>
+<#assign config={"id":{"width":"80px"},"name":{"width":"300px","cellEdit":"click"},"address":{"width":"300px","template":r'<#if entity.region??><a class="region" title="点击查看${entity.region.fullname}所有客户" href="customer?regionId=${entity.region.id}">${entity.region.fullname}</a></#if>${value!}'},"linkman":{"cellEdit":"click"},"phone":{"cellEdit":"click"}}>
 <#assign actionColumnButtons=btn(action.getText('save'),null,'save')+btn(action.getText('edit'),null,'input')+btn(action.getText('view'),r"Richtable.open(Richtable.getUrl('view','${rowid}'),true)")+btn(action.getText('delete'),null,'del')>
 <@richtable entityName="customer" config=config actionColumnWidth="180px" actionColumnButtons=actionColumnButtons/>
 <form action="<@url value="customer"/>" method="post" class="ajax view" replacement="customer_form">

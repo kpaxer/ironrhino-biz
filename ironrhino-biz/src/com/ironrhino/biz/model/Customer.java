@@ -128,7 +128,7 @@ public class Customer extends Entity<Long> {
 
 	@Override
 	public String toString() {
-		return String.valueOf(this.id);
+		return this.name;
 	}
 
 }
