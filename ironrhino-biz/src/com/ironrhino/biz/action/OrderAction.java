@@ -38,6 +38,8 @@ public class OrderAction extends BaseAction {
 
 	private String q;
 
+	private Long[] productId;
+
 	private transient CompassSearchResults searchResults;
 
 	@Inject
@@ -58,6 +60,14 @@ public class OrderAction extends BaseAction {
 
 	public void setResultPage(ResultPage<Order> resultPage) {
 		this.resultPage = resultPage;
+	}
+
+	public Long[] getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Long[] productId) {
+		this.productId = productId;
 	}
 
 	public Order getOrder() {
@@ -92,14 +102,12 @@ public class OrderAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(q)) {
 			DetachedCriteria dc = orderManager.detachedCriteria();
-
-			// TODO query by customer.id
 			if (resultPage == null)
 				resultPage = new ResultPage<Order>();
 			resultPage.setDetachedCriteria(dc);
 			if (customer != null && customer.getId() != null)
-				dc.createAlias("customer.id", "customerId").add(
-						Restrictions.eq("customerId", customer.getId()));
+				dc.createAlias("customer", "c").add(
+						Restrictions.eq("c.id", customer.getId()));
 			resultPage
 					.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
 			resultPage = orderManager.findByResultPage(resultPage);
@@ -152,6 +160,11 @@ public class OrderAction extends BaseAction {
 		if (order.isNew()) {
 			customer = customerManager.get(customer.getId());
 			order.setCustomer(customer);
+			if (productId != null) {
+				for (int i = 0; i < productId.length; i++)
+					order.getItems().get(i).setProduct(
+							productManager.get(productId[i]));
+			}
 		} else {
 			Order temp = order;
 			order = orderManager.get(temp.getId());

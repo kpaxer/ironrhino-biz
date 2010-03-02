@@ -109,11 +109,11 @@ public class ProductAction extends BaseAction {
 	public String execute() {
 		DetachedCriteria dc = productManager.detachedCriteria();
 		if (categoryId != null)
-			dc.createAlias("category.id", "categoryId").add(
-					Restrictions.eq("categoryId", categoryId));
+			dc.createAlias("category", "c").add(
+					Restrictions.eq("c.id", categoryId));
 		if (brandId != null)
-			dc.createAlias("brand.id", "brandId").add(
-					Restrictions.eq("brandId", brandId));
+			dc.createAlias("brand", "b").add(
+					Restrictions.eq("b.id", brandId));
 		if (resultPage == null)
 			resultPage = new ResultPage<Product>();
 		resultPage.setDetachedCriteria(dc);

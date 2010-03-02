@@ -11,8 +11,12 @@ text-decoration:none;
 </head>
 <body>
 <#assign config={"id":{"width":"80px"},"name":{"width":"300px","cellEdit":"click"},"address":{"width":"300px","template":r'<#if entity.region??><a class="region" title="点击查看${entity.region.fullname}所有客户" href="customer?regionId=${entity.region.id}">${entity.region.fullname}</a></#if>${value!}'},"linkman":{"cellEdit":"click"},"phone":{"cellEdit":"click"}}>
-<#assign actionColumnButtons=btn(action.getText('save'),null,'save')+btn(action.getText('edit'),null,'input')+btn(action.getText('view'),r"Richtable.open(Richtable.getUrl('view','${rowid}'),true)")+btn(action.getText('delete'),null,'del')>
-<@richtable entityName="customer" config=config actionColumnWidth="180px" actionColumnButtons=actionColumnButtons/>
+<#assign actionColumnButtons=btn(action.getText('save'),null,'save')
++btn(action.getText('edit'),null,'input')
++btn(action.getText('view'),r"Richtable.open(Richtable.getUrl('view','${rowid}'),true)")
++btn(action.getText('order'),'','','link','',r'order?customer.id=${rowid}')
++btn(action.getText('delete'),null,'del')>
+<@richtable entityName="customer" config=config actionColumnWidth="210px" actionColumnButtons=actionColumnButtons/>
 <form action="<@url value="customer"/>" method="post" class="ajax view" replacement="customer_form">
 <@s.textfield theme="simple" name="q" size="20"/><@s.submit theme="simple" value="%{getText('search')}" /><@button type="link" text="按区域检索" href="${getUrl('/customer/region')}"/>
 </form>
