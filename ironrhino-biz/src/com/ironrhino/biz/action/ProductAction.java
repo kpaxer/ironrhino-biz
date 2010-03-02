@@ -31,17 +31,17 @@ public class ProductAction extends BaseAction {
 
 	private ResultPage<Product> resultPage;
 
-	private Long specId;
-
 	private Long categoryId;
 
 	private Long brandId;
 
-	private List<Spec> specList;
+	private Long specId;
 
 	private List<Category> categoryList;
 
 	private List<Brand> brandList;
+
+	private List<Spec> specList;
 
 	private transient BaseManager baseManager;
 
@@ -175,6 +175,27 @@ public class ProductAction extends BaseAction {
 			if (product == null)
 				return ERROR;
 			BeanUtils.copyProperties(temp, product);
+			if (categoryId != null) {
+				Category category = product.getCategory();
+				if (category == null || !category.getId().equals(categoryId)) {
+					baseManager.setEntityClass(Category.class);
+					product.setCategory((Category) baseManager.get(categoryId));
+				}
+			}
+			if (brandId != null) {
+				Brand brand = product.getBrand();
+				if (brand == null || !brand.getId().equals(brandId)) {
+					baseManager.setEntityClass(Brand.class);
+					product.setBrand((Brand) baseManager.get(brandId));
+				}
+			}
+			if (specId != null) {
+				Spec spec = product.getSpec();
+				if (spec == null || !spec.getId().equals(specId)) {
+					baseManager.setEntityClass(Spec.class);
+					product.setSpec((Spec) baseManager.get(specId));
+				}
+			}
 		}
 		productManager.save(product);
 		addActionMessage(getText("save.success"));

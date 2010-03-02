@@ -7,11 +7,10 @@
 <@s.form action="save" method="post" cssClass="ajax">
 	<#if product??&&!product.new>
 		<@s.hidden name="product.id" />
-	<#else>
-		<@s.select label="%{getText('category')}" name="categoryId" cssClass="required" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
-		<@s.select label="%{getText('brand')}" name="brandId" cssClass="required" list="brandList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
-		<@s.select label="%{getText('spec')}" name="specId" cssClass="required" list="specList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 	</#if>
+	<@s.select label="%{getText('category')}" name="categoryId" cssClass="required" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
+	<@s.select label="%{getText('brand')}" name="brandId" cssClass="required" list="brandList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
+	<@s.select label="%{getText('spec')}" name="specId" cssClass="required" list="specList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 	<@s.textfield label="%{getText('name')}" name="product.name" cssClass="required"/>
 	<@s.textfield label="%{getText('displayOrder')}" name="product.displayOrder"/>
 	<@s.submit value="%{getText('save')}" />
