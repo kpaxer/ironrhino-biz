@@ -6,14 +6,13 @@
 	default-lazy="true">
 	<class name="Product" table="product" dynamic-insert="true"
 		dynamic-update="true">
-		<id name="id" type="java.lang.String"  length="32" unsaved-value="null">
-			<generator class="org.ironrhino.core.hibernate.StringIdGenerator" />
+		<id name="id" type="java.lang.Long" length="32" unsaved-value="null">
+			<generator class="identity" />
 		</id>
-		<natural-id>
-			<property name="name" not-null="true" />
-			<many-to-one name="spec" column="specId" />
-		</natural-id>
-		<property name="stock" />
-		<many-to-one name="category" column="categoryId" />
+		<property name="name" not-null="true" />
+		<property name="displayOrder" />
+		<many-to-one name="spec" column="specId" />
+		<many-to-one name="category" column="categoryId" not-null="true" />
+		<many-to-one name="brand" column="brandId" not-null="true" />
 	</class>
 </hibernate-mapping>

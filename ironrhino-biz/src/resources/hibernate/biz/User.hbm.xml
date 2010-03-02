@@ -17,7 +17,7 @@
 		<property name="phone" />
 		<property name="enabled" />
 		<property name="createDate" />
-		<set name="roles" table="ums_userRole" cascade="all">
+		<set name="roles" table="userRole" cascade="all">
 			<key column="userId" />
 			<composite-element class="org.ironrhino.core.model.SimpleElement">
 				<property name="value" not-null="true" />

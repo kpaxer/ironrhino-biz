@@ -2,9 +2,11 @@ package com.ironrhino.biz.action;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
@@ -54,13 +56,16 @@ public class SpecAction extends BaseAction {
 		if (resultPage == null)
 			resultPage = new ResultPage<Spec>();
 		resultPage.setDetachedCriteria(dc);
+		dc.addOrder(Order.asc("displayOrder"));
 		resultPage = baseManager.findByResultPage(resultPage);
 		return LIST;
 	}
 
 	@Override
 	public String input() {
-		spec = baseManager.get(getUid());
+		String id = getUid();
+		if (StringUtils.isNumeric(id))
+			spec = baseManager.get(Long.valueOf(id));
 		if (spec == null)
 			spec = new Spec();
 		return INPUT;
@@ -68,6 +73,11 @@ public class SpecAction extends BaseAction {
 
 	@Override
 	public String save() {
+		if (spec.getBasicQuantity() == null) {
+			Spec temp = spec;
+			spec = baseManager.get(temp.getId());
+			spec.setDisplayOrder(temp.getDisplayOrder());
+		}
 		baseManager.save(spec);
 		addActionMessage(getText("save.success"));
 		return SUCCESS;
@@ -75,13 +85,16 @@ public class SpecAction extends BaseAction {
 
 	@Override
 	public String delete() {
-		String[] id = getId();
-		if (id != null) {
+		String[] _id = getId();
+		if (_id != null) {
+			Long[] id = new Long[_id.length];
+			for (int i = 0; i < _id.length; i++)
+				id[i] = Long.valueOf(_id[i]);
 			DetachedCriteria dc = baseManager.detachedCriteria();
 			dc.add(Restrictions.in("id", id));
 			List<Spec> list = baseManager.findListByCriteria(dc);
 			if (list.size() > 0) {
-				for (Spec spec : list) 
+				for (Spec spec : list)
 					// TODO check if can delete
 					baseManager.delete(spec);
 				addActionMessage(getText("delete.success"));

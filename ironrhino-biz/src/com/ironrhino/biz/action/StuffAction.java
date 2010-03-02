@@ -30,7 +30,7 @@ public class StuffAction extends BaseAction {
 
 	private List<Vendor> vendorList;
 
-	private String specId;
+	private Long specId;
 
 	private List<Spec> specList;
 
@@ -48,11 +48,11 @@ public class StuffAction extends BaseAction {
 		this.vendorId = vendorId;
 	}
 
-	public String getSpecId() {
+	public Long getSpecId() {
 		return specId;
 	}
 
-	public void setSpecId(String specId) {
+	public void setSpecId(Long specId) {
 		this.specId = specId;
 	}
 
@@ -85,7 +85,6 @@ public class StuffAction extends BaseAction {
 
 	}
 
-	// @Authorize(ifAnyGranted = Constants.ROLE_CEO)
 	@Override
 	public String execute() {
 		baseManager.setEntityClass(Stuff.class);

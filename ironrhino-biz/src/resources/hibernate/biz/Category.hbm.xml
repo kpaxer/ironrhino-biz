@@ -10,14 +10,6 @@
 		<natural-id mutable="true">
 			<property name="name" not-null="true" />
 		</natural-id>
-		<property name="level" />
 		<property name="displayOrder" />
-		<property name="fullId" />
-		<many-to-one name="parent" class="Category" column="parentId" />
-		<set name="children" lazy="true" inverse="true" cascade="none"
-			order-by="displayOrder,name">
-			<key column="parentId" />
-			<one-to-many class="Category" />
-		</set>
 	</class>
 </hibernate-mapping>

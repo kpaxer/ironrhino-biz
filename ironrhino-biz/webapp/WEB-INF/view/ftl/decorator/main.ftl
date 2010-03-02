@@ -31,6 +31,8 @@
 		</li>
 		<li><a>基础数据</a>
 		<ul>
+			<li><a href="<@url value="/category"/>">目录管理</a></li>
+			<li><a href="<@url value="/brand"/>">商标管理</a></li>
 			<li><a href="<@url value="/spec"/>">规格管理</a></li>
 			<li><a href="<@url value="/common/region"/>">区域管理</a></li>
 		</ul>
@@ -38,12 +40,7 @@
 		<li><a href="<@url value="/user"/>">用户管理</a></li>
 	</@authorize>
 	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_SALESMAN">
-	<li><a>产品管理</a>
-	<ul>
-		<li><a href="<@url value="/category"/>">目录管理</a></li>
-		<li><a href="<@url value="/product"/>">产品管理</a></li>
-	</ul>
-	</li>
+	<li><a href="<@url value="/product"/>">产品管理</a></li>
 	<li><a href="<@url value="/customer"/>">客户管理</a></li>
 	<li><a href="<@url value="/order"/>">订单管理</a></li>
 	</@authorize>

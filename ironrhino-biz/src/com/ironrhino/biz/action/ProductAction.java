@@ -1,9 +1,11 @@
 package com.ironrhino.biz.action;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -11,8 +13,10 @@ import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
+import org.ironrhino.core.util.BeanUtils;
 
 import com.ironrhino.biz.Constants;
+import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.Spec;
@@ -27,11 +31,17 @@ public class ProductAction extends BaseAction {
 
 	private ResultPage<Product> resultPage;
 
+	private Long specId;
+
 	private Long categoryId;
 
-	private String specId;
+	private Long brandId;
 
 	private List<Spec> specList;
+
+	private List<Category> categoryList;
+
+	private List<Brand> brandList;
 
 	private transient BaseManager baseManager;
 
@@ -46,16 +56,12 @@ public class ProductAction extends BaseAction {
 		this.resultPage = resultPage;
 	}
 
-	public String getSpecId() {
+	public Long getSpecId() {
 		return specId;
 	}
 
-	public void setSpecId(String specId) {
+	public void setSpecId(Long specId) {
 		this.specId = specId;
-	}
-
-	public List<Spec> getSpecList() {
-		return specList;
 	}
 
 	public Long getCategoryId() {
@@ -64,6 +70,26 @@ public class ProductAction extends BaseAction {
 
 	public void setCategoryId(Long categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public Long getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(Long brandId) {
+		this.brandId = brandId;
+	}
+
+	public List<Spec> getSpecList() {
+		return specList;
+	}
+
+	public List<Category> getCategoryList() {
+		return categoryList;
+	}
+
+	public List<Brand> getBrandList() {
+		return brandList;
 	}
 
 	public Product getProduct() {
@@ -82,12 +108,12 @@ public class ProductAction extends BaseAction {
 	@Override
 	public String execute() {
 		DetachedCriteria dc = productManager.detachedCriteria();
-		Category category = null;
-		if (categoryId != null) {
-			category = (Category) baseManager.get(categoryId);
-			if (category != null)
-				dc.add(Restrictions.eq("category", category));
-		}
+		if (categoryId != null)
+			dc.createAlias("category.id", "categoryId").add(
+					Restrictions.eq("categoryId", categoryId));
+		if (brandId != null)
+			dc.createAlias("brand.id", "brandId").add(
+					Restrictions.eq("brandId", brandId));
 		if (resultPage == null)
 			resultPage = new ResultPage<Product>();
 		resultPage.setDetachedCriteria(dc);
@@ -100,14 +126,23 @@ public class ProductAction extends BaseAction {
 	public String input() {
 		baseManager.setEntityClass(Spec.class);
 		specList = baseManager.findAll();
-		product = productManager.get(getUid());
-		if (product == null)
-			product = new Product();
+		Collections.sort(specList);
+		baseManager.setEntityClass(Category.class);
+		categoryList = baseManager.findAll();
+		Collections.sort(categoryList);
+		baseManager.setEntityClass(Brand.class);
+		brandList = baseManager.findAll();
+		Collections.sort(brandList);
+		String id = getUid();
+		if (StringUtils.isNumeric(id))
+			product = productManager.get(getUid());
 		if (product != null) {
-			if (product.getCategory() != null)
-				categoryId = product.getCategory().getId();
 			if (product.getSpec() != null)
 				specId = product.getSpec().getId();
+			if (product.getCategory() != null)
+				categoryId = product.getCategory().getId();
+			if (product.getBrand() != null)
+				brandId = product.getBrand().getId();
 		} else {
 			product = new Product();
 		}
@@ -117,27 +152,29 @@ public class ProductAction extends BaseAction {
 	@Override
 	public String save() {
 		if (product == null)
-			return INPUT;
+			return ACCESSDENIED;
 		if (product.isNew()) {
-			Spec spec = null;
-			baseManager.setEntityClass(Spec.class);
-			if ((spec = (Spec) baseManager.get(specId)) != null)
+			if (specId != null) {
+				baseManager.setEntityClass(Spec.class);
+				Spec spec = (Spec) baseManager.get(specId);
 				product.setSpec(spec);
-			if (productManager.findByNaturalId("name", product.getName(),
-					"spec", product.getSpec()) != null) {
-				addActionError(getText("validation.already.exists"));
-				return INPUT;
 			}
 			if (categoryId != null) {
 				baseManager.setEntityClass(Category.class);
 				Category category = (Category) baseManager.get(categoryId);
 				product.setCategory(category);
 			}
+			if (brandId != null) {
+				baseManager.setEntityClass(Brand.class);
+				Brand brand = (Brand) baseManager.get(brandId);
+				product.setBrand(brand);
+			}
 		} else {
 			Product temp = product;
 			product = productManager.get(temp.getId());
 			if (product == null)
 				return ERROR;
+			BeanUtils.copyProperties(temp, product);
 		}
 		productManager.save(product);
 		addActionMessage(getText("save.success"));
@@ -146,8 +183,11 @@ public class ProductAction extends BaseAction {
 
 	@Override
 	public String delete() {
-		String[] id = getId();
-		if (id != null) {
+		String[] _id = getId();
+		if (_id != null) {
+			Long[] id = new Long[_id.length];
+			for (int i = 0; i < _id.length; i++)
+				id[i] = Long.valueOf(_id[i]);
 			DetachedCriteria dc = productManager.detachedCriteria();
 			dc.add(Restrictions.in("id", id));
 			List<Product> list = productManager.findListByCriteria(dc);
@@ -158,17 +198,6 @@ public class ProductAction extends BaseAction {
 			}
 		}
 		return SUCCESS;
-	}
-
-	public String category() {
-		product = productManager.get(getUid());
-		if (product != null && categoryId != null) {
-			baseManager.setEntityClass(Category.class);
-			product.setCategory((Category) baseManager.get(categoryId));
-			productManager.save(product);
-			addActionMessage(getText("operation.success"));
-		}
-		return "category";
 	}
 
 }

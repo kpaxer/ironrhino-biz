@@ -3,13 +3,17 @@ package com.ironrhino.biz.model;
 import org.apache.commons.lang.StringUtils;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
-import org.ironrhino.core.model.BaseEntity;
+import org.ironrhino.core.metadata.NotInJson;
+import org.ironrhino.core.model.Entity;
+import org.ironrhino.core.model.Ordered;
 import org.ironrhino.core.util.NumberUtils;
 
 @AutoConfig
-public class Spec extends BaseEntity {
+public class Spec extends Entity<Long> implements Ordered {
 
 	private static final long serialVersionUID = -5598869269986567651L;
+
+	private Long id;
 
 	private String basicPackName;
 
@@ -22,6 +26,22 @@ public class Spec extends BaseEntity {
 	private String balePackName;
 
 	private String purity;
+
+	private int displayOrder;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@Override
+	@NotInJson
+	public boolean isNew() {
+		return id == null || id == 0;
+	}
 
 	public String getBasicPackName() {
 		return basicPackName;
@@ -114,6 +134,23 @@ public class Spec extends BaseEntity {
 			sb.append(basicPackName);
 		}
 		return sb.toString();
+	}
+
+	public int getDisplayOrder() {
+		return displayOrder;
+	}
+
+	public void setDisplayOrder(int displayOrder) {
+		this.displayOrder = displayOrder;
+	}
+
+	public int compareTo(Object object) {
+		if (!(object instanceof Spec))
+			return 0;
+		Spec entity = (Spec) object;
+		if (this.getDisplayOrder() != entity.getDisplayOrder())
+			return this.getDisplayOrder() - entity.getDisplayOrder();
+		return this.getName().compareTo(entity.getName());
 	}
 
 	@Override
