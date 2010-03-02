@@ -146,7 +146,6 @@ public class StuffAction extends BaseAction {
 			stuff = (Stuff) baseManager.get(temp.getId());
 			if (stuff == null)
 				return ERROR;
-			stuff.setCriticalStock(temp.getCriticalStock());
 		}
 		baseManager.save(stuff);
 		addActionMessage(getText("save.success"));

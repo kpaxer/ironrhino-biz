@@ -138,7 +138,6 @@ public class ProductAction extends BaseAction {
 			product = productManager.get(temp.getId());
 			if (product == null)
 				return ERROR;
-			product.setCriticalStock(temp.getCriticalStock());
 		}
 		productManager.save(product);
 		addActionMessage(getText("save.success"));

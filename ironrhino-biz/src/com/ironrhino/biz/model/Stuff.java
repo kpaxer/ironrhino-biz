@@ -19,8 +19,6 @@ public class Stuff extends BaseEntity {
 
 	private int stock;
 
-	private Integer criticalStock;
-
 	private Vendor vendor;
 
 	public Stuff() {
@@ -61,21 +59,6 @@ public class Stuff extends BaseEntity {
 
 	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
-	}
-
-	public Integer getCriticalStock() {
-		return criticalStock;
-	}
-
-	public void setCriticalStock(Integer criticalStock) {
-		this.criticalStock = criticalStock;
-	}
-
-	@NotInCopy
-	public boolean isCritical() {
-		if (criticalStock == null)
-			return false;
-		return stock <= criticalStock;
 	}
 
 	@NotInCopy

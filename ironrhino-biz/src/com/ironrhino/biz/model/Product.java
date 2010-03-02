@@ -21,8 +21,6 @@ public class Product extends BaseEntity {
 
 	private int stock;
 
-	private Integer criticalStock;
-
 	@NotInCopy
 	private Category category;
 
@@ -50,27 +48,12 @@ public class Product extends BaseEntity {
 		this.stock = stock;
 	}
 
-	public Integer getCriticalStock() {
-		return criticalStock;
-	}
-
-	public void setCriticalStock(Integer criticalStock) {
-		this.criticalStock = criticalStock;
-	}
-
 	public Category getCategory() {
 		return category;
 	}
 
 	public void setCategory(Category category) {
 		this.category = category;
-	}
-
-	@NotInCopy
-	public boolean isCritical() {
-		if (criticalStock == null)
-			return false;
-		return stock <= criticalStock;
 	}
 
 	@NotInCopy

@@ -14,7 +14,6 @@
 			<many-to-one name="spec" column="specId" />
 		</natural-id>
 		<property name="stock" />
-		<property name="criticalStock" />
 		<many-to-one name="category" column="categoryId" />
 	</class>
 </hibernate-mapping>

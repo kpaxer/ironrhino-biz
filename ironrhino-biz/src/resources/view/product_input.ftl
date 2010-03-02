@@ -15,7 +15,6 @@
 	<@s.hidden name="product.name" />
 	<@s.hidden name="specId" />
 	</@s.else>
-	<@s.textfield label="%{getText('criticalStock')}" name="product.criticalStock" cssClass="integer"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>
