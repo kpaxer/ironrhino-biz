@@ -10,7 +10,7 @@
 	</@s.if>
 	<#if customer??>
 		<@s.hidden name="customer.id" />
-		<p><label for="customer"></label>
+		<p><label for="customer">${action.getText('customer')}</label>
 		<div id="customer">${customer.name}</div>
 		</p>
 	</#if>
