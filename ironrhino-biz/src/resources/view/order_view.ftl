@@ -11,7 +11,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span>${action.getText('orderDate')}:&nbsp;&nbsp;</span><span>${order.orderDate?string('yyyy年MM月dd日')}</span>
 </div>
 
-<table border="0" cellspacing="0" cellpadding="0" class="sortable" width="100%">
+<table border="0" class="sortable" width="100%">
 	<thead>
 		<tr>
 			<td>

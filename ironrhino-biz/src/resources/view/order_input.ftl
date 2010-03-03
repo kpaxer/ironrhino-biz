@@ -24,7 +24,7 @@
 	<p>
 		<label for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems">
-		<table border="0" cellspacing="0" cellpadding="0" width="80%">
+		<table border="0" width="80%">
 			<thead>
 				<tr>
 					<td>${action.getText('product')}</td>
@@ -33,6 +33,16 @@
 					<td>${action.getText('subtotal')}</td>
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="2">
+					${action.getText('discount')}:&nbsp;<@s.textfield id="discount" theme="simple" name="order.discount" cssClass="double"/>
+					</td>
+					<td colspan="2" align="right">
+					${action.getText('grandTotal')}:&nbsp;<span id="grandTotal" style="font-weight:bold;"></span>
+					</td>
+				</tr>
+			</tfoot>
 			<tbody>
 				<tr>
 					<td><@s.select theme="simple" name="productId" cssClass="required" list="productList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></td>
@@ -44,7 +54,7 @@
 		</table>
 		</div>
 	</p>
-	<@s.textfield label="%{getText('discount')}" name="order.discount" cssClass="double"/>
+	
 	<@s.textarea label="%{getText('memo')}" name="order.memo" cols="50" rows="10"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
