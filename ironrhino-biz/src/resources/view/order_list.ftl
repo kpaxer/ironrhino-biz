@@ -5,9 +5,6 @@
 </head>
 <body>
 <#assign config={"code":{},"customer":{},"grandTotal":{},"orderDate":{"template":r"${value?string('yyyy年MM月dd日')}"},"paid":{},"shipped":{},"cancelled":{}}>
-<@richtable entityName="order" config=config celleditable=false deleteable=false/>
-<form action="<@url value="order"/>" method="post" class="ajax view" replacement="order_form">
-<@s.textfield theme="simple" name="q" size="20"/><@s.submit theme="simple" value="%{getText('search')}" />
-</form>
+<@richtable entityName="order" config=config celleditable=false deleteable=false searchable=true/>
 </body>
 </html></#escape>

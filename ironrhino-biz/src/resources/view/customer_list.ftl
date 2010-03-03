@@ -16,9 +16,8 @@ text-decoration:none;
 +btn(action.getText('view'),r"Richtable.open(Richtable.getUrl('view','${rowid}'),true)")
 +btn(action.getText('order'),'','','link','',r'order?customer.id=${rowid}')
 +btn(action.getText('delete'),null,'del')>
-<@richtable entityName="customer" config=config actionColumnWidth="210px" actionColumnButtons=actionColumnButtons/>
-<form action="<@url value="customer"/>" method="post" class="ajax view" replacement="customer_form">
-<@s.textfield theme="simple" name="q" size="20"/><@s.submit theme="simple" value="%{getText('search')}" /><@button type="link" text="按区域检索" href="${getUrl('/customer/region')}"/>
-</form>
+
+<#assign searchButtons=btn('按区域检索','','','link','',r'${getUrl("/customer/region")}')/>
+<@richtable entityName="customer" config=config actionColumnWidth="210px" actionColumnButtons=actionColumnButtons searchable=true searchButtons=searchButtons/>
 </body>
 </html></#escape>

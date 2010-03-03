@@ -37,7 +37,7 @@ public class CustomerAction extends BaseAction {
 
 	private Long regionId;
 
-	private String q;
+	private String keyword;
 
 	private transient CompassSearchResults searchResults;
 
@@ -78,12 +78,12 @@ public class CustomerAction extends BaseAction {
 		return searchResults;
 	}
 
-	public String getQ() {
-		return q;
+	public String getKeyword() {
+		return keyword;
 	}
 
-	public void setQ(String q) {
-		this.q = q;
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 
 	public Region getRegionTree() {
@@ -92,7 +92,7 @@ public class CustomerAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(q)) {
+		if (StringUtils.isBlank(keyword)) {
 			DetachedCriteria dc = customerManager.detachedCriteria();
 			Region region = null;
 			if (regionId != null) {
@@ -117,7 +117,7 @@ public class CustomerAction extends BaseAction {
 					c.setRegion(regionTreeControl.getRegionTree()
 							.getDescendantOrSelfById(c.getRegion().getId()));
 		} else {
-			String query = q.trim();
+			String query = keyword.trim();
 			CompassCriteria cc = new CompassCriteria();
 			cc.setQuery(query);
 			cc.setAliases(new String[] { "customer" });

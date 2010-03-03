@@ -36,7 +36,7 @@ public class OrderAction extends BaseAction {
 
 	private Customer customer;
 
-	private String q;
+	private String keyword;
 
 	private Long[] productId;
 
@@ -90,17 +90,17 @@ public class OrderAction extends BaseAction {
 		return searchResults;
 	}
 
-	public String getQ() {
-		return q;
+	public String getKeyword() {
+		return keyword;
 	}
 
-	public void setQ(String q) {
-		this.q = q;
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(q)) {
+		if (StringUtils.isBlank(keyword)) {
 			DetachedCriteria dc = orderManager.detachedCriteria();
 			if (resultPage == null)
 				resultPage = new ResultPage<Order>();
@@ -112,7 +112,7 @@ public class OrderAction extends BaseAction {
 					.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
 			resultPage = orderManager.findByResultPage(resultPage);
 		} else {
-			String query = q.trim();
+			String query = keyword.trim();
 			CompassCriteria cc = new CompassCriteria();
 			cc.setQuery(query);
 			cc.setAliases(new String[] { "order" });
