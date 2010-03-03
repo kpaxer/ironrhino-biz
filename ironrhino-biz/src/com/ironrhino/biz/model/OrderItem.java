@@ -26,7 +26,8 @@ public class OrderItem implements Serializable {
 	}
 
 	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+		if (quantity > 0)
+			this.quantity = quantity;
 	}
 
 	public BigDecimal getPrice() {
@@ -34,7 +35,8 @@ public class OrderItem implements Serializable {
 	}
 
 	public void setPrice(BigDecimal price) {
-		this.price = price;
+		if (price != null && price.doubleValue() > 0)
+			this.price = price;
 	}
 
 	public BigDecimal getSubtotal() {

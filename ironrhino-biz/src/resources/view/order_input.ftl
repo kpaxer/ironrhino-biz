@@ -9,12 +9,12 @@
 		<@s.hidden name="order.id" />
 	</@s.if>
 		<p>
-			<label for="customerId">${action.getText('customer')}</label>
+			<label for="customerId">${action.getText('customer')}<#if !customer??>${action.getText('id')}</#if></label>
 			<div>
 			<#if customer??>
 				<@s.hidden name="customer.id" />${customer.name}
 			<#else>
-				<@s.textfield id="customerId" theme="simple" name="customer.id" size="8" cssClass="required ajax"/>
+				<@s.textfield id="customerId" theme="simple" name="customer.id" size="8" cssClass="required integer positive ajax"/>
 				&nbsp;&nbsp;<span></span>
 			</#if>
 			</div>
@@ -46,8 +46,8 @@
 			<tbody>
 				<tr>
 					<td><@s.select theme="simple" name="productId" cssClass="required" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/></td>
-					<td><@s.textfield theme="simple" name="order.items[0].quantity" cssClass="required integer"/></td>
-					<td><@s.textfield theme="simple" name="order.items[0].price" cssClass="required double"/></td>
+					<td><@s.textfield theme="simple" name="order.items[0].quantity" cssClass="required integer positive"/></td>
+					<td><@s.textfield theme="simple" name="order.items[0].price" cssClass="required double positive"/></td>
 					<td></td>
 				</tr>
 			</tbody>

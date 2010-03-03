@@ -20,6 +20,7 @@ import org.ironrhino.core.struts.BaseAction;
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Order;
+import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.OrderManager;
@@ -115,8 +116,7 @@ public class OrderAction extends BaseAction {
 			if (customer != null && customer.getId() != null)
 				dc.createAlias("customer", "c").add(
 						Restrictions.eq("c.id", customer.getId()));
-			resultPage
-					.addOrder(org.hibernate.criterion.Order.desc("code"));
+			resultPage.addOrder(org.hibernate.criterion.Order.desc("code"));
 			resultPage = orderManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
@@ -170,9 +170,15 @@ public class OrderAction extends BaseAction {
 			customer = customerManager.get(customer.getId());
 			order.setCustomer(customer);
 			if (productId != null) {
-				for (int i = 0; i < productId.length; i++)
-					order.getItems().get(i).setProduct(
-							productManager.get(productId[i]));
+				for (int i = 0; i < order.getItems().size(); i++) {
+					if (i >= productId.length)
+						break;
+					OrderItem item = order.getItems().get(i);
+					if (item.getQuantity() > 0 && item.getPrice() != null)
+						item.setProduct(productManager.get(productId[i]));
+					else
+						order.getItems().remove(i);
+				}
 			}
 		} else {
 			Order temp = order;
