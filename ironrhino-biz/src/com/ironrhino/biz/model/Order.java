@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableComponent;
 import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
@@ -32,6 +33,7 @@ public class Order extends BaseEntity {
 	private String memo;
 
 	@NotInCopy
+	@SearchableProperty(converter="date",format="yyyy-MM-dd")
 	private Date orderDate = new Date();
 
 	private boolean paid;
@@ -42,6 +44,7 @@ public class Order extends BaseEntity {
 
 	private BigDecimal grandTotal;
 
+	@SearchableComponent
 	private Customer customer;
 
 	@CreateIfNull

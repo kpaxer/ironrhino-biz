@@ -10,12 +10,12 @@
 	</@s.if>
 	<p>
 	<label for="save_spec_basicQuantity">${action.getText('basicQuantity')}</label>
-	<@s.textfield name="spec.basicQuantity" cssClass="double" theme="simple"/>
+	<@s.textfield name="spec.basicQuantity" cssClass="double positive" theme="simple"/>
 	&nbsp;<@s.select name="spec.basicMeasure" list="{'g','kg','l','ml'}" cssStyle="width:auto;" theme="simple"/>
 	</p>
 	<p>
 	<label for="save_spec_basicQuantity">${action.getText('baleQuantity')}</label>
-	<@s.textfield name="spec.baleQuantity" cssClass="integer" theme="simple"/>
+	<@s.textfield name="spec.baleQuantity" cssClass="integer positive" theme="simple"/>
 	/<@s.select name="spec.basicPackName" list="{'包','瓶'}" cssStyle="width:auto;" theme="simple"/>
 	</p>
 	<@s.select label="%{getText('balePackName')}" name="spec.balePackName" list="{'箱','件'}" headerKey="" headerValue="请选择"/>

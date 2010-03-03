@@ -6,7 +6,7 @@
 <body>
 <@s.form action="out" method="post" cssClass="ajax">
     <@s.select label="%{getText('stuff')}" name="stuffId" list="stuffList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
-	<@s.textfield label="%{getText('quantity')}" name="stuffflow.quantity" cssClass="required integer"/>
+	<@s.textfield label="%{getText('quantity')}" name="stuffflow.quantity" cssClass="required integer positive"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

@@ -120,6 +120,18 @@ public class OrderAction extends BaseAction {
 			resultPage = orderManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
+			if(query.matches("^\\d{4}-\\d{2}-\\d{2}$"))
+				query="orderDate:"+query;
+			if(query.matches("^\\d{4}年\\d{2}月\\d{2}日$")){
+				StringBuilder sb = new StringBuilder();
+				sb.append("orderDate:");
+				sb.append(query.substring(0,4));
+				sb.append('-');
+				sb.append(query.substring(5,7));
+				sb.append('-');
+				sb.append(query.substring(8,10));
+				query = sb.toString();
+			}
 			CompassCriteria cc = new CompassCriteria();
 			cc.setQuery(query);
 			cc.setAliases(new String[] { "order" });

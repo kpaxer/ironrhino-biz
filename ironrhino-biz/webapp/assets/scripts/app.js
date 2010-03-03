@@ -24,6 +24,15 @@
 		$('#orderItems input').blur(function() {
 					calculate()
 				});
+		$('#orderItems tr input').last().keyup(function(event) {
+					if (event.keyCode && event.keyCode == 13) {
+						event.stopPropagation();
+						var event = event || window.event;
+						var row = $(event.srcElement || event.target).closest('tr');
+						addRow(row);
+						return false;
+					}
+				});
 	};
 
 	var calculate = function(row) {
@@ -48,5 +57,11 @@
 				$('#grandTotal').text(grandTotal);
 		}
 	}
-
+	var addRow = function(row) {
+		var r = row.clone(true);
+		row.after(r);
+		$('td',r).last().text('');
+		$('input,select',r).val('').first().focus();
+		//TODO rename input names
+	}
 })();
