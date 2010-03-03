@@ -198,6 +198,9 @@ public class OrderAction extends BaseAction {
 			Order temp = order;
 			order = orderManager.get(temp.getId());
 			order.setMemo(temp.getMemo());
+			order.setPaid(temp.isPaid());
+			order.setShipped(temp.isShipped());
+			order.setCancelled(temp.isCancelled());
 		}
 		orderManager.save(order);
 		addActionMessage(getText("save.success"));
@@ -230,30 +233,6 @@ public class OrderAction extends BaseAction {
 			}
 		}
 		return SUCCESS;
-	}
-
-	public String pay() {
-		String id = getUid();
-		if (StringUtils.isNotBlank(id)) {
-			order = orderManager.get(id);
-			order.setPaid(true);
-			orderManager.save(order);
-		} else {
-			return ACCESSDENIED;
-		}
-		return VIEW;
-	}
-
-	public String ship() {
-		String id = getUid();
-		if (StringUtils.isNotBlank(id)) {
-			order = orderManager.get(id);
-			order.setShipped(true);
-			orderManager.save(order);
-		} else {
-			return ACCESSDENIED;
-		}
-		return VIEW;
 	}
 
 	public String cancel() {

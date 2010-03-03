@@ -1,6 +1,6 @@
 (function() {
 	Observation.app = function() {
-		$('#customerId.ajax').blur(function(event) {
+		$('#customerId.ajax').change(function(event) {
 			var ev = event || window.event;
 			var input = $(event.srcElement || event.target);
 			if (input.val()) {
@@ -9,14 +9,23 @@
 					url : url,
 					dataType : 'json',
 					success : function(customer) {
-						if (customer.name)
-							input.next('span').text(customer.name);
-						else
+						if (customer.name) {
+							if (customer.id)
+								input.val(customer.id).next('span').text(customer.name);
+							else
+								input
+										.val('')
+										.focus()
+										.next('span')
+										.html('<span style="color:red;">备选:</span>'
+												+ customer.name);
+						} else {
 							input
 									.val('')
 									.focus()
 									.next('span')
 									.html('<span style="color:red;">没有此客户</span>');
+						}
 					}
 				});
 			}
@@ -24,11 +33,12 @@
 		$('#orderItems input').blur(function() {
 					calculate()
 				});
-		$('#orderItems tr input').last().bind('keyup',function(event) {
+		$('#orderItems tr input').last().bind('keyup', function(event) {
 					if (event.keyCode && event.keyCode == 13) {
 						event.stopPropagation();
 						var event = event || window.event;
-						var row = $(event.srcElement || event.target).closest('tr');
+						var row = $(event.srcElement || event.target)
+								.closest('tr');
 						addRow(row);
 						return false;
 					}
@@ -60,14 +70,16 @@
 	var addRow = function(row) {
 		var r = row.clone(true);
 		row.after(r);
-		$('td',r).last().text('');
-		$('input,select',r).val('').first().focus();
-		$('input',r).each(function(){
+		$('td', r).last().text('');
+		$('input,select', r).val('').first().focus();
+		$('input', r).each(function() {
 			var name = $(this).attr('name');
-			var temp = name.substring(0,name.indexOf('[')+1);
-			temp+=parseInt(name.substring(name.indexOf('[')+1,name.indexOf(']')))+1;
-			temp+=name.substring(name.indexOf(']'));
-			$(this).attr('name',temp);
+			var temp = name.substring(0, name.indexOf('[') + 1);
+			temp += parseInt(name.substring(name.indexOf('[') + 1, name
+							.indexOf(']')))
+					+ 1;
+			temp += name.substring(name.indexOf(']'));
+			$(this).attr('name', temp);
 		});
 	}
 })();

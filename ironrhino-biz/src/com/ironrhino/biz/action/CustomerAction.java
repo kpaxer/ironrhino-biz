@@ -244,8 +244,26 @@ public class CustomerAction extends BaseAction {
 		String id = getUid();
 		if (StringUtils.isNumeric(id)) {
 			customer = customerManager.get(Long.valueOf(id));
+		} else if (StringUtils.isNotBlank(id)) {
+			CompassCriteria cc = new CompassCriteria();
+			cc.setQuery("name:" + id);
+			cc.setAliases(new String[] { "customer" });
+			cc.setPageNo(1);
+			cc.setPageSize(10);
+			searchResults = compassSearchService.search(cc);
+			int hits = searchResults.getTotalHits();
+			if (hits == 1) {
+				customer = (Customer) searchResults.getHits()[0].getData();
+			} else if (hits > 1) {
+				StringBuilder sb = new StringBuilder();
+				for (CompassHit ch : searchResults.getHits())
+					sb.append(((Customer) ch.getData()).getName()).append(",");
+				sb.deleteCharAt(sb.length() - 1);
+				customer = new Customer();
+				customer.setName(sb.toString());
+			}
 		}
-		if(customer == null)
+		if (customer == null)
 			customer = new Customer();
 		return JSON;
 	}
