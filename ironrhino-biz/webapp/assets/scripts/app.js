@@ -24,7 +24,7 @@
 		$('#orderItems input').blur(function() {
 					calculate()
 				});
-		$('#orderItems tr input').last().keyup(function(event) {
+		$('#orderItems tr input').last().bind('keyup',function(event) {
 					if (event.keyCode && event.keyCode == 13) {
 						event.stopPropagation();
 						var event = event || window.event;
@@ -62,6 +62,12 @@
 		row.after(r);
 		$('td',r).last().text('');
 		$('input,select',r).val('').first().focus();
-		//TODO rename input names
+		$('input',r).each(function(){
+			var name = $(this).attr('name');
+			var temp = name.substring(0,name.indexOf('[')+1);
+			temp+=parseInt(name.substring(name.indexOf('[')+1,name.indexOf(']')))+1;
+			temp+=name.substring(name.indexOf(']'));
+			$(this).attr('name',temp);
+		});
 	}
 })();

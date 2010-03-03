@@ -186,6 +186,8 @@ public class OrderAction extends BaseAction {
 					if (i >= productId.length)
 						break;
 					OrderItem item = order.getItems().get(i);
+					if(item == null)
+						continue;
 					if (item.getQuantity() > 0 && item.getPrice() != null)
 						item.setProduct(productManager.get(productId[i]));
 					else
