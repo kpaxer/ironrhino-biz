@@ -42,9 +42,10 @@
 						grandTotal += calculate(this);
 					});
 			var discount = $('#discount').val();
-			if(discount)
-				grandTotal-=discount;
-			$('#grandTotal').text(grandTotal);
+			if (discount)
+				grandTotal -= discount;
+			if (grandTotal > 0)
+				$('#grandTotal').text(grandTotal);
 		}
 	}
 

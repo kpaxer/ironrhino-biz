@@ -79,7 +79,18 @@ public class Product extends Entity<Long> implements Ordered {
 
 	@NotInCopy
 	public String getFullname() {
-		return name + "(" + spec.getName() + ")";
+		StringBuilder sb = new StringBuilder();
+		if (brand != null)
+			sb.append(brand.getName());
+		if (category != null)
+			sb.append(category.getName());
+		sb.append(name);
+		if (spec != null) {
+			sb.append('(');
+			sb.append(spec.getName());
+			sb.append(')');
+		}
+		return sb.toString();
 	}
 
 	public int getDisplayOrder() {

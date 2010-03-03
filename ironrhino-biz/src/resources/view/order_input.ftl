@@ -45,7 +45,7 @@
 			</tfoot>
 			<tbody>
 				<tr>
-					<td><@s.select theme="simple" name="productId" cssClass="required" list="productList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></td>
+					<td><@s.select theme="simple" name="productId" cssClass="required" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/></td>
 					<td><@s.textfield theme="simple" name="order.items[0].quantity" cssClass="required integer"/></td>
 					<td><@s.textfield theme="simple" name="order.items[0].price" cssClass="required double"/></td>
 					<td></td>
@@ -55,7 +55,7 @@
 		</div>
 	</p>
 	
-	<@s.textarea label="%{getText('memo')}" name="order.memo" cols="50" rows="10"/>
+	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:80%;" rows="3"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>
