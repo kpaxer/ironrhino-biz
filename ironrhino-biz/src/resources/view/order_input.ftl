@@ -10,10 +10,13 @@
 	</@s.if>
 	<#if customer??>
 		<@s.hidden name="customer.id" />
+		<p><label for="customer"></label>
+		<div id="customer">${customer.name}</div>
+		</p>
 	</#if>
 	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date"/>
 	<@s.textfield label="%{getText('discount')}" name="order.discount" cssClass="double"/>
-	<@s.textarea label="%{getText('memo')}" name="customer.memo" cols="50" rows="10"/>
+	<@s.textarea label="%{getText('memo')}" name="order.memo" cols="50" rows="10"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

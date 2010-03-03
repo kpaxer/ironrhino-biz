@@ -13,7 +13,7 @@ text-decoration:none;
 <#assign config={"id":{"width":"80px"},"name":{"width":"300px","cellEdit":"click"},"address":{"width":"300px","template":r'<#if entity.region??><a class="region" title="点击查看${entity.region.fullname}所有客户" href="customer?regionId=${entity.region.id}">${entity.region.fullname}</a></#if>${value!}'},"linkman":{"cellEdit":"click"},"phone":{"cellEdit":"click"}}>
 <#assign actionColumnButtons=btn(action.getText('save'),null,'save')
 +btn(action.getText('edit'),null,'input')
-+btn(action.getText('view'),r"Richtable.open(Richtable.getUrl('view','${rowid}'),true)")
++btn(action.getText('view'),null,'view')
 +btn(action.getText('order'),'','','link','',r'order?customer.id=${rowid}')
 +btn(action.getText('delete'),null,'del')>
 
