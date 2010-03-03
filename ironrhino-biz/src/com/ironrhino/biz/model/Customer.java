@@ -39,9 +39,11 @@ public class Customer extends Entity<Long> {
 	private String memo;
 
 	@NotInCopy
+	@NotInJson
 	private Date createDate;
 
 	@NotInCopy
+	@NotInJson
 	private Region region;
 
 	public Customer() {

@@ -8,13 +8,42 @@
 	<@s.if test="%{!order.isNew()}">
 		<@s.hidden name="order.id" />
 	</@s.if>
-	<#if customer??>
-		<@s.hidden name="customer.id" />
-		<p><label for="customer">${action.getText('customer')}</label>
-		<div id="customer">${customer.name}</div>
+		<p>
+			<label for="customerId">${action.getText('customer')}</label>
+			<div>
+			<#if customer??>
+				<@s.hidden name="customer.id" />${customer.name}
+			<#else>
+				<@s.textfield id="customerId" theme="simple" name="customer.id" size="8" cssClass="required ajax"/>
+				&nbsp;&nbsp;<span></span>
+			</#if>
+			</div>
 		</p>
-	</#if>
+	
 	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date"/>
+	<p>
+		<label for="orderItems">${action.getText('orderItems')}</label>
+		<div id="orderItems">
+		<table border="0" cellspacing="0" cellpadding="0" width="80%">
+			<thead>
+				<tr>
+					<td>${action.getText('product')}</td>
+					<td>${action.getText('quantity')}</td>
+					<td>${action.getText('price')}</td>
+					<td>${action.getText('subtotal')}</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><@s.select theme="simple" name="productId" cssClass="required" list="productList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></td>
+					<td><@s.textfield theme="simple" name="order.items[0].quantity" cssClass="required integer"/></td>
+					<td><@s.textfield theme="simple" name="order.items[0].price" cssClass="required double"/></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+	</p>
 	<@s.textfield label="%{getText('discount')}" name="order.discount" cssClass="double"/>
 	<@s.textarea label="%{getText('memo')}" name="order.memo" cols="50" rows="10"/>
 	<@s.submit value="%{getText('save')}" />

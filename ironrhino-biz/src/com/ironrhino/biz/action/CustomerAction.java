@@ -15,6 +15,7 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.core.metadata.Authorize;
+import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
@@ -236,6 +237,17 @@ public class CustomerAction extends BaseAction {
 
 	public String region() {
 		return "region";
+	}
+
+	@JsonConfig(root = "customer")
+	public String json() {
+		String id = getUid();
+		if (StringUtils.isNumeric(id)) {
+			customer = customerManager.get(Long.valueOf(id));
+		}
+		if(customer == null)
+			customer = new Customer();
+		return JSON;
 	}
 
 }

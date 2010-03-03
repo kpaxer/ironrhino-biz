@@ -20,6 +20,7 @@ import org.ironrhino.core.struts.BaseAction;
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Order;
+import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.OrderManager;
 import com.ironrhino.biz.service.ProductManager;
@@ -39,6 +40,8 @@ public class OrderAction extends BaseAction {
 	private String keyword;
 
 	private Long[] productId;
+
+	private List<Product> productList;
 
 	private transient CompassSearchResults searchResults;
 
@@ -60,6 +63,10 @@ public class OrderAction extends BaseAction {
 
 	public void setResultPage(ResultPage<Order> resultPage) {
 		this.resultPage = resultPage;
+	}
+
+	public List<Product> getProductList() {
+		return productList;
 	}
 
 	public Long[] getProductId() {
@@ -109,7 +116,7 @@ public class OrderAction extends BaseAction {
 				dc.createAlias("customer", "c").add(
 						Restrictions.eq("c.id", customer.getId()));
 			resultPage
-					.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
+					.addOrder(org.hibernate.criterion.Order.desc("code"));
 			resultPage = orderManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
@@ -147,6 +154,8 @@ public class OrderAction extends BaseAction {
 			order = new Order();
 			if (customer != null && customer.getId() != null)
 				customer = customerManager.get(customer.getId());
+			productList = productManager.findAll(org.hibernate.criterion.Order
+					.asc("displayOrder"));
 		} else {
 			customer = order.getCustomer();
 		}
