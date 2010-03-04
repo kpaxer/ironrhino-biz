@@ -1,6 +1,6 @@
 (function() {
 	Observation.app = function() {
-		$('#customerId.ajax').blur(function(event) {
+		$('#customerId.ajax,#customerName.ajax').blur(function(event) {
 			var ev = event || window.event;
 			var input = $(event.srcElement || event.target);
 			if (input.val()) {
@@ -10,21 +10,24 @@
 					dataType : 'json',
 					success : function(customer) {
 						if (customer.name) {
-							if (customer.id)
-								input.val(customer.id).next('span')
-										.text(customer.name);
-							else
+							if (customer.id) {
+								$('#customerId').val(customer.id);
+								$('#customerName').val(customer.name);
+								input.siblings('span:eq(0)').html('');
+							} else {
+								$('#customerId.ajax,#customerName.ajax')
+										.val('');
 								input
-										.val('')
 										.focus()
-										.next('span')
+										.siblings('span:eq(0)')
 										.html('<span style="color:red;">备选:</span>'
 												+ customer.name);
+							}
 						} else {
+							$('#customerId.ajax,#customerName.ajax').val('');
 							input
-									.val('')
 									.focus()
-									.next('span')
+									.siblings('span:eq(0)')
 									.html('<span style="color:red;">没有此客户</span>');
 						}
 					}

@@ -9,14 +9,12 @@
 		<@s.hidden name="order.id" />
 	</@s.if>
 		<p>
-			<label for="customerId">${action.getText('customer')}<#if !customer??>${action.getText('id')}</#if></label>
+			<label for="customerId">${action.getText('customer')}${action.getText('id')}</label>
 			<div>
-			<#if customer??>
-				<@s.hidden name="customer.id" />${customer.name}
-			<#else>
 				<@s.textfield id="customerId" theme="simple" name="customer.id" size="8" cssClass="required integer positive ajax"/>
+				&nbsp;&nbsp;${action.getText('customer')}${action.getText('name')}
+				&nbsp;&nbsp;<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="ajax"/>
 				&nbsp;&nbsp;<span></span>
-			</#if>
 			</div>
 		</p>
 	
