@@ -3,6 +3,7 @@ package com.ironrhino.biz.model;
 import java.util.Date;
 
 import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableComponent;
 import org.compass.annotations.SearchableId;
 import org.compass.annotations.SearchableProperty;
 import org.ironrhino.common.model.Region;
@@ -44,6 +45,7 @@ public class Customer extends Entity<Long> {
 
 	@NotInCopy
 	@NotInJson
+	@SearchableComponent
 	private Region region;
 
 	public Customer() {

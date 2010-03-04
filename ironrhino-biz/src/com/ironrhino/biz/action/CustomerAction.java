@@ -263,8 +263,6 @@ public class CustomerAction extends BaseAction {
 				customer.setName(sb.toString());
 			}
 		}
-		if (customer == null)
-			customer = new Customer();
 		return JSON;
 	}
 

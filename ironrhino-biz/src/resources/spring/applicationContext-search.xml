@@ -7,6 +7,7 @@
 			<list>
 				<value>org.ironrhino.core.model.SimpleElement</value>
 				<value>org.ironrhino.core.model.Attribute</value>
+				<value>org.ironrhino.common.model.Region</value>
 				<value>com.ironrhino.biz.model.Customer</value>
 				<value>com.ironrhino.biz.model.Order</value>
 			</list>
