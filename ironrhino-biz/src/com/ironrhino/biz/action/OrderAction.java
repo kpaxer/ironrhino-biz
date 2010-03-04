@@ -44,8 +44,6 @@ public class OrderAction extends BaseAction {
 
 	private List<Product> productList;
 
-	private transient CompassSearchResults searchResults;
-
 	@Inject
 	private transient OrderManager orderManager;
 
@@ -94,10 +92,6 @@ public class OrderAction extends BaseAction {
 		this.customer = customer;
 	}
 
-	public CompassSearchResults getSearchResults() {
-		return searchResults;
-	}
-
 	public String getKeyword() {
 		return keyword;
 	}
@@ -120,16 +114,16 @@ public class OrderAction extends BaseAction {
 			resultPage = orderManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
-			if(query.matches("^\\d{4}-\\d{2}-\\d{2}$"))
-				query="orderDate:"+query;
-			if(query.matches("^\\d{4}年\\d{2}月\\d{2}日$")){
+			if (query.matches("^\\d{4}-\\d{2}-\\d{2}$"))
+				query = "orderDate:" + query;
+			if (query.matches("^\\d{4}年\\d{2}月\\d{2}日$")) {
 				StringBuilder sb = new StringBuilder();
 				sb.append("orderDate:");
-				sb.append(query.substring(0,4));
+				sb.append(query.substring(0, 4));
 				sb.append('-');
-				sb.append(query.substring(5,7));
+				sb.append(query.substring(5, 7));
 				sb.append('-');
-				sb.append(query.substring(8,10));
+				sb.append(query.substring(8, 10));
 				query = sb.toString();
 			}
 			CompassCriteria cc = new CompassCriteria();
@@ -139,20 +133,25 @@ public class OrderAction extends BaseAction {
 				resultPage = new ResultPage<Order>();
 			cc.setPageNo(resultPage.getPageNo());
 			cc.setPageSize(resultPage.getPageSize());
-			searchResults = compassSearchService.search(cc);
-			resultPage.setTotalRecord(searchResults.getTotalHits());
+			CompassSearchResults searchResults = compassSearchService
+					.search(cc);
+			int totalHits = searchResults.getTotalHits();
 			CompassHit[] hits = searchResults.getHits();
 			if (hits != null) {
 				List<Order> list = new ArrayList<Order>(hits.length);
 				for (CompassHit ch : searchResults.getHits()) {
 					Order c = (Order) ch.getData();
 					c = orderManager.get(c.getId());
-					list.add(c);
+					if (c != null)
+						list.add(c);
+					else
+						totalHits--;
 				}
 				resultPage.setResult(list);
 			} else {
 				resultPage.setResult(Collections.EMPTY_LIST);
 			}
+			resultPage.setTotalRecord(totalHits);
 		}
 		return LIST;
 	}
@@ -186,7 +185,7 @@ public class OrderAction extends BaseAction {
 					if (i >= productId.length)
 						break;
 					OrderItem item = order.getItems().get(i);
-					if(item == null)
+					if (item == null)
 						continue;
 					if (item.getQuantity() > 0 && item.getPrice() != null)
 						item.setProduct(productManager.get(productId[i]));
@@ -226,10 +225,19 @@ public class OrderAction extends BaseAction {
 			dc.add(Restrictions.in("id", id));
 			List<Order> list = orderManager.findListByCriteria(dc);
 			if (list.size() > 0) {
-				for (Order order : list)
-					if (order.isCancelled())
-						orderManager.delete(order);
-				addActionMessage(getText("delete.success"));
+				boolean deletable = true;
+				for (Order temp : list) {
+					if (!temp.isCancelled()) {
+						addActionError("请先取消订单" + temp.getCode());
+						deletable = false;
+						break;
+					}
+				}
+				if (deletable) {
+					for (Order temp : list)
+						orderManager.delete(temp);
+					addActionMessage(getText("delete.success"));
+				}
 			}
 		}
 		return SUCCESS;

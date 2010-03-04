@@ -1,12 +1,16 @@
 package com.ironrhino.biz.model;
 
+import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
 
+import com.ironrhino.biz.Constants;
+
 @AutoConfig
+@Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
 public class Category extends Entity<Long> implements Ordered {
 
 	private static final long serialVersionUID = 2394113154991389750L;

@@ -40,8 +40,6 @@ public class CustomerAction extends BaseAction {
 
 	private String keyword;
 
-	private transient CompassSearchResults searchResults;
-
 	@Inject
 	private transient CustomerManager customerManager;
 
@@ -73,10 +71,6 @@ public class CustomerAction extends BaseAction {
 
 	public void setRegionId(Long regionId) {
 		this.regionId = regionId;
-	}
-
-	public CompassSearchResults getSearchResults() {
-		return searchResults;
 	}
 
 	public String getKeyword() {
@@ -126,25 +120,30 @@ public class CustomerAction extends BaseAction {
 				resultPage = new ResultPage<Customer>();
 			cc.setPageNo(resultPage.getPageNo());
 			cc.setPageSize(resultPage.getPageSize());
-			searchResults = compassSearchService.search(cc);
-			resultPage.setTotalRecord(searchResults.getTotalHits());
+			CompassSearchResults searchResults = compassSearchService
+					.search(cc);
+			int totalHits = searchResults.getTotalHits();
 			CompassHit[] hits = searchResults.getHits();
 			if (hits != null) {
 				List<Customer> list = new ArrayList<Customer>(hits.length);
 				for (CompassHit ch : searchResults.getHits()) {
 					Customer c = (Customer) ch.getData();
 					c = customerManager.get(c.getId());
-					if (c.getRegion() != null)
-						c
-								.setRegion(regionTreeControl.getRegionTree()
-										.getDescendantOrSelfById(
-												c.getRegion().getId()));
-					list.add(c);
+					if (c != null) {
+						if (c.getRegion() != null)
+							c.setRegion(regionTreeControl.getRegionTree()
+									.getDescendantOrSelfById(
+											c.getRegion().getId()));
+						list.add(c);
+					} else {
+						totalHits--;
+					}
 				}
 				resultPage.setResult(list);
 			} else {
 				resultPage.setResult(Collections.EMPTY_LIST);
 			}
+			resultPage.setTotalRecord(totalHits);
 		}
 		return LIST;
 	}
@@ -224,6 +223,7 @@ public class CustomerAction extends BaseAction {
 	}
 
 	@Override
+	@Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
 	public String delete() {
 		String[] _id = getId();
 		if (_id != null) {
@@ -252,22 +252,27 @@ public class CustomerAction extends BaseAction {
 		if (StringUtils.isNumeric(id)) {
 			customer = customerManager.get(Long.valueOf(id));
 		} else if (StringUtils.isNotBlank(id)) {
-			CompassCriteria cc = new CompassCriteria();
-			cc.setQuery("name:" + id);
-			cc.setAliases(new String[] { "customer" });
-			cc.setPageNo(1);
-			cc.setPageSize(10);
-			searchResults = compassSearchService.search(cc);
-			int hits = searchResults.getTotalHits();
-			if (hits == 1) {
-				customer = (Customer) searchResults.getHits()[0].getData();
-			} else if (hits > 1) {
-				StringBuilder sb = new StringBuilder();
-				for (CompassHit ch : searchResults.getHits())
-					sb.append(((Customer) ch.getData()).getName()).append(",");
-				sb.deleteCharAt(sb.length() - 1);
-				customer = new Customer();
-				customer.setName(sb.toString());
+			customer = customerManager.findByNaturalId(true, id);
+			if (customer == null) {
+				CompassCriteria cc = new CompassCriteria();
+				cc.setQuery(id);
+				cc.setAliases(new String[] { "customer" });
+				cc.setPageNo(1);
+				cc.setPageSize(10);
+				CompassSearchResults searchResults = compassSearchService
+						.search(cc);
+				int hits = searchResults.getTotalHits();
+				if (hits == 1) {
+					customer = (Customer) searchResults.getHits()[0].getData();
+				} else if (hits > 1) {
+					StringBuilder sb = new StringBuilder();
+					for (CompassHit ch : searchResults.getHits())
+						sb.append(((Customer) ch.getData()).getName()).append(
+								",");
+					sb.deleteCharAt(sb.length() - 1);
+					customer = new Customer();
+					customer.setName(sb.toString());
+				}
 			}
 		}
 		return JSON;
