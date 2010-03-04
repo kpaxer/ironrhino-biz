@@ -19473,7 +19473,7 @@ Observation.editme = function(container) {
 };
 (function() {
 	Observation.app = function() {
-		$('#customerId.ajax').change(function(event) {
+		$('#customerId.ajax').blur(function(event) {
 			var ev = event || window.event;
 			var input = $(event.srcElement || event.target);
 			if (input.val()) {
@@ -19484,7 +19484,8 @@ Observation.editme = function(container) {
 					success : function(customer) {
 						if (customer.name) {
 							if (customer.id)
-								input.val(customer.id).next('span').text(customer.name);
+								input.val(customer.id).next('span')
+										.text(customer.name);
 							else
 								input
 										.val('')
@@ -19506,16 +19507,8 @@ Observation.editme = function(container) {
 		$('#orderItems input').blur(function() {
 					calculate()
 				});
-		$('#orderItems tr input').last().bind('keyup', function(event) {
-					if (event.keyCode && event.keyCode == 13) {
-						event.stopPropagation();
-						var event = event || window.event;
-						var row = $(event.srcElement || event.target)
-								.closest('tr');
-						addRow(row);
-						return false;
-					}
-				});
+		$('#orderItems button.add').click(addRow);
+		$('#orderItems button.remove').click(removeRow);
 	};
 
 	var calculate = function(row) {
@@ -19525,7 +19518,7 @@ Observation.editme = function(container) {
 			var subtotal = 0;
 			if (quantity && price) {
 				subtotal = quantity * price;
-				$('td', row).last().text(subtotal);
+				$('td:eq(3)', row).text(subtotal);
 			}
 			return subtotal;
 		} else {
@@ -19540,10 +19533,12 @@ Observation.editme = function(container) {
 				$('#grandTotal').text(grandTotal);
 		}
 	}
-	var addRow = function(row) {
+	var addRow = function(event) {
+		var event = event || window.event;
+		var row = $(event.srcElement || event.target).closest('tr');
 		var r = row.clone(true);
 		row.after(r);
-		$('td', r).last().text('');
+		$('td:eq(3)', r).text('');
 		$('input,select', r).val('').first().focus();
 		$('input', r).each(function() {
 			var name = $(this).attr('name');
@@ -19554,5 +19549,13 @@ Observation.editme = function(container) {
 			temp += name.substring(name.indexOf(']'));
 			$(this).attr('name', temp);
 		});
+	}
+	var removeRow = function(event) {
+		var event = event || window.event;
+		var row = $(event.srcElement || event.target).closest('tr');
+		if ($('tr', row.parent()).length > 1){
+			row.remove();
+			calculate();
+		}
 	}
 })();

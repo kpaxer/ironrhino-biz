@@ -50,6 +50,7 @@
 					<td><@s.textfield theme="simple" name="order.items[0].quantity" cssClass="required integer positive"/></td>
 					<td><@s.textfield theme="simple" name="order.items[0].price" cssClass="required double positive"/></td>
 					<td></td>
+					<td><@button text="+" class="add" />&nbsp;<@button text="-" class="remove" /></td>
 				</tr>
 			</tbody>
 		</table>
