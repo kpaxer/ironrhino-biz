@@ -19,7 +19,7 @@
 	/<@s.select name="spec.basicPackName" list="{'包','瓶'}" cssStyle="width:auto;" theme="simple"/>
 	</p>
 	<@s.select label="%{getText('balePackName')}" name="spec.balePackName" list="{'箱','件'}" headerKey="" headerValue="请选择"/>
-	<@s.textfield label="%{getText('displayOrder')}" name="spec.displayOrder"/>
+	<@s.textfield label="%{getText('displayOrder')}" name="spec.displayOrder" cssClass="integer"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

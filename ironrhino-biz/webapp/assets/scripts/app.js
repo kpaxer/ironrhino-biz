@@ -60,6 +60,17 @@
 				$('#grandTotal').text(grandTotal);
 		}
 	}
+	var rename = function() {
+		$('#orderItems tbody tr').each(function(i) {
+			$('input', this).each(function() {
+				$(this).removeAttr('id');
+				var name = $(this).attr('name');
+				name = name.substring(0, name.indexOf('[') + 1) + i
+						+ name.substring(name.indexOf(']'));
+				$(this).attr('name', name);
+			});
+		});
+	}
 	var addRow = function(event) {
 		var event = event || window.event;
 		var row = $(event.srcElement || event.target).closest('tr');
@@ -67,22 +78,16 @@
 		row.after(r);
 		$('td:eq(3)', r).text('');
 		$('input,select', r).val('').first().focus();
-		$('input', r).each(function() {
-			var name = $(this).attr('name');
-			var temp = name.substring(0, name.indexOf('[') + 1);
-			temp += parseInt(name.substring(name.indexOf('[') + 1, name
-							.indexOf(']')))
-					+ 1;
-			temp += name.substring(name.indexOf(']'));
-			$(this).attr('name', temp);
-		});
-	}
+		rename();
+	};
 	var removeRow = function(event) {
 		var event = event || window.event;
 		var row = $(event.srcElement || event.target).closest('tr');
-		if ($('tr', row.parent()).length > 1){
+		if ($('tr', row.parent()).length > 1) {
 			row.remove();
+			rename();
 			calculate();
 		}
-	}
+	};
+
 })();

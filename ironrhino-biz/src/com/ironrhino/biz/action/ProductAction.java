@@ -117,7 +117,7 @@ public class ProductAction extends BaseAction {
 		if (resultPage == null)
 			resultPage = new ResultPage<Product>();
 		resultPage.setDetachedCriteria(dc);
-		resultPage.addOrder(Order.asc("name"));
+		resultPage.addOrder(Order.asc("displayOrder"));
 		resultPage = productManager.findByResultPage(resultPage);
 		return LIST;
 	}
