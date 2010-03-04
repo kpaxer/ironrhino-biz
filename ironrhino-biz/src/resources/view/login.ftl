@@ -2,6 +2,9 @@
 <#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title>Login</title>
+<@authorize ifAnyGranted="ROLE_BUILTIN_USER">
+<meta http-equiv="refresh" content="0; url=<@url value="/"/>" />
+</@authorize>
 <meta name="decorator" content="simple" />
 <style>
 form fieldset div.fieldset {
