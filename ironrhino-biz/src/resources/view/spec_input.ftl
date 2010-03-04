@@ -11,7 +11,7 @@
 	<p>
 	<label for="save_spec_basicQuantity">${action.getText('basicQuantity')}</label>
 	<@s.textfield name="spec.basicQuantity" cssClass="double positive" theme="simple"/>
-	&nbsp;<@s.select name="spec.basicMeasure" list="{'g','kg','l','ml'}" cssStyle="width:auto;" theme="simple"/>
+	<@s.select name="spec.basicMeasure" list="{'g','kg','l','ml'}" cssStyle="width:auto;margin-left:8px;" theme="simple"/>
 	</p>
 	<p>
 	<label for="save_spec_basicQuantity">${action.getText('baleQuantity')}</label>

@@ -6,9 +6,9 @@
 <body>
 <div id="info">
 <div>
-<span>${action.getText('code')}:&nbsp;&nbsp;</span><span>${order.code}</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span>${action.getText('customer')}:&nbsp;&nbsp;</span><span>${order.customer}</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span>${action.getText('orderDate')}:&nbsp;&nbsp;</span><span>${order.orderDate?string('yyyy年MM月dd日')}</span>
+<span>${action.getText('code')}:</span><span style="margin-left:10px;">${order.code}</span>
+<span style="margin-left:40px;">${action.getText('customer')}:</span><span style="margin-left:10px;">${order.customer}</span>
+<span style="margin-left:40px;">${action.getText('orderDate')}:</span><span style="margin-left:10px;">${order.orderDate?string('yyyy年MM月dd日')}</span>
 </div>
 
 <table border="0" class="sortable" width="100%">
@@ -32,13 +32,13 @@
 		<#if order.discount??>
 		<tr>
 			<td colspan="4" align="right">
-			${action.getText('discount')}:&nbsp;<span>${order.discount}</span>
+			${action.getText('discount')}:<span style="margin-left:10px;">${order.discount}</span>
 			</td>
 		</tr>
 		</#if>
 		<tr>
 			<td colspan="4" align="right">
-			${action.getText('grandTotal')}:&nbsp;<span style="font-weight:bold;">${order.grandTotal}</span>
+			${action.getText('grandTotal')}:<span style="font-weight:bold;margin-left:10px;">${order.grandTotal}</span>
 			</td>
 		</tr>
 	</tfoot>
@@ -64,7 +64,7 @@
 
 <#if order.memo?has_content>
 <div>
-<span>${action.getText('memo')}:&nbsp;&nbsp;</span><span>${order.memo!}</span>
+<span>${action.getText('memo')}:</span><span style="margin-left:20px;">${order.memo!}</span>
 </div>
 </#if>
 </div>

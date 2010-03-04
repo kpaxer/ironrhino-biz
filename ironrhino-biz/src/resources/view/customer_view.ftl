@@ -6,17 +6,17 @@
 <body>
 <div id="info">
 <div>
-<span>${action.getText('id')}:&nbsp;&nbsp;</span><span style="font-weight:bold;">${customer.id}</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span>${action.getText('name')}:&nbsp;&nbsp;</span><span style="font-weight:bold;">${customer.name!}</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span>${action.getText('address')}:&nbsp;&nbsp;</span><span style="font-weight:bold;"><#if customer.region??>${customer.region.fullname}</#if>${customer.address!}</span>
+<span>${action.getText('id')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.id}</span>
+<span style="margin-left:40px;">${action.getText('name')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.name!}</span>
+<span style="margin-left:40px;">${action.getText('address')}:</span><span style="font-weight:bold;margin-left:20px;"><#if customer.region??>${customer.region.fullname}</#if>${customer.address!}</span>
 </div>
 <div>
-<span>${action.getText('linkman')}:&nbsp;&nbsp;</span><span style="font-weight:bold;">${customer.linkman!}</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span>${action.getText('phone')}:&nbsp;&nbsp;</span>&nbsp;&nbsp;<span style="font-weight:bold;">${customer.phone!}</span>
+<span>${action.getText('linkman')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.linkman!}</span>
+<span style="margin-left:40px;">${action.getText('phone')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.phone!}</span>
 </div>
 <#if customer.memo?has_content>
 <div>
-<span>${action.getText('memo')}:&nbsp;&nbsp;</span><span>${customer.memo!}</span>
+<span>${action.getText('memo')}:</span><span style="margin-left:20px;">${customer.memo!}</span>
 </div>
 </#if>
 </div>

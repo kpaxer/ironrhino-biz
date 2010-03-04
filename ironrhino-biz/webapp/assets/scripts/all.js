@@ -19486,13 +19486,13 @@ Observation.editme = function(container) {
 							if (customer.id) {
 								$('#customerId').val(customer.id);
 								$('#customerName').val(customer.name);
-								input.siblings('span:eq(0)').html('');
+								input.siblings('span.info)').html('');
 							} else {
 								$('#customerId.ajax,#customerName.ajax')
 										.val('');
 								input
 										.focus()
-										.siblings('span:eq(0)')
+										.siblings('span.info')
 										.html('<span style="color:red;">备选:</span>'
 												+ customer.name);
 							}
@@ -19500,7 +19500,7 @@ Observation.editme = function(container) {
 							$('#customerId.ajax,#customerName.ajax').val('');
 							input
 									.focus()
-									.siblings('span:eq(0)')
+									.siblings('span.info')
 									.html('<span style="color:red;">没有此客户</span>');
 						}
 					}

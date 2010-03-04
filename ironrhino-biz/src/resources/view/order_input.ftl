@@ -12,9 +12,9 @@
 			<label for="customerId">${action.getText('customer')}${action.getText('id')}</label>
 			<div>
 				<@s.textfield id="customerId" theme="simple" name="customer.id" size="8" cssClass="required integer positive ajax"/>
-				&nbsp;&nbsp;${action.getText('customer')}${action.getText('name')}
-				&nbsp;&nbsp;<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="ajax"/>
-				&nbsp;&nbsp;<span></span>
+				<span style="margin-left:20px;">${action.getText('customer')}${action.getText('name')}</span>
+				<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="ajax" cssStyle="margin-left:20px;"/>
+				<span class="info" style="margin-left:20px;"></span>
 			</div>
 		</p>
 	
@@ -35,10 +35,10 @@
 			<tfoot>
 				<tr>
 					<td colspan="2">
-					${action.getText('discount')}:&nbsp;<@s.textfield id="discount" theme="simple" name="order.discount" cssClass="double"/>
+					${action.getText('discount')}:<@s.textfield id="discount" theme="simple" name="order.discount" cssClass="double" cssStyle="margin-left:10px;"/>
 					</td>
 					<td colspan="2" align="right">
-					${action.getText('grandTotal')}:&nbsp;<span id="grandTotal" style="font-weight:bold;"></span>
+					${action.getText('grandTotal')}:<span id="grandTotal" style="font-weight:bold;margin-left:10px;"></span>
 					</td>
 				</tr>
 			</tfoot>
@@ -48,7 +48,7 @@
 					<td><@s.textfield theme="simple" name="order.items[0].quantity" cssClass="required integer positive"/></td>
 					<td><@s.textfield theme="simple" name="order.items[0].price" cssClass="required double positive"/></td>
 					<td></td>
-					<td><@button text="+" class="add" />&nbsp;<@button text="-" class="remove" /></td>
+					<td><@button text="+" class="add"/><@button text="-" class="remove" style="margin-left:2px;"/></td>
 				</tr>
 			</tbody>
 		</table>
