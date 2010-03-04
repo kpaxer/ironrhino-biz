@@ -2,6 +2,11 @@
 <#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title>${action.getText('list')}${action.getText('order')}</title>
+<style>
+form p.submit{
+text-align:center;
+}
+</style>
 </head>
 <body>
 <#assign config={"code":{},"customer":{},"grandTotal":{},"orderDate":{"template":r"${value?string('yyyy年MM月dd日')}"},"paid":{},"shipped":{},"cancelled":{}}>

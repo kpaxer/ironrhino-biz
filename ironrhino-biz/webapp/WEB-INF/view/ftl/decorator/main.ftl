@@ -22,22 +22,15 @@
 <ul class="nav">
 	<li><a href="<@url value="/index"/>">首页</a></li>
 	<@authorize ifAnyGranted="ROLE_SUPERVISOR">
-		<li><a>系统配置</a>
-		<ul>
-			<li><a href="<@url value="/common/controlPanel"/>">控制面板</a></li>
-			<li><a href="<@url value="/common/setting"/>">参数设置</a></li>
-			<li><a href="<@url value="/common/customizeEntity"/>">属性定制</a></li>
-		</ul>
-		</li>
 		<li><a>基础数据</a>
 		<ul>
 			<li><a href="<@url value="/category"/>">品种管理</a></li>
 			<li><a href="<@url value="/brand"/>">商标管理</a></li>
 			<li><a href="<@url value="/spec"/>">规格管理</a></li>
 			<li><a href="<@url value="/common/region"/>">区域管理</a></li>
+			<li><a href="<@url value="/user"/>">用户管理</a></li>
 		</ul>
 		</li>
-		<li><a href="<@url value="/user"/>">用户管理</a></li>
 	</@authorize>
 	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_SALESMAN">
 	<li><a href="<@url value="/product"/>">产品管理</a></li>
