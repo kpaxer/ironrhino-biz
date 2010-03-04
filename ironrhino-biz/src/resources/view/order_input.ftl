@@ -9,11 +9,9 @@
 		<@s.hidden name="order.id" />
 	</@s.if>
 		<p>
-			<label for="customerId">${action.getText('customer')}${action.getText('id')}</label>
+			<label for="customerName">${action.getText('customer')}${action.getText('name')}</label>
 			<div>
-				<@s.textfield id="customerId" theme="simple" name="customer.id" size="8" cssClass="required integer positive ajax"/>
-				<span style="margin-left:20px;">${action.getText('customer')}${action.getText('name')}</span>
-				<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="ajax" cssStyle="margin-left:20px;"/>
+				<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required ajax autocomplete_off"/>
 				<span class="info" style="margin-left:20px;"></span>
 			</div>
 		</p>
@@ -35,7 +33,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="2">
-					${action.getText('discount')}:<@s.textfield id="discount" theme="simple" name="order.discount" cssClass="double" cssStyle="margin-left:10px;"/>
+					${action.getText('discount')}:<@s.textfield id="discount" theme="simple" name="order.discount" cssClass="double autocomplete_off" cssStyle="margin-left:10px;"/>
 					</td>
 					<td colspan="2" align="right">
 					${action.getText('grandTotal')}:<span id="grandTotal" style="font-weight:bold;margin-left:10px;"></span>
@@ -45,8 +43,8 @@
 			<tbody>
 				<tr>
 					<td><@s.select theme="simple" name="productId" cssClass="required" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/></td>
-					<td><@s.textfield theme="simple" name="order.items[0].quantity" cssClass="required integer positive"/></td>
-					<td><@s.textfield theme="simple" name="order.items[0].price" cssClass="required double positive"/></td>
+					<td><@s.textfield theme="simple" name="order.items[0].quantity" cssClass="required integer positive autocomplete_off"/></td>
+					<td><@s.textfield theme="simple" name="order.items[0].price" cssClass="required double positive autocomplete_off"/></td>
 					<td></td>
 					<td><@button text="+" class="add"/><@button text="-" class="remove" style="margin-left:2px;"/></td>
 				</tr>

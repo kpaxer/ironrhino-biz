@@ -43,7 +43,7 @@ public class Customer extends Entity<Long> {
 
 	@NotInCopy
 	@NotInJson
-	private Date createDate;
+	private Date createDate = new Date();;
 
 	@NotInCopy
 	@NotInJson
@@ -51,7 +51,10 @@ public class Customer extends Entity<Long> {
 	private Region region;
 
 	public Customer() {
-		createDate = new Date();
+	}
+
+	public Customer(String name) {
+		this.name = name;
 	}
 
 	public Date getCreateDate() {

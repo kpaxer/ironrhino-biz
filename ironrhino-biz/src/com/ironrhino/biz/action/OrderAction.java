@@ -178,7 +178,12 @@ public class OrderAction extends BaseAction {
 		if (order == null)
 			return INPUT;
 		if (order.isNew()) {
-			customer = customerManager.get(customer.getId());
+			String customerName = customer.getName();
+			customer = customerManager.findByNaturalId(true, customerName);
+			if (customer == null) {
+				customer = new Customer(customerName);
+				customerManager.save(customer);
+			}
 			order.setCustomer(customer);
 			if (productId != null) {
 				for (int i = 0; i < order.getItems().size(); i++) {

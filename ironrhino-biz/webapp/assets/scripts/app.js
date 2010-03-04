@@ -1,6 +1,6 @@
 (function() {
 	Observation.app = function() {
-		$('#customerId.ajax,#customerName.ajax').blur(function(event) {
+		$('#customerName.ajax').blur(function(event) {
 			var ev = event || window.event;
 			var input = $(event.srcElement || event.target);
 			if (input.val()) {
@@ -11,12 +11,8 @@
 					success : function(customer) {
 						if (customer.name) {
 							if (customer.id) {
-								$('#customerId').val(customer.id);
-								$('#customerName').val(customer.name);
-								input.siblings('span.info)').html('');
+								input.siblings('span.info').html('');
 							} else {
-								$('#customerId.ajax,#customerName.ajax')
-										.val('');
 								input
 										.focus()
 										.siblings('span.info')
@@ -24,11 +20,9 @@
 												+ customer.name);
 							}
 						} else {
-							$('#customerId.ajax,#customerName.ajax').val('');
 							input
-									.focus()
 									.siblings('span.info')
-									.html('<span style="color:red;">没有此客户</span>');
+									.html('<span style="color:red;">将自动保存为新客户</span>');
 						}
 					}
 				});
