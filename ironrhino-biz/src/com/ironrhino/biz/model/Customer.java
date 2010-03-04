@@ -8,6 +8,7 @@ import org.compass.annotations.SearchableId;
 import org.compass.annotations.SearchableProperty;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.core.metadata.AutoConfig;
+import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
@@ -21,6 +22,7 @@ public class Customer extends Entity<Long> {
 	@SearchableId(converter = "long")
 	private Long id;
 
+	@NaturalId(caseInsensitive = true)
 	@SearchableProperty(boost = 3)
 	private String name;
 

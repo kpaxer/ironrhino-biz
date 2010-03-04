@@ -8,7 +8,7 @@
 	<@s.if test="%{!customer.isNew()}">
 		<@s.hidden name="customer.id" />
 	</@s.if>
-	<@s.textfield label="%{getText('name')}" name="customer.name" />
+	<@s.textfield label="%{getText('name')}" name="customer.name" cssClass="required"/>
 	<p onclick="Region.select('region',true,'regionId')">
 	<@s.hidden id="regionId" name="regionId" />
 	<label for="region">请选择地区</label> 

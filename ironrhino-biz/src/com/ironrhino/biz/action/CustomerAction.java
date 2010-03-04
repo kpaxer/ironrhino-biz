@@ -183,6 +183,13 @@ public class CustomerAction extends BaseAction {
 		} else {
 			Customer temp = customer;
 			customer = customerManager.get(temp.getId());
+			if (!customer.getName().equals(temp.getName())) {
+				if (customerManager.findByNaturalId(true, temp.getName()) != null) {
+					addFieldError("customer.name",
+							getText("validation.already.exists"));
+					return INPUT;
+				}
+			}
 			if (regionId != null) {
 				Region r = customer.getRegion();
 				if (r == null || !r.getId().equals(regionId)) {
