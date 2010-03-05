@@ -10,14 +10,18 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
 
 import com.ironrhino.biz.model.Customer;
+import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.service.CustomerManager;
+import com.ironrhino.biz.service.EmployeeManager;
 import com.ironrhino.biz.service.RewardManager;
 
 public class ReportAction extends BaseAction {
@@ -44,8 +48,13 @@ public class ReportAction extends BaseAction {
 
 	private List<?> list;
 
+	private List<Employee> employeeList;
+
 	@Inject
 	private transient RewardManager rewardManager;
+
+	@Inject
+	private transient EmployeeManager employeeManager;
 
 	@Inject
 	private transient CustomerManager customerManager;
@@ -55,10 +64,6 @@ public class ReportAction extends BaseAction {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public String getTitle() {
-		return title;
 	}
 
 	public void setDate(Date date) {
@@ -104,6 +109,10 @@ public class ReportAction extends BaseAction {
 		return dataSource;
 	}
 
+	public List<Employee> getEmployeeList() {
+		return employeeList;
+	}
+
 	public String getDocumentName() {
 		try {
 			StringBuilder sb = new StringBuilder();
@@ -139,23 +148,47 @@ public class ReportAction extends BaseAction {
 
 	@Override
 	public String execute() {
+		DetachedCriteria dc = employeeManager.detachedCriteria();
+		dc.add(Restrictions.eq("disabled", false));
+		dc.addOrder(Order.asc("name"));
+		employeeList = employeeManager.findListByCriteria(dc);
+		return SUCCESS;
+	}
+
+	public String jasper() {
 		if ("dailyreward".equals(type)) {
 			title = "日工资结单";
 			DetachedCriteria dc = rewardManager.detachedCriteria();
-			dc.add(
-					Restrictions.between("rewardDate", getFrom(), DateUtils
-							.addDays(getTo(), 1))).add(
-					Restrictions.gt("amount", new BigDecimal(0))).addOrder(
-					org.hibernate.criterion.Order.desc("rewardDate")).addOrder(
-					org.hibernate.criterion.Order.desc("amount"));
+			dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
+					.addDays(getTo(), 1)));
+			dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+			dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
+			dc.addOrder(org.hibernate.criterion.Order.desc("amount"));
 			list = rewardManager.findListByCriteria(dc);
+		} else if ("personalreward".equals(type)) {
+
+			Employee employee = null;
+			String id = getUid();
+			if (StringUtils.isNumeric(id))
+				employee = employeeManager.get(Long.valueOf(id));
+			else if (StringUtils.isNotBlank(id))
+				employee = employeeManager.findByNaturalId(id);
+			if (employee != null) {
+				title = employee.getName() + "工资详单";
+				DetachedCriteria dc = rewardManager.detachedCriteria();
+				dc.createAlias("employee", "e").add(
+						Restrictions.eq("e.id", employee.getId()));
+				dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
+						.addDays(getTo(), 1)));
+				dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
+				list = rewardManager.findListByCriteria(dc);
+			}
 		} else if ("dailycustomer".equals(type)) {
 			title = "客户信息";
 			DetachedCriteria dc = customerManager.detachedCriteria();
-			dc.add(
-					Restrictions.between("createDate", getFrom(), DateUtils
-							.addDays(getTo(), 1))).addOrder(
-					org.hibernate.criterion.Order.asc("name"));
+			dc.add(Restrictions.between("createDate", getFrom(), DateUtils
+					.addDays(getTo(), 1)));
+			dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 			List<Customer> cl = customerManager.findListByCriteria(dc);
 			for (Customer c : cl) {
 				if (c.getRegion() != null) {
@@ -169,6 +202,11 @@ public class ReportAction extends BaseAction {
 			}
 			list = cl;
 		}
-		return SUCCESS;
+		if (list == null || list.isEmpty()) {
+			addActionMessage("没有数据");
+			return SUCCESS;
+		}
+
+		return "jasper";
 	}
 }

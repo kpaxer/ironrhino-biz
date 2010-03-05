@@ -7,9 +7,10 @@
 			<result type="autoconfig" />
 		</action>
 		<action name="report" class="com.ironrhino.biz.action.ReportAction">
-			<result name="success" type="jasper">
+			<result type="autoconfig" />
+			<result name="jasper" type="jasper">
 				<param name="reportParameters">reportParameters</param>
-				<param name="contentDisposition">attachment</param>
+				<param name="contentDisposition">inline</param>
 				<param name="dataSource">list</param>
 				<param name="format">${format}</param>
 				<param name="location">${location}</param>

@@ -20,7 +20,7 @@ text-decoration:none;
 <#assign bottomButtons=btn(action.getText('create'),null,'input')
 +btn(action.getText('save'),null,'save')
 +btn(action.getText('delete'),null,'del')
-+btn('合并客户','$(\'#merge\').show()')
++btn('合并','$(\'#merge\').show()')
 +btn(action.getText('reload'),null,'reload')
 >
 

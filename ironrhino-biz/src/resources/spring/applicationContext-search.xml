@@ -10,6 +10,8 @@
 				<value>org.ironrhino.common.model.Region</value>
 				<value>com.ironrhino.biz.model.Customer</value>
 				<value>com.ironrhino.biz.model.Order</value>
+				<value>com.ironrhino.biz.model.Employee</value>
+				<value>com.ironrhino.biz.model.Reward</value>
 			</list>
 		</property>
 		<property name="compassConfiguration">

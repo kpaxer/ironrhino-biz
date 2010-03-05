@@ -1,15 +1,21 @@
 package com.ironrhino.biz.action;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.compass.core.CompassHit;
+import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
+import org.ironrhino.core.search.CompassCriteria;
+import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 
@@ -28,6 +34,8 @@ public class RewardAction extends BaseAction {
 
 	private ResultPage<Reward> resultPage;
 
+	private String keyword;
+
 	private Employee employee;
 
 	private List<Employee> employeeList;
@@ -37,6 +45,17 @@ public class RewardAction extends BaseAction {
 
 	@Inject
 	private transient EmployeeManager employeeManager;
+
+	@Inject
+	private transient CompassSearchService compassSearchService;
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 
 	public ResultPage<Reward> getResultPage() {
 		return resultPage;
@@ -68,15 +87,52 @@ public class RewardAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		DetachedCriteria dc = rewardManager.detachedCriteria();
-		if (resultPage == null)
-			resultPage = new ResultPage<Reward>();
-		resultPage.setDetachedCriteria(dc);
-		if (employee != null && employee.getId() != null)
-			dc.createAlias("employee", "c").add(
-					Restrictions.eq("c.id", employee.getId()));
-		resultPage.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
-		resultPage = rewardManager.findByResultPage(resultPage);
+		if (StringUtils.isBlank(keyword)) {
+			DetachedCriteria dc = rewardManager.detachedCriteria();
+			if (resultPage == null)
+				resultPage = new ResultPage<Reward>();
+			resultPage.setDetachedCriteria(dc);
+			if (employee != null && employee.getId() != null)
+				dc.createAlias("employee", "c").add(
+						Restrictions.eq("c.id", employee.getId()));
+			resultPage.addOrder(org.hibernate.criterion.Order
+					.desc("rewardDate"));
+			resultPage = rewardManager.findByResultPage(resultPage);
+		} else {
+			String query = keyword.trim();
+			if (query.matches("^\\d{4}-\\d{2}-\\d{2}$"))
+				query = "rewardDate:" + query;
+			if (query.matches("^\\d{4}年\\d{2}月\\d{2}日$")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append("rewardDate:");
+				sb.append(query.substring(0, 4));
+				sb.append('-');
+				sb.append(query.substring(5, 7));
+				sb.append('-');
+				sb.append(query.substring(8, 10));
+				query = sb.toString();
+			}
+			CompassCriteria cc = new CompassCriteria();
+			cc.setQuery(query);
+			cc.setAliases(new String[] { "reward" });
+			if (resultPage == null)
+				resultPage = new ResultPage<Reward>();
+			cc.setPageNo(resultPage.getPageNo());
+			cc.setPageSize(resultPage.getPageSize());
+			CompassSearchResults searchResults = compassSearchService
+					.search(cc);
+			int totalHits = searchResults.getTotalHits();
+			CompassHit[] hits = searchResults.getHits();
+			if (hits != null) {
+				List<Reward> list = new ArrayList<Reward>(hits.length);
+				for (CompassHit ch : searchResults.getHits())
+					list.add((Reward) ch.data());
+				resultPage.setResult(list);
+			} else {
+				resultPage.setResult(Collections.EMPTY_LIST);
+			}
+			resultPage.setTotalRecord(totalHits);
+		}
 		return LIST;
 	}
 

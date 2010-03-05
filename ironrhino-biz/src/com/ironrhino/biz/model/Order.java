@@ -11,12 +11,10 @@ import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
-import org.ironrhino.core.metadata.RecordAware;
 import org.ironrhino.core.model.BaseEntity;
 
 import com.opensymphony.xwork2.util.CreateIfNull;
 
-@RecordAware
 @Searchable(alias = "order")
 @AutoConfig
 public class Order extends BaseEntity {

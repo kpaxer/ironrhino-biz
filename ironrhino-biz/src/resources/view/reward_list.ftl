@@ -5,6 +5,6 @@
 </head>
 <body>
 <#assign config={"employee":{},"amount":{},"rewardDate":{"template":r"${value?string('yyyy年MM月dd日')}"}}>
-<@richtable entityName="reward" config=config celleditable=false/>
+<@richtable entityName="reward" config=config celleditable=false searchable=true/>
 </body>
 </html></#escape>

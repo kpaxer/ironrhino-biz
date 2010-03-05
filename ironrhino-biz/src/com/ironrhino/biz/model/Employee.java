@@ -2,6 +2,9 @@ package com.ironrhino.biz.model;
 
 import java.util.Date;
 
+import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableId;
+import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
@@ -9,13 +12,16 @@ import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
 
 @AutoConfig
+@Searchable(alias = "employee")
 public class Employee extends Entity<Long> {
 
 	private static final long serialVersionUID = 4207375657699283494L;
 
+	@SearchableId(converter = "long")
 	private Long id;
 
 	@NaturalId
+	@SearchableProperty(boost = 3)
 	private String name;
 
 	private boolean disabled;
