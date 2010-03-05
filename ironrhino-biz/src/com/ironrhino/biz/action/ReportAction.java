@@ -1,7 +1,8 @@
 package com.ironrhino.biz.action;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.util.Calendar;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,14 +15,17 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
 
-import com.ironrhino.biz.model.Reward;
 import com.ironrhino.biz.service.RewardManager;
 
 public class ReportAction extends BaseAction {
 
 	private static final long serialVersionUID = -7256690227585867617L;
 
+	private static final String datePattern = "yyyy年MM月dd日";
+
 	private String type = "dailyreward";
+
+	private String title = "";
 
 	private Date date;
 
@@ -35,17 +39,17 @@ public class ReportAction extends BaseAction {
 
 	private Map<String, Object> reportParameters = new HashMap<String, Object>();
 
-	private List<Reward> rewardList;
+	private List<?> list;
 
 	@Inject
 	private transient RewardManager rewardManager;
 
-	public Map<String, Object> getReportParameters() {
-		return reportParameters;
-	}
-
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getTitle() {
+		return title;
 	}
 
 	public void setDate(Date date) {
@@ -91,26 +95,51 @@ public class ReportAction extends BaseAction {
 		return dataSource;
 	}
 
+	public String getDocumentName() {
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append(URLEncoder.encode(title, "UTF-8"));
+			if (date != null)
+				sb.append(DateUtils.formatDate8(date));
+			else if (from != null && to != null)
+				sb.append(DateUtils.formatDate8(from)).append('-').append(
+						DateUtils.formatDate8(to));
+			return sb.toString();
+		} catch (UnsupportedEncodingException e) {
+			return "";
+		}
+	}
+
+	public Map<String, Object> getReportParameters() {
+		reportParameters.put("title", title);
+		if (date != null)
+			reportParameters.put("date", DateUtils.format(date, datePattern));
+		else if (from != null && to != null)
+			reportParameters.put("date", DateUtils.format(from, datePattern)
+					+ "-" + DateUtils.format(to, datePattern));
+		return reportParameters;
+	}
+
 	public String getLocation() {
 		return "/WEB-INF/view/jasper/" + type + ".jasper";
 	}
 
-	public List<Reward> getRewardList() {
-		return rewardList;
+	public List<?> getList() {
+		return list;
 	}
 
 	@Override
 	public String execute() {
 		if ("dailyreward".equals(type)) {
+			title = "日工资结单";
 			DetachedCriteria dc = rewardManager.detachedCriteria();
 			dc.add(
 					Restrictions.between("rewardDate", getFrom(), DateUtils
 							.addDays(getTo(), 1))).add(
 					Restrictions.gt("amount", new BigDecimal(0)));
+			dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
 			dc.addOrder(org.hibernate.criterion.Order.desc("amount"));
-			rewardList = rewardManager.findListByCriteria(dc);
-			dataSource = "rewardList";
-			reportParameters.put("title", "日工资结单");
+			list = rewardManager.findListByCriteria(dc);
 		}
 		return SUCCESS;
 	}

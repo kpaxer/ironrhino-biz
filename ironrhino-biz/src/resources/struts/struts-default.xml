@@ -9,9 +9,11 @@
 		<action name="report" class="com.ironrhino.biz.action.ReportAction">
 			<result name="success" type="jasper">
 				<param name="reportParameters">reportParameters</param>
-				<param name="dataSource">${dataSource}</param>
+				<param name="contentDisposition">attachment</param>
+				<param name="dataSource">list</param>
 				<param name="format">${format}</param>
 				<param name="location">${location}</param>
+				<param name="documentName">${documentName}</param>
 			</result>
 		</action>
 	</package>
