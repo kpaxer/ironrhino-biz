@@ -10,7 +10,7 @@ text-decoration:none;
 </style>
 </head>
 <body>
-<#assign config={"id":{},"name":{"width":"180px","cellEdit":"click"},"address":{"width":"300px","template":r'<#if entity.region??><a class="region" title="点击查看${entity.region.fullname}所有客户" href="customer?regionId=${entity.region.id}">${entity.region.fullname}</a></#if>${value!}'},"linkman":{"cellEdit":"click"},"phone":{"cellEdit":"click"}}>
+<#assign config={"id":{},"name":{"width":"180px","cellEdit":"click"},"address":{"width":"300px","template":r'<#if entity.region??><a class="region" title="点击查看${entity.region.fullname}所有客户" href="customer?regionId=${entity.region.id}">${entity.region.fullname}</a></#if>${value!}'},"linkman":{"cellEdit":"click"},"phone":{"cellEdit":"click"},"fax":{"cellEdit":"click"}}>
 <#assign actionColumnButtons=btn(action.getText('save'),null,'save')
 +btn(action.getText('edit'),null,'input')
 +btn(action.getText('view'),null,'view')

@@ -11,12 +11,13 @@
 	<@s.textfield label="%{getText('name')}" name="customer.name" cssClass="required"/>
 	<p onclick="Region.select('region',true,'regionId')">
 	<@s.hidden id="regionId" name="regionId" />
-	<label for="region">请选择地区</label> 
+	<label for="region"><span style="cursor:pointer;">请选择地区</span></label> 
 	<div id="region"><#if customer.region??>${customer.region.fullname}<#else>...</#if></div>
 	</p>
 	<@s.textfield label="%{getText('address')}" id="address" name="customer.address"/>
 	<@s.textfield label="%{getText('linkman')}" name="customer.linkman" />
 	<@s.textfield label="%{getText('phone')}" name="customer.phone" />
+	<@s.textfield label="%{getText('fax')}" name="customer.fax" />
 	<@s.textarea label="%{getText('memo')}" name="customer.memo" cols="50" rows="10"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>

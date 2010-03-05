@@ -12,9 +12,12 @@ import javax.inject.Inject;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
 
+import com.ironrhino.biz.model.Customer;
+import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.RewardManager;
 
 public class ReportAction extends BaseAction {
@@ -43,6 +46,12 @@ public class ReportAction extends BaseAction {
 
 	@Inject
 	private transient RewardManager rewardManager;
+
+	@Inject
+	private transient CustomerManager customerManager;
+
+	@Inject
+	private transient RegionTreeControl regionTreeControl;
 
 	public void setType(String type) {
 		this.type = type;
@@ -136,10 +145,29 @@ public class ReportAction extends BaseAction {
 			dc.add(
 					Restrictions.between("rewardDate", getFrom(), DateUtils
 							.addDays(getTo(), 1))).add(
-					Restrictions.gt("amount", new BigDecimal(0)));
-			dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
-			dc.addOrder(org.hibernate.criterion.Order.desc("amount"));
+					Restrictions.gt("amount", new BigDecimal(0))).addOrder(
+					org.hibernate.criterion.Order.desc("rewardDate")).addOrder(
+					org.hibernate.criterion.Order.desc("amount"));
 			list = rewardManager.findListByCriteria(dc);
+		} else if ("dailycustomer".equals(type)) {
+			title = "客户信息";
+			DetachedCriteria dc = customerManager.detachedCriteria();
+			dc.add(
+					Restrictions.between("createDate", getFrom(), DateUtils
+							.addDays(getTo(), 1))).addOrder(
+					org.hibernate.criterion.Order.asc("name"));
+			List<Customer> cl = customerManager.findListByCriteria(dc);
+			for (Customer c : cl) {
+				if (c.getRegion() != null) {
+					String address = regionTreeControl.getRegionTree()
+							.getDescendantOrSelfById(c.getRegion().getId())
+							.getFullname()
+							+ c.getAddress();
+					c.setAddress(address);
+					c.setRegion(null);
+				}
+			}
+			list = cl;
 		}
 		return SUCCESS;
 	}
