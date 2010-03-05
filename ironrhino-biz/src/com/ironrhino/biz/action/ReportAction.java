@@ -1,7 +1,6 @@
 package com.ironrhino.biz.action;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
@@ -161,12 +160,10 @@ public class ReportAction extends BaseAction {
 			DetachedCriteria dc = rewardManager.detachedCriteria();
 			dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
 					.addDays(getTo(), 1)));
-			dc.add(Restrictions.gt("amount", new BigDecimal(0)));
 			dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
 			dc.addOrder(org.hibernate.criterion.Order.desc("amount"));
 			list = rewardManager.findListByCriteria(dc);
 		} else if ("personalreward".equals(type)) {
-
 			Employee employee = null;
 			String id = getUid();
 			if (StringUtils.isNumeric(id))
@@ -180,7 +177,7 @@ public class ReportAction extends BaseAction {
 						Restrictions.eq("e.id", employee.getId()));
 				dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
 						.addDays(getTo(), 1)));
-				dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
+				dc.addOrder(org.hibernate.criterion.Order.asc("rewardDate"));
 				list = rewardManager.findListByCriteria(dc);
 			}
 		} else if ("dailycustomer".equals(type)) {

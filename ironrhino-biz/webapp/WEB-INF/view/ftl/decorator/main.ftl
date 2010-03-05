@@ -39,6 +39,7 @@
 	<li><a href="<@url value="/employee"/>">员工管理</a></li>
 	<li><a href="<@url value="/reward"/>">工资管理</a></li>
 	</@authorize>
+	<li><a href="<@url value="/report"/>">报表</a></li>
 	<!--
 	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_WAREHOUSEMAN">
 		<li><a>仓库管理</a>
