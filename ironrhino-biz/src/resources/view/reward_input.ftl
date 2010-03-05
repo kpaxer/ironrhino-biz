@@ -10,7 +10,7 @@
 	<#else>
 		<@s.select label="%{getText('employee')}" name="employee.id" cssClass="required" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 	</#if>
-	<@s.textfield label="%{getText('amount')}" name="reward.amount" cssClass="double positive required"/>
+	<@s.textfield label="%{getText('amount')}" name="reward.amount" cssClass="double required"/>
 	<@s.textfield label="%{getText('rewardDate')}" name="reward.rewardDate" cssClass="date required"/>
 	<@s.textarea label="%{getText('memo')}" name="reward.memo" cols="50" rows="10"/>
 	<@s.submit value="%{getText('save')}" />

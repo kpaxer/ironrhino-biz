@@ -58,7 +58,7 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="20"/>
+			<band height="19"/>
 		</groupFooter>
 	</group>
 	<background>
@@ -122,8 +122,8 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField pattern="###0.00">
-				<reportElement x="35" y="0" width="34" height="20"/>
-				<box leftPadding="5">
+				<reportElement x="30" y="0" width="39" height="20"/>
+				<box leftPadding="0">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.0"/>
 					<bottomPen lineWidth="0.5"/>
@@ -135,7 +135,7 @@
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{amount}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd日">
-				<reportElement x="0" y="0" width="35" height="20"/>
+				<reportElement x="0" y="0" width="30" height="20"/>
 				<box leftPadding="5">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>

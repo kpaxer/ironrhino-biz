@@ -28,6 +28,7 @@
 <@s.select theme="simple" name="id" list="employeeList" cssStyle="width:80px;" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 <input type="text" name="from" class="date"/>
 <input type="text" name="to" class="date"/>
+<span>包括已付</span><input type="checkbox" name="includePaid" value="true"/>
 <@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
 </div>

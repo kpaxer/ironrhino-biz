@@ -1,6 +1,7 @@
 package com.ironrhino.biz.action;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,6 +40,8 @@ public class ReportAction extends BaseAction {
 
 	private Date to;
 
+	private boolean includePaid;
+
 	private String format = "PDF";
 
 	private String dataSource;
@@ -73,6 +76,10 @@ public class ReportAction extends BaseAction {
 		if (date == null)
 			date = DateUtils.justDate(new Date());
 		return date;
+	}
+
+	public void setIncludePaid(boolean includePaid) {
+		this.includePaid = includePaid;
 	}
 
 	public void setFrom(Date from) {
@@ -160,6 +167,8 @@ public class ReportAction extends BaseAction {
 			DetachedCriteria dc = rewardManager.detachedCriteria();
 			dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
 					.addDays(getTo(), 1)));
+			if (!includePaid)
+				dc.add(Restrictions.gt("amount", new BigDecimal(0)));
 			dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
 			dc.addOrder(org.hibernate.criterion.Order.desc("amount"));
 			list = rewardManager.findListByCriteria(dc);
@@ -177,6 +186,8 @@ public class ReportAction extends BaseAction {
 						Restrictions.eq("e.id", employee.getId()));
 				dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
 						.addDays(getTo(), 1)));
+				if (!includePaid)
+					dc.add(Restrictions.gt("amount", new BigDecimal(0)));
 				dc.addOrder(org.hibernate.criterion.Order.asc("rewardDate"));
 				list = rewardManager.findListByCriteria(dc);
 			}
