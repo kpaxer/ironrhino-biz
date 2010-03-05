@@ -1,11 +1,15 @@
 package com.ironrhino.biz.action;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -14,6 +18,7 @@ import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
+import org.springframework.orm.hibernate3.HibernateCallback;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Brand;
@@ -112,8 +117,7 @@ public class ProductAction extends BaseAction {
 			dc.createAlias("category", "c").add(
 					Restrictions.eq("c.id", categoryId));
 		if (brandId != null)
-			dc.createAlias("brand", "b").add(
-					Restrictions.eq("b.id", brandId));
+			dc.createAlias("brand", "b").add(Restrictions.eq("b.id", brandId));
 		if (resultPage == null)
 			resultPage = new ResultPage<Product>();
 		resultPage.setDetachedCriteria(dc);
@@ -213,9 +217,33 @@ public class ProductAction extends BaseAction {
 			dc.add(Restrictions.in("id", id));
 			List<Product> list = productManager.findListByCriteria(dc);
 			if (list.size() > 0) {
-				for (Product product : list)
-					productManager.delete(product);
-				addActionMessage(getText("delete.success"));
+				boolean deletable = true;
+				for (final Product product : list) {
+
+					final String hql = "select count(o) from Order o join o.items item join item.product p where p.id = ?";
+					Long count = (Long) baseManager
+							.executeFind(new HibernateCallback<Long>() {
+								@Override
+								public Long doInHibernate(Session session)
+										throws HibernateException, SQLException {
+									Query q = session.createQuery(hql
+											.toString());
+									q.setParameter(0, product.getId());
+									return (Long) q.uniqueResult();
+								}
+
+							});
+					if (count > 0) {
+						deletable = false;
+						addActionError(product.getName() + "有订单,不能删除");
+						break;
+					}
+				}
+				if (deletable) {
+					for (Product product : list)
+						productManager.delete(product);
+					addActionMessage(getText("delete.success"));
+				}
 			}
 		}
 		return SUCCESS;

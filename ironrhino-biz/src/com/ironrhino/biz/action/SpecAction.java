@@ -105,10 +105,10 @@ public class SpecAction extends BaseAction {
 					dc = productManager.detachedCriteria();
 					dc.createAlias("spec", "s").add(
 							Restrictions.eq("s.id", spec.getId()));
-					int count = productManager.countByCriteria(dc);
-					if (count > 0) {
+					if (productManager.countByCriteria(dc) > 0) {
 						deletable = false;
 						addActionError(spec.getName() + "下面有产品,不能删除");
+						break;
 					}
 				}
 				if (deletable) {

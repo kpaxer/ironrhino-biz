@@ -242,10 +242,10 @@ public class CustomerAction extends BaseAction {
 					dc = orderManager.detachedCriteria();
 					dc.createAlias("customer", "c").add(
 							Restrictions.eq("c.id", c.getId()));
-					int count = orderManager.countByCriteria(dc);
-					if (count > 0) {
+					if (orderManager.countByCriteria(dc) > 0) {
 						deletable = false;
 						addActionError(c.getName() + "有订单,不能删除只能合并到其他客户");
+						break;
 					}
 				}
 				if (deletable) {
