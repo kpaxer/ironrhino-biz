@@ -6,5 +6,13 @@
 		<action name="index">
 			<result type="autoconfig" />
 		</action>
+		<action name="report" class="com.ironrhino.biz.action.ReportAction">
+			<result name="success" type="jasper">
+				<param name="reportParameters">reportParameters</param>
+				<param name="dataSource">${dataSource}</param>
+				<param name="format">${format}</param>
+				<param name="location">${location}</param>
+			</result>
+		</action>
 	</package>
 </struts>
