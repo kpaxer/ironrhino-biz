@@ -15,13 +15,20 @@ text-decoration:none;
 +btn(action.getText('edit'),null,'input')
 +btn(action.getText('view'),null,'view')
 +btn(action.getText('order'),'','','link','',r'order?customer.id=${rowid}')
-+btn(action.getText('delete'),null,'del')>
++btn(action.getText('delete'),null,'del')
+>
+<#assign bottomButtons=btn(action.getText('create'),null,'input')
++btn(action.getText('save'),null,'save')
++btn(action.getText('delete'),null,'del')
++btn('合并客户','$(\'#merge\').show()')
++btn(action.getText('reload'),null,'reload')
+>
 
 <#assign searchButtons=btn('按区域检索','','','link','',r'${getUrl("/customer/region")}')/>
-<@richtable entityName="customer" config=config actionColumnWidth="210px" actionColumnButtons=actionColumnButtons searchable=true searchButtons=searchButtons/>
-<form action="<@url value="/customer/merge"/>" method="post" class="ajax reset" onsuccess="Richtable.reload()">
+<@richtable entityName="customer" config=config actionColumnWidth="210px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true searchButtons=searchButtons/>
+
+<form id="merge" action="<@url value="/customer/merge"/>" method="post" class="ajax reset" style="display:none;" onsuccess="Richtable.reload()">
 <p>
-	<label for="c0">合并客户</label> 
 	<span style="margin:3px;">将</span><input type="text" name="id" class="required"/>
 	<span style="margin:3px;">合并到</span><input type="text" name="id" class="required"/>
 	<@s.submit theme="simple" value="%{getText('confirm')}" />
