@@ -58,14 +58,14 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{date}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="212" y="59" width="46" height="20"/>
+				<reportElement x="233" y="59" width="24" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[总计]]></text>
 			</staticText>
 			<textField evaluationTime="Report" pattern="###0.00">
-				<reportElement x="258" y="59" width="94" height="20"/>
+				<reportElement x="257" y="59" width="94" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>

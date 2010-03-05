@@ -31,6 +31,13 @@
 <span>包括已付</span><input type="checkbox" name="includePaid" value="true"/>
 <@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
+<form action="${getUrl('/report/jasper')}" method="post">
+<input type="hidden" name="type" value="aggregationreward"/>
+<input type="text" name="from" class="date"/>
+<input type="text" name="to" class="date"/>
+<span>包括已付</span><input type="checkbox" name="includePaid" value="true"/>
+<@s.submit theme="simple" value="%{getText('confirm')}"/>
+</form>
 </div>
 </body>
 </html></#escape>

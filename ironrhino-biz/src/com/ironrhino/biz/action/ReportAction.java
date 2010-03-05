@@ -3,6 +3,9 @@ package com.ironrhino.biz.action;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +23,7 @@ import org.ironrhino.core.util.DateUtils;
 
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
+import com.ironrhino.biz.model.Reward;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.EmployeeManager;
 import com.ironrhino.biz.service.RewardManager;
@@ -191,6 +195,40 @@ public class ReportAction extends BaseAction {
 				dc.addOrder(org.hibernate.criterion.Order.asc("rewardDate"));
 				list = rewardManager.findListByCriteria(dc);
 			}
+		} else if ("aggregationreward".equals(type)) {
+			title = "工资汇总单";
+			DetachedCriteria dc = rewardManager.detachedCriteria();
+			dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
+					.addDays(getTo(), 1)));
+			if (!includePaid)
+				dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+			dc.createAlias("employee", "e").addOrder(
+					org.hibernate.criterion.Order.asc("e.name"));
+			List<Reward> cl = rewardManager.findListByCriteria(dc);
+			List<Reward> al = new ArrayList<Reward>();
+			Reward current = null;
+			for (Reward r : cl) {
+				if (current == null){
+					current = r;
+					continue;
+				}
+				if(current.getEmployee().getId().equals(r.getEmployee().getId())){
+					current.setAmount(current.getAmount().add(r.getAmount()));
+				}else{
+					al.add(current);
+					current = r;
+				}
+			}
+			al.add(current);
+			Collections.sort(al, new Comparator<Reward>() {
+				@Override
+				public int compare(Reward o1, Reward o2) {
+					int i = o1.getAmount().compareTo(o2.getAmount());
+					return i != 0 ? -i : o1.getEmployee().getName().compareTo(
+							o2.getEmployee().getName());
+				}
+			});
+			this.list = al;
 		} else if ("dailycustomer".equals(type)) {
 			title = "客户信息";
 			DetachedCriteria dc = customerManager.detachedCriteria();
