@@ -19,5 +19,13 @@ text-decoration:none;
 
 <#assign searchButtons=btn('按区域检索','','','link','',r'${getUrl("/customer/region")}')/>
 <@richtable entityName="customer" config=config actionColumnWidth="210px" actionColumnButtons=actionColumnButtons searchable=true searchButtons=searchButtons/>
+<form action="<@url value="/customer/merge"/>" method="post" class="ajax reset" onsuccess="Richtable.reload()">
+<p>
+	<label for="c0">合并客户</label> 
+	<span style="margin:3px;">将</span><input type="text" name="id" class="required"/>
+	<span style="margin:3px;">合并到</span><input type="text" name="id" class="required"/>
+	<@s.submit theme="simple" value="%{getText('confirm')}" />
+	</p>
+</form>
 </body>
 </html></#escape>

@@ -10,7 +10,6 @@ import org.apache.commons.lang.StringUtils;
 import org.compass.core.CompassHit;
 import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
@@ -24,7 +23,9 @@ import org.ironrhino.core.util.BeanUtils;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Customer;
+import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.service.CustomerManager;
+import com.ironrhino.biz.service.OrderManager;
 
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR + ","
 		+ Constants.ROLE_SALESMAN)
@@ -42,6 +43,9 @@ public class CustomerAction extends BaseAction {
 
 	@Inject
 	private transient CustomerManager customerManager;
+
+	@Inject
+	private transient OrderManager orderManager;
 
 	@Inject
 	private transient RegionTreeControl regionTreeControl;
@@ -105,7 +109,7 @@ public class CustomerAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Customer>();
 			resultPage.setDetachedCriteria(dc);
-			resultPage.addOrder(Order.asc("id"));
+			resultPage.addOrder(org.hibernate.criterion.Order.asc("id"));
 			resultPage = customerManager.findByResultPage(resultPage);
 			for (Customer c : resultPage.getResult())
 				if (c.getRegion() != null)
@@ -223,7 +227,6 @@ public class CustomerAction extends BaseAction {
 	}
 
 	@Override
-	@Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
 	public String delete() {
 		String[] _id = getId();
 		if (_id != null) {
@@ -234,9 +237,43 @@ public class CustomerAction extends BaseAction {
 			dc.add(Restrictions.in("id", id));
 			List<Customer> list = customerManager.findListByCriteria(dc);
 			if (list.size() > 0) {
-				for (Customer customer : list)
-					customerManager.delete(customer);
-				addActionMessage(getText("delete.success"));
+				boolean deletable = true;
+				for (Customer c : list) {
+					dc = orderManager.detachedCriteria();
+					dc.createAlias("customer", "c").add(
+							Restrictions.eq("c.id", c.getId()));
+					int count = orderManager.countByCriteria(dc);
+					if (count > 0) {
+						deletable = false;
+						addActionError(c.getName() + "有订单,不能删除只能合并到其他客户");
+					}
+				}
+				if (deletable) {
+					for (Customer customer : list)
+						customerManager.delete(customer);
+					addActionMessage(getText("delete.success"));
+				}
+			}
+		}
+		return SUCCESS;
+	}
+
+	public String merge() {
+		String[] id = getId();
+		if (id != null && id.length == 2) {
+			Customer c0 = customerManager.findByNaturalId(true, id[0].trim());
+			Customer c1 = customerManager.findByNaturalId(true, id[1].trim());
+			if (c0 != null && c1 != null) {
+				DetachedCriteria dc = orderManager.detachedCriteria();
+				dc.createAlias("customer", "c").add(
+						Restrictions.eq("c.id", c0.getId()));
+				List<Order> orders = orderManager.findListByCriteria(dc);
+				for (Order temp : orders) {
+					temp.setCustomer(c1);
+					orderManager.save(temp);
+				}
+				customerManager.delete(c0);
+				addActionMessage(getText("operate.success"));
 			}
 		}
 		return SUCCESS;
@@ -252,6 +289,7 @@ public class CustomerAction extends BaseAction {
 		if (StringUtils.isNumeric(id)) {
 			customer = customerManager.get(Long.valueOf(id));
 		} else if (StringUtils.isNotBlank(id)) {
+			id = id.trim();
 			customer = customerManager.findByNaturalId(true, id);
 			if (customer == null) {
 				CompassCriteria cc = new CompassCriteria();

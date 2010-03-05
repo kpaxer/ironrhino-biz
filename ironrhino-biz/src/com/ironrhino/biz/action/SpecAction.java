@@ -2,6 +2,8 @@ package com.ironrhino.biz.action;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,6 +17,7 @@ import org.ironrhino.core.struts.BaseAction;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Spec;
+import com.ironrhino.biz.service.ProductManager;
 
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
 public class SpecAction extends BaseAction {
@@ -28,6 +31,9 @@ public class SpecAction extends BaseAction {
 	private ResultPage<Spec> resultPage;
 
 	private transient BaseManager<Spec> baseManager;
+
+	@Inject
+	private transient ProductManager productManager;
 
 	public Spec getSpec() {
 		return spec;
@@ -94,10 +100,22 @@ public class SpecAction extends BaseAction {
 			dc.add(Restrictions.in("id", id));
 			List<Spec> list = baseManager.findListByCriteria(dc);
 			if (list.size() > 0) {
-				for (Spec spec : list)
-					// TODO check if can delete
-					baseManager.delete(spec);
-				addActionMessage(getText("delete.success"));
+				boolean deletable = true;
+				for (Spec spec : list) {
+					dc = productManager.detachedCriteria();
+					dc.createAlias("spec", "s").add(
+							Restrictions.eq("s.id", spec.getId()));
+					int count = productManager.countByCriteria(dc);
+					if (count > 0) {
+						deletable = false;
+						addActionError(spec.getName() + "下面有产品,不能删除");
+					}
+				}
+				if (deletable) {
+					for (Spec spec : list)
+						baseManager.delete(spec);
+					addActionMessage(getText("delete.success"));
+				}
 			}
 		}
 		return SUCCESS;
