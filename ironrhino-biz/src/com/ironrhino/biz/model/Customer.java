@@ -17,12 +17,12 @@ import org.ironrhino.core.model.Entity;
 @AutoConfig
 public class Customer extends Entity<Long> {
 
-	private static final long serialVersionUID = 4207375657699283494L;
+	private static final long serialVersionUID = 5061457998732482283L;
 
 	@SearchableId(converter = "long")
 	private Long id;
 
-	@NaturalId(caseInsensitive = true)
+	@NaturalId
 	@SearchableProperty(boost = 3)
 	private String name;
 

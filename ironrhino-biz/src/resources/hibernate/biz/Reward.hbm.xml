@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ironrhino.biz.model"
+	default-lazy="true">
+	<class name="Reward" table="reward" dynamic-insert="true"
+		dynamic-update="true">
+		<id name="id" type="java.lang.String" length="32" unsaved-value="null">
+			<generator class="org.ironrhino.core.hibernate.StringIdGenerator" />
+		</id>
+		<property name="amount" />
+		<property name="rewardDate" />
+		<property name="memo" length="2500" />
+		<many-to-one name="employee" column="employeeId" not-null="true" lazy="false" fetch="join" />
+	</class>
+</hibernate-mapping>

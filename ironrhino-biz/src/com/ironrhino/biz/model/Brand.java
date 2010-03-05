@@ -13,7 +13,7 @@ import com.ironrhino.biz.Constants;
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
 public class Brand extends Entity<Long> implements Ordered {
 
-	private static final long serialVersionUID = 2394113154991389750L;
+	private static final long serialVersionUID = 6728147186060800090L;
 
 	private Long id;
 

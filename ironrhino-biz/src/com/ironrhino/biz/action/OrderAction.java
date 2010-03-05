@@ -179,7 +179,7 @@ public class OrderAction extends BaseAction {
 			return INPUT;
 		if (order.isNew()) {
 			String customerName = customer.getName().trim();
-			customer = customerManager.findByNaturalId(true, customerName);
+			customer = customerManager.findByNaturalId(customerName);
 			if (customer == null) {
 				customer = new Customer(customerName);
 				customerManager.save(customer);
@@ -247,18 +247,6 @@ public class OrderAction extends BaseAction {
 			}
 		}
 		return SUCCESS;
-	}
-
-	public String cancel() {
-		String id = getUid();
-		if (StringUtils.isNotBlank(id)) {
-			order = orderManager.get(id);
-			order.setCancelled(true);
-			orderManager.save(order);
-		} else {
-			return ACCESSDENIED;
-		}
-		return VIEW;
 	}
 
 }

@@ -36,6 +36,8 @@
 	<li><a href="<@url value="/product"/>">产品管理</a></li>
 	<li><a href="<@url value="/customer"/>">客户管理</a></li>
 	<li><a href="<@url value="/order"/>">订单管理</a></li>
+	<li><a href="<@url value="/employee"/>">员工管理</a></li>
+	<li><a href="<@url value="/reward"/>">工资管理</a></li>
 	</@authorize>
 	<!--
 	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_WAREHOUSEMAN">

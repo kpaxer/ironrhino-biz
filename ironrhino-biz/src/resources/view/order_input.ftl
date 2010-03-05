@@ -52,7 +52,7 @@
 		</div>
 	</p>
 	</@s.if>
-	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date"/>
+	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date required"/>
 	<@s.checkbox label="%{getText('paid')}" name="order.paid"/>
 	<@s.checkbox label="%{getText('shipped')}" name="order.shipped"/>
 	<@s.if test="%{!order.isNew()}">

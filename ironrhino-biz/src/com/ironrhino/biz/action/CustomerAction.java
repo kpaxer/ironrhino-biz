@@ -178,6 +178,11 @@ public class CustomerAction extends BaseAction {
 		if (customer == null)
 			return INPUT;
 		if (customer.isNew()) {
+			if (customerManager.findByNaturalId(customer.getName()) != null) {
+				addFieldError("customer.name",
+						getText("validation.already.exists"));
+				return INPUT;
+			}
 			if (regionId != null) {
 				Region region = regionTreeControl.getRegionTree()
 						.getDescendantOrSelfById(regionId);
@@ -187,7 +192,7 @@ public class CustomerAction extends BaseAction {
 			Customer temp = customer;
 			customer = customerManager.get(temp.getId());
 			if (!customer.getName().equals(temp.getName())) {
-				if (customerManager.findByNaturalId(true, temp.getName()) != null) {
+				if (customerManager.findByNaturalId(temp.getName()) != null) {
 					addFieldError("customer.name",
 							getText("validation.already.exists"));
 					return INPUT;
@@ -261,8 +266,8 @@ public class CustomerAction extends BaseAction {
 	public String merge() {
 		String[] id = getId();
 		if (id != null && id.length == 2) {
-			Customer c0 = customerManager.findByNaturalId(true, id[0].trim());
-			Customer c1 = customerManager.findByNaturalId(true, id[1].trim());
+			Customer c0 = customerManager.findByNaturalId(id[0].trim());
+			Customer c1 = customerManager.findByNaturalId(id[1].trim());
 			if (c0 != null && c1 != null) {
 				DetachedCriteria dc = orderManager.detachedCriteria();
 				dc.createAlias("customer", "c").add(
@@ -290,7 +295,7 @@ public class CustomerAction extends BaseAction {
 			customer = customerManager.get(Long.valueOf(id));
 		} else if (StringUtils.isNotBlank(id)) {
 			id = id.trim();
-			customer = customerManager.findByNaturalId(true, id);
+			customer = customerManager.findByNaturalId(id);
 			if (customer == null) {
 				CompassCriteria cc = new CompassCriteria();
 				cc.setQuery(id);

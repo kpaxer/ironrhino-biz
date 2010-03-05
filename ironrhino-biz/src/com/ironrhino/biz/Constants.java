@@ -6,4 +6,5 @@ public interface Constants {
 	public static final String ROLE_SUPERVISOR = "ROLE_SUPERVISOR";
 	public static final String ROLE_WAREHOUSEMAN = "ROLE_WAREHOUSEMAN";
 	public static final String ROLE_SALESMAN = "ROLE_SALESMAN";
+	public static final String ROLE_HR = "ROLE_HR";
 }
