@@ -16,7 +16,6 @@
 			</div>
 		</p>
 	
-	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date"/>
 	<@s.if test="%{order.isNew()}">
 	<p>
 		<label for="orderItems">${action.getText('orderItems')}</label>
@@ -33,7 +32,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="2">
-					${action.getText('discount')}:<@s.textfield id="discount" theme="simple" name="order.discount" cssClass="double autocomplete_off" cssStyle="margin-left:10px;"/>
+					${action.getText('discount')}:<input type="text" id="discount" name="order.discount" class="double autocomplete_off" cssStyle="margin-left:10px;" tabindex="10"/>
 					</td>
 					<td colspan="2" align="right">
 					${action.getText('grandTotal')}:<span id="grandTotal" style="font-weight:bold;margin-left:10px;"></span>
@@ -42,9 +41,9 @@
 			</tfoot>
 			<tbody>
 				<tr>
-					<td><@s.select theme="simple" name="productId" cssClass="required" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/></td>
-					<td><@s.textfield theme="simple" name="order.items[0].quantity" cssClass="required integer positive autocomplete_off"/></td>
-					<td><@s.textfield theme="simple" name="order.items[0].price" cssClass="required double positive autocomplete_off"/></td>
+					<td><input type="text" size="5" class="filterselect autocomplete_off" style="margin-right:3px;"/><@s.select theme="simple" name="productId" cssClass="required" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/></td>
+					<td><input type="text" name="order.items[0].quantity" class="required integer positive autocomplete_off"/></td>
+					<td><input type="text" name="order.items[0].price" class="required double positive autocomplete_off"/></td>
 					<td></td>
 					<td><@button text="+" class="add"/><@button text="-" class="remove" style="margin-left:2px;"/></td>
 				</tr>
@@ -53,6 +52,7 @@
 		</div>
 	</p>
 	</@s.if>
+	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date"/>
 	<@s.checkbox label="%{getText('paid')}" name="order.paid"/>
 	<@s.checkbox label="%{getText('shipped')}" name="order.shipped"/>
 	<@s.if test="%{!order.isNew()}">

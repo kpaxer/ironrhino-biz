@@ -11,7 +11,7 @@
 					success : function(customer) {
 						if (customer.name) {
 							if (customer.id) {
-								input.siblings('span.info').html('');
+								input.val(customer.name).siblings('span.info').html('');
 							} else {
 								input
 										.focus()
@@ -74,7 +74,11 @@
 		var r = row.clone(true);
 		row.after(r);
 		$('td:eq(3)', r).text('');
-		$('input,select', r).val('').first().focus();
+		$('select:eq(0)', r).html(function() {
+					return $(this).data('innerHTML')
+				});
+		$('input', r).val('');
+		$('input:eq(0)', r).focus();
 		rename();
 	};
 	var removeRow = function(event) {

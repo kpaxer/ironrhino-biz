@@ -201,6 +201,7 @@ public class OrderAction extends BaseAction {
 		} else {
 			Order temp = order;
 			order = orderManager.get(temp.getId());
+			order.setOrderDate(temp.getOrderDate());
 			order.setMemo(temp.getMemo());
 			order.setPaid(temp.isPaid());
 			order.setShipped(temp.isShipped());
