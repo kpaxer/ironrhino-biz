@@ -38,8 +38,6 @@ public class OrderAction extends BaseAction {
 
 	private Customer customer;
 
-	private String keyword;
-
 	private Long[] productId;
 
 	private List<Product> productList;
@@ -90,14 +88,6 @@ public class OrderAction extends BaseAction {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
-	}
-
-	public String getKeyword() {
-		return keyword;
-	}
-
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
 	}
 
 	@Override

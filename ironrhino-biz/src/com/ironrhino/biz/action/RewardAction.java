@@ -34,8 +34,6 @@ public class RewardAction extends BaseAction {
 
 	private ResultPage<Reward> resultPage;
 
-	private String keyword;
-
 	private Employee employee;
 
 	private List<Employee> employeeList;
@@ -48,14 +46,6 @@ public class RewardAction extends BaseAction {
 
 	@Inject
 	private transient CompassSearchService compassSearchService;
-
-	public String getKeyword() {
-		return keyword;
-	}
-
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
-	}
 
 	public ResultPage<Reward> getResultPage() {
 		return resultPage;

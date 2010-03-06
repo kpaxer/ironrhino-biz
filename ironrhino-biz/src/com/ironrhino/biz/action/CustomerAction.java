@@ -39,8 +39,6 @@ public class CustomerAction extends BaseAction {
 
 	private Long regionId;
 
-	private String keyword;
-
 	@Inject
 	private transient CustomerManager customerManager;
 
@@ -75,14 +73,6 @@ public class CustomerAction extends BaseAction {
 
 	public void setRegionId(Long regionId) {
 		this.regionId = regionId;
-	}
-
-	public String getKeyword() {
-		return keyword;
-	}
-
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
 	}
 
 	public Region getRegionTree() {
