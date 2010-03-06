@@ -11,7 +11,7 @@
 		<p>
 			<label for="customerName">${action.getText('customer')}${action.getText('name')}</label>
 			<div>
-				<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required ajax autocomplete_off"/>
+				<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required ajax"/>
 				<span class="info" style="margin-left:20px;"></span>
 			</div>
 		</p>
@@ -32,7 +32,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="2">
-					${action.getText('discount')}:<input type="text" id="discount" name="order.discount" class="double autocomplete_off" cssStyle="margin-left:10px;" tabindex="10"/>
+					${action.getText('discount')}:<input type="text" id="discount" name="order.discount" class="double" cssStyle="margin-left:10px;" tabindex="10"/>
 					</td>
 					<td colspan="2" align="right">
 					${action.getText('grandTotal')}:<span id="grandTotal" style="font-weight:bold;margin-left:10px;"></span>
@@ -41,9 +41,9 @@
 			</tfoot>
 			<tbody>
 				<tr>
-					<td><input type="text" size="5" class="filterselect autocomplete_off" style="margin-right:3px;"/><@s.select theme="simple" name="productId" cssClass="required" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/></td>
-					<td><input type="text" name="order.items[0].quantity" class="required integer positive autocomplete_off"/></td>
-					<td><input type="text" name="order.items[0].price" class="required double positive autocomplete_off"/></td>
+					<td><input type="text" size="5" class="filterselect" style="margin-right:3px;"/><@s.select theme="simple" name="productId" cssClass="required" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/></td>
+					<td><input type="text" name="order.items[0].quantity" class="required integer positive"/></td>
+					<td><input type="text" name="order.items[0].price" class="required double positive"/></td>
 					<td></td>
 					<td><@button text="+" class="add"/><@button text="-" class="remove" style="margin-left:2px;"/></td>
 				</tr>
