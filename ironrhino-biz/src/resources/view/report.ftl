@@ -19,6 +19,21 @@
 <@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
 </div>
+<div>订单报表</div>
+<div>
+<@button text="当日订单" type="link" href="${getUrl('/report/jasper?type=dailyorder')}" target="_blank"/>
+<form action="${getUrl('/report/jasper')}" method="post">
+<input type="hidden" name="type" value="dailyorder"/>
+<input type="text" name="date" class="date"/>
+<@s.submit theme="simple" value="%{getText('confirm')}"/>
+</form>
+<form action="${getUrl('/report/jasper')}" method="post">
+<input type="hidden" name="type" value="dailyorder"/>
+<input type="text" name="from" class="date"/>
+<input type="text" name="to" class="date"/>
+<@s.submit theme="simple" value="%{getText('confirm')}"/>
+</form>
+</div>
 <div>工资报表</div>
 <div>
 <@button text="当日结单" type="link" href="${getUrl('/report/jasper?type=dailyreward')}"/>

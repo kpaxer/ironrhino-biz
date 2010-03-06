@@ -14,8 +14,8 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.core.struts.BaseAction;
@@ -157,6 +157,7 @@ public class ReportAction extends BaseAction {
 			else
 				reportParameters.put("date", DateUtils
 						.format(from, datePattern));
+		reportParameters.put("SUBREPORT_DIR", ServletActionContext.getServletContext().getRealPath("/WEB-INF/view/jasper/"));
 		return reportParameters;
 	}
 
@@ -172,7 +173,7 @@ public class ReportAction extends BaseAction {
 	public String execute() {
 		DetachedCriteria dc = employeeManager.detachedCriteria();
 		dc.add(Restrictions.eq("disabled", false));
-		dc.addOrder(Order.asc("name"));
+		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 		employeeList = employeeManager.findListByCriteria(dc);
 		return SUCCESS;
 	}
@@ -267,23 +268,13 @@ public class ReportAction extends BaseAction {
 			});
 			this.list = al;
 		} else if ("dailyorder".equals(type)) {
-			title = "日订单报表";
+			title = "详细订单报表";
 			DetachedCriteria dc = orderManager.detachedCriteria();
-			dc.add(Restrictions.between("createDate", getFrom(), DateUtils
+			dc.add(Restrictions.between("orderDate", getFrom(), DateUtils
 					.addDays(getTo(), 1)));
-			dc.addOrder(org.hibernate.criterion.Order.asc("name"));
-			List<Customer> cl = customerManager.findListByCriteria(dc);
-			for (Customer c : cl) {
-				if (c.getRegion() != null) {
-					String address = regionTreeControl.getRegionTree()
-							.getDescendantOrSelfById(c.getRegion().getId())
-							.getFullname()
-							+ c.getAddress();
-					c.setAddress(address);
-					c.setRegion(null);
-				}
-			}
-			list = cl;
+			dc.addOrder(org.hibernate.criterion.Order.asc("orderDate"));
+			dc.addOrder(org.hibernate.criterion.Order.desc("grandTotal"));
+			list = orderManager.findListByCriteria(dc);
 		}
 		if (list == null || list.isEmpty()) {
 			addActionMessage("没有数据");
