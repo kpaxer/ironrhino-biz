@@ -5,7 +5,7 @@
 </head>
 <body>
 <@s.form action="save" method="post" cssClass="ajax">
-	<#if !(reward??&&reward.new)>
+	<#if !reward.new>
 		<@s.hidden name="reward.id" />
 	<#else>
 		<@s.select label="%{getText('employee')}" name="employee.id" cssClass="required" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>

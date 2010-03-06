@@ -9,7 +9,6 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.ironrhino.common.model.QueryForm;
 import org.ironrhino.common.model.Status;
 import org.ironrhino.core.metadata.Redirect;
 import org.ironrhino.core.model.ResultPage;
@@ -38,19 +37,9 @@ public class StuffflowAction extends BaseAction {
 
 	private Stuffflow stuffflow;
 
-	private QueryForm queryForm;
-
 	private ResultPage<Stuffflow> resultPage;
 
 	private transient BaseManager baseManager;
-
-	public QueryForm getQueryForm() {
-		return queryForm;
-	}
-
-	public void setQueryForm(QueryForm queryForm) {
-		this.queryForm = queryForm;
-	}
 
 	public String getStuffId() {
 		return stuffId;
@@ -190,8 +179,6 @@ public class StuffflowAction extends BaseAction {
 	public String history() {
 		baseManager.setEntityClass(Stuffflow.class);
 		DetachedCriteria dc = baseManager.detachedCriteria();
-		if (queryForm != null)
-			queryForm.fill(dc, "requestDate");
 		if (resultPage == null)
 			resultPage = new ResultPage<Stuffflow>();
 		resultPage.setDetachedCriteria(dc);

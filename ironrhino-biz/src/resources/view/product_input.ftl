@@ -5,7 +5,7 @@
 </head>
 <body>
 <@s.form action="save" method="post" cssClass="ajax">
-	<#if product??&&!product.new>
+	<#if !product.new>
 		<@s.hidden name="product.id" />
 	</#if>
 	<@s.select label="%{getText('category')}" name="categoryId" cssClass="required" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
