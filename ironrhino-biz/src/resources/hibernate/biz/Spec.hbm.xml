@@ -13,7 +13,6 @@
 		<property name="basicMeasure"/>
 		<property name="baleQuantity"/>
 		<property name="balePackName"/>
-		<property name="purity"/>
 		<property name="displayOrder" />
 	</class>
 </hibernate-mapping>

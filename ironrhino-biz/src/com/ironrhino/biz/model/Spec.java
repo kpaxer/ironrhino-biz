@@ -1,6 +1,5 @@
 package com.ironrhino.biz.model;
 
-import org.apache.commons.lang.StringUtils;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
@@ -24,8 +23,6 @@ public class Spec extends Entity<Long> implements Ordered {
 	private Integer baleQuantity;
 
 	private String balePackName;
-
-	private String purity;
 
 	private int displayOrder;
 
@@ -83,14 +80,6 @@ public class Spec extends Entity<Long> implements Ordered {
 		this.balePackName = balePackName;
 	}
 
-	public String getPurity() {
-		return purity;
-	}
-
-	public void setPurity(String purity) {
-		this.purity = purity;
-	}
-
 	@NotInCopy
 	public String getUnit() {
 		if (basicQuantity == null || basicQuantity <= 0)
@@ -98,8 +87,6 @@ public class Spec extends Entity<Long> implements Ordered {
 		StringBuilder sb = new StringBuilder();
 		sb.append(basicPackName);
 		sb.append('(');
-		if (StringUtils.isNotBlank(purity))
-			sb.append(purity);
 		if (basicQuantity.doubleValue() - basicQuantity.intValue() == 0)
 			sb.append(NumberUtils.format(basicQuantity, 0));
 		else
@@ -115,8 +102,6 @@ public class Spec extends Entity<Long> implements Ordered {
 		if (basicQuantity == null || basicQuantity <= 0)
 			return basicPackName;
 		StringBuilder sb = new StringBuilder();
-		if (StringUtils.isNotBlank(purity))
-			sb.append(purity);
 		if (basicQuantity.doubleValue() - basicQuantity.intValue() == 0)
 			sb.append(NumberUtils.format(basicQuantity, 0));
 		else
