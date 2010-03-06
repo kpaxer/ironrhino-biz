@@ -180,7 +180,7 @@ public class ReportAction extends BaseAction {
 	}
 
 	public String jasper() {
-		if ("dailycustomer".equals(type)) {
+		if ("customer".equals(type)) {
 			title = "客户信息";
 			DetachedCriteria dc = customerManager.detachedCriteria();
 			dc.add(Restrictions.between("createDate", getFrom(), DateUtils
@@ -198,7 +198,7 @@ public class ReportAction extends BaseAction {
 				}
 			}
 			list = cl;
-		} else if ("dailyreward".equals(type)) {
+		} else if ("reward".equals(type)) {
 			title = "日工资结单";
 			DetachedCriteria dc = rewardManager.detachedCriteria();
 			dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
@@ -268,7 +268,7 @@ public class ReportAction extends BaseAction {
 				}
 			});
 			this.list = al;
-		} else if ("dailyorder".equals(type)) {
+		} else if ("order".equals(type)) {
 			title = "详细订单报表";
 			DetachedCriteria dc = orderManager.detachedCriteria();
 			dc.add(Restrictions.between("orderDate", getFrom(), DateUtils
