@@ -37,9 +37,7 @@
 			<security:password-encoder ref="passwordEncoder" />
 		</security:authentication-provider>
 	</security:authentication-manager>
-	
-	<bean id="entryPoint"
-		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint"
+	<bean id="entryPoint" class="org.ironrhino.core.spring.security.DefaultLoginUrlAuthenticationEntryPoint"
 		p:loginFormUrl="/login" p:forceHttps="false" />
 	<bean id="authenticationFilter"
 		class="org.ironrhino.core.spring.security.DefaultUsernamePasswordAuthenticationFilter"
