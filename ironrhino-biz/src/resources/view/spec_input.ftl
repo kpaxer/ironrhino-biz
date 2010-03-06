@@ -8,16 +8,16 @@
 	<@s.if test="%{!spec.isNew()}">
 		<@s.hidden name="spec.id" />
 	</@s.if>
-	<p>
+	<div>
 	<label for="save_spec_basicQuantity">${action.getText('basicQuantity')}</label>
 	<@s.textfield name="spec.basicQuantity" cssClass="double positive" theme="simple"/>
 	<@s.select name="spec.basicMeasure" list="{'g','kg','l','ml'}" cssStyle="width:auto;margin-left:8px;" theme="simple"/>
-	</p>
-	<p>
+	</div>
+	<div>
 	<label for="save_spec_basicQuantity">${action.getText('baleQuantity')}</label>
 	<@s.textfield name="spec.baleQuantity" cssClass="integer positive" theme="simple"/>
 	/<@s.select name="spec.basicPackName" list="{'包','瓶'}" cssStyle="width:auto;" theme="simple"/>
-	</p>
+	</div>
 	<@s.select label="%{getText('balePackName')}" name="spec.balePackName" list="{'箱','件'}" headerKey="" headerValue="请选择"/>
 	<@s.textfield label="%{getText('displayOrder')}" name="spec.displayOrder" cssClass="integer"/>
 	<@s.submit value="%{getText('save')}" />

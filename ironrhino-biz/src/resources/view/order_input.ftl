@@ -8,16 +8,16 @@
 	<@s.if test="%{!order.isNew()}">
 		<@s.hidden name="order.id" />
 	</@s.if>
-		<p>
+		<div>
 			<label for="customerName">${action.getText('customer')}${action.getText('name')}</label>
 			<div>
 				<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required ajax"/>
 				<span class="info" style="margin-left:20px;"></span>
 			</div>
-		</p>
+		</div>
 	
 	<@s.if test="%{order.isNew()}">
-	<p>
+	<div>
 		<label for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems">
 		<table border="0" width="80%">
@@ -32,7 +32,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="2">
-					${action.getText('discount')}:<input type="text" id="discount" name="order.discount" class="double" cssStyle="margin-left:10px;" tabindex="10"/>
+					${action.getText('discount')}:<input type="text" id="discount" name="order.discount" class="double" style="margin-left:10px;" tabindex="10"/>
 					</td>
 					<td colspan="2" align="right">
 					${action.getText('grandTotal')}:<span id="grandTotal" style="font-weight:bold;margin-left:10px;"></span>
@@ -50,7 +50,7 @@
 			</tbody>
 		</table>
 		</div>
-	</p>
+	</div>
 	</@s.if>
 	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date required"/>
 	<@s.checkbox label="%{getText('paid')}" name="order.paid"/>

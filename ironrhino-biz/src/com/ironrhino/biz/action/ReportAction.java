@@ -26,6 +26,7 @@ import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.Reward;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.EmployeeManager;
+import com.ironrhino.biz.service.OrderManager;
 import com.ironrhino.biz.service.RewardManager;
 
 public class ReportAction extends BaseAction {
@@ -34,7 +35,7 @@ public class ReportAction extends BaseAction {
 
 	private static final String datePattern = "yyyy年MM月dd日";
 
-	private String type = "dailyreward";
+	private String type;
 
 	private String title = "";
 
@@ -64,6 +65,9 @@ public class ReportAction extends BaseAction {
 
 	@Inject
 	private transient CustomerManager customerManager;
+
+	@Inject
+	private transient OrderManager orderManager;
 
 	@Inject
 	private transient RegionTreeControl regionTreeControl;
@@ -130,8 +134,11 @@ public class ReportAction extends BaseAction {
 			if (date != null)
 				sb.append(DateUtils.formatDate8(date));
 			else if (from != null && to != null)
-				sb.append(DateUtils.formatDate8(from)).append('-').append(
-						DateUtils.formatDate8(to));
+				if (!DateUtils.isSameDay(from, to))
+					sb.append(DateUtils.formatDate8(from)).append('-').append(
+							DateUtils.formatDate8(to));
+				else
+					sb.append(DateUtils.formatDate8(from));
 			return sb.toString();
 		} catch (UnsupportedEncodingException e) {
 			return "";
@@ -143,8 +150,13 @@ public class ReportAction extends BaseAction {
 		if (date != null)
 			reportParameters.put("date", DateUtils.format(date, datePattern));
 		else if (from != null && to != null)
-			reportParameters.put("date", DateUtils.format(from, datePattern)
-					+ "-" + DateUtils.format(to, datePattern));
+			if (!DateUtils.isSameDay(from, to))
+				reportParameters.put("date", DateUtils
+						.format(from, datePattern)
+						+ "-" + DateUtils.format(to, datePattern));
+			else
+				reportParameters.put("date", DateUtils
+						.format(from, datePattern));
 		return reportParameters;
 	}
 
@@ -166,13 +178,33 @@ public class ReportAction extends BaseAction {
 	}
 
 	public String jasper() {
-		if ("dailyreward".equals(type)) {
+		if ("dailycustomer".equals(type)) {
+			title = "客户信息";
+			DetachedCriteria dc = customerManager.detachedCriteria();
+			dc.add(Restrictions.between("createDate", getFrom(), DateUtils
+					.addDays(getTo(), 1)));
+			dc.addOrder(org.hibernate.criterion.Order.asc("name"));
+			List<Customer> cl = customerManager.findListByCriteria(dc);
+			for (Customer c : cl) {
+				if (c.getRegion() != null) {
+					String address = regionTreeControl.getRegionTree()
+							.getDescendantOrSelfById(c.getRegion().getId())
+							.getFullname()
+							+ c.getAddress();
+					c.setAddress(address);
+					c.setRegion(null);
+				}
+			}
+			list = cl;
+		} else if ("dailyreward".equals(type)) {
 			title = "日工资结单";
 			DetachedCriteria dc = rewardManager.detachedCriteria();
 			dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
 					.addDays(getTo(), 1)));
 			if (!includePaid)
 				dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+			else
+				title += "(包括支出)";
 			dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
 			dc.addOrder(org.hibernate.criterion.Order.desc("amount"));
 			list = rewardManager.findListByCriteria(dc);
@@ -192,6 +224,8 @@ public class ReportAction extends BaseAction {
 						.addDays(getTo(), 1)));
 				if (!includePaid)
 					dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+				else
+					title += "(包括支出)";
 				dc.addOrder(org.hibernate.criterion.Order.asc("rewardDate"));
 				list = rewardManager.findListByCriteria(dc);
 			}
@@ -202,19 +236,22 @@ public class ReportAction extends BaseAction {
 					.addDays(getTo(), 1)));
 			if (!includePaid)
 				dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+			else
+				title += "(包括支出)";
 			dc.createAlias("employee", "e").addOrder(
 					org.hibernate.criterion.Order.asc("e.name"));
 			List<Reward> cl = rewardManager.findListByCriteria(dc);
 			List<Reward> al = new ArrayList<Reward>();
 			Reward current = null;
 			for (Reward r : cl) {
-				if (current == null){
+				if (current == null) {
 					current = r;
 					continue;
 				}
-				if(current.getEmployee().getId().equals(r.getEmployee().getId())){
+				if (current.getEmployee().getId().equals(
+						r.getEmployee().getId())) {
 					current.setAmount(current.getAmount().add(r.getAmount()));
-				}else{
+				} else {
 					al.add(current);
 					current = r;
 				}
@@ -229,9 +266,9 @@ public class ReportAction extends BaseAction {
 				}
 			});
 			this.list = al;
-		} else if ("dailycustomer".equals(type)) {
-			title = "客户信息";
-			DetachedCriteria dc = customerManager.detachedCriteria();
+		} else if ("dailyorder".equals(type)) {
+			title = "日订单报表";
+			DetachedCriteria dc = orderManager.detachedCriteria();
 			dc.add(Restrictions.between("createDate", getFrom(), DateUtils
 					.addDays(getTo(), 1)));
 			dc.addOrder(org.hibernate.criterion.Order.asc("name"));

@@ -24,6 +24,8 @@ public class Reward extends BaseEntity {
 	@SearchableProperty(converter = "date", format = "yyyy-MM-dd")
 	private Date rewardDate = new Date();
 
+	private Date createDate = new Date();
+
 	@SearchableProperty
 	private String memo;
 
@@ -37,6 +39,14 @@ public class Reward extends BaseEntity {
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	public Date getRewardDate() {

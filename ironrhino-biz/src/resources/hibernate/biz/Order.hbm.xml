@@ -18,6 +18,7 @@
 		<property name="shipped" />
 		<property name="cancelled" />
 		<property name="orderDate" />
+		<property name="createDate" />
 		<property name="memo" length="2500" />
 		<many-to-one name="customer" column="customerId" not-null="true"
 			lazy="false" fetch="join" />

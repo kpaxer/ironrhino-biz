@@ -9,11 +9,11 @@
 		<@s.hidden name="customer.id" />
 	</@s.if>
 	<@s.textfield label="%{getText('name')}" name="customer.name" cssClass="required"/>
-	<p onclick="Region.select('region',true,'regionId')">
+	<div onclick="Region.select('region',true,'regionId')">
 	<@s.hidden id="regionId" name="regionId" />
 	<label for="region"><span style="cursor:pointer;">请选择地区</span></label> 
 	<div id="region"><#if customer.region??>${customer.region.fullname}<#else>...</#if></div>
-	</p>
+	</div>
 	<@s.textfield label="%{getText('address')}" id="address" name="customer.address"/>
 	<@s.textfield label="%{getText('linkman')}" name="customer.linkman" />
 	<@s.textfield label="%{getText('phone')}" name="customer.phone" />

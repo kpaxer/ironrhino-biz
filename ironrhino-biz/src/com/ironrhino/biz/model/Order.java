@@ -31,8 +31,11 @@ public class Order extends BaseEntity {
 	private String memo;
 
 	@NotInCopy
-	@SearchableProperty(converter="date",format="yyyy-MM-dd")
+	@SearchableProperty(converter = "date", format = "yyyy-MM-dd")
 	private Date orderDate = new Date();
+
+	@NotInCopy
+	private Date createDate = new Date();
 
 	private boolean paid;
 
@@ -70,6 +73,14 @@ public class Order extends BaseEntity {
 
 	public void setShipped(boolean shipped) {
 		this.shipped = shipped;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	public boolean isCancelled() {

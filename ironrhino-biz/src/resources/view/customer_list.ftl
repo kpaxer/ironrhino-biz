@@ -28,11 +28,11 @@ text-decoration:none;
 <@richtable entityName="customer" config=config actionColumnWidth="210px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true searchButtons=searchButtons/>
 
 <form id="merge" action="<@url value="/customer/merge"/>" method="post" class="ajax reset" style="display:none;" onsuccess="Richtable.reload()">
-<p>
+<div>
 	<span style="margin:3px;">将</span><input type="text" name="id" class="required"/>
 	<span style="margin:3px;">合并到</span><input type="text" name="id" class="required"/>
 	<@s.submit theme="simple" value="%{getText('confirm')}" />
-	</p>
+	</div>
 </form>
 </body>
 </html></#escape>

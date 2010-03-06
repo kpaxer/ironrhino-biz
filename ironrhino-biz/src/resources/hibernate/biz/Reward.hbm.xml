@@ -11,6 +11,7 @@
 		</id>
 		<property name="amount" />
 		<property name="rewardDate" />
+		<property name="createDate" />
 		<property name="memo" length="2500" />
 		<many-to-one name="employee" column="employeeId" not-null="true" lazy="false" fetch="join" />
 	</class>

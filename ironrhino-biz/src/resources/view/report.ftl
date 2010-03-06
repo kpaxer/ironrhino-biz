@@ -9,6 +9,11 @@
 <@button text="当日结单" type="link" href="${getUrl('/report/jasper?type=dailycustomer')}" target="_blank"/>
 <form action="${getUrl('/report/jasper')}" method="post">
 <input type="hidden" name="type" value="dailycustomer"/>
+<input type="text" name="date" class="date"/>
+<@s.submit theme="simple" value="%{getText('confirm')}"/>
+</form>
+<form action="${getUrl('/report/jasper')}" method="post">
+<input type="hidden" name="type" value="dailycustomer"/>
 <input type="text" name="from" class="date"/>
 <input type="text" name="to" class="date"/>
 <@s.submit theme="simple" value="%{getText('confirm')}"/>
@@ -17,6 +22,11 @@
 <div>工资报表</div>
 <div>
 <@button text="当日结单" type="link" href="${getUrl('/report/jasper?type=dailyreward')}"/>
+<form action="${getUrl('/report/jasper')}" method="post">
+<input type="hidden" name="type" value="dailyreward"/>
+<input type="text" name="date" class="date"/>
+<@s.submit theme="simple" value="%{getText('confirm')}"/>
+</form>
 <form action="${getUrl('/report/jasper')}" method="post">
 <input type="hidden" name="type" value="dailyreward"/>
 <input type="text" name="from" class="date"/>
@@ -28,14 +38,14 @@
 <@s.select theme="simple" name="id" list="employeeList" cssStyle="width:80px;" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 <input type="text" name="from" class="date"/>
 <input type="text" name="to" class="date"/>
-<span>包括已付</span><input type="checkbox" name="includePaid" value="true"/>
+<span>包括支出</span><input type="checkbox" name="includePaid" value="true"/>
 <@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
 <form action="${getUrl('/report/jasper')}" method="post">
 <input type="hidden" name="type" value="aggregationreward"/>
 <input type="text" name="from" class="date"/>
 <input type="text" name="to" class="date"/>
-<span>包括已付</span><input type="checkbox" name="includePaid" value="true"/>
+<span>包括支出</span><input type="checkbox" name="includePaid" value="true"/>
 <@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
 </div>
