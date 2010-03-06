@@ -24,7 +24,7 @@ public class Employee extends Entity<Long> {
 	@SearchableProperty(boost = 3)
 	private String name;
 
-	private boolean disabled;
+	private boolean dimission;
 
 	private String phone;
 
@@ -41,12 +41,12 @@ public class Employee extends Entity<Long> {
 		this.name = name;
 	}
 
-	public boolean isDisabled() {
-		return disabled;
+	public boolean isDimission() {
+		return dimission;
 	}
 
-	public void setDisabled(boolean disabled) {
-		this.disabled = disabled;
+	public void setDimission(boolean dimission) {
+		this.dimission = dimission;
 	}
 
 	public Date getCreateDate() {

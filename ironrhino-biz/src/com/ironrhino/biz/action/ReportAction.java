@@ -157,7 +157,8 @@ public class ReportAction extends BaseAction {
 			else
 				reportParameters.put("date", DateUtils
 						.format(from, datePattern));
-		reportParameters.put("SUBREPORT_DIR", ServletActionContext.getServletContext().getRealPath("/WEB-INF/view/jasper/"));
+		reportParameters.put("SUBREPORT_DIR", ServletActionContext
+				.getServletContext().getRealPath("/WEB-INF/view/jasper/"));
 		return reportParameters;
 	}
 
@@ -172,7 +173,7 @@ public class ReportAction extends BaseAction {
 	@Override
 	public String execute() {
 		DetachedCriteria dc = employeeManager.detachedCriteria();
-		dc.add(Restrictions.eq("disabled", false));
+		dc.add(Restrictions.eq("dimission", false));
 		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 		employeeList = employeeManager.findListByCriteria(dc);
 		return SUCCESS;
@@ -272,6 +273,7 @@ public class ReportAction extends BaseAction {
 			DetachedCriteria dc = orderManager.detachedCriteria();
 			dc.add(Restrictions.between("orderDate", getFrom(), DateUtils
 					.addDays(getTo(), 1)));
+			dc.add(Restrictions.eq("cancelled", false));
 			dc.addOrder(org.hibernate.criterion.Order.asc("orderDate"));
 			dc.addOrder(org.hibernate.criterion.Order.desc("grandTotal"));
 			list = orderManager.findListByCriteria(dc);

@@ -10,7 +10,7 @@ text-decoration:none;
 </style>
 </head>
 <body>
-<#assign config={"id":{},"name":{"cellEdit":"click"},"phone":{"cellEdit":"click"},"disabled":{"cellEdit":"click,select_template_boolean"}}>
+<#assign config={"id":{},"name":{"cellEdit":"click"},"phone":{"cellEdit":"click"},"dimission":{"cellEdit":"click,select_template_boolean"}}>
 <#assign actionColumnButtons=btn(action.getText('save'),null,'save')
 +btn(action.getText('edit'),null,'input')
 +btn(action.getText('reward'),'','','link','',r'reward?employee.id=${rowid}')

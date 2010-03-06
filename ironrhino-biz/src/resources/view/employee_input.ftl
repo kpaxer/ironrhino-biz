@@ -10,7 +10,7 @@
 	</@s.if>
 	<@s.textfield label="%{getText('name')}" name="employee.name" cssClass="required"/>
 	<@s.textfield label="%{getText('phone')}" name="employee.phone" />
-	<@s.checkbox label="%{getText('disabled')}" name="employee.disabled" />
+	<@s.checkbox label="%{getText('dimission')}" name="employee.dimission" />
 	<@s.textarea label="%{getText('memo')}" name="employee.memo" cols="50" rows="10"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>

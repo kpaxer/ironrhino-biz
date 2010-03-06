@@ -55,7 +55,7 @@ public class EmployeeAction extends BaseAction {
 		if (resultPage == null)
 			resultPage = new ResultPage<Employee>();
 		resultPage.setDetachedCriteria(dc);
-		resultPage.addOrder(org.hibernate.criterion.Order.desc("disabled"));
+		resultPage.addOrder(org.hibernate.criterion.Order.asc("dimission"));
 		resultPage.addOrder(org.hibernate.criterion.Order.asc("id"));
 		resultPage = employeeManager.findByResultPage(resultPage);
 		return LIST;

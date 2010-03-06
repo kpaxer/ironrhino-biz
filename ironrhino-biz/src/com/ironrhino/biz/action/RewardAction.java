@@ -137,7 +137,7 @@ public class RewardAction extends BaseAction {
 				employee = employeeManager.get(employee.getId());
 			}
 			DetachedCriteria dc = employeeManager.detachedCriteria();
-			dc.add(Restrictions.eq("disabled", false));
+			dc.add(Restrictions.eq("dimission", false));
 			dc.addOrder(Order.asc("name"));
 			employeeList = employeeManager.findListByCriteria(dc);
 		} else {
