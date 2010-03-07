@@ -34,6 +34,7 @@
 	</@authorize>
 	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_SALESMAN">
 	<li><a href="<@url value="/product"/>">产品管理</a></li>
+	<li><a href="<@url value="/plan"/>">生产计划</a></li>
 	<li><a href="<@url value="/customer"/>">客户管理</a></li>
 	<li><a href="<@url value="/order"/>">订单管理</a></li>
 	<li><a href="<@url value="/employee"/>">员工管理</a></li>

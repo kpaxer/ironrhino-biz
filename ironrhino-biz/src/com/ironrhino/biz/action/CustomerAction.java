@@ -290,8 +290,6 @@ public class CustomerAction extends BaseAction {
 				}
 			}
 		}
-		if (customer == null)
-			customer = new Customer();
 		return JSON;
 	}
 

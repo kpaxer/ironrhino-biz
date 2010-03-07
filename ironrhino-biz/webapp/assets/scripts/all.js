@@ -18759,8 +18759,7 @@ $.fn.datagridTable = function() {
 };
 var DataGridTable = {
 	addRow : function(event) {
-		event = event || window.event;
-		row = $(event.srcElement || event.target).closest('tr').get(0);
+		row = $(event.target).closest('tr').get(0);
 		table = $(row).closest('table').get(0);
 		cells = table.tHead.rows[0].cells;
 		html = '<tr>';
@@ -18792,8 +18791,7 @@ var DataGridTable = {
 		DataGridTable.setRows(table);
 	},
 	deleteRow : function(event) {
-		event = event || window.event;
-		row = $(event.srcElement || event.target).closest('tr').get(0);
+		row = $(event.target).closest('tr').get(0);
 		table = $(row).closest('table').get(0);
 		$(row).remove();
 		DataGridTable.setRows(table);
@@ -18862,8 +18860,7 @@ Observation.combox = function(container) {
 		return ECSideUtil.getPosLeft(elm) + elm.offsetWidth;
 	},
 	StartResize : function(event) {
-		event = event || window.event;
-		var obj = event.srcElement || event.target;
+		var obj = event.target;
 		obj.focus();
 		document.body.style.cursor = "e-resize";
 		var sibling = $(obj.parentNode).next()[0];
@@ -19532,26 +19529,27 @@ Observation.editme = function(container) {
 (function() {
 	Observation.app = function() {
 		$('#customerName.ajax').blur(function(event) {
-			var ev = event || window.event;
-			var input = $(event.srcElement || event.target);
-			if (input.val()) {
-				var url = CONTEXT_PATH + '/customer/json/' + input.val();
+			var ele = $(event.target);
+			var val = ele.val();
+			if (val) {
+				var url = CONTEXT_PATH + '/customer/json/' + val;
 				$.ajax({
 					url : url,
 					dataType : 'json',
-					success : function(customer) {
-						if (customer.name) {
-							if (customer.id) {
-								input.val(customer.name).siblings('span.info').html('');
+					success : function(data) {
+						if (data.name) {
+							if (data.id) {
+								ele.val(data.name).siblings('span.info')
+										.html('');
 							} else {
-								input
+								ele
 										.focus()
 										.siblings('span.info')
 										.html('<span style="color:red;">备选:</span>'
-												+ customer.name);
+												+ data.name);
 							}
 						} else {
-							input
+							ele
 									.siblings('span.info')
 									.html('<span style="color:red;">将自动保存为新客户</span>');
 						}
@@ -19559,9 +19557,48 @@ Observation.editme = function(container) {
 				});
 			}
 		});
-		$('#orderItems input').blur(function() {
-					calculate()
+		$('select.fetchprice').change(function(event) {
+			var ele = $(event.target);
+			var val = ele.val();
+			if (val) {
+				var url = CONTEXT_PATH + '/product/json/' + val;
+				$.ajax({
+					url : url,
+					dataType : 'json',
+					success : function(data) {
+						$('input.price:eq(0)', ele.closest('tr'))
+								.val(data.price || '');
+						if (data.stock <= 0)
+							ele
+									.siblings('span.info')
+									.html('<span style="font-style:italic;">没有库存</span>');
+					}
 				});
+			}
+		});
+		$('#orderItems input.quantity').blur(function() {
+			calculate();
+			var quantity = $(event.target).val();
+			if(!quantity)return;
+			var ele = $('select.fetchprice',$(event.target).closest('tr'));
+			var val = ele.val();
+			if (val) {
+				var url = CONTEXT_PATH + '/product/json/' + val;
+				$.ajax({
+					url : url,
+					dataType : 'json',
+					success : function(data) {
+						$('input.price:eq(0)', ele.closest('tr'))
+								.val(data.price || '');
+						if (data.stock < quantity)
+							ele
+									.siblings('span.info')
+									.html('<span style="font-color:red;">库存不够,将自动建立计划</span>');
+					}
+				});
+			}
+		});
+		$('#orderItems input.price,#discount').blur(function(){calculate()});
 		$('#orderItems button.add').click(addRow);
 		$('#orderItems button.remove').click(removeRow);
 	};

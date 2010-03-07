@@ -13,6 +13,9 @@ import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.model.Order;
+import com.ironrhino.biz.model.OrderItem;
+import com.ironrhino.biz.model.Plan;
+import com.ironrhino.biz.model.Product;
 
 @Singleton
 @Named("orderManager")
@@ -23,6 +26,12 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 	@Named("orderCodeSequence")
 	private DataFieldMaxValueIncrementer orderCodeSequence;
 
+	@Inject
+	private ProductManager productManager;
+
+	@Inject
+	private PlanManager planManager;
+
 	@Override
 	@Transactional
 	public void save(Order order) {
@@ -31,10 +40,28 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		super.save(order);
 	}
 
+	public void place(Order order) {
+		save(order);
+		for (OrderItem item : order.getItems()) {
+			Product p = item.getProduct();
+			p.setStock(p.getStock() - item.getQuantity());
+			p.setPrice(item.getPrice());
+			productManager.save(p);
+			if (p.getStock() < 0) {
+				Plan plan = new Plan();
+				plan.setProduct(p);
+				plan.setQuantity(-p.getStock());
+				plan.setPlanDate(DateUtils.addDays(new Date(), 1));
+				plan.setMemo("根据订单" + order + "自动生成");
+				planManager.save(plan);
+			}
+		}
+	}
+
 	@Override
 	@Transactional(readOnly = true)
 	public boolean canDelete(Order order) {
-		return order.isCancelled();
+		return !(order.isPaid() || order.isShipped());
 	}
 
 	@Override
@@ -48,13 +75,6 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 	@Transactional
 	public void ship(Order order) {
 		order.setShipped(true);
-		save(order);
-	}
-
-	@Override
-	@Transactional
-	public void cancel(Order order) {
-		order.setCancelled(true);
 		save(order);
 	}
 

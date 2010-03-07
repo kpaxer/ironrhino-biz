@@ -10,6 +10,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.metadata.Authorize;
+import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
@@ -228,6 +229,15 @@ public class ProductAction extends BaseAction {
 			}
 		}
 		return SUCCESS;
+	}
+
+	@JsonConfig(root = "product")
+	public String json() {
+		String id = getUid();
+		if (StringUtils.isNumeric(id)) {
+			product = productManager.get(Long.valueOf(id));
+		}
+		return JSON;
 	}
 
 }

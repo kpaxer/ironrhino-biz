@@ -20,7 +20,7 @@
 	<div>
 		<label for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems">
-		<table border="0" width="80%">
+		<table border="0" width="90%">
 			<thead>
 				<tr>
 					<td>${action.getText('product')}</td>
@@ -32,7 +32,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="2">
-					${action.getText('discount')}:<input type="text" id="discount" name="order.discount" class="double" style="margin-left:10px;" tabindex="10"/>
+					${action.getText('discount')}:<input type="text" id="discount" name="order.discount" class="double positive" style="margin-left:10px;" tabindex="10"/>
 					</td>
 					<td colspan="2" align="right">
 					${action.getText('grandTotal')}:<span id="grandTotal" style="font-weight:bold;margin-left:10px;"></span>
@@ -41,10 +41,14 @@
 			</tfoot>
 			<tbody>
 				<tr>
-					<td><input type="text" size="5" class="filterselect" style="margin-right:3px;"/><@s.select theme="simple" name="productId" cssClass="required" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/></td>
-					<td><input type="text" name="order.items[0].quantity" class="required integer positive"/></td>
-					<td><input type="text" name="order.items[0].price" class="required double positive"/></td>
-					<td></td>
+					<td width="50%">
+						<input type="text" size="5" class="filterselect" style="margin-right:3px;"/>
+						<@s.select theme="simple" name="productId" cssClass="required fetchprice" cssStyle="width:100px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
+						<span class="info" style="margin-left:5px;"></span>
+					</td>
+					<td width="8%"><input type="text" name="order.items[0].quantity" class="required integer positive quantity"/></td>
+					<td width="8%"><input type="text" name="order.items[0].price" class="required double positive price"/></td>
+					<td align="right"></td>
 					<td><@button text="+" class="add"/><@button text="-" class="remove" style="margin-left:2px;"/></td>
 				</tr>
 			</tbody>

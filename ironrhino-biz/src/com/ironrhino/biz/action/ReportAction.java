@@ -273,7 +273,6 @@ public class ReportAction extends BaseAction {
 			DetachedCriteria dc = orderManager.detachedCriteria();
 			dc.add(Restrictions.between("orderDate", getFrom(), DateUtils
 					.addDays(getTo(), 1)));
-			dc.add(Restrictions.eq("cancelled", false));
 			dc.addOrder(org.hibernate.criterion.Order.asc("orderDate"));
 			dc.addOrder(org.hibernate.criterion.Order.desc("grandTotal"));
 			list = orderManager.findListByCriteria(dc);

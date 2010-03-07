@@ -188,16 +188,15 @@ public class OrderAction extends BaseAction {
 						order.getItems().remove(i);
 				}
 			}
+			orderManager.place(order);
 		} else {
 			Order temp = order;
 			order = orderManager.get(temp.getId());
 			order.setOrderDate(temp.getOrderDate());
 			order.setMemo(temp.getMemo());
-			order.setPaid(temp.isPaid());
-			order.setShipped(temp.isShipped());
-			order.setCancelled(temp.isCancelled());
+			orderManager.save(order);
 		}
-		orderManager.save(order);
+
 		addActionMessage(getText("save.success"));
 		return SUCCESS;
 	}
@@ -224,7 +223,7 @@ public class OrderAction extends BaseAction {
 				boolean deletable = true;
 				for (Order temp : list) {
 					if (!orderManager.canDelete(temp)) {
-						addActionError("请先取消订单" + temp.getCode());
+						addActionError("订单" + temp.getCode()+"已付款或已发货,不能删除");
 						deletable = false;
 						break;
 					}
@@ -262,22 +261,7 @@ public class OrderAction extends BaseAction {
 			List<Order> list = orderManager.findListByCriteria(dc);
 			if (list.size() > 0) {
 				for (Order temp : list)
-					orderManager.pay(temp);
-				addActionMessage(getText("operate.success"));
-			}
-		}
-		return SUCCESS;
-	}
-
-	public String cancel() {
-		String[] id = getId();
-		if (id != null) {
-			DetachedCriteria dc = orderManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<Order> list = orderManager.findListByCriteria(dc);
-			if (list.size() > 0) {
-				for (Order temp : list)
-					orderManager.pay(temp);
+					orderManager.ship(temp);
 				addActionMessage(getText("operate.success"));
 			}
 		}

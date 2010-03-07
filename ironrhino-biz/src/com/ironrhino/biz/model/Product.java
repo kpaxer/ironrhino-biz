@@ -1,10 +1,11 @@
 package com.ironrhino.biz.model;
 
+import java.math.BigDecimal;
+
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableId;
 import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
-import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.metadata.RecordAware;
@@ -21,22 +22,25 @@ public class Product extends Entity<Long> implements Ordered {
 	@SearchableId(converter = "long")
 	private Long id;
 
-	@NaturalId
 	@SearchableProperty(boost = 3)
 	private String name;
 
 	private int stock;
 
 	@NotInCopy
-	@NaturalId
+	@NotInJson
 	private Spec spec;
+
+	private BigDecimal price;
 
 	private int displayOrder;
 
 	@NotInCopy
+	@NotInJson
 	private Category category;
 
 	@NotInCopy
+	@NotInJson
 	private Brand brand;
 
 	public Long getId() {
@@ -51,6 +55,14 @@ public class Product extends Entity<Long> implements Ordered {
 	@NotInJson
 	public boolean isNew() {
 		return id == null || id == 0;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 	public int getStock() {
@@ -69,6 +81,7 @@ public class Product extends Entity<Long> implements Ordered {
 		this.name = name;
 	}
 
+	@NotInJson
 	public Spec getSpec() {
 		return spec;
 	}
@@ -77,6 +90,7 @@ public class Product extends Entity<Long> implements Ordered {
 		this.spec = spec;
 	}
 
+	@NotInJson
 	public Category getCategory() {
 		return category;
 	}
@@ -85,6 +99,7 @@ public class Product extends Entity<Long> implements Ordered {
 		this.category = category;
 	}
 
+	@NotInJson
 	public Brand getBrand() {
 		return brand;
 	}

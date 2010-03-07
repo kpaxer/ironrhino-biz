@@ -40,8 +40,6 @@ public class Order extends BaseEntity {
 
 	private boolean shipped;
 
-	private boolean cancelled;
-
 	private BigDecimal grandTotal;
 
 	@SearchableComponent
@@ -88,14 +86,6 @@ public class Order extends BaseEntity {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
-	}
-
-	public boolean isCancelled() {
-		return cancelled;
-	}
-
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
 	}
 
 	public String getMemo() {

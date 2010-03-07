@@ -23,7 +23,6 @@
 		</property>
 		<property name="paid" />
 		<property name="shipped" />
-		<property name="cancelled" />
 		<property name="orderDate" />
 		<property name="createDate" />
 		<property name="memo" length="2500" />
