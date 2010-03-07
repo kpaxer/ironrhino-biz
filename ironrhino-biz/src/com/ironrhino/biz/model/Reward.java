@@ -24,6 +24,7 @@ public class Reward extends BaseEntity {
 	@SearchableProperty(converter = "date", format = "yyyy-MM-dd")
 	private Date rewardDate = new Date();
 
+	@NotInCopy
 	private Date createDate = new Date();
 
 	@SearchableProperty

@@ -4,7 +4,7 @@
 <title>${action.getText('list')}${action.getText('product')}</title>
 </head>
 <body>
-<#assign config={"brand":{},"category":{},"name":{"cellEdit":"click"},"spec":{},"displayOrder":{"cellEdit":"click"}}>
+<#assign config={"brand":{},"category":{},"name":{"cellEdit":"click"},"spec":{},"stock":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
 <@richtable entityName="product" config=config/>
 </body>
 </html></#escape>

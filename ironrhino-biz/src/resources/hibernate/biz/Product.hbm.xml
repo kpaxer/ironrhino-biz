@@ -10,6 +10,7 @@
 			<generator class="identity" />
 		</id>
 		<property name="name" not-null="true" />
+		<property name="stock" />
 		<property name="displayOrder" />
 		<many-to-one name="spec" column="specId" />
 		<many-to-one name="category" column="categoryId" not-null="true" />

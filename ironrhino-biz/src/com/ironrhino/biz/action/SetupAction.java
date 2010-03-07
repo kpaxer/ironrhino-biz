@@ -109,6 +109,17 @@ public class SetupAction extends BaseAction {
 		s50.setBasicMeasure("kg");
 		baseManager.save(s50);
 
+		for (String s : brandNames) {
+			for (String name : "粗晶,中晶,小晶,粉晶".split(",")) {
+				Product p = new Product();
+				p.setName(name);
+				p.setBrand(brands.get(s));
+				p.setCategory(cates.get("味精"));
+				p.setSpec(s25);
+				baseManager.save(p);
+			}
+		}
+
 		String[] xiangling99cb = "2500*4,1000*10,908*10,50*200,40*200"
 				.split(",");
 		String[] xiangling99cblb = "500*20,480*20,450*22,400*25,380*25,360*25,350*28,340*28,340*25,320*30,300*32,280*35,260*35,250*40,227*40,200*50,180*50,170*56,160*60,150*64,140*70,130*70,100*100,80*100,70*120"
@@ -188,7 +199,6 @@ public class SetupAction extends BaseAction {
 			p.setSpec(specs.get(s));
 			baseManager.save(p);
 		}
-		// init product
 
 	}
 

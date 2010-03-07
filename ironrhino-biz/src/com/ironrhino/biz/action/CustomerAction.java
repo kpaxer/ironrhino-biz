@@ -23,9 +23,7 @@ import org.ironrhino.core.util.BeanUtils;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Customer;
-import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.service.CustomerManager;
-import com.ironrhino.biz.service.OrderManager;
 
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR + ","
 		+ Constants.ROLE_SALESMAN)
@@ -41,9 +39,6 @@ public class CustomerAction extends BaseAction {
 
 	@Inject
 	private transient CustomerManager customerManager;
-
-	@Inject
-	private transient OrderManager orderManager;
 
 	@Inject
 	private transient RegionTreeControl regionTreeControl;
@@ -234,10 +229,7 @@ public class CustomerAction extends BaseAction {
 			if (list.size() > 0) {
 				boolean deletable = true;
 				for (Customer c : list) {
-					dc = orderManager.detachedCriteria();
-					dc.createAlias("customer", "c").add(
-							Restrictions.eq("c.id", c.getId()));
-					if (orderManager.countByCriteria(dc) > 0) {
+					if (!customerManager.canDelete(c)) {
 						deletable = false;
 						addActionError(c.getName() + "有订单,不能删除只能合并到其他客户");
 						break;
@@ -256,20 +248,10 @@ public class CustomerAction extends BaseAction {
 	public String merge() {
 		String[] id = getId();
 		if (id != null && id.length == 2) {
-			Customer c0 = customerManager.findByNaturalId(id[0].trim());
-			Customer c1 = customerManager.findByNaturalId(id[1].trim());
-			if (c0 != null && c1 != null) {
-				DetachedCriteria dc = orderManager.detachedCriteria();
-				dc.createAlias("customer", "c").add(
-						Restrictions.eq("c.id", c0.getId()));
-				List<Order> orders = orderManager.findListByCriteria(dc);
-				for (Order temp : orders) {
-					temp.setCustomer(c1);
-					orderManager.save(temp);
-				}
-				customerManager.delete(c0);
-				addActionMessage(getText("operate.success"));
-			}
+			Customer source = customerManager.findByNaturalId(id[0].trim());
+			Customer target = customerManager.findByNaturalId(id[1].trim());
+			customerManager.merge(source, target);
+			addActionMessage(getText("operate.success"));
 		}
 		return SUCCESS;
 	}

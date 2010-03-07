@@ -52,6 +52,7 @@
 		</div>
 	</div>
 	</@s.if>
+	<@s.select label="%{getText('saleType')}" name="product.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
 	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date required"/>
 	<@s.checkbox label="%{getText('paid')}" name="order.paid"/>
 	<@s.checkbox label="%{getText('shipped')}" name="order.shipped"/>

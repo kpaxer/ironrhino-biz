@@ -223,7 +223,7 @@ public class OrderAction extends BaseAction {
 			if (list.size() > 0) {
 				boolean deletable = true;
 				for (Order temp : list) {
-					if (!temp.isCancelled()) {
+					if (!orderManager.canDelete(temp)) {
 						addActionError("请先取消订单" + temp.getCode());
 						deletable = false;
 						break;

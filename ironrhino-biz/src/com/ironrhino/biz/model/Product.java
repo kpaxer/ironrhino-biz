@@ -1,5 +1,8 @@
 package com.ironrhino.biz.model;
 
+import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableId;
+import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
@@ -10,14 +13,19 @@ import org.ironrhino.core.model.Ordered;
 
 @RecordAware
 @AutoConfig
+@Searchable(alias = "product")
 public class Product extends Entity<Long> implements Ordered {
 
 	private static final long serialVersionUID = 1876365527076787416L;
 
+	@SearchableId(converter = "long")
 	private Long id;
 
 	@NaturalId
+	@SearchableProperty(boost = 3)
 	private String name;
+
+	private int stock;
 
 	@NotInCopy
 	@NaturalId
@@ -43,6 +51,14 @@ public class Product extends Entity<Long> implements Ordered {
 	@NotInJson
 	public boolean isNew() {
 		return id == null || id == 0;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
 
 	public String getName() {
@@ -78,6 +94,7 @@ public class Product extends Entity<Long> implements Ordered {
 	}
 
 	@NotInCopy
+	@SearchableProperty(boost = 3)
 	public String getFullname() {
 		StringBuilder sb = new StringBuilder();
 		if (brand != null)

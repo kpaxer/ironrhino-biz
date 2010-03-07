@@ -31,6 +31,12 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		super.save(order);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public boolean canDelete(Order order) {
+		return order.isCancelled();
+	}
+
 	private String nextCode() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(DateUtils.formatDate8(new Date()));

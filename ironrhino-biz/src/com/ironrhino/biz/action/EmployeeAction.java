@@ -16,7 +16,6 @@ import org.ironrhino.core.util.BeanUtils;
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.service.EmployeeManager;
-import com.ironrhino.biz.service.RewardManager;
 
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
 public class EmployeeAction extends BaseAction {
@@ -29,9 +28,6 @@ public class EmployeeAction extends BaseAction {
 
 	@Inject
 	private transient EmployeeManager employeeManager;
-
-	@Inject
-	private transient RewardManager rewardManager;
 
 	public ResultPage<Employee> getResultPage() {
 		return resultPage;
@@ -113,10 +109,7 @@ public class EmployeeAction extends BaseAction {
 			if (list.size() > 0) {
 				boolean deletable = true;
 				for (Employee c : list) {
-					dc = rewardManager.detachedCriteria();
-					dc.createAlias("employee", "c").add(
-							Restrictions.eq("c.id", c.getId()));
-					if (rewardManager.countByCriteria(dc) > 0) {
+					if (!employeeManager.canDelete(c)) {
 						deletable = false;
 						addActionError(c.getName() + "有工资,不能删除");
 						break;

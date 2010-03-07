@@ -27,6 +27,8 @@ public class Order extends BaseEntity {
 
 	private BigDecimal discount;
 
+	private SaleType saleType = SaleType.FACTORY;
+
 	@SearchableProperty
 	private String memo;
 
@@ -73,6 +75,14 @@ public class Order extends BaseEntity {
 
 	public void setShipped(boolean shipped) {
 		this.shipped = shipped;
+	}
+
+	public SaleType getSaleType() {
+		return saleType;
+	}
+
+	public void setSaleType(SaleType saleType) {
+		this.saleType = saleType;
 	}
 
 	public Date getCreateDate() {

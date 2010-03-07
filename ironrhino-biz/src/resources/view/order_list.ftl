@@ -9,7 +9,7 @@ text-align:center;
 </style>
 </head>
 <body>
-<#assign config={"code":{},"customer":{},"grandTotal":{},"orderDate":{"template":r"${value?string('yyyy年MM月dd日')}"},"paid":{},"shipped":{},"cancelled":{}}>
+<#assign config={"code":{},"customer":{},"grandTotal":{},"orderDate":{"template":r"${value?string('yyyy年MM月dd日')}"},"saleType":{},"paid":{},"shipped":{},"cancelled":{}}>
 <#assign actionColumnButtons=btn(action.getText('view'),null,'view')+btn(action.getText('edit'),null,'input')+btn(action.getText('delete'),null,'del')>
 
 <@richtable entityName="order" config=config actionColumnButtons=actionColumnButtons celleditable=false deleteable=false searchable=true/>
