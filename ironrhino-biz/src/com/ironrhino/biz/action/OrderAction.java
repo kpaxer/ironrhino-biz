@@ -239,4 +239,49 @@ public class OrderAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	public String pay() {
+		String[] id = getId();
+		if (id != null) {
+			DetachedCriteria dc = orderManager.detachedCriteria();
+			dc.add(Restrictions.in("id", id));
+			List<Order> list = orderManager.findListByCriteria(dc);
+			if (list.size() > 0) {
+				for (Order temp : list)
+					orderManager.pay(temp);
+				addActionMessage(getText("operate.success"));
+			}
+		}
+		return SUCCESS;
+	}
+
+	public String ship() {
+		String[] id = getId();
+		if (id != null) {
+			DetachedCriteria dc = orderManager.detachedCriteria();
+			dc.add(Restrictions.in("id", id));
+			List<Order> list = orderManager.findListByCriteria(dc);
+			if (list.size() > 0) {
+				for (Order temp : list)
+					orderManager.pay(temp);
+				addActionMessage(getText("operate.success"));
+			}
+		}
+		return SUCCESS;
+	}
+
+	public String cancel() {
+		String[] id = getId();
+		if (id != null) {
+			DetachedCriteria dc = orderManager.detachedCriteria();
+			dc.add(Restrictions.in("id", id));
+			List<Order> list = orderManager.findListByCriteria(dc);
+			if (list.size() > 0) {
+				for (Order temp : list)
+					orderManager.pay(temp);
+				addActionMessage(getText("operate.success"));
+			}
+		}
+		return SUCCESS;
+	}
+
 }

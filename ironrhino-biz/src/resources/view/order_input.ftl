@@ -54,11 +54,10 @@
 	</@s.if>
 	<@s.select label="%{getText('saleType')}" name="product.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
 	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date required"/>
-	<@s.checkbox label="%{getText('paid')}" name="order.paid"/>
-	<@s.checkbox label="%{getText('shipped')}" name="order.shipped"/>
-	<@s.if test="%{!order.isNew()}">
-		<@s.checkbox label="%{getText('cancelled')}" name="order.cancelled"/>
-	</@s.if>
+	<#if order.new>
+		<@s.checkbox label="%{getText('paid')}" name="order.paid"/>
+		<@s.checkbox label="%{getText('shipped')}" name="order.shipped"/>
+	</#if>
 	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:80%;" rows="3"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>

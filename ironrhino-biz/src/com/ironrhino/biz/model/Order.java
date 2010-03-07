@@ -10,7 +10,6 @@ import org.compass.annotations.SearchableComponent;
 import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
-import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
 
 import com.opensymphony.xwork2.util.CreateIfNull;
@@ -32,11 +31,9 @@ public class Order extends BaseEntity {
 	@SearchableProperty
 	private String memo;
 
-	@NotInCopy
 	@SearchableProperty(converter = "date", format = "yyyy-MM-dd")
 	private Date orderDate = new Date();
 
-	@NotInCopy
 	private Date createDate = new Date();
 
 	private boolean paid;

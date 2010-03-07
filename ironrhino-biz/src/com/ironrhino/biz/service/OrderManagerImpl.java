@@ -37,6 +37,27 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		return order.isCancelled();
 	}
 
+	@Override
+	@Transactional
+	public void pay(Order order) {
+		order.setPaid(true);
+		save(order);
+	}
+
+	@Override
+	@Transactional
+	public void ship(Order order) {
+		order.setShipped(true);
+		save(order);
+	}
+
+	@Override
+	@Transactional
+	public void cancel(Order order) {
+		order.setCancelled(true);
+		save(order);
+	}
+
 	private String nextCode() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(DateUtils.formatDate8(new Date()));
