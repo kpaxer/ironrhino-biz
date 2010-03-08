@@ -19,6 +19,7 @@
 <@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
 </div>
+
 <div>订单报表</div>
 <div>
 <@button text="当日订单" type="link" href="${getUrl('/report/jasper?type=order')}"/>
@@ -34,6 +35,7 @@
 <@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
 </div>
+
 <div>工资报表</div>
 <div>
 <@button text="当日结单" type="link" href="${getUrl('/report/jasper?type=reward')}"/>
@@ -64,5 +66,11 @@
 <@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
 </div>
+
+<div>产品库存报表</div>
+<div>
+<@button text="库存" type="link" href="${getUrl('/report/jasper?type=product')}"/><@button text="欠货" type="link" href="${getUrl('/report/jasper?type=product&negative=true')}"/>
+</div>
+
 </body>
 </html></#escape>

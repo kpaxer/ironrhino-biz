@@ -1,6 +1,7 @@
 package com.ironrhino.biz.action;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -23,10 +24,12 @@ import org.ironrhino.core.util.DateUtils;
 
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
+import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.Reward;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.EmployeeManager;
 import com.ironrhino.biz.service.OrderManager;
+import com.ironrhino.biz.service.ProductManager;
 import com.ironrhino.biz.service.RewardManager;
 
 public class ReportAction extends BaseAction {
@@ -46,6 +49,8 @@ public class ReportAction extends BaseAction {
 	private Date to;
 
 	private boolean includePaid;
+
+	private boolean negative;
 
 	private String format = "PDF";
 
@@ -70,7 +75,14 @@ public class ReportAction extends BaseAction {
 	private transient OrderManager orderManager;
 
 	@Inject
+	private transient ProductManager productManager;
+
+	@Inject
 	private transient RegionTreeControl regionTreeControl;
+
+	public void setNegative(boolean negative) {
+		this.negative = negative;
+	}
 
 	public void setType(String type) {
 		this.type = type;
@@ -180,101 +192,12 @@ public class ReportAction extends BaseAction {
 	}
 
 	public String jasper() {
-		if ("customer".equals(type)) {
-			title = "客户信息";
-			DetachedCriteria dc = customerManager.detachedCriteria();
-			dc.add(Restrictions.between("createDate", getFrom(), DateUtils
-					.addDays(getTo(), 1)));
-			dc.addOrder(org.hibernate.criterion.Order.asc("name"));
-			List<Customer> cl = customerManager.findListByCriteria(dc);
-			for (Customer c : cl) {
-				if (c.getRegion() != null) {
-					String address = regionTreeControl.getRegionTree()
-							.getDescendantOrSelfById(c.getRegion().getId())
-							.getFullname()
-							+ c.getAddress();
-					c.setAddress(address);
-					c.setRegion(null);
-				}
+		if (type != null) {
+			try {
+				Method method = getClass().getDeclaredMethod(type);
+				method.invoke(this, new Object[0]);
+			} catch (Exception e) {
 			}
-			list = cl;
-		} else if ("reward".equals(type)) {
-			title = "日工资结单";
-			DetachedCriteria dc = rewardManager.detachedCriteria();
-			dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
-					.addDays(getTo(), 1)));
-			if (!includePaid)
-				dc.add(Restrictions.gt("amount", new BigDecimal(0)));
-			else
-				title += "(包括支出)";
-			dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
-			dc.addOrder(org.hibernate.criterion.Order.desc("amount"));
-			list = rewardManager.findListByCriteria(dc);
-		} else if ("personalreward".equals(type)) {
-			Employee employee = null;
-			String id = getUid();
-			if (StringUtils.isNumeric(id))
-				employee = employeeManager.get(Long.valueOf(id));
-			else if (StringUtils.isNotBlank(id))
-				employee = employeeManager.findByNaturalId(id);
-			if (employee != null) {
-				title = employee.getName() + "工资详单";
-				DetachedCriteria dc = rewardManager.detachedCriteria();
-				dc.createAlias("employee", "e").add(
-						Restrictions.eq("e.id", employee.getId()));
-				dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
-						.addDays(getTo(), 1)));
-				if (!includePaid)
-					dc.add(Restrictions.gt("amount", new BigDecimal(0)));
-				else
-					title += "(包括支出)";
-				dc.addOrder(org.hibernate.criterion.Order.asc("rewardDate"));
-				list = rewardManager.findListByCriteria(dc);
-			}
-		} else if ("aggregationreward".equals(type)) {
-			title = "工资汇总单";
-			DetachedCriteria dc = rewardManager.detachedCriteria();
-			dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
-					.addDays(getTo(), 1)));
-			if (!includePaid)
-				dc.add(Restrictions.gt("amount", new BigDecimal(0)));
-			else
-				title += "(包括支出)";
-			dc.createAlias("employee", "e").addOrder(
-					org.hibernate.criterion.Order.asc("e.name"));
-			List<Reward> cl = rewardManager.findListByCriteria(dc);
-			List<Reward> al = new ArrayList<Reward>();
-			Reward current = null;
-			for (Reward r : cl) {
-				if (current == null) {
-					current = r;
-					continue;
-				}
-				if (current.getEmployee().getId().equals(
-						r.getEmployee().getId())) {
-					current.setAmount(current.getAmount().add(r.getAmount()));
-				} else {
-					al.add(current);
-					current = r;
-				}
-			}
-			al.add(current);
-			Collections.sort(al, new Comparator<Reward>() {
-				@Override
-				public int compare(Reward o1, Reward o2) {
-					int i = o1.getAmount().compareTo(o2.getAmount());
-					return i != 0 ? -i : o1.getEmployee().getName().compareTo(
-							o2.getEmployee().getName());
-				}
-			});
-			this.list = al;
-		} else if ("order".equals(type)) {
-			title = "详细订单报表";
-			DetachedCriteria dc = orderManager.detachedCriteria();
-			dc.add(Restrictions.between("orderDate", getFrom(), DateUtils
-					.addDays(getTo(), 1)));
-			dc.addOrder(org.hibernate.criterion.Order.asc("code"));
-			list = orderManager.findListByCriteria(dc);
 		}
 		if (list == null || list.isEmpty()) {
 			addActionMessage("没有数据");
@@ -282,5 +205,129 @@ public class ReportAction extends BaseAction {
 		}
 
 		return "jasper";
+	}
+
+	public void product() {
+		date = new Date();
+		DetachedCriteria dc = productManager.detachedCriteria();
+		if (!negative) {
+			title = "产品库存量";
+			dc.add(Restrictions.gt("stock", 0));
+			dc.addOrder(org.hibernate.criterion.Order.desc("stock"));
+			list = productManager.findListByCriteria(dc);
+		} else {
+			title = "产品欠货量";
+			dc.add(Restrictions.lt("stock", 0));
+			dc.addOrder(org.hibernate.criterion.Order.asc("stock"));
+			List<Product> pl = productManager.findListByCriteria(dc);
+			for (Product p : pl)
+				p.setStock(-p.getStock());
+			list = pl;
+		}
+
+	}
+
+	public void customer() {
+		title = "客户信息";
+		DetachedCriteria dc = customerManager.detachedCriteria();
+		dc.add(Restrictions.between("createDate", getFrom(), DateUtils.addDays(
+				getTo(), 1)));
+		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
+		List<Customer> cl = customerManager.findListByCriteria(dc);
+		for (Customer c : cl) {
+			if (c.getRegion() != null) {
+				String address = regionTreeControl.getRegionTree()
+						.getDescendantOrSelfById(c.getRegion().getId())
+						.getFullname()
+						+ c.getAddress();
+				c.setAddress(address);
+				c.setRegion(null);
+			}
+		}
+		list = cl;
+	}
+
+	public void reward() {
+		title = "日工资结单";
+		DetachedCriteria dc = rewardManager.detachedCriteria();
+		dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils.addDays(
+				getTo(), 1)));
+		if (!includePaid)
+			dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+		else
+			title += "(包括支出)";
+		dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
+		dc.addOrder(org.hibernate.criterion.Order.desc("amount"));
+		list = rewardManager.findListByCriteria(dc);
+	}
+
+	public void personalreward() {
+		Employee employee = null;
+		String id = getUid();
+		if (StringUtils.isNumeric(id))
+			employee = employeeManager.get(Long.valueOf(id));
+		else if (StringUtils.isNotBlank(id))
+			employee = employeeManager.findByNaturalId(id);
+		if (employee != null) {
+			title = employee.getName() + "工资详单";
+			DetachedCriteria dc = rewardManager.detachedCriteria();
+			dc.createAlias("employee", "e").add(
+					Restrictions.eq("e.id", employee.getId()));
+			dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
+					.addDays(getTo(), 1)));
+			if (!includePaid)
+				dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+			else
+				title += "(包括支出)";
+			dc.addOrder(org.hibernate.criterion.Order.asc("rewardDate"));
+			list = rewardManager.findListByCriteria(dc);
+		}
+	}
+
+	public void aggregationreward() {
+		title = "工资汇总单";
+		DetachedCriteria dc = rewardManager.detachedCriteria();
+		dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils.addDays(
+				getTo(), 1)));
+		if (!includePaid)
+			dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+		else
+			title += "(包括支出)";
+		dc.createAlias("employee", "e").addOrder(
+				org.hibernate.criterion.Order.asc("e.name"));
+		List<Reward> cl = rewardManager.findListByCriteria(dc);
+		List<Reward> al = new ArrayList<Reward>();
+		Reward current = null;
+		for (Reward r : cl) {
+			if (current == null) {
+				current = r;
+				continue;
+			}
+			if (current.getEmployee().getId().equals(r.getEmployee().getId())) {
+				current.setAmount(current.getAmount().add(r.getAmount()));
+			} else {
+				al.add(current);
+				current = r;
+			}
+		}
+		al.add(current);
+		Collections.sort(al, new Comparator<Reward>() {
+			@Override
+			public int compare(Reward o1, Reward o2) {
+				int i = o1.getAmount().compareTo(o2.getAmount());
+				return i != 0 ? -i : o1.getEmployee().getName().compareTo(
+						o2.getEmployee().getName());
+			}
+		});
+		this.list = al;
+	}
+
+	public void order() {
+		title = "详细订单报表";
+		DetachedCriteria dc = orderManager.detachedCriteria();
+		dc.add(Restrictions.between("orderDate", getFrom(), DateUtils.addDays(
+				getTo(), 1)));
+		dc.addOrder(org.hibernate.criterion.Order.asc("code"));
+		list = orderManager.findListByCriteria(dc);
 	}
 }
