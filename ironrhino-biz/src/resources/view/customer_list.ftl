@@ -14,7 +14,7 @@ text-decoration:none;
 <#assign actionColumnButtons=btn(action.getText('save'),null,'save')
 +btn(action.getText('edit'),null,'input')
 +btn(action.getText('view'),null,'view')
-+btn(action.getText('order'),'','','link','',r'order?customer.id=${rowid}')
++btn(action.getText('order'),'','','link','',r'order?customer.id=${entity.id}')
 +btn(action.getText('delete'),null,'del')
 >
 <#assign bottomButtons=btn(action.getText('create'),null,'input')

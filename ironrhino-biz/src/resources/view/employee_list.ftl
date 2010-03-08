@@ -13,7 +13,7 @@ text-decoration:none;
 <#assign config={"id":{},"name":{"cellEdit":"click"},"phone":{"cellEdit":"click"},"dimission":{"cellEdit":"click,select_template_boolean"}}>
 <#assign actionColumnButtons=btn(action.getText('save'),null,'save')
 +btn(action.getText('edit'),null,'input')
-+btn(action.getText('reward'),'','','link','',r'reward?employee.id=${rowid}')
++btn(action.getText('reward'),'','','link','',r'reward?employee.id=${entity.id}')
 +btn(action.getText('delete'),null,'del')>
 
 <@richtable entityName="employee" config=config actionColumnWidth="210px" actionColumnButtons=actionColumnButtons/>

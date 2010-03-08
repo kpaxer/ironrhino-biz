@@ -5,7 +5,7 @@
 </head>
 <body>
 <#assign config={"stuff":{},"quantity":{},"amount":{},"requestUser":{},"requestDate":{}}>
-<#assign actionColumnButtons=btn(action.getText('confirm'),r"Richtable.execute('confirm','${rowid}')")+btn(action.getText('cancel'),r"Richtable.execute('cancel','${rowid}')")>
+<#assign actionColumnButtons=btn(action.getText('confirm'),r"Richtable.execute('confirm','${entity.id}')")+btn(action.getText('cancel'),r"Richtable.execute('cancel','${entity.id}')")>
 <@richtable 
 entityName="stuffflow" 
 config=config 
