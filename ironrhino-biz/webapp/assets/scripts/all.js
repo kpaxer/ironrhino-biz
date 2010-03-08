@@ -17434,7 +17434,7 @@ $(_init);
 Observation.common = function(container) {
 	$('.action_error,.action_message,.field_error')
 			.prepend('<div class="close" onclick="$(this.parentNode).remove()"></div>');
-	$('input').each(function() {
+	$('input[type="text"]').each(function() {
 				if (!$(this).attr('autocomplete'))
 					$(this).attr('autocomplete', 'off');
 				var maxlength = $(this).attr('maxlength');
@@ -19528,6 +19528,13 @@ Observation.editme = function(container) {
 };
 (function() {
 	Observation.app = function() {
+		$('#shipped').click(function() {
+					var span = $(this).nextAll('span:eq(0)');
+					if ($(this).attr('checked'))
+						span.show();
+					else
+						span.hide();
+				});
 		$('#customerName.ajax').blur(function(event) {
 			var ele = $(event.target);
 			var val = ele.val();
@@ -19554,16 +19561,16 @@ Observation.editme = function(container) {
 		});
 		$('select.fetchprice').change(function(event) {
 			var ele = $(event.target);
+			var price = $('input.price:eq(0)', ele.closest('tr'));
 			var val = ele.val();
-			if (val) {
+			if (val&&!price.val()) {
 				var url = CONTEXT_PATH + '/product/json/' + val;
 				$.ajax({
 							url : url,
 							dataType : 'json',
 							success : function(data) {
 								if (data.price) {
-									$('input.price:eq(0)', ele.closest('tr'))
-											.val(data.price);
+									price.val(data.price);
 									calculate();
 								}
 								if (data.stock <= 0)
@@ -19595,7 +19602,7 @@ Observation.editme = function(container) {
 						});
 			}
 		});
-		$('#orderItems input.price,#discount').blur(function() {
+		$('#orderItems input.price,#discount,#freight').blur(function() {
 					calculate()
 				});
 		$('#orderItems button.add').click(addRow);
@@ -19617,9 +19624,14 @@ Observation.editme = function(container) {
 			$('#orderItems tbody tr').each(function() {
 						grandTotal += calculate(this);
 					});
+			if(grandTotal>0)
+				$('#amount').text(grandTotal);
 			var discount = $('#discount').val();
 			if (discount)
 				grandTotal -= discount;
+			var freight = $('#freight').val();
+			if (freight)
+				grandTotal -= freight;
 			if (grandTotal > 0)
 				$('#grandTotal').text(grandTotal);
 		}

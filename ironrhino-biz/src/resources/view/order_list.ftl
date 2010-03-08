@@ -16,6 +16,6 @@ text-align:center;
 +btn(action.getText('ship'),null,'ship')
 +btn(action.getText('delete'),null,'del')>
 
-<@richtable entityName="order" config=config actionColumnWidth="200px" actionColumnButtons=actionColumnButtons celleditable=false deleteable=false searchable=true/>
+<@richtable entityName="order" config=config actionColumnWidth="230px" actionColumnButtons=actionColumnButtons celleditable=false deleteable=false searchable=true/>
 </body>
 </html></#escape>

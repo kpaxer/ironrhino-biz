@@ -5,22 +5,20 @@
 </head>
 <body>
 <@s.form action="save" method="post" cssClass="ajax">
-	<@s.if test="%{!order.isNew()}">
+	<#if !order.new>
 		<@s.hidden name="order.id" />
-	</@s.if>
+	<#else>
+	<div>
+		<label class="field" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
 		<div>
-			<label class="field" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
-			<div>
-				<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required ajax"/>
-				<span class="info" style="font-style:italic;margin-left:20px;"></span>
-			</div>
+			<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required ajax"/>
+			<span class="info" style="font-style:italic;margin-left:20px;"></span>
 		</div>
-	
-	<@s.if test="%{order.isNew()}">
+	</div>
 	<div>
 		<label class="field" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems">
-		<table border="0" width="90%">
+		<table border="0" width="88%">
 			<thead>
 				<tr>
 					<td>${action.getText('product')}</td>
@@ -29,38 +27,52 @@
 					<td>${action.getText('subtotal')}</td>
 				</tr>
 			</thead>
-			<tfoot>
+			<tfoot align="right">
 				<tr>
-					<td colspan="2">
-					${action.getText('discount')}:<input type="text" id="discount" name="order.discount" class="double positive" style="margin-left:10px;" tabindex="10"/>
-					</td>
-					<td colspan="2" align="right">
-					${action.getText('grandTotal')}:<span id="grandTotal" style="font-weight:bold;margin-left:10px;"></span>
-					</td>
+					<td colspan="3">${action.getText('amount')}</td>
+					<td id="amount"></td>
+				</tr>
+				<tr>
+					<td colspan="3">${action.getText('discount')}</td>
+					<td>－<input type="text" id="discount" name="order.discount" class="double positive" style="text-align:right;width:60px;" tabindex="10"/></td>
+				</tr>
+				<tr>
+					<td colspan="3">${action.getText('grandTotal')}</td>
+					<td id="grandTotal" style="font-weight:bold;"></td>
 				</tr>
 			</tfoot>
 			<tbody>
 				<tr>
-					<td width="50%">
+					<td width="47%">
 						<input type="text" size="5" class="filterselect" style="margin-right:3px;"/>
 						<@s.select theme="simple" name="productId" cssClass="required fetchprice" cssStyle="width:100px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
 						<span class="info" style="font-style:italic;margin-left:5px;"></span>
 					</td>
-					<td width="8%"><input type="text" name="order.items[0].quantity" class="required integer positive quantity"/></td>
-					<td width="8%"><input type="text" name="order.items[0].price" class="required double positive price"/></td>
-					<td align="right"></td>
-					<td><@button text="+" class="add"/><@button text="-" class="remove" style="margin-left:2px;"/></td>
+					<td width="15%"><input type="text" name="order.items[0].quantity" class="required integer positive quantity" style="width:60px;"/></td>
+					<td width="15%"><input type="text" name="order.items[0].price" class="required double positive price" style="width:60px;"/></td>
+					<td width="14%" align="right"></td>
+					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
 				</tr>
 			</tbody>
 		</table>
 		</div>
 	</div>
-	</@s.if>
+	</#if>
 	<@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
 	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date required"/>
 	<#if order.new>
-		<@s.checkbox label="%{getText('paid')}" name="order.paid"/>
-		<@s.checkbox label="%{getText('shipped')}" name="order.shipped"/>
+	<div>
+		<label class="field">${action.getText('pay')}</label>
+		<div>
+			<span style="margin-right:5px;">${action.getText('paid')}</span><@s.checkbox theme="simple" name="order.paid" cssStyle="margin-right:20px;"/>
+			<span style="margin:5px;">${action.getText('shipped')}</span><@s.checkbox id="shipped" theme="simple" name="order.shipped"/>
+			<span style="display:none;">
+			<span style="margin:5px;">${action.getText('freight')}</span>－<@s.textfield id="freight"  theme="simple" name="order.freight" cssClass="double positive"/>
+		</span>
+		</div>
+	</div>
+	<#else>
+		<@s.textfield id="freight" label="%{getText('freight')}" name="order.freight" cssClass="double positive"/>
 	</#if>
 	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:80%;" rows="3"/>
 	<@s.submit value="%{getText('save')}" />

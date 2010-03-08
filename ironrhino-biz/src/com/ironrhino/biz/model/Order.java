@@ -42,6 +42,8 @@ public class Order extends BaseEntity {
 
 	private BigDecimal grandTotal;
 
+	private BigDecimal freight;
+
 	@SearchableComponent
 	private Customer customer;
 
@@ -126,10 +128,27 @@ public class Order extends BaseEntity {
 
 	public void setDiscount(BigDecimal discount) {
 		this.discount = discount;
+		grandTotal = null;
+	}
+
+	public BigDecimal getFreight() {
+		return freight;
+	}
+
+	public void setFreight(BigDecimal freight) {
+		this.freight = freight;
+		grandTotal = null;
 	}
 
 	public void setGrandTotal(BigDecimal grandTotal) {
 		this.grandTotal = grandTotal;
+	}
+
+	public BigDecimal getAmount() {
+		BigDecimal amount = new BigDecimal(0.0);
+		for (OrderItem item : items)
+			amount = amount.add(item.getSubtotal());
+		return amount;
 	}
 
 	public BigDecimal getGrandTotal() {
@@ -139,6 +158,8 @@ public class Order extends BaseEntity {
 				grandTotal = grandTotal.add(item.getSubtotal());
 			if (discount != null)
 				grandTotal = grandTotal.subtract(discount);
+			if (freight != null)
+				grandTotal = grandTotal.subtract(freight);
 		}
 		return grandTotal;
 	}

@@ -193,6 +193,8 @@ public class OrderAction extends BaseAction {
 			Order temp = order;
 			order = orderManager.get(temp.getId());
 			order.setOrderDate(temp.getOrderDate());
+			order.setFreight(temp.getFreight());
+			order.setSaleType(temp.getSaleType());
 			order.setMemo(temp.getMemo());
 			orderManager.save(order);
 		}

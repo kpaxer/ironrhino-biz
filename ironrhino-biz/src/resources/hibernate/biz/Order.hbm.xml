@@ -13,6 +13,7 @@
 			<property name="code" not-null="true" />
 		</natural-id>
 		<property name="discount" />
+		<property name="freight" />
 		<property name="grandTotal" />
 		<property name="saleType">
 			<type name="org.hibernate.type.EnumType">

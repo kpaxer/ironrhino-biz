@@ -9,6 +9,7 @@
 <span>${action.getText('code')}:</span><span style="margin-left:10px;">${order.code}</span>
 <span style="margin-left:40px;">${action.getText('customer')}:</span><span style="margin-left:10px;">${order.customer}</span>
 <span style="margin-left:40px;">${action.getText('orderDate')}:</span><span style="margin-left:10px;">${order.orderDate?string('yyyy年MM月dd日')}</span>
+<span style="margin-left:40px;">${action.getText('saleType')}:</span><span style="margin-left:10px;">${order.saleType.displayName}</span>
 </div>
 
 <table border="0" width="100%">
@@ -23,23 +24,31 @@
 			<td>
 			${action.getText('price')}
 			</td>
-			<td>
+			<td align="right">
 			${action.getText('subtotal')}
 			</td>
 		</tr>
 	</thead>
-	<tfoot>
+	<tfoot align="right">
+		<tr>
+			<td colspan="3">${action.getText('amount')}</td>
+			<td>${order.amount}</td>
+		</tr>
 		<#if order.discount??>
 		<tr>
-			<td colspan="4" align="right">
-			${action.getText('discount')}:<span style="margin-left:10px;">${order.discount}</span>
-			</td>
+			<td colspan="3">${action.getText('discount')}</td>
+			<td>-${order.discount}</td>
+		</tr>
+		</#if>
+		<#if order.freight??>
+		<tr>
+			<td colspan="3">${action.getText('freight')}</td>
+			<td>-${order.freight}</td>
 		</tr>
 		</#if>
 		<tr>
-			<td colspan="4" align="right">
-			${action.getText('grandTotal')}:<span style="font-weight:bold;margin-left:10px;">${order.grandTotal}</span>
-			</td>
+			<td colspan="3">${action.getText('grandTotal')}</td>
+			<td style="font-weight:bold;">${order.grandTotal}</td>
 		</tr>
 	</tfoot>
 	<tbody>
@@ -54,7 +63,7 @@
 	<td>
 	${item.price}
 	</td>
-	<td>
+	<td align="right">
 	${item.subtotal}
 	</td>
 	</tr>
