@@ -1,5 +1,6 @@
 package com.ironrhino.biz.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -153,16 +154,32 @@ public class StuffAction extends BaseAction {
 
 	@Override
 	public String delete() {
+		baseManager.setEntityClass(Stuff.class);
 		String[] id = getId();
 		if (id != null) {
-			baseManager.setEntityClass(Stuff.class);
-			DetachedCriteria dc = baseManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<Stuff> list = baseManager.findListByCriteria(dc);
+			List<Stuff> list;
+			if (id.length == 1) {
+				list = new ArrayList<Stuff>(1);
+				list.add((Stuff) baseManager.get(id[0]));
+			} else {
+				DetachedCriteria dc = baseManager.detachedCriteria();
+				dc.add(Restrictions.in("id", id));
+				list = baseManager.findListByCriteria(dc);
+			}
 			if (list.size() > 0) {
-				for (Stuff stuff : list)
-					baseManager.delete(stuff);
-				addActionMessage(getText("delete.success"));
+				boolean deletable = true;
+				for (Stuff temp : list) {
+					if (!baseManager.canDelete(temp)) {
+						addActionError(temp.getName() + "不能删除");
+						deletable = false;
+						break;
+					}
+				}
+				if (deletable) {
+					for (Stuff temp : list)
+						baseManager.delete(temp);
+					addActionMessage(getText("delete.success"));
+				}
 			}
 		}
 		return SUCCESS;

@@ -1,5 +1,6 @@
 package com.ironrhino.biz.action;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -209,9 +210,15 @@ public class ProductAction extends BaseAction {
 			Long[] id = new Long[_id.length];
 			for (int i = 0; i < _id.length; i++)
 				id[i] = Long.valueOf(_id[i]);
-			DetachedCriteria dc = productManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<Product> list = productManager.findListByCriteria(dc);
+			List<Product> list;
+			if (id.length == 1) {
+				list = new ArrayList<Product>(1);
+				list.add(productManager.get(id[0]));
+			} else {
+				DetachedCriteria dc = productManager.detachedCriteria();
+				dc.add(Restrictions.in("id", id));
+				list = productManager.findListByCriteria(dc);
+			}
 			if (list.size() > 0) {
 				boolean deletable = true;
 				for (final Product product : list) {

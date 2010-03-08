@@ -223,9 +223,15 @@ public class CustomerAction extends BaseAction {
 			Long[] id = new Long[_id.length];
 			for (int i = 0; i < _id.length; i++)
 				id[i] = Long.valueOf(_id[i]);
-			DetachedCriteria dc = customerManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<Customer> list = customerManager.findListByCriteria(dc);
+			List<Customer> list;
+			if (id.length == 1) {
+				list = new ArrayList<Customer>(1);
+				list.add(customerManager.get(id[0]));
+			} else {
+				DetachedCriteria dc = customerManager.detachedCriteria();
+				dc.add(Restrictions.in("id", id));
+				list = customerManager.findListByCriteria(dc);
+			}
 			if (list.size() > 0) {
 				boolean deletable = true;
 				for (Customer c : list) {

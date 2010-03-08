@@ -1,5 +1,6 @@
 package com.ironrhino.biz.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -96,9 +97,16 @@ public class SpecAction extends BaseAction {
 			Long[] id = new Long[_id.length];
 			for (int i = 0; i < _id.length; i++)
 				id[i] = Long.valueOf(_id[i]);
-			DetachedCriteria dc = baseManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<Spec> list = baseManager.findListByCriteria(dc);
+			List<Spec> list;
+			DetachedCriteria dc;
+			if (id.length == 1) {
+				list = new ArrayList<Spec>(1);
+				list.add(baseManager.get(id[0]));
+			} else {
+				dc = baseManager.detachedCriteria();
+				dc.add(Restrictions.in("id", id));
+				list = baseManager.findListByCriteria(dc);
+			}
 			if (list.size() > 0) {
 				boolean deletable = true;
 				for (Spec spec : list) {

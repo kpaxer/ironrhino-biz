@@ -174,9 +174,15 @@ public class PlanAction extends BaseAction {
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {
-			DetachedCriteria dc = planManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<Plan> list = planManager.findListByCriteria(dc);
+			List<Plan> list;
+			if (id.length == 1) {
+				list = new ArrayList<Plan>(1);
+				list.add(planManager.get(id[0]));
+			} else {
+				DetachedCriteria dc = planManager.detachedCriteria();
+				dc.add(Restrictions.in("id", id));
+				list = planManager.findListByCriteria(dc);
+			}
 			if (list.size() > 0) {
 				boolean deletable = true;
 				for (Plan temp : list) {
@@ -199,9 +205,15 @@ public class PlanAction extends BaseAction {
 	public String complete() {
 		String[] id = getId();
 		if (id != null) {
-			DetachedCriteria dc = planManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<Plan> list = planManager.findListByCriteria(dc);
+			List<Plan> list;
+			if (id.length == 1) {
+				list = new ArrayList<Plan>(1);
+				list.add(planManager.get(id[0]));
+			} else {
+				DetachedCriteria dc = planManager.detachedCriteria();
+				dc.add(Restrictions.in("id", id));
+				list = planManager.findListByCriteria(dc);
+			}
 			if (list.size() > 0) {
 				for (Plan temp : list)
 					planManager.complete(temp);

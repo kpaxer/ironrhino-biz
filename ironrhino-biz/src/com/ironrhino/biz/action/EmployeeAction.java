@@ -1,5 +1,6 @@
 package com.ironrhino.biz.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -103,9 +104,15 @@ public class EmployeeAction extends BaseAction {
 			Long[] id = new Long[_id.length];
 			for (int i = 0; i < _id.length; i++)
 				id[i] = Long.valueOf(_id[i]);
-			DetachedCriteria dc = employeeManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<Employee> list = employeeManager.findListByCriteria(dc);
+			List<Employee> list;
+			if (id.length == 1) {
+				list = new ArrayList<Employee>(1);
+				list.add(employeeManager.get(id[0]));
+			} else {
+				DetachedCriteria dc = employeeManager.detachedCriteria();
+				dc.add(Restrictions.in("id", id));
+				list = employeeManager.findListByCriteria(dc);
+			}
 			if (list.size() > 0) {
 				boolean deletable = true;
 				for (Employee c : list) {

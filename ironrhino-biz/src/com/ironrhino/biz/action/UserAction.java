@@ -1,5 +1,6 @@
 package com.ironrhino.biz.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -156,9 +157,15 @@ public class UserAction extends BaseAction {
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {
-			DetachedCriteria dc = userManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<User> list = userManager.findListByCriteria(dc);
+			List<User> list;
+			if (id.length == 1) {
+				list = new ArrayList<User>(1);
+				list.add(userManager.get(id[0]));
+			} else {
+				DetachedCriteria dc = userManager.detachedCriteria();
+				dc.add(Restrictions.in("id", id));
+				list = userManager.findListByCriteria(dc);
+			}
 			if (list.size() > 0) {
 				for (User user : list)
 					userManager.delete(user);

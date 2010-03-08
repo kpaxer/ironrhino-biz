@@ -216,14 +216,20 @@ public class OrderAction extends BaseAction {
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {
-			DetachedCriteria dc = orderManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<Order> list = orderManager.findListByCriteria(dc);
+			List<Order> list;
+			if (id.length == 1) {
+				list = new ArrayList<Order>(1);
+				list.add(orderManager.get(id[0]));
+			} else {
+				DetachedCriteria dc = orderManager.detachedCriteria();
+				dc.add(Restrictions.in("id", id));
+				list = orderManager.findListByCriteria(dc);
+			}
 			if (list.size() > 0) {
 				boolean deletable = true;
 				for (Order temp : list) {
 					if (!orderManager.canDelete(temp)) {
-						addActionError("订单" + temp.getCode()+"已付款或已发货,不能删除");
+						addActionError("订单" + temp.getCode() + "已付款或已发货,不能删除");
 						deletable = false;
 						break;
 					}
@@ -241,9 +247,15 @@ public class OrderAction extends BaseAction {
 	public String pay() {
 		String[] id = getId();
 		if (id != null) {
-			DetachedCriteria dc = orderManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<Order> list = orderManager.findListByCriteria(dc);
+			List<Order> list;
+			if (id.length == 1) {
+				list = new ArrayList<Order>(1);
+				list.add(orderManager.get(id[0]));
+			} else {
+				DetachedCriteria dc = orderManager.detachedCriteria();
+				dc.add(Restrictions.in("id", id));
+				list = orderManager.findListByCriteria(dc);
+			}
 			if (list.size() > 0) {
 				for (Order temp : list)
 					orderManager.pay(temp);
@@ -256,9 +268,15 @@ public class OrderAction extends BaseAction {
 	public String ship() {
 		String[] id = getId();
 		if (id != null) {
-			DetachedCriteria dc = orderManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<Order> list = orderManager.findListByCriteria(dc);
+			List<Order> list;
+			if (id.length == 1) {
+				list = new ArrayList<Order>(1);
+				list.add(orderManager.get(id[0]));
+			} else {
+				DetachedCriteria dc = orderManager.detachedCriteria();
+				dc.add(Restrictions.in("id", id));
+				list = orderManager.findListByCriteria(dc);
+			}
 			if (list.size() > 0) {
 				for (Order temp : list)
 					orderManager.ship(temp);

@@ -166,9 +166,15 @@ public class RewardAction extends BaseAction {
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {
-			DetachedCriteria dc = rewardManager.detachedCriteria();
-			dc.add(Restrictions.in("id", id));
-			List<Reward> list = rewardManager.findListByCriteria(dc);
+			List<Reward> list;
+			if (id.length == 1) {
+				list = new ArrayList<Reward>(1);
+				list.add(rewardManager.get(id[0]));
+			} else {
+				DetachedCriteria dc = rewardManager.detachedCriteria();
+				dc.add(Restrictions.in("id", id));
+				list = rewardManager.findListByCriteria(dc);
+			}
 			if (list.size() > 0) {
 				for (Reward temp : list)
 					rewardManager.delete(temp);
