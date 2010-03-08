@@ -9,12 +9,12 @@
 		<@s.hidden name="spec.id" />
 	</@s.if>
 	<div>
-	<label for="save_spec_basicQuantity">${action.getText('basicQuantity')}</label>
+	<label class="field" for="save_spec_basicQuantity">${action.getText('basicQuantity')}</label>
 	<@s.textfield name="spec.basicQuantity" cssClass="double positive" theme="simple"/>
 	<@s.select name="spec.basicMeasure" list="{'g','kg','l','ml'}" cssStyle="width:auto;margin-left:8px;" theme="simple"/>
 	</div>
 	<div>
-	<label for="save_spec_basicQuantity">${action.getText('baleQuantity')}</label>
+	<label class="field" for="save_spec_basicQuantity">${action.getText('baleQuantity')}</label>
 	<@s.textfield name="spec.baleQuantity" cssClass="integer positive" theme="simple"/>
 	/<@s.select name="spec.basicPackName" list="{'包','瓶'}" cssStyle="width:auto;" theme="simple"/>
 	</div>

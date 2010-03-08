@@ -9,16 +9,16 @@
 		<@s.hidden name="order.id" />
 	</@s.if>
 		<div>
-			<label for="customerName">${action.getText('customer')}${action.getText('name')}</label>
+			<label class="field" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
 			<div>
 				<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required ajax"/>
-				<span class="info" style="margin-left:20px;"></span>
+				<span class="info" style="font-style:italic;margin-left:20px;"></span>
 			</div>
 		</div>
 	
 	<@s.if test="%{order.isNew()}">
 	<div>
-		<label for="orderItems">${action.getText('orderItems')}</label>
+		<label class="field" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems">
 		<table border="0" width="90%">
 			<thead>
@@ -44,7 +44,7 @@
 					<td width="50%">
 						<input type="text" size="5" class="filterselect" style="margin-right:3px;"/>
 						<@s.select theme="simple" name="productId" cssClass="required fetchprice" cssStyle="width:100px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
-						<span class="info" style="margin-left:5px;"></span>
+						<span class="info" style="font-style:italic;margin-left:5px;"></span>
 					</td>
 					<td width="8%"><input type="text" name="order.items[0].quantity" class="required integer positive quantity"/></td>
 					<td width="8%"><input type="text" name="order.items[0].price" class="required double positive price"/></td>
@@ -56,7 +56,7 @@
 		</div>
 	</div>
 	</@s.if>
-	<@s.select label="%{getText('saleType')}" name="product.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
+	<@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
 	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date required"/>
 	<#if order.new>
 		<@s.checkbox label="%{getText('paid')}" name="order.paid"/>

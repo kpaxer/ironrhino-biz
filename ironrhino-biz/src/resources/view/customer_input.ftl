@@ -11,7 +11,7 @@
 	<@s.textfield label="%{getText('name')}" name="customer.name" cssClass="required"/>
 	<div onclick="Region.select('region',true,'regionId')">
 	<@s.hidden id="regionId" name="regionId" />
-	<label for="region"><span style="cursor:pointer;">请选择地区</span></label> 
+	<label class="field" for="region"><span style="cursor:pointer;">请选择地区</span></label> 
 	<div id="region"><#if customer.region??>${customer.region.fullname}<#else>...</#if></div>
 	</div>
 	<@s.textfield label="%{getText('address')}" id="address" name="customer.address"/>

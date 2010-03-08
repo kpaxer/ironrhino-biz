@@ -10,7 +10,7 @@
 	</#if>
 	<#if !plan.completed>
 		<div>
-		<label for="filterproduct">${action.getText('product')}</label>
+		<label class="field" for="filterproduct">${action.getText('product')}</label>
 		<input id="filterproduct" type="text" size="5" class="filterselect" style="margin-right:3px;"/><@s.select theme="simple" name="product.id" cssClass="required" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
 		</div>
 		<@s.textfield label="%{getText('quantity')}" name="plan.quantity" cssClass="integer positive required"/>

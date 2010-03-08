@@ -6,27 +6,22 @@
 			if (val) {
 				var url = CONTEXT_PATH + '/customer/json/' + val;
 				$.ajax({
-					url : url,
-					dataType : 'json',
-					success : function(data) {
-						if (data.name) {
-							if (data.id) {
-								ele.val(data.name).siblings('span.info')
-										.html('');
-							} else {
-								ele
-										.focus()
-										.siblings('span.info')
-										.html('<span style="color:red;">备选:</span>'
-												+ data.name);
+							url : url,
+							dataType : 'json',
+							success : function(data) {
+								if (data.name) {
+									if (data.id) {
+										ele.val(data.name)
+												.siblings('span.info').html('');
+									} else {
+										ele.focus().siblings('span.info')
+												.html('备选:' + data.name);
+									}
+								} else {
+									ele.siblings('span.info').html('将自动保存为新客户');
+								}
 							}
-						} else {
-							ele
-									.siblings('span.info')
-									.html('<span style="color:red;">将自动保存为新客户</span>');
-						}
-					}
-				});
+						});
 			}
 		});
 		$('select.fetchprice').change(function(event) {
@@ -35,42 +30,46 @@
 			if (val) {
 				var url = CONTEXT_PATH + '/product/json/' + val;
 				$.ajax({
-					url : url,
-					dataType : 'json',
-					success : function(data) {
-						$('input.price:eq(0)', ele.closest('tr'))
-								.val(data.price || '');
-						if (data.stock <= 0)
-							ele
-									.siblings('span.info')
-									.html('<span style="font-style:italic;">没有库存</span>');
-					}
-				});
+							url : url,
+							dataType : 'json',
+							success : function(data) {
+								if (data.price) {
+									$('input.price:eq(0)', ele.closest('tr'))
+											.val(data.price);
+									calculate();
+								}
+								if (data.stock <= 0)
+									ele.siblings('span.info').html('没有库存');
+								else
+									ele.siblings('span.info').html('');
+							}
+						});
 			}
 		});
-		$('#orderItems input.quantity').blur(function() {
+		$('#orderItems input.quantity').blur(function(event) {
 			calculate();
 			var quantity = $(event.target).val();
-			if(!quantity)return;
-			var ele = $('select.fetchprice',$(event.target).closest('tr'));
+			if (!quantity)
+				return;
+			var ele = $('select.fetchprice', $(event.target).closest('tr'));
 			var val = ele.val();
-			if (val) {
+			if (val && !ele.siblings('span.info').text()) {
 				var url = CONTEXT_PATH + '/product/json/' + val;
 				$.ajax({
-					url : url,
-					dataType : 'json',
-					success : function(data) {
-						$('input.price:eq(0)', ele.closest('tr'))
-								.val(data.price || '');
-						if (data.stock < quantity)
-							ele
-									.siblings('span.info')
-									.html('<span style="font-color:red;">库存不够,将自动建立计划</span>');
-					}
-				});
+							url : url,
+							dataType : 'json',
+							success : function(data) {
+								$('input.price:eq(0)', ele.closest('tr'))
+										.val(data.price || '');
+								if (data.stock < quantity)
+									ele.siblings('span.info').html('库存不够');
+							}
+						});
 			}
 		});
-		$('#orderItems input.price,#discount').blur(function(){calculate()});
+		$('#orderItems input.price,#discount').blur(function() {
+					calculate()
+				});
 		$('#orderItems button.add').click(addRow);
 		$('#orderItems button.remove').click(removeRow);
 	};
@@ -112,6 +111,8 @@
 		var event = event || window.event;
 		var row = $(event.srcElement || event.target).closest('tr');
 		var r = row.clone(true);
+		$('input,select', r).removeAttr('id');
+		$('span.info', r).html('');
 		row.after(r);
 		$('td:eq(3)', r).text('');
 		$('select:eq(0)', r).html(function() {
