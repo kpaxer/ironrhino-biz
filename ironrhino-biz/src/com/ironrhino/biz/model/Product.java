@@ -81,7 +81,6 @@ public class Product extends Entity<Long> implements Ordered {
 		this.name = name;
 	}
 
-	@NotInJson
 	public Spec getSpec() {
 		return spec;
 	}
@@ -90,7 +89,6 @@ public class Product extends Entity<Long> implements Ordered {
 		this.spec = spec;
 	}
 
-	@NotInJson
 	public Category getCategory() {
 		return category;
 	}
@@ -99,7 +97,6 @@ public class Product extends Entity<Long> implements Ordered {
 		this.category = category;
 	}
 
-	@NotInJson
 	public Brand getBrand() {
 		return brand;
 	}
