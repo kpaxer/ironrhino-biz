@@ -13,10 +13,6 @@ public class Stuff extends BaseEntity {
 	@NaturalId
 	private String name;
 
-	@NotInCopy
-	@NaturalId
-	private Spec spec;
-
 	private int stock;
 
 	private Vendor vendor;
@@ -24,17 +20,8 @@ public class Stuff extends BaseEntity {
 	public Stuff() {
 	}
 
-	public Stuff(String name, Spec spec) {
+	public Stuff(String name) {
 		this.name = name;
-		this.spec = spec;
-	}
-
-	public Spec getSpec() {
-		return spec;
-	}
-
-	public void setSpec(Spec spec) {
-		this.spec = spec;
 	}
 
 	public int getStock() {
@@ -63,7 +50,9 @@ public class Stuff extends BaseEntity {
 
 	@NotInCopy
 	public String getFullname() {
-		return name + "(" + spec.getName() + ")";
+		if (vendor != null)
+			return name + "(" + vendor.getName() + ")";
+		return name;
 	}
 
 	@Override

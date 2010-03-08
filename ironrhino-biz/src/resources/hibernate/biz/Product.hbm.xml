@@ -9,12 +9,14 @@
 		<id name="id" type="java.lang.Long" unsaved-value="null">
 			<generator class="identity" />
 		</id>
-		<property name="name" not-null="true" />
-		<property name="price" />
+		<natural-id mutable="true">
+			<property name="name" not-null="true" />
+			<many-to-one name="category" column="categoryId" not-null="true" />
+			<many-to-one name="brand" column="brandId" not-null="true" />
+		</natural-id>
 		<property name="stock" />
+		<property name="weight" />
+		<property name="price" />
 		<property name="displayOrder" />
-		<many-to-one name="spec" column="specId" />
-		<many-to-one name="category" column="categoryId" not-null="true" />
-		<many-to-one name="brand" column="brandId" not-null="true" />
 	</class>
 </hibernate-mapping>

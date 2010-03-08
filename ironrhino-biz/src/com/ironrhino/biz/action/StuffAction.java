@@ -13,7 +13,6 @@ import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 
-import com.ironrhino.biz.model.Spec;
 import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.Vendor;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -31,10 +30,6 @@ public class StuffAction extends BaseAction {
 
 	private List<Vendor> vendorList;
 
-	private Long specId;
-
-	private List<Spec> specList;
-
 	private Stuff stuff;
 
 	private ResultPage<Stuff> resultPage;
@@ -49,20 +44,8 @@ public class StuffAction extends BaseAction {
 		this.vendorId = vendorId;
 	}
 
-	public Long getSpecId() {
-		return specId;
-	}
-
-	public void setSpecId(Long specId) {
-		this.specId = specId;
-	}
-
 	public List<Vendor> getVendorList() {
 		return vendorList;
-	}
-
-	public List<Spec> getSpecList() {
-		return specList;
 	}
 
 	public Stuff getStuff() {
@@ -102,15 +85,11 @@ public class StuffAction extends BaseAction {
 	public String input() {
 		baseManager.setEntityClass(Vendor.class);
 		vendorList = baseManager.findAll();
-		baseManager.setEntityClass(Spec.class);
-		specList = baseManager.findAll();
 		baseManager.setEntityClass(Stuff.class);
 		stuff = (Stuff) baseManager.get(getUid());
 		if (stuff != null) {
 			if (stuff.getVendor() != null)
 				vendorId = stuff.getVendor().getId();
-			if (stuff.getSpec() != null)
-				specId = stuff.getSpec().getId();
 		} else {
 			stuff = new Stuff();
 		}
@@ -119,19 +98,12 @@ public class StuffAction extends BaseAction {
 
 	@Override
 	@InputConfig(methodName = "input")
-	@Validations(requiredFields = {
-			@RequiredFieldValidator(type = ValidatorType.FIELD, fieldName = "stuff.name", key = "stuff.name.required"),
-			@RequiredFieldValidator(type = ValidatorType.FIELD, fieldName = "specId", key = "specId.required") })
+	@Validations(requiredFields = { @RequiredFieldValidator(type = ValidatorType.FIELD, fieldName = "stuff.name", key = "stuff.name.required") })
 	public String save() {
 		if (stuff.isNew()) {
 			Vendor vendor = null;
-			Spec spec = null;
-			baseManager.setEntityClass(Spec.class);
-			if ((spec = (Spec) baseManager.get(specId)) != null)
-				stuff.setSpec(spec);
 			baseManager.setEntityClass(Stuff.class);
-			if (baseManager.findByNaturalId("name", stuff.getName(), "spec",
-					stuff.getSpec()) != null) {
+			if (baseManager.findByNaturalId(stuff.getName()) != null) {
 				addActionError(getText("validation.already.exists"));
 				return input();
 			}

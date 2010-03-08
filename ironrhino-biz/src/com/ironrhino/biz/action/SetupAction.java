@@ -1,13 +1,11 @@
 package com.ironrhino.biz.action;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -25,7 +23,6 @@ import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Product;
-import com.ironrhino.biz.model.Spec;
 import com.ironrhino.biz.model.User;
 import com.ironrhino.biz.service.UserManager;
 
@@ -96,26 +93,12 @@ public class SetupAction extends BaseAction {
 			cates.put(c.getName(), c);
 		}
 
-		// init spec
-		Spec s25 = new Spec();
-		s25.setBasicPackName("包");
-		s25.setBasicQuantity(25.0);
-		s25.setBasicMeasure("kg");
-		baseManager.save(s25);
-
-		Spec s50 = new Spec();
-		s50.setBasicPackName("包");
-		s50.setBasicQuantity(50.0);
-		s50.setBasicMeasure("kg");
-		baseManager.save(s50);
-
 		for (String s : brandNames) {
 			for (String name : "粗晶,中晶,小晶,粉晶".split(",")) {
 				Product p = new Product();
-				p.setName(name);
+				p.setName(name + "(25kg/包)");
 				p.setBrand(brands.get(s));
 				p.setCategory(cates.get("味精"));
-				p.setSpec(s25);
 				baseManager.save(p);
 			}
 		}
@@ -130,73 +113,76 @@ public class SetupAction extends BaseAction {
 				.split(",");
 		String[] yunyang80 = "2500*5,500*20,480*20,454*20,400*25,380*25,360*25,350*27,340*28,320*30,200*50,180*50,170*56,160*60,80*100,70*120"
 				.split(",");
-		Set<String> specNames = new LinkedHashSet<String>();
-		specNames.addAll(Arrays.asList(xiangling99cb));
-		specNames.addAll(Arrays.asList(xiangling99cblb));
-		specNames.addAll(Arrays.asList(xiangling80));
-		specNames.addAll(Arrays.asList(yunyang99));
-		specNames.addAll(Arrays.asList(yunyang80));
 
-		Map<String, Spec> specs = new HashMap<String, Spec>();
-		for (String s : specNames) {
-			String[] arr = s.split("\\*");
-			Spec temp = new Spec();
-			temp.setBasicPackName("包");
-			temp.setBasicQuantity(Double.valueOf(arr[0]));
-			temp.setBasicMeasure("g");
-			temp.setBaleQuantity(Integer.valueOf(arr[1]));
-			temp.setBalePackName("件");
-			baseManager.save(temp);
-			specs.put(s, temp);
+		for (String s : brandNames) {
+			for (String name : "粗晶,中晶,小晶,粉晶".split(",")) {
+				Product p = new Product();
+				p.setName(name + "(25kg/包)");
+				p.setBrand(brands.get(s));
+				p.setCategory(cates.get("味精"));
+				p.setWeight(new BigDecimal(25));
+				baseManager.save(p);
+			}
 		}
 
 		for (String s : xiangling99cb) {
+			String[] arr = s.split("\\*");
 			Product p = new Product();
-			p.setName("纯版99%");
+			p.setName("纯版99%(" + arr[0] + "g*" + arr[1] + "/包)");
 			p.setBrand(brands.get("湘陵"));
 			p.setCategory(cates.get("味精"));
-			p.setSpec(specs.get(s));
+			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
+					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
 			baseManager.save(p);
 		}
 
 		for (String s : xiangling99cblb) {
+			String[] arr = s.split("\\*");
 			Product p = new Product();
-			p.setName("纯版99%");
+			p.setName("纯版99%(" + arr[0] + "g*" + arr[1] + "/包)");
 			p.setBrand(brands.get("湘陵"));
 			p.setCategory(cates.get("味精"));
-			p.setSpec(specs.get(s));
+			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
+					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
 			baseManager.save(p);
 			p = new Product();
-			p.setName("蓝版99%");
+			p.setName("蓝版99%(" + arr[0] + "g*" + arr[1] + "/包)");
 			p.setBrand(brands.get("湘陵"));
 			p.setCategory(cates.get("味精"));
-			p.setSpec(specs.get(s));
+			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
+					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
 			baseManager.save(p);
 		}
 
 		for (String s : xiangling80) {
+			String[] arr = s.split("\\*");
 			Product p = new Product();
-			p.setName("80%");
+			p.setName("80%(" + arr[0] + "g*" + arr[1] + "/包)");
 			p.setBrand(brands.get("湘陵"));
 			p.setCategory(cates.get("味精"));
-			p.setSpec(specs.get(s));
+			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
+					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
 			baseManager.save(p);
 		}
 
 		for (String s : yunyang99) {
+			String[] arr = s.split("\\*");
 			Product p = new Product();
-			p.setName("99%");
+			p.setName("99%(" + arr[0] + "g*" + arr[1] + "/包)");
 			p.setBrand(brands.get("云阳山"));
 			p.setCategory(cates.get("味精"));
-			p.setSpec(specs.get(s));
+			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
+					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
 			baseManager.save(p);
 		}
 		for (String s : yunyang80) {
+			String[] arr = s.split("\\*");
 			Product p = new Product();
-			p.setName("80%");
+			p.setName("80%(" + arr[0] + "g*" + arr[1] + "/包)");
 			p.setBrand(brands.get("云阳山"));
 			p.setCategory(cates.get("味精"));
-			p.setSpec(specs.get(s));
+			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
+					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
 			baseManager.save(p);
 		}
 
@@ -225,4 +211,5 @@ public class SetupAction extends BaseAction {
 		for (Region child : list)
 			save(child);
 	}
+
 }

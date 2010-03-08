@@ -8,12 +8,10 @@
 	<@s.hidden name="stuff.id" />
 	<@s.if test="%{stuff.isNew()}">
 	<@s.textfield label="%{getText('name')}" name="stuff.name" cssClass="required"/>
-	<@s.select label="%{getText('spec')}" name="specId" cssClass="required" list="specList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
    	<@s.select label="%{getText('vendor')}" name="vendorId" list="vendorList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 	</@s.if>
 	<@s.else>
 	<@s.hidden name="stuff.name" />
-	<@s.hidden name="specId" />
 	<@s.hidden name="vendorId" />
 	</@s.else>
 	<@s.submit value="%{getText('save')}" />

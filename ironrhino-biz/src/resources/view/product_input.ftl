@@ -10,11 +10,11 @@
 	</#if>
 	<@s.select label="%{getText('category')}" name="categoryId" cssClass="required" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 	<@s.select label="%{getText('brand')}" name="brandId" cssClass="required" list="brandList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
-	<@s.select label="%{getText('spec')}" name="specId" cssClass="required" list="specList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 	<@s.textfield label="%{getText('name')}" name="product.name" cssClass="required"/>
-	<@s.textfield label="%{getText('price')}" name="product.price" cssClass="required"/>
-	<@s.textfield label="%{getText('stock')}" name="product.stock"/>
-	<@s.textfield label="%{getText('displayOrder')}" name="product.displayOrder"/>
+	<@s.textfield label="%{getText('stock')}" name="product.stock" cssClass="integer"/>
+	<@s.textfield label="%{getText('weight')}" name="product.weight" cssClass="double positive"/>
+	<@s.textfield label="%{getText('price')}" name="product.price" cssClass="double positive"/>
+	<@s.textfield label="%{getText('displayOrder')}" name="product.displayOrder" cssClass="integer"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

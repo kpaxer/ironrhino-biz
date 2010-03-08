@@ -27,9 +27,7 @@ public class Product extends Entity<Long> implements Ordered {
 
 	private int stock;
 
-	@NotInCopy
-	@NotInJson
-	private Spec spec;
+	private BigDecimal weight;
 
 	private BigDecimal price;
 
@@ -65,6 +63,14 @@ public class Product extends Entity<Long> implements Ordered {
 		this.price = price;
 	}
 
+	public BigDecimal getWeight() {
+		return weight;
+	}
+
+	public void setWeight(BigDecimal weight) {
+		this.weight = weight;
+	}
+
 	public int getStock() {
 		return stock;
 	}
@@ -79,14 +85,6 @@ public class Product extends Entity<Long> implements Ordered {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Spec getSpec() {
-		return spec;
-	}
-
-	public void setSpec(Spec spec) {
-		this.spec = spec;
 	}
 
 	public Category getCategory() {
@@ -114,11 +112,6 @@ public class Product extends Entity<Long> implements Ordered {
 		if (category != null)
 			sb.append(category.getName());
 		sb.append(name);
-		if (spec != null) {
-			sb.append('(');
-			sb.append(spec.getName());
-			sb.append(')');
-		}
 		return sb.toString();
 	}
 

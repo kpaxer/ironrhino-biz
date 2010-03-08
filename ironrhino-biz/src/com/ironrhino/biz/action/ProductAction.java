@@ -21,7 +21,6 @@ import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Product;
-import com.ironrhino.biz.model.Spec;
 import com.ironrhino.biz.service.ProductManager;
 
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
@@ -37,13 +36,9 @@ public class ProductAction extends BaseAction {
 
 	private Long brandId;
 
-	private Long specId;
-
 	private List<Category> categoryList;
 
 	private List<Brand> brandList;
-
-	private List<Spec> specList;
 
 	private transient BaseManager baseManager;
 
@@ -56,14 +51,6 @@ public class ProductAction extends BaseAction {
 
 	public void setResultPage(ResultPage<Product> resultPage) {
 		this.resultPage = resultPage;
-	}
-
-	public Long getSpecId() {
-		return specId;
-	}
-
-	public void setSpecId(Long specId) {
-		this.specId = specId;
 	}
 
 	public Long getCategoryId() {
@@ -80,10 +67,6 @@ public class ProductAction extends BaseAction {
 
 	public void setBrandId(Long brandId) {
 		this.brandId = brandId;
-	}
-
-	public List<Spec> getSpecList() {
-		return specList;
 	}
 
 	public List<Category> getCategoryList() {
@@ -125,9 +108,6 @@ public class ProductAction extends BaseAction {
 
 	@Override
 	public String input() {
-		baseManager.setEntityClass(Spec.class);
-		specList = baseManager.findAll();
-		Collections.sort(specList);
 		baseManager.setEntityClass(Category.class);
 		categoryList = baseManager.findAll();
 		Collections.sort(categoryList);
@@ -138,8 +118,6 @@ public class ProductAction extends BaseAction {
 		if (StringUtils.isNumeric(id))
 			product = productManager.get(Long.valueOf(id));
 		if (product != null) {
-			if (product.getSpec() != null)
-				specId = product.getSpec().getId();
 			if (product.getCategory() != null)
 				categoryId = product.getCategory().getId();
 			if (product.getBrand() != null)
@@ -155,26 +133,34 @@ public class ProductAction extends BaseAction {
 		if (product == null)
 			return ACCESSDENIED;
 		if (product.isNew()) {
-			if (specId != null) {
-				baseManager.setEntityClass(Spec.class);
-				Spec spec = (Spec) baseManager.get(specId);
-				product.setSpec(spec);
-			}
-			if (categoryId != null) {
-				baseManager.setEntityClass(Category.class);
-				Category category = (Category) baseManager.get(categoryId);
-				product.setCategory(category);
-			}
-			if (brandId != null) {
-				baseManager.setEntityClass(Brand.class);
-				Brand brand = (Brand) baseManager.get(brandId);
-				product.setBrand(brand);
+			baseManager.setEntityClass(Category.class);
+			Category category = (Category) baseManager.get(categoryId);
+			product.setCategory(category);
+			baseManager.setEntityClass(Brand.class);
+			Brand brand = (Brand) baseManager.get(brandId);
+			product.setBrand(brand);
+			if (productManager.findByNaturalId("name", product.getName(),
+					"brand", product.getBrand(), "category", product
+							.getCategory()) != null) {
+				addFieldError("product.name",
+						getText("validation.already.exists"));
+				return INPUT;
 			}
 		} else {
 			Product temp = product;
 			product = productManager.get(temp.getId());
-			if (product == null)
-				return ERROR;
+			if (!product.getName().equals(temp.getName()) || brandId != null
+					&& !product.getBrand().getId().equals(brandId)
+					|| categoryId != null
+					&& !product.getCategory().getId().equals(categoryId)) {
+				if (productManager.findByNaturalId("name", product.getName(),
+						"brand", product.getBrand(), "category", product
+								.getCategory()) != null) {
+					addFieldError("product.name",
+							getText("validation.already.exists"));
+					return INPUT;
+				}
+			}
 			BeanUtils.copyProperties(temp, product);
 			if (categoryId != null) {
 				Category category = product.getCategory();
@@ -188,13 +174,6 @@ public class ProductAction extends BaseAction {
 				if (brand == null || !brand.getId().equals(brandId)) {
 					baseManager.setEntityClass(Brand.class);
 					product.setBrand((Brand) baseManager.get(brandId));
-				}
-			}
-			if (specId != null) {
-				Spec spec = product.getSpec();
-				if (spec == null || !spec.getId().equals(specId)) {
-					baseManager.setEntityClass(Spec.class);
-					product.setSpec((Spec) baseManager.get(specId));
 				}
 			}
 		}
