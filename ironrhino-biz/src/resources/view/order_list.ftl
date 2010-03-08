@@ -10,11 +10,19 @@ text-align:center;
 </head>
 <body>
 <#assign config={"code":{},"customer":{},"grandTotal":{},"orderDate":{"template":r"${value?string('yyyy年MM月dd日')}"},"saleType":{},"paid":{},"shipped":{}}>
-<#assign actionColumnButtons=btn(action.getText('view'),null,'view')
-+btn(action.getText('edit'),null,'input')
-+btn(action.getText('pay'),null,'pay')
-+btn(action.getText('ship'),null,'ship')
-+btn(action.getText('delete'),null,'del')>
+<#assign actionColumnButtons=r"
+<@button text='${action.getText(\'view\')}' class='view'/>
+<@button text='${action.getText(\'edit\')}' class='input'/>
+<#if !entity.paid>
+<@button text='${action.getText(\'pay\')}' class='pay'/>
+</#if>
+<#if !entity.shipped>
+<@button text='${action.getText(\'ship\')}' class='ship'/>
+</#if>
+<#if !(entity.paid||entity.shipped)>
+<@button text='${action.getText(\'delete\')}' class='del'/>
+</#if>
+">
 
 <@richtable entityName="order" config=config actionColumnWidth="230px" actionColumnButtons=actionColumnButtons celleditable=false deleteable=false searchable=true/>
 </body>
