@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="order" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="105"/>
+	<property name="ireport.x" value="56"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="title" class="java.lang.String">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
@@ -28,14 +28,14 @@
 	<title>
 		<band height="79" splitType="Stretch">
 			<textField pattern="yyyy年MM月dd日">
-				<reportElement x="461" y="59" width="94" height="20"/>
+				<reportElement x="458" y="59" width="97" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="415" y="59" width="47" height="20"/>
+				<reportElement x="403" y="59" width="55" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -49,7 +49,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{title}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="59" width="48" height="20">
+				<reportElement x="0" y="59" width="50" height="20">
 					<printWhenExpression><![CDATA[new Boolean($P{date}!=null)]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
@@ -58,35 +58,35 @@
 				<text><![CDATA[统计日期]]></text>
 			</staticText>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement x="48" y="59" width="164" height="20"/>
+				<reportElement x="50" y="59" width="189" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{date}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="277" y="59" width="24" height="20"/>
+				<reportElement x="307" y="59" width="29" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[总计]]></text>
 			</staticText>
 			<textField evaluationTime="Report" pattern="###0.00">
-				<reportElement x="301" y="59" width="66" height="20"/>
+				<reportElement x="336" y="59" width="66" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{total}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" pattern="###0">
-				<reportElement x="246" y="59" width="31" height="20"/>
+				<reportElement x="279" y="59" width="28" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="212" y="59" width="34" height="20"/>
+				<reportElement x="239" y="59" width="40" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -97,7 +97,7 @@
 	<detail>
 		<band height="75" splitType="Stretch">
 			<textField>
-				<reportElement x="116" y="13" width="130" height="20"/>
+				<reportElement x="130" y="13" width="149" height="20"/>
 				<box>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
@@ -110,7 +110,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{customer}.toString()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00">
-				<reportElement x="277" y="13" width="43" height="20"/>
+				<reportElement x="317" y="13" width="86" height="20"/>
 				<box>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
@@ -123,7 +123,7 @@
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{grandTotal}]]></textFieldExpression>
 			</textField>
 			<textField pattern="yyyy年MM月dd日">
-				<reportElement x="477" y="13" width="78" height="20"/>
+				<reportElement x="470" y="13" width="85" height="20"/>
 				<box>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
@@ -136,35 +136,35 @@
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{orderDate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement x="24" y="13" width="68" height="20"/>
+				<reportElement x="26" y="13" width="76" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="13" width="24" height="20"/>
+				<reportElement x="0" y="13" width="26" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[编号]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="92" y="13" width="24" height="20"/>
+				<reportElement x="102" y="13" width="28" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[客户]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="246" y="13" width="31" height="20"/>
+				<reportElement x="279" y="13" width="38" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[总金额]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="452" y="13" width="25" height="20"/>
+				<reportElement x="443" y="13" width="27" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
@@ -173,59 +173,17 @@
 			<line>
 				<reportElement x="0" y="6" width="555" height="1"/>
 			</line>
-			<textField pattern="###0.00">
-				<reportElement x="344" y="13" width="42" height="20">
-					<printWhenExpression><![CDATA[new Boolean(($F{discount}!=null) && ($F{discount}.doubleValue() >0 ))]]></printWhenExpression>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
-				</textElement>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{discount}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="320" y="13" width="24" height="20">
-					<printWhenExpression><![CDATA[new Boolean(($F{discount}!=null) && ($F{discount}.doubleValue() >0 ))]]></printWhenExpression>
-				</reportElement>
-				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
-					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[折扣]]></text>
-			</staticText>
 			<subreport>
 				<reportElement x="0" y="33" width="38" height="37"/>
+				<subreportParameter name="freight">
+					<subreportParameterExpression><![CDATA[$F{freight}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="discount">
+					<subreportParameterExpression><![CDATA[$F{discount}]]></subreportParameterExpression>
+				</subreportParameter>
 				<dataSourceExpression><![CDATA[$F{items}]]></dataSourceExpression>
 				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "/orderitems.jasper"]]></subreportExpression>
 			</subreport>
-			<staticText>
-				<reportElement x="386" y="13" width="24" height="20">
-					<printWhenExpression><![CDATA[new Boolean(($F{freight}!=null) && ($F{freight}.doubleValue() >0 ))]]></printWhenExpression>
-				</reportElement>
-				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
-					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[运费]]></text>
-			</staticText>
-			<textField pattern="###0.00">
-				<reportElement x="410" y="13" width="42" height="20">
-					<printWhenExpression><![CDATA[new Boolean(($F{freight}!=null) && ($F{freight}.doubleValue() >0 ))]]></printWhenExpression>
-				</reportElement>
-				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
-				</textElement>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{freight}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<pageFooter>

@@ -124,7 +124,7 @@ public class ReportAction extends BaseAction {
 	}
 
 	public String getFormat() {
-		return format;
+		return format.toUpperCase();
 	}
 
 	public void setFormat(String format) {
