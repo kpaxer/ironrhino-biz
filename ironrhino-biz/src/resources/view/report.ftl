@@ -6,7 +6,7 @@
 <body>
 <div>客户报表</div>
 <div>
-<@button text="当日结单" type="link" href="${getUrl('/report/jasper?type=customer')}" target="_blank"/>
+<@button text="当日结单" type="link" href="${getUrl('/report/jasper?type=customer')}"/>
 <form action="${getUrl('/report/jasper')}" method="post">
 <input type="hidden" name="type" value="customer"/>
 <input type="text" name="date" class="date"/>
@@ -21,7 +21,7 @@
 </div>
 <div>订单报表</div>
 <div>
-<@button text="当日订单" type="link" href="${getUrl('/report/jasper?type=order')}" target="_blank"/>
+<@button text="当日订单" type="link" href="${getUrl('/report/jasper?type=order')}"/>
 <form action="${getUrl('/report/jasper')}" method="post">
 <input type="hidden" name="type" value="order"/>
 <input type="text" name="date" class="date"/>

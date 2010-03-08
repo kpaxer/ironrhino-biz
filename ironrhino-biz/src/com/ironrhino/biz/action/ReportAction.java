@@ -273,8 +273,7 @@ public class ReportAction extends BaseAction {
 			DetachedCriteria dc = orderManager.detachedCriteria();
 			dc.add(Restrictions.between("orderDate", getFrom(), DateUtils
 					.addDays(getTo(), 1)));
-			dc.addOrder(org.hibernate.criterion.Order.asc("orderDate"));
-			dc.addOrder(org.hibernate.criterion.Order.desc("grandTotal"));
+			dc.addOrder(org.hibernate.criterion.Order.asc("code"));
 			list = orderManager.findListByCriteria(dc);
 		}
 		if (list == null || list.isEmpty()) {
