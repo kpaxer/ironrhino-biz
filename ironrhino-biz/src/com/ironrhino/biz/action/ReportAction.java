@@ -94,7 +94,7 @@ public class ReportAction extends BaseAction {
 
 	public Date getDate() {
 		if (date == null)
-			date = DateUtils.justDate(new Date());
+			date = new Date();
 		return date;
 	}
 
@@ -230,8 +230,8 @@ public class ReportAction extends BaseAction {
 	public void customer() {
 		title = "客户信息";
 		DetachedCriteria dc = customerManager.detachedCriteria();
-		dc.add(Restrictions.between("createDate", getFrom(), DateUtils.addDays(
-				getTo(), 1)));
+		dc.add(Restrictions.between("createDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 		List<Customer> cl = customerManager.findListByCriteria(dc);
 		for (Customer c : cl) {
@@ -250,8 +250,8 @@ public class ReportAction extends BaseAction {
 	public void reward() {
 		title = "日工资结单";
 		DetachedCriteria dc = rewardManager.detachedCriteria();
-		dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils.addDays(
-				getTo(), 1)));
+		dc.add(Restrictions.between("rewardDate", DateUtils.beginOfDay(getFrom()), DateUtils
+				.endOfDay(getTo())));
 		if (!includePaid)
 			dc.add(Restrictions.gt("amount", new BigDecimal(0)));
 		else
@@ -273,8 +273,8 @@ public class ReportAction extends BaseAction {
 			DetachedCriteria dc = rewardManager.detachedCriteria();
 			dc.createAlias("employee", "e").add(
 					Restrictions.eq("e.id", employee.getId()));
-			dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils
-					.addDays(getTo(), 1)));
+			dc.add(Restrictions.between("rewardDate", DateUtils
+					.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 			if (!includePaid)
 				dc.add(Restrictions.gt("amount", new BigDecimal(0)));
 			else
@@ -287,8 +287,8 @@ public class ReportAction extends BaseAction {
 	public void aggregationreward() {
 		title = "工资汇总单";
 		DetachedCriteria dc = rewardManager.detachedCriteria();
-		dc.add(Restrictions.between("rewardDate", getFrom(), DateUtils.addDays(
-				getTo(), 1)));
+		dc.add(Restrictions.between("rewardDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		if (!includePaid)
 			dc.add(Restrictions.gt("amount", new BigDecimal(0)));
 		else
@@ -325,8 +325,8 @@ public class ReportAction extends BaseAction {
 	public void order() {
 		title = "详细订单报表";
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate", getFrom(), DateUtils.addDays(
-				getTo(), 1)));
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		dc.addOrder(org.hibernate.criterion.Order.asc("code"));
 		list = orderManager.findListByCriteria(dc);
 	}
