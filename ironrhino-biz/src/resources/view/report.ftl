@@ -2,6 +2,12 @@
 <#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title>报表</title>
+<style>
+h1{
+font-size: 20px;
+background-color:#99c9ee;
+}
+</style>
 <script>
 $(function(){
 	$('#pdf,#xls').click(function(){
@@ -36,7 +42,7 @@ $(function(){
 
 <@button id="xls" text="当前是PDF,切换到EXCEL"/><@button id="pdf" text="当前是EXCEL,切换到PDF" style="display:none;"/>
 
-<div>客户报表</div>
+<h1 class="rounded">客户报表</h1>
 <div>
 <@button text="当日结单" type="link" href="${getUrl('/report/jasper?type=customer')}" class="report"/>
 <form action="${getUrl('/report/jasper')}" method="post" class="report">
@@ -52,7 +58,7 @@ $(function(){
 </form>
 </div>
 
-<div>订单报表</div>
+<h1 class="rounded">订单报表</h1>
 <div>
 <@button text="当日订单" type="link" href="${getUrl('/report/jasper?type=order')}" class="report"/>
 <form action="${getUrl('/report/jasper')}" method="post" class="report">
@@ -66,9 +72,15 @@ $(function(){
 <input type="text" name="to" class="date"/>
 <@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
+<form action="${getUrl('/report/jasper')}" method="post" class="report">
+<input type="hidden" name="type" value="productsales"/>
+<input type="text" name="from" class="date"/>
+<input type="text" name="to" class="date"/>
+<@s.submit theme="simple" value="%{getText('confirm')}"/>
+</form>
 </div>
 
-<div>工资报表</div>
+<h1 class="rounded">工资报表</h1>
 <div>
 <@button text="当日结单" type="link" href="${getUrl('/report/jasper?type=reward')}" class="report"/>
 <form action="${getUrl('/report/jasper')}" method="post" class="report">
@@ -99,7 +111,7 @@ $(function(){
 </form>
 </div>
 
-<div>产品库存报表</div>
+<h1 class="rounded">产品库存报表</h1>
 <div>
 <@button text="库存" type="link" href="${getUrl('/report/jasper?type=product')}" class="report"/>
 <@button text="欠货" type="link" href="${getUrl('/report/jasper?type=product&negative=true')}" class="report"/>

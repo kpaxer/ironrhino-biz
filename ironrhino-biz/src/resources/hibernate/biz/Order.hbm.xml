@@ -34,6 +34,7 @@
 			<key column="orderId" />
 			<list-index column="lineNumber" />
 			<composite-element class="OrderItem">
+				<parent name="order" />
 				<many-to-one name="product" column="productId" not-null="true"
 					lazy="false" fetch="join" />
 				<property name="quantity" />

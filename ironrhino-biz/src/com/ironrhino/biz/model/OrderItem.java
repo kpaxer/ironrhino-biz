@@ -13,6 +13,16 @@ public class OrderItem implements Serializable {
 
 	private Product product;
 
+	private Order order;
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
 	public Product getProduct() {
 		return product;
 	}

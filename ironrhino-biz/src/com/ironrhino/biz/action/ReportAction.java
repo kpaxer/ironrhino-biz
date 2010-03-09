@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,8 @@ import org.ironrhino.core.util.DateUtils;
 
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
+import com.ironrhino.biz.model.Order;
+import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.EmployeeManager;
@@ -192,7 +195,9 @@ public class ReportAction extends BaseAction {
 			try {
 				Method method = getClass().getDeclaredMethod(type);
 				method.invoke(this, new Object[0]);
-			} catch (Exception e) {
+			} catch (NoSuchMethodException e) {
+				throw new IllegalArgumentException("没有此报表");
+			}catch (Exception e) {
 			}
 		}
 		if (list == null || list.isEmpty()) {
@@ -295,11 +300,23 @@ public class ReportAction extends BaseAction {
 	}
 
 	public void order() {
-		title = "详细订单报表";
+		title = "订单详细报表";
 		DetachedCriteria dc = orderManager.detachedCriteria();
 		dc.add(Restrictions.between("orderDate", DateUtils
 				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		dc.addOrder(org.hibernate.criterion.Order.asc("code"));
 		list = orderManager.findListByCriteria(dc);
+	}
+
+	public void productsales() {
+		title = "订单汇总报表";
+		DetachedCriteria dc = orderManager.detachedCriteria();
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		List<Order> ol = orderManager.findListByCriteria(dc);
+		List<OrderItem> items = new ArrayList<OrderItem>();
+		for (Order o : ol)
+			items.addAll(o.getItems());
+		list = items;
 	}
 }
