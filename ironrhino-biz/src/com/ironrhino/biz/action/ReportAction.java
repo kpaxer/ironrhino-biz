@@ -257,7 +257,7 @@ public class ReportAction extends BaseAction {
 		list = rewardManager.findListByCriteria(dc);
 	}
 
-	public void personalreward() {
+	public void privatereward() {
 		Employee employee = null;
 		String id = getUid();
 		if (StringUtils.isNumeric(id))

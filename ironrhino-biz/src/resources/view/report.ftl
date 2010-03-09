@@ -83,7 +83,7 @@ $(function(){
 <@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
 <form action="${getUrl('/report/jasper')}" method="post" class="report">
-<input type="hidden" name="type" value="personalreward"/>
+<input type="hidden" name="type" value="privatereward"/>
 <@s.select theme="simple" name="id" list="employeeList" cssStyle="width:80px;" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 <input type="text" name="from" class="date"/>
 <input type="text" name="to" class="date"/>
