@@ -20,30 +20,30 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="56" splitType="Stretch">
 			<textField pattern="yyyy年MM月dd日">
-				<reportElement x="682" y="59" width="105" height="20"/>
+				<reportElement x="682" y="28" width="105" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="629" y="59" width="53" height="20"/>
+				<reportElement x="629" y="28" width="53" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[生成日期]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="243" y="11" width="289" height="28"/>
+				<reportElement x="246" y="0" width="289" height="28"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" size="15" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{title}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="59" width="59" height="20">
+				<reportElement x="0" y="28" width="59" height="20">
 					<printWhenExpression><![CDATA[new Boolean($P{date}!=null)]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
@@ -52,21 +52,21 @@
 				<text><![CDATA[统计日期]]></text>
 			</staticText>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement x="59" y="59" width="204" height="20"/>
+				<reportElement x="59" y="28" width="204" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{date}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="337" y="59" width="27" height="20"/>
+				<reportElement x="337" y="28" width="27" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[总计]]></text>
 			</staticText>
 			<textField evaluationTime="Report" pattern="###0.00">
-				<reportElement x="364" y="59" width="74" height="20"/>
+				<reportElement x="364" y="28" width="74" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
@@ -74,18 +74,8 @@
 			</textField>
 		</band>
 	</title>
-	<detail>
-		<band height="10" splitType="Stretch"/>
-	</detail>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
-			<textField>
-				<reportElement x="682" y="0" width="80" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="宋体" isItalic="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["页码:"+$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
-			</textField>
 			<textField evaluationTime="Report">
 				<reportElement x="762" y="0" width="40" height="20"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -93,13 +83,20 @@
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="682" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="宋体" isItalic="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["页码:"+$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 	<summary>
 		<band height="50">
 			<crosstab>
-				<reportElement x="0" y="0" width="802" height="50"/>
-				<rowGroup name="employee.name" width="48" totalPosition="End">
+				<reportElement x="-10" y="0" width="823" height="50"/>
+				<rowGroup name="employee.name" width="52" totalPosition="End">
 					<bucket>
 						<bucketExpression class="java.lang.String"><![CDATA[$F{employee.name}]]></bucketExpression>
 					</bucket>
@@ -109,7 +106,7 @@
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="48" height="20"/>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="52" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 								</textElement>
@@ -123,7 +120,7 @@
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="48" height="20"/>
+								<reportElement x="0" y="0" width="52" height="20"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 								</textElement>
@@ -156,7 +153,7 @@
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="58" height="20"/>
+								<reportElement x="0" y="0" width="65" height="20"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 								</textElement>
@@ -174,9 +171,11 @@
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="58" height="20"/>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="58" height="20">
+								<printWhenExpression><![CDATA[new Boolean($V{amountMeasure}.doubleValue()>0)]]></printWhenExpression>
+							</reportElement>
 							<box rightPadding="5"/>
-							<textElement textAlignment="Right">
+							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 							</textElement>
 							<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{amountMeasure}]]></textFieldExpression>
@@ -191,37 +190,37 @@
 						<textField>
 							<reportElement style="Crosstab Data Text" x="0" y="0" width="58" height="20"/>
 							<box rightPadding="5"/>
-							<textElement textAlignment="Right">
+							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 							</textElement>
 							<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{amountMeasure}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="58" height="20" columnTotalGroup="rewardDate">
+				<crosstabCell width="65" height="20" columnTotalGroup="rewardDate">
 					<cellContents backcolor="#BFFFFF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="58" height="20"/>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="65" height="20"/>
 							<box rightPadding="5"/>
-							<textElement textAlignment="Right">
+							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 							</textElement>
 							<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{amountMeasure}]]></textFieldExpression>
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="58" height="20" rowTotalGroup="employee.name" columnTotalGroup="rewardDate">
+				<crosstabCell width="65" height="20" rowTotalGroup="employee.name" columnTotalGroup="rewardDate">
 					<cellContents backcolor="#BFFFFF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="58" height="20"/>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="65" height="20"/>
 							<box rightPadding="5"/>
-							<textElement textAlignment="Right">
+							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 							</textElement>
 							<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{amountMeasure}]]></textFieldExpression>
