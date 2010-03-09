@@ -100,6 +100,8 @@ public class OrderAction extends BaseAction {
 			if (customer != null && customer.getId() != null)
 				dc.createAlias("customer", "c").add(
 						Restrictions.eq("c.id", customer.getId()));
+			resultPage.addOrder(org.hibernate.criterion.Order.asc("paid"));
+			resultPage.addOrder(org.hibernate.criterion.Order.asc("shipped"));
 			resultPage.addOrder(org.hibernate.criterion.Order.desc("code"));
 			resultPage = orderManager.findByResultPage(resultPage);
 		} else {
