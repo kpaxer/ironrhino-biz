@@ -37,10 +37,8 @@ form fieldset div.label {
 		style="margin-left: auto; margin-right: auto; width: 300px; font-size: 120%;">
 	<@s.form id="login" action="login" method="post" cssClass="ajax">
 		<@s.hidden id="targetUrl" name="targetUrl" />
-		<@s.textfield label="%{getText('username')}" name="username"
-			cssClass="required" labelposition="left" />
-		<@s.password label="%{getText('password')}" name="password"
-			cssClass="required" labelposition="left" />
+		<@s.textfield label="%{getText('username')}" name="username" cssClass="required focus" labelposition="left" />
+		<@s.password label="%{getText('password')}" name="password" cssClass="required" labelposition="left" />
 		<div class="fieldset"><@s.submit value="%{getText('login')}" /></div>
 	</@s.form></div>
 </@authorize>
