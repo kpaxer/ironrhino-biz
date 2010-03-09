@@ -3,9 +3,6 @@
 	"http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="default" namespace="/" extends="ironrhino-default">
-		<action name="index">
-			<result type="autoconfig" />
-		</action>
 		<action name="report" class="com.ironrhino.biz.action.ReportAction">
 			<result type="autoconfig" />
 			<result name="jasper" type="jasper">
