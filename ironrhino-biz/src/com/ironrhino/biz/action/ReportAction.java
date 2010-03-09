@@ -212,12 +212,12 @@ public class ReportAction extends BaseAction {
 		date = new Date();
 		DetachedCriteria dc = productManager.detachedCriteria();
 		if (!negative) {
-			title = "产品库存量";
+			title = "产品库存单";
 			dc.add(Restrictions.gt("stock", 0));
 			dc.addOrder(org.hibernate.criterion.Order.desc("stock"));
 			list = productManager.findListByCriteria(dc);
 		} else {
-			title = "产品欠货量";
+			title = "产品欠货单";
 			dc.add(Restrictions.lt("stock", 0));
 			dc.addOrder(org.hibernate.criterion.Order.asc("stock"));
 			List<Product> pl = productManager.findListByCriteria(dc);

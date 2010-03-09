@@ -17,7 +17,7 @@
 
 <body>
 <div id="wrapper">
-<div id="header" style="height: 40px">
+<div id="header">
 <div id="menu">
 <ul class="nav">
 	<li><a href="<@url value="/index"/>">首页</a></li>
