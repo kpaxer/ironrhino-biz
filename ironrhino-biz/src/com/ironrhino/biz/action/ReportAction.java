@@ -1,5 +1,6 @@
 package com.ironrhino.biz.action;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -57,7 +58,7 @@ public class ReportAction extends BaseAction {
 
 	private Map<String, Object> reportParameters = new HashMap<String, Object>();
 
-	private List<?> list;
+	private List<? extends Serializable> list;
 
 	private List<Employee> employeeList;
 
@@ -197,7 +198,7 @@ public class ReportAction extends BaseAction {
 				method.invoke(this, new Object[0]);
 			} catch (NoSuchMethodException e) {
 				throw new IllegalArgumentException("没有此报表");
-			}catch (Exception e) {
+			} catch (Exception e) {
 			}
 		}
 		if (list == null || list.isEmpty()) {
@@ -314,9 +315,22 @@ public class ReportAction extends BaseAction {
 		dc.add(Restrictions.between("orderDate", DateUtils
 				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		List<Order> ol = orderManager.findListByCriteria(dc);
-		List<OrderItem> items = new ArrayList<OrderItem>();
-		for (Order o : ol)
-			items.addAll(o.getItems());
-		list = items;
+		List<OrderItem> orderItems = new ArrayList<OrderItem>();
+		for (Order o : ol) {
+			List<OrderItem> items = o.getItems();
+			for (int i = 0; i < items.size(); i++) {
+				OrderItem item = items.get(i);
+				if (i > 0) {
+					Order temp = new Order();
+					temp.setOrderDate(item.getOrder().getOrderDate());
+					temp.setDiscount(new BigDecimal(0.00));
+					temp.setFreight(new BigDecimal(0.00));
+					temp.setGrandTotal(new BigDecimal(0.00));
+					item.setOrder(temp);
+				}
+			}
+			orderItems.addAll(items);
+		}
+		list = orderItems;
 	}
 }

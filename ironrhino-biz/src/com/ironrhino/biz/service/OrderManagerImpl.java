@@ -35,6 +35,8 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 	@Override
 	@Transactional
 	public void save(Order order) {
+		if(order.getItems().isEmpty())
+			throw new IllegalArgumentException("must have item");
 		if (order.isNew())
 			order.setCode(nextCode());
 		super.save(order);
