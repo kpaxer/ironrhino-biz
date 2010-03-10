@@ -40,23 +40,15 @@
 	<li><a href="<@url value="/reward"/>">工资管理</a></li>
 	</@authorize>
 	<li><a href="<@url value="/report"/>">报表</a></li>
-	<!--
-	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_WAREHOUSEMAN">
 		<li><a>仓库管理</a>
 		<ul>
-			<@authorize ifAnyGranted="系统管理员">
-				<li><a href="<@url value="/vendor"/>">供货商管理</a></li>
-				<li><a href="<@url value="/stuff"/>">原料管理</a></li>
-				<li><a href="<@url value="/stuffflow"/>">出入库审核</a></li>
-				<li><a href="<@url value="/stuffflow/history"/>">审核记录</a></li>
-			</@authorize>
+			<li><a href="<@url value="/stuff"/>">原料管理</a></li>
+			<li><a href="<@url value="/stuffflow"/>">出入库审核</a></li>
+			<li><a href="<@url value="/stuffflow/history"/>">审核记录</a></li>
 			<li><a href="<@url value="/stuffflow/in"/>">入库</a></li>
 			<li><a href="<@url value="/stuffflow/out"/>">出库</a></li>
-
 		</ul>
 		</li>
-	</@authorize>
-	-->
 	<li><a href="<@url value="/changePassword"/>">修改密码</a></li>
 	<li><a href="<@url value="/logout"/>">注销</a></li>
 </ul>

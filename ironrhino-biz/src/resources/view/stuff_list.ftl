@@ -4,7 +4,7 @@
 <title>原料管理</title>
 </head>
 <body>
-<#assign config={"name":{},"stock":{},"vendor":{}}>
-<@richtable entityName="stuff" config=config celleditable=false actionColumnWidth="140px"/>
+<#assign config={"name":{"cellEdit":"click"},"stock":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
+<@richtable entityName="stuff" config=config/>
 </body>
 </html></#escape>

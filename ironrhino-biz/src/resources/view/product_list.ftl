@@ -5,6 +5,6 @@
 </head>
 <body>
 <#assign config={"brand":{},"category":{},"name":{"width":"200px","cellEdit":"click"},"stock":{"cellEdit":"click"},"weight":{"cellEdit":"click"},"price":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
-<@richtable entityName="product" config=config/>
+<@richtable entityName="product" config=config searchable=true/>
 </body>
 </html></#escape>

@@ -5,15 +5,12 @@
 </head>
 <body>
 <@s.form action="save" method="post" cssClass="ajax">
-	<@s.hidden name="stuff.id" />
-	<@s.if test="%{stuff.isNew()}">
+	<#if !stuff.new>
+		<@s.hidden name="stuff.id" />
+	</#if>
 	<@s.textfield label="%{getText('name')}" name="stuff.name" cssClass="required"/>
-   	<@s.select label="%{getText('vendor')}" name="vendorId" list="vendorList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
-	</@s.if>
-	<@s.else>
-	<@s.hidden name="stuff.name" />
-	<@s.hidden name="vendorId" />
-	</@s.else>
+	<@s.textfield label="%{getText('stock')}" name="stuff.stock" cssClass="integer"/>
+	<@s.textfield label="%{getText('displayOrder')}" name="stuff.displayOrder" cssClass="integer"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

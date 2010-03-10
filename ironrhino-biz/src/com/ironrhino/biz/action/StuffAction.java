@@ -3,7 +3,6 @@ package com.ironrhino.biz.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.DetachedCriteria;
@@ -12,9 +11,9 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
+import org.ironrhino.core.util.BeanUtils;
 
 import com.ironrhino.biz.model.Stuff;
-import com.ironrhino.biz.model.Vendor;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
@@ -28,8 +27,6 @@ public class StuffAction extends BaseAction {
 
 	private String vendorId;
 
-	private List<Vendor> vendorList;
-
 	private Stuff stuff;
 
 	private ResultPage<Stuff> resultPage;
@@ -42,10 +39,6 @@ public class StuffAction extends BaseAction {
 
 	public void setVendorId(String vendorId) {
 		this.vendorId = vendorId;
-	}
-
-	public List<Vendor> getVendorList() {
-		return vendorList;
 	}
 
 	public Stuff getStuff() {
@@ -83,14 +76,9 @@ public class StuffAction extends BaseAction {
 
 	@Override
 	public String input() {
-		baseManager.setEntityClass(Vendor.class);
-		vendorList = baseManager.findAll();
 		baseManager.setEntityClass(Stuff.class);
 		stuff = (Stuff) baseManager.get(getUid());
-		if (stuff != null) {
-			if (stuff.getVendor() != null)
-				vendorId = stuff.getVendor().getId();
-		} else {
+		if (stuff == null) {
 			stuff = new Stuff();
 		}
 		return INPUT;
@@ -101,23 +89,21 @@ public class StuffAction extends BaseAction {
 	@Validations(requiredFields = { @RequiredFieldValidator(type = ValidatorType.FIELD, fieldName = "stuff.name", key = "stuff.name.required") })
 	public String save() {
 		if (stuff.isNew()) {
-			Vendor vendor = null;
 			baseManager.setEntityClass(Stuff.class);
 			if (baseManager.findByNaturalId(stuff.getName()) != null) {
 				addActionError(getText("validation.already.exists"));
-				return input();
+				return INPUT;
 			}
-			baseManager.setEntityClass(Vendor.class);
-			if (StringUtils.isNotBlank(vendorId)
-					&& (vendor = (Vendor) baseManager.get(vendorId)) != null)
-				stuff.setVendor(vendor);
-
 		} else {
 			Stuff temp = stuff;
 			baseManager.setEntityClass(Stuff.class);
 			stuff = (Stuff) baseManager.get(temp.getId());
-			if (stuff == null)
-				return ERROR;
+			if (!stuff.getName().equals(temp.getName()))
+				if (baseManager.findByNaturalId(temp.getName()) != null) {
+					addActionError(getText("validation.already.exists"));
+					return INPUT;
+				}
+			BeanUtils.copyProperties(temp, stuff);
 		}
 		baseManager.save(stuff);
 		addActionMessage(getText("save.success"));

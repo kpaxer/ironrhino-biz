@@ -7,12 +7,16 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.compass.core.CompassHit;
+import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
+import org.ironrhino.core.search.CompassCriteria;
+import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
@@ -44,6 +48,9 @@ public class ProductAction extends BaseAction {
 
 	@Inject
 	private transient ProductManager productManager;
+
+	@Inject
+	private transient CompassSearchService compassSearchService;
 
 	public ResultPage<Product> getResultPage() {
 		return resultPage;
@@ -92,17 +99,48 @@ public class ProductAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		DetachedCriteria dc = productManager.detachedCriteria();
-		if (categoryId != null)
-			dc.createAlias("category", "c").add(
-					Restrictions.eq("c.id", categoryId));
-		if (brandId != null)
-			dc.createAlias("brand", "b").add(Restrictions.eq("b.id", brandId));
-		if (resultPage == null)
-			resultPage = new ResultPage<Product>();
-		resultPage.setDetachedCriteria(dc);
-		resultPage.addOrder(Order.asc("displayOrder"));
-		resultPage = productManager.findByResultPage(resultPage);
+		if (StringUtils.isBlank(keyword)) {
+			DetachedCriteria dc = productManager.detachedCriteria();
+			if (categoryId != null)
+				dc.createAlias("category", "c").add(
+						Restrictions.eq("c.id", categoryId));
+			if (brandId != null)
+				dc.createAlias("brand", "b").add(
+						Restrictions.eq("b.id", brandId));
+			if (resultPage == null)
+				resultPage = new ResultPage<Product>();
+			resultPage.setDetachedCriteria(dc);
+			resultPage.addOrder(Order.asc("displayOrder"));
+			resultPage = productManager.findByResultPage(resultPage);
+		} else {
+			String query = keyword.trim();
+			CompassCriteria cc = new CompassCriteria();
+			cc.setQuery(query);
+			cc.setAliases(new String[] { "product" });
+			if (resultPage == null)
+				resultPage = new ResultPage<Product>();
+			cc.setPageNo(resultPage.getPageNo());
+			cc.setPageSize(resultPage.getPageSize());
+			CompassSearchResults searchResults = compassSearchService
+					.search(cc);
+			int totalHits = searchResults.getTotalHits();
+			CompassHit[] hits = searchResults.getHits();
+			if (hits != null) {
+				List<Product> list = new ArrayList<Product>(hits.length);
+				for (CompassHit ch : searchResults.getHits()) {
+					Product c = (Product) ch.getData();
+					c = productManager.get(c.getId());
+					if (c != null)
+						list.add(c);
+					else
+						totalHits--;
+				}
+				resultPage.setResult(list);
+			} else {
+				resultPage.setResult(Collections.EMPTY_LIST);
+			}
+			resultPage.setTotalRecord(totalHits);
+		}
 		return LIST;
 	}
 
