@@ -36,12 +36,6 @@ public class User extends BaseEntity implements UserDetails {
 	@SearchableProperty
 	private String name;
 
-	@SearchableProperty
-	private String address;
-
-	@SearchableProperty
-	private String phone;
-
 	private Collection<GrantedAuthority> authorities;
 
 	private boolean enabled;
@@ -68,22 +62,6 @@ public class User extends BaseEntity implements UserDetails {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 
 	public void setPassword(String password) {

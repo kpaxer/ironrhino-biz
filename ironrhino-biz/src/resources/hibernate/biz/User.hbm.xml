@@ -13,11 +13,9 @@
 		</natural-id>
 		<property name="password" not-null="true" />
 		<property name="name" />
-		<property name="address" />
-		<property name="phone" />
 		<property name="enabled" />
 		<property name="createDate" />
-		<set name="roles" table="userRole" cascade="all">
+		<set name="roles" table="userrole" cascade="all">
 			<key column="userId" />
 			<composite-element class="org.ironrhino.core.model.SimpleElement">
 				<property name="value" not-null="true" />
