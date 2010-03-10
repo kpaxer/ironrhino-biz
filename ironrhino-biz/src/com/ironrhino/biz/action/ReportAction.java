@@ -328,8 +328,8 @@ public class ReportAction extends BaseAction {
 					temp.setGrandTotal(new BigDecimal(0.00));
 					item.setOrder(temp);
 				}
+				orderItems.add(item);
 			}
-			orderItems.addAll(items);
 		}
 		list = orderItems;
 	}
