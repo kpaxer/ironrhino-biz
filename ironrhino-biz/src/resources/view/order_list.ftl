@@ -11,16 +11,16 @@ text-align:center;
 <body>
 <#assign config={"code":{},"customer":{},"grandTotal":{},"orderDate":{"template":r"${value?string('yyyy年MM月dd日')}"},"saleType":{},"paid":{},"shipped":{}}>
 <#assign actionColumnButtons=r"
-<@button text='${action.getText(\'view\')}' class='view'/>
-<@button text='${action.getText(\'edit\')}' class='input'/>
+<@button text='${action.getText(\'view\')}' view='view'/>
+<@button text='${action.getText(\'edit\')}' view='input'/>
 <#if !entity.paid>
-<@button text='${action.getText(\'pay\')}' class='pay'/>
+<@button text='${action.getText(\'pay\')}' action='pay'/>
 </#if>
 <#if !entity.shipped>
-<@button text='${action.getText(\'ship\')}' class='ship'/>
+<@button text='${action.getText(\'ship\')}' action='ship'/>
 </#if>
 <#if !(entity.paid||entity.shipped)>
-<@button text='${action.getText(\'delete\')}' class='del'/>
+<@button text='${action.getText(\'delete\')}' action='delete'/>
 </#if>
 ">
 

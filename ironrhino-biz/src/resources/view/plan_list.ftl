@@ -4,10 +4,14 @@
 <title>${action.getText('list')}${action.getText('plan')}</title>
 </head>
 <body>
-<#assign config={"product":{},"quantity":{},"planDate":{"template":r"${value?string('yyyy年MM月dd日')}"},"completed":{}}>
-<#assign actionColumnButtons=btn(action.getText('complete'),null,'complete')
-+btn(action.getText('edit'),null,'input')
-+btn(action.getText('delete'),null,'del')>
+<#assign config={"product":{},"quantity":{},"planDate":{"template":r"${value?string('yyyy年MM月dd日')}"},"completeDate":{"template":r"<#if entity.completeDate??>${value?string('yyyy年MM月dd日')}</#if>"}}>
+<#assign actionColumnButtons=r"
+<#if !entity.completed>
+<@button text='${action.getText(\'edit\')}' view='input'/>
+<@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'complete\')}' action='complete'/>
+</#if>
+">
 <@richtable entityName="plan" config=config actionColumnButtons=actionColumnButtons celleditable=false searchable=true/>
 </body>
 </html></#escape>

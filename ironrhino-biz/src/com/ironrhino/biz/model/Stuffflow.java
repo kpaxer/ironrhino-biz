@@ -3,8 +3,8 @@ package com.ironrhino.biz.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.ironrhino.common.model.Status;
 import org.ironrhino.core.metadata.AutoConfig;
+import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
 
 @AutoConfig
@@ -16,25 +16,17 @@ public class Stuffflow extends BaseEntity {
 
 	private int quantity;
 
-	private Status status;
+	private Date when = new Date();
 
-	private User requestUser;
-
-	private Date requestDate;
-
-	private User auditUser;
-
-	private Date auditDate;
+	@NotInCopy
+	private Date createDate = new Date();
 
 	private Stuff stuff;
 
 	public Stuffflow() {
-		status = Status.REQUESTED;
-		requestDate = new Date();
 	}
 
 	public Stuffflow(String name) {
-		requestDate = new Date();
 	}
 
 	public BigDecimal getAmount() {
@@ -43,30 +35,6 @@ public class Stuffflow extends BaseEntity {
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
-	}
-
-	public Date getRequestDate() {
-		return requestDate;
-	}
-
-	public void setRequestDate(Date requestDate) {
-		this.requestDate = requestDate;
-	}
-
-	public User getRequestUser() {
-		return requestUser;
-	}
-
-	public void setRequestUser(User requestUser) {
-		this.requestUser = requestUser;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 	public Stuff getStuff() {
@@ -85,20 +53,20 @@ public class Stuffflow extends BaseEntity {
 		this.quantity = quantity;
 	}
 
-	public User getAuditUser() {
-		return auditUser;
+	public Date getWhen() {
+		return when;
 	}
 
-	public void setAuditUser(User auditUser) {
-		this.auditUser = auditUser;
+	public void setWhen(Date when) {
+		this.when = when;
 	}
 
-	public Date getAuditDate() {
-		return auditDate;
+	public Date getCreateDate() {
+		return createDate;
 	}
 
-	public void setAuditDate(Date auditDate) {
-		this.auditDate = auditDate;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 }

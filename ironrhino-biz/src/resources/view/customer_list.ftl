@@ -11,20 +11,21 @@ text-decoration:none;
 </head>
 <body>
 <#assign config={"id":{},"name":{"width":"180px","cellEdit":"click"},"address":{"width":"300px","template":r'<#if entity.region??><a class="region" title="点击查看${entity.region.fullname}所有客户" href="customer?regionId=${entity.region.id}">${entity.region.fullname}</a></#if>${value!}'},"linkman":{"cellEdit":"click"},"phone":{"cellEdit":"click"},"fax":{"cellEdit":"click"}}>
-<#assign actionColumnButtons=btn(action.getText('save'),null,'save')
-+btn(action.getText('edit'),null,'input')
-+btn(action.getText('view'),null,'view')
-+btn(action.getText('order'),'','','link','',r'order?customer.id=${entity.id}')
-+btn(action.getText('delete'),null,'del')
->
-<#assign bottomButtons=btn(action.getText('create'),null,'input')
-+btn(action.getText('save'),null,'save')
-+btn(action.getText('delete'),null,'del')
-+btn('合并','$(\'#merge\').show()')
-+btn(action.getText('reload'),null,'reload')
->
-
-<#assign searchButtons=btn('按区域检索','','','link','',r'${getUrl("/customer/region")}')/>
+<#assign actionColumnButtons=r"
+<@button text='${action.getText(\'view\')}' view='view'/>
+<@button text='${action.getText(\'edit\')}' view='input'/>
+<@button text='${action.getText(\'save\')}' action='save'/>
+<@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'order\')}' type='link' href='order?customer.id=${entity.id}'/>
+">
+<#assign bottomButtons=r"
+<@button text='${action.getText(\'create\')}' view='input'/>
+<@button text='${action.getText(\'save\')}' action='save'/>
+<@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'reload\')}' class='reload'/>
+<@button text='${action.getText(\'merge\')}' onclick='$(\'#merge\').show()'/>
+">
+<#assign searchButtons=r"<@button text='按区域检索' type='link' href='customer/region'/>"/>
 <@richtable entityName="customer" config=config actionColumnWidth="210px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true searchButtons=searchButtons/>
 
 <form id="merge" action="<@url value="/customer/merge"/>" method="post" class="ajax reset" style="display:none;" onsuccess="Richtable.reload()">

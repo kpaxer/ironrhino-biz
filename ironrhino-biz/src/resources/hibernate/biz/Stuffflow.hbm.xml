@@ -11,18 +11,8 @@
 		</id>
 		<property name="quantity" />
 		<property name="amount" />
-		<property name="requestDate" />
-		<property name="auditDate" />
-		<property name="status">
-			<type name="org.hibernate.type.EnumType">
-				<param name="enumClass">org.ironrhino.common.model.Status</param>
-				<!-- if set type=12 then use name not ordinal
-					<param name="type">12</param>
-					-->
-			</type>
-		</property>
-		<many-to-one name="requestUser" column="requestUserId" fetch="join"/>
-		<many-to-one name="auditUser" column="auditUserId" fetch="join"/>
+		<property name="when" />
+		<property name="createDate" />
 		<many-to-one name="stuff" column="stuffId" not-null="true" fetch="join"/>
 	</class>
 </hibernate-mapping>

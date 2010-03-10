@@ -11,11 +11,12 @@ text-decoration:none;
 </head>
 <body>
 <#assign config={"id":{},"name":{"cellEdit":"click"},"phone":{"cellEdit":"click"},"dimission":{"cellEdit":"click,select_template_boolean"}}>
-<#assign actionColumnButtons=btn(action.getText('save'),null,'save')
-+btn(action.getText('edit'),null,'input')
-+btn(action.getText('reward'),'','','link','',r'reward?employee.id=${entity.id}')
-+btn(action.getText('delete'),null,'del')>
-
+<#assign actionColumnButtons=r"
+<@button text='${action.getText(\'edit\')}' view='input'/>
+<@button text='${action.getText(\'save\')}' action='save'/>
+<@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'reward\')}' type='link' href='reward?employee.id=${entity.id}'/>
+">
 <@richtable entityName="employee" config=config actionColumnWidth="210px" actionColumnButtons=actionColumnButtons/>
 </body>
 </html></#escape>

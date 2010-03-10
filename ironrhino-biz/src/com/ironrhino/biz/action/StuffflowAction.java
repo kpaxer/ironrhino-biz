@@ -1,6 +1,5 @@
 package com.ironrhino.biz.action;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -14,11 +13,9 @@ import org.ironrhino.core.metadata.Redirect;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
-import org.ironrhino.core.util.AuthzUtils;
 
 import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.Stuffflow;
-import com.ironrhino.biz.model.User;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
@@ -107,7 +104,6 @@ public class StuffflowAction extends BaseAction {
 			return inputIn();
 		}
 		stuffflow.setStuff(stuff);
-		stuffflow.setRequestUser(AuthzUtils.getUserDetails(User.class));
 		baseManager.save(stuffflow);
 		addActionMessage(getText("save.success"));
 		targetUrl = "/";
@@ -138,8 +134,6 @@ public class StuffflowAction extends BaseAction {
 			return "out";
 		}
 		stuffflow.setStuff(stuff);
-		stuffflow.setRequestUser(AuthzUtils.getUserDetails(User.class));
-		stuffflow.setRequestDate(new Date());
 		baseManager.save(stuffflow);
 		addActionMessage(getText("save.success"));
 		targetUrl = "/";
@@ -157,9 +151,6 @@ public class StuffflowAction extends BaseAction {
 			return ERROR;
 		}
 		stuff.setStock(stuffflow.getQuantity() + stuff.getStock());
-		stuffflow.setStatus(Status.CONFIRMED);
-		stuffflow.setAuditDate(new Date());
-		stuffflow.setAuditUser(AuthzUtils.getUserDetails(User.class));
 		baseManager.save(stuffflow);
 		return SUCCESS;
 	}
@@ -169,9 +160,6 @@ public class StuffflowAction extends BaseAction {
 		stuffflow = (Stuffflow) baseManager.get(getUid());
 		if (stuffflow == null)
 			return ERROR;
-		stuffflow.setStatus(Status.CANCELLED);
-		stuffflow.setAuditDate(new Date());
-		stuffflow.setAuditUser(AuthzUtils.getUserDetails(User.class));
 		baseManager.save(stuffflow);
 		return SUCCESS;
 	}
@@ -185,10 +173,6 @@ public class StuffflowAction extends BaseAction {
 		resultPage.addOrder(Order.desc("requestDate"));
 		resultPage = baseManager.findByResultPage(resultPage);
 		return "history";
-	}
-
-	public String report() {
-		return SUCCESS;
 	}
 
 }
