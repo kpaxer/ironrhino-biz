@@ -303,6 +303,12 @@ public class ReportAction extends BaseAction {
 	public void order() {
 		title = "订单详细报表";
 		DetachedCriteria dc = orderManager.detachedCriteria();
+		String id = getUid();
+		if (StringUtils.isNumeric(id))
+			dc.createAlias("customer", "c").add(
+					Restrictions.eq("c.id", Long.valueOf(id)));
+		else if (StringUtils.isNotBlank(id))
+			dc.createAlias("customer", "c").add(Restrictions.eq("c.name", id));
 		dc.add(Restrictions.between("orderDate", DateUtils
 				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		dc.addOrder(org.hibernate.criterion.Order.asc("code"));
@@ -312,6 +318,12 @@ public class ReportAction extends BaseAction {
 	public void productsales() {
 		title = "订单汇总报表";
 		DetachedCriteria dc = orderManager.detachedCriteria();
+		String id = getUid();
+		if (StringUtils.isNumeric(id))
+			dc.createAlias("customer", "c").add(
+					Restrictions.eq("c.id", Long.valueOf(id)));
+		else if (StringUtils.isNotBlank(id))
+			dc.createAlias("customer", "c").add(Restrictions.eq("c.name", id));
 		dc.add(Restrictions.between("orderDate", DateUtils
 				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		List<Order> ol = orderManager.findListByCriteria(dc);

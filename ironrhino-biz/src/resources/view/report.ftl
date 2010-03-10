@@ -58,25 +58,7 @@ $(function(){
 <div style="clear:both;text-align:center;">
 <@button id="xls" text="当前是PDF,切换到EXCEL"/><@button id="pdf" text="当前是EXCEL,切换到PDF" style="display:none;"/>
 </div>
-<div class="block">
-	<h1 class="rounded">客户报表</h1>
-	<div>
-		<h3>客户资料</h3>
-		<span>按天</span>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
-			<input type="hidden" name="type" value="customer"/>
-			<@s.textfield name="date" cssClass="date" theme="simple"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
-		</form>
-		<span>按区间</span>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
-			<input type="hidden" name="type" value="customer"/>
-			<input type="text" name="from" class="date"/>
-			<input type="text" name="to" class="date"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
-		</form>
-	</div>
-</div>
+
 
 <div class="block">
 	<h1 class="rounded">订单报表</h1>
@@ -95,9 +77,26 @@ $(function(){
 			<input type="text" name="to" class="date"/>
 			<@s.submit theme="simple" value="%{getText('confirm')}"/>
 		</form>
+		<span>按客户和区间</span>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+			<input type="hidden" name="type" value="order"/>
+			<input type="text" name="id" class="required" style="width:150px;"/>
+			<input type="text" name="from" class="date"/>
+			<input type="text" name="to" class="date"/>
+			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+		</form>
 		<h3>产品销量统计</h3>
+		<span>按区间</span>
 		<form action="${getUrl('/report/jasper')}" method="post" class="report">
 			<input type="hidden" name="type" value="productsales"/>
+			<input type="text" name="from" class="date"/>
+			<input type="text" name="to" class="date"/>
+			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+		</form>
+		<span>按客户和区间</span>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+			<input type="hidden" name="type" value="productsales"/>
+			<input type="text" name="id" class="required" style="width:150px;"/>
 			<input type="text" name="from" class="date"/>
 			<input type="text" name="to" class="date"/>
 			<@s.submit theme="simple" value="%{getText('confirm')}"/>
@@ -148,6 +147,26 @@ $(function(){
 	<@button text="库存单" type="link" href="${getUrl('/report/jasper?type=product')}" class="report"/>
 	<@button text="欠货单" type="link" href="${getUrl('/report/jasper?type=product&negative=true')}" class="report"/>
 </div>
+</div>
+
+<div class="block">
+	<h1 class="rounded">客户报表</h1>
+	<div>
+		<h3>客户资料</h3>
+		<span>按天</span>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+			<input type="hidden" name="type" value="customer"/>
+			<@s.textfield name="date" cssClass="date" theme="simple"/>
+			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+		</form>
+		<span>按区间</span>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+			<input type="hidden" name="type" value="customer"/>
+			<input type="text" name="from" class="date"/>
+			<input type="text" name="to" class="date"/>
+			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+		</form>
+	</div>
 </div>
 
 </body>
