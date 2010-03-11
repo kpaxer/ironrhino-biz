@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.compass.annotations.Index;
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableComponent;
 import org.compass.annotations.SearchableProperty;
+import org.compass.annotations.Store;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.model.BaseEntity;
@@ -21,7 +23,7 @@ public class Order extends BaseEntity {
 	private static final long serialVersionUID = -3191022860732749749L;
 
 	@NaturalId
-	@SearchableProperty(boost = 3)
+	@SearchableProperty(boost = 3, index = Index.NOT_ANALYZED)
 	private String code;
 
 	private BigDecimal discount;
@@ -40,6 +42,7 @@ public class Order extends BaseEntity {
 
 	private boolean shipped;
 
+	@SearchableProperty(index = Index.NO, store = Store.YES)
 	private BigDecimal grandTotal;
 
 	private BigDecimal freight;

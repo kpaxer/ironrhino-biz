@@ -2,6 +2,7 @@ package com.ironrhino.biz.model;
 
 import java.math.BigDecimal;
 
+import org.compass.annotations.Index;
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableId;
 import org.compass.annotations.SearchableProperty;
@@ -19,7 +20,7 @@ public class Product extends Entity<Long> implements Ordered {
 
 	private static final long serialVersionUID = 1876365527076787416L;
 
-	@SearchableId(converter = "long")
+	@SearchableId(converter = "long", index = Index.NOT_ANALYZED)
 	private Long id;
 
 	@SearchableProperty(boost = 3)

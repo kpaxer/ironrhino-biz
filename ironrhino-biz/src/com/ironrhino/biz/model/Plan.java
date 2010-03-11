@@ -28,6 +28,7 @@ public class Plan extends BaseEntity {
 	private Date completeDate;
 
 	@NotInCopy
+	@SearchableProperty(index = Index.NO, store = Store.YES)
 	boolean completed;
 
 	@NotInCopy

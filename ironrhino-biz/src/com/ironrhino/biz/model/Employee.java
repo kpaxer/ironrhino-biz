@@ -2,6 +2,7 @@ package com.ironrhino.biz.model;
 
 import java.util.Date;
 
+import org.compass.annotations.Index;
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableId;
 import org.compass.annotations.SearchableProperty;
@@ -17,7 +18,7 @@ public class Employee extends Entity<Long> {
 
 	private static final long serialVersionUID = 4207375657699283494L;
 
-	@SearchableId(converter = "long")
+	@SearchableId(converter = "long", index = Index.NOT_ANALYZED)
 	private Long id;
 
 	@NaturalId

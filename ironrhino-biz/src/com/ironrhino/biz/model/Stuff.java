@@ -1,5 +1,7 @@
 package com.ironrhino.biz.model;
 
+import org.compass.annotations.Index;
+import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableId;
 import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
@@ -9,11 +11,12 @@ import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
 
 @AutoConfig
+@Searchable(alias = "stuff")
 public class Stuff extends Entity<Long> implements Ordered {
 
 	private static final long serialVersionUID = 8649365520461282768L;
 
-	@SearchableId(converter = "long")
+	@SearchableId(converter = "long", index = Index.NOT_ANALYZED)
 	private Long id;
 
 	@NaturalId
