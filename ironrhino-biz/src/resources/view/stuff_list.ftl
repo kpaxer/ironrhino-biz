@@ -4,7 +4,7 @@
 <title>原料管理</title>
 </head>
 <body>
-<#assign config={"name":{"cellEdit":"click"},"stock":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
+<#assign config={"name":{"cellEdit":"click"},"weight":{"cellEdit":"click"},"stock":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'save\')}' action='save'/>

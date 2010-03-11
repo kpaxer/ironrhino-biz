@@ -13,6 +13,7 @@
 			<property name="name" not-null="true" />
 		</natural-id>
 		<property name="stock" />
+		<property name="weight" />
 		<property name="displayOrder" />
 	</class>
 </hibernate-mapping>

@@ -1,5 +1,7 @@
 package com.ironrhino.biz.model;
 
+import java.math.BigDecimal;
+
 import org.compass.annotations.Index;
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableId;
@@ -24,6 +26,8 @@ public class Stuff extends Entity<Long> implements Ordered {
 	private String name;
 
 	private int stock;
+
+	private BigDecimal weight;
 
 	private int displayOrder;
 
@@ -62,6 +66,14 @@ public class Stuff extends Entity<Long> implements Ordered {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public BigDecimal getWeight() {
+		return weight;
+	}
+
+	public void setWeight(BigDecimal weight) {
+		this.weight = weight;
 	}
 
 	public int getDisplayOrder() {
