@@ -31,6 +31,7 @@ import com.ironrhino.biz.service.EmployeeManager;
 import com.ironrhino.biz.service.OrderManager;
 import com.ironrhino.biz.service.ProductManager;
 import com.ironrhino.biz.service.RewardManager;
+import com.ironrhino.biz.service.StuffManager;
 
 public class ReportAction extends BaseAction {
 
@@ -73,6 +74,9 @@ public class ReportAction extends BaseAction {
 
 	@Inject
 	private transient OrderManager orderManager;
+
+	@Inject
+	private transient StuffManager stuffManager;
 
 	@Inject
 	private transient ProductManager productManager;
@@ -226,6 +230,16 @@ public class ReportAction extends BaseAction {
 				p.setStock(-p.getStock());
 			list = pl;
 		}
+
+	}
+
+	public void stuff() {
+		date = new Date();
+		DetachedCriteria dc = stuffManager.detachedCriteria();
+		title = "原料库存单";
+		dc.add(Restrictions.gt("stock", 0));
+		dc.addOrder(org.hibernate.criterion.Order.desc("stock"));
+		list = productManager.findListByCriteria(dc);
 
 	}
 

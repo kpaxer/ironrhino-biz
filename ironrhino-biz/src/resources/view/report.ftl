@@ -145,10 +145,11 @@ $(function(){
 </div>
 
 <div class="block">
-<h1 class="rounded">产品库存报表</h1>
+<h1 class="rounded">产品和原料库存报表</h1>
 <div>
 	<@button text="库存单" type="link" href="${getUrl('/report/jasper?type=product')}" class="report"/>
 	<@button text="欠货单" type="link" href="${getUrl('/report/jasper?type=product&negative=true')}" class="report"/>
+	<@button text="原料库存单" type="link" href="${getUrl('/report/jasper?type=stuff')}" class="report"/>
 </div>
 </div>
 
