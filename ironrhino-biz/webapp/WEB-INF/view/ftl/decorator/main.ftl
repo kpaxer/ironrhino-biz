@@ -40,15 +40,7 @@
 	<li><a href="<@url value="/employee"/>">员工管理</a></li>
 	<li><a href="<@url value="/reward"/>">工资管理</a></li>
 	</@authorize>
-	<li><a>仓库管理</a>
-	<ul>
-		<li><a href="<@url value="/stuff"/>">原料管理</a></li>
-		<li><a href="<@url value="/stuffflow"/>">出入库审核</a></li>
-		<li><a href="<@url value="/stuffflow/history"/>">审核记录</a></li>
-		<li><a href="<@url value="/stuffflow/in"/>">入库</a></li>
-		<li><a href="<@url value="/stuffflow/out"/>">出库</a></li>
-	</ul>
-	</li>
+	<li><a href="<@url value="/stuff"/>">原料管理</a></li>
 	<li><a href="<@url value="/changePassword"/>">修改密码</a></li>
 	<li><a href="<@url value="/logout"/>">注销</a></li>
 </ul>
