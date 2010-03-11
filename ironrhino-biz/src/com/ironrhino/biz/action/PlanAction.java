@@ -220,7 +220,7 @@ public class PlanAction extends BaseAction {
 				addActionMessage(getText("operate.success"));
 			}
 		}
-		return SUCCESS;
+		return REFERER;
 	}
 
 }

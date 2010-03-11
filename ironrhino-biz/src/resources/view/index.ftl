@@ -12,6 +12,7 @@ font-weight:bold;
 </style>
 </head>
 <body>
+<div id="unpaidOrders">
 <#if unpaidOrders.size() gt 0>
 <h3 class="rounded" style="background-color:#adadad;">未付款的订单</h3>
 <table border="0" width="88%">
@@ -21,7 +22,7 @@ font-weight:bold;
 					<td>${action.getText('customer')}</td>
 					<td>${action.getText('orderDate')}</td>
 					<td>${action.getText('grandTotal')}</td>
-					<td></td>
+					<td width="10%"></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -31,12 +32,14 @@ font-weight:bold;
 					<td>${var.customer?string}</td>
 					<td>${var.orderDate?string("yyyy年MM月dd日")}</td>
 					<td>${var.grandTotal}</td>
-					<td></td>
+					<td><@button text="${action.getText('pay')}" type="link" href="${getUrl('/order/pay/'+var.id)}" class="ajax view" replacement="unpaidOrders"/></td>
 				</tr>
 			</#list>
 			</tbody>
 		</table>
 </#if>
+</div>
+<div id="unshippedOrders">
 <#if unshippedOrders.size() gt 0>
 <h3 class="rounded" style="background-color:#adadad;">未发货的订单</h3>
 <table border="0" width="88%">
@@ -46,7 +49,7 @@ font-weight:bold;
 					<td>${action.getText('customer')}</td>
 					<td>${action.getText('orderDate')}</td>
 					<td>${action.getText('grandTotal')}</td>
-					<td></td>
+					<td width="10%"></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -56,12 +59,14 @@ font-weight:bold;
 					<td>${var.customer?string}</td>
 					<td>${var.orderDate?string("yyyy年MM月dd日")}</td>
 					<td>${var.grandTotal}</td>
-					<td></td>
+					<td><@button text="${action.getText('ship')}" type="link" href="${getUrl('/order/ship/'+var.id)}" class="ajax view" replacement="unshippedOrders"/></td>
 				</tr>
 			</#list>
 			</tbody>
 		</table>
 </#if>
+</div>
+<div id="uncompletedPlans">
 <#if uncompletedPlans.size() gt 0>
 <h3 class="rounded" style="background-color:#adadad;">未完成的计划</h3>
 <table border="0" width="88%">
@@ -70,7 +75,7 @@ font-weight:bold;
 					<td>${action.getText('product')}</td>
 					<td>${action.getText('quantity')}</td>
 					<td>${action.getText('planDate')}</td>
-					<td></td>
+					<td width="10%"></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -79,12 +84,12 @@ font-weight:bold;
 					<td>${var.product?string}</td>
 					<td>${var.quantity}</td>
 					<td>${var.planDate?string("yyyy年MM月dd日")}</td>
-					<td></td>
+					<td><@button text="${action.getText('complete')}" type="link" href="${getUrl('/plan/complete/'+var.id)}" class="ajax view" replacement="uncompletedPlans"/></td>
 				</tr>
 			</#list>
 			</tbody>
 		</table>
 </#if>
-
+</div>
 </body>
 </html></#escape>

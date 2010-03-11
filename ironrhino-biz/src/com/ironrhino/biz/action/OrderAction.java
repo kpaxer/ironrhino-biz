@@ -266,7 +266,7 @@ public class OrderAction extends BaseAction {
 				addActionMessage(getText("operate.success"));
 			}
 		}
-		return SUCCESS;
+		return REFERER;
 	}
 
 	public String ship() {
@@ -287,7 +287,7 @@ public class OrderAction extends BaseAction {
 				addActionMessage(getText("operate.success"));
 			}
 		}
-		return SUCCESS;
+		return REFERER;
 	}
 
 }
