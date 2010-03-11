@@ -24,7 +24,7 @@ public class Stuffflow extends BaseEntity {
 	private int quantity;
 
 	@SearchableProperty(converter = "date", format = "yyyy-MM-dd")
-	private Date when = new Date();
+	private Date date = new Date();
 
 	@SearchableProperty
 	private String memo;
@@ -65,12 +65,12 @@ public class Stuffflow extends BaseEntity {
 		this.quantity = quantity;
 	}
 
-	public Date getWhen() {
-		return when;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setWhen(Date when) {
-		this.when = when;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public Date getCreateDate() {

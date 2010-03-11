@@ -22,12 +22,15 @@ import org.ironrhino.core.struts.BaseAction;
 
 import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.Stuffflow;
+import com.ironrhino.biz.service.StuffManager;
 
 public class StuffflowAction extends BaseAction {
 
 	private static final long serialVersionUID = 3919769173051324935L;
 
 	protected static final Log log = LogFactory.getLog(StuffflowAction.class);
+
+	private boolean out;
 
 	private Stuff stuff;
 
@@ -40,7 +43,18 @@ public class StuffflowAction extends BaseAction {
 	private transient BaseManager baseManager;
 
 	@Inject
+	private transient StuffManager stuffManager;
+
+	@Inject
 	private transient CompassSearchService compassSearchService;
+
+	public boolean isOut() {
+		return out;
+	}
+
+	public void setOut(boolean out) {
+		this.out = out;
+	}
 
 	public Stuff getStuff() {
 		return stuff;
@@ -86,15 +100,15 @@ public class StuffflowAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuffflow>();
 			resultPage.setDetachedCriteria(dc);
-			resultPage.addOrder(Order.desc("requestDate"));
+			resultPage.addOrder(Order.desc("date"));
 			resultPage = baseManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
 			if (query.matches("^\\d{4}-\\d{2}-\\d{2}$"))
-				query = "when:" + query;
+				query = "date:" + query;
 			if (query.matches("^\\d{4}年\\d{2}月\\d{2}日$")) {
 				StringBuilder sb = new StringBuilder();
-				sb.append("when:");
+				sb.append("date:");
 				sb.append(query.substring(0, 4));
 				sb.append('-');
 				sb.append(query.substring(5, 7));
@@ -124,6 +138,26 @@ public class StuffflowAction extends BaseAction {
 			resultPage.setTotalRecord(totalHits);
 		}
 		return LIST;
+	}
+
+	@Override
+	public String input() {
+		stuff = stuffManager.get(stuff.getId());
+		stuffflow = new Stuffflow();
+		return INPUT;
+	}
+
+	@Override
+	public String save() {
+		stuff = stuffManager.get(stuff.getId());
+		if (out)
+			stuffflow.setQuantity(-stuffflow.getQuantity());
+		stuffflow.setStuff(stuff);
+		stuff.setStock(stuff.getStock() + stuffflow.getQuantity());
+		stuffManager.save(stuff);
+		baseManager.save(stuffflow);
+		addActionMessage(getText("save.success"));
+		return SUCCESS;
 	}
 
 }

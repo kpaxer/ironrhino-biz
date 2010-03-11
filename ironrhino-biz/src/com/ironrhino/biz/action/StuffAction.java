@@ -3,6 +3,8 @@ package com.ironrhino.biz.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.DetachedCriteria;
@@ -31,6 +33,7 @@ public class StuffAction extends BaseAction {
 
 	private ResultPage<Stuff> resultPage;
 
+	@Inject
 	private transient StuffManager stuffManager;
 
 	public String getVendorId() {

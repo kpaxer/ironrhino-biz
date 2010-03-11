@@ -11,7 +11,7 @@
 		</id>
 		<property name="quantity" />
 		<property name="amount" />
-		<property name="when" />
+		<property name="date" />
 		<property name="memo" length="2500" />
 		<property name="createDate" />
 		<many-to-one name="stuff" column="stuffId" not-null="true"
