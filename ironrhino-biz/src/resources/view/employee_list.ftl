@@ -15,8 +15,9 @@ text-decoration:none;
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'save\')}' action='save'/>
 <@button text='${action.getText(\'delete\')}' action='delete'/>
-<@button text='${action.getText(\'reward\')}' type='link' href='reward?employee.id=${entity.id}'/>
+<@button text='${action.getText(\'reward\')}' type='link' href='${getUrl(\'/reward?employee.id=\'+entity.id)}'/>
+<@button text='${action.getText(\'create\')+action.getText(\'reward\')}' type='link' href='${getUrl(\'/reward/input?employee.id=\'+entity.id)}' rel='richtable'/>
 ">
-<@richtable entityName="employee" config=config actionColumnWidth="210px" actionColumnButtons=actionColumnButtons/>
+<@richtable entityName="employee" config=config actionColumnWidth="240px" actionColumnButtons=actionColumnButtons/>
 </body>
 </html></#escape>

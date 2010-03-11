@@ -4,7 +4,7 @@
 <title><#if plan.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('plan')}</title>
 </head>
 <body>
-<@s.form action="save" method="post" cssClass="ajax">
+<@s.form action="${getUrl('/plan/save')}" method="post" cssClass="ajax">
 	<#if !plan.new>
 		<@s.hidden name="plan.id" />
 	</#if>

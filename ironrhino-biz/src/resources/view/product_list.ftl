@@ -5,6 +5,13 @@
 </head>
 <body>
 <#assign config={"brand":{},"category":{},"name":{"width":"200px","cellEdit":"click"},"stock":{"cellEdit":"click"},"weight":{"cellEdit":"click"},"price":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
-<@richtable entityName="product" config=config searchable=true/>
+<#assign actionColumnButtons=r"
+<@button text='${action.getText(\'edit\')}' view='input'/>
+<@button text='${action.getText(\'save\')}' action='save'/>
+<@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'plan\')}' type='link' href='${getUrl(\'/plan?product.id=\'+entity.id)}'/>
+<@button text='${action.getText(\'create\')+action.getText(\'plan\')}' type='link' href='${getUrl(\'/plan/input?product.id=\'+entity.id)}' rel='richtable'/>
+">
+<@richtable entityName="product" actionColumnWidth="230px" actionColumnButtons=actionColumnButtons config=config searchable=true/>
 </body>
 </html></#escape>

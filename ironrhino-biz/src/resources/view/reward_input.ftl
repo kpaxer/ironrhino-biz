@@ -4,7 +4,7 @@
 <title><#if reward.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('reward')}</title>
 </head>
 <body>
-<@s.form action="save" method="post" cssClass="ajax">
+<@s.form action="${getUrl('/reward/save')}" method="post" cssClass="ajax">
 	<#if !reward.new>
 		<@s.hidden name="reward.id" />
 	<#else>
