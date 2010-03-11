@@ -8,6 +8,10 @@ font-size: 15px;
 background-color:#adadad;
 }
 
+.clear {
+	clear: both;
+}
+
 div.block {
 	float: left;
 	display: inline;
@@ -16,13 +20,11 @@ div.block {
 	margin-bottom: 10px;
 	
 }
-div.block form {
-	margin:0px;
-	padding:0px;
-}
+
 div.block > div {
 	padding:0px 10px 0px 10px;
 }
+
 </style>
 <script>
 $(function(){
@@ -65,41 +67,41 @@ $(function(){
 	<div>
 		<h3>订单详情</h3>
 		<span>按天</span>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="order"/>
-			<@s.textfield name="date" cssClass="date" theme="simple"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+			<div><@s.textfield name="date" cssClass="date required" theme="simple"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
-		<span>按区间</span>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+		<div class="clear">按区间</div>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="order"/>
-			<input type="text" name="from" class="date"/>
-			<input type="text" name="to" class="date"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+			<div><input type="text" name="from" class="date required"/></div>
+			<div><input type="text" name="to" class="date required"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
-		<span>按客户和区间</span>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+		<div class="clear">按客户和区间</div>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="order"/>
-			<input type="text" name="id" class="required" style="width:150px;"/>
-			<input type="text" name="from" class="date"/>
-			<input type="text" name="to" class="date"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+			<div><input type="text" name="id" class="required" style="width:150px;"/></div>
+			<div><input type="text" name="from" class="date required"/></div>
+			<div><input type="text" name="to" class="date required"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
-		<h3>产品销量统计</h3>
-		<span>按区间</span>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+		<h3 class="clear">产品销量统计</h3>
+		<div class="clear">按区间</div>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="productsales"/>
-			<input type="text" name="from" class="date"/>
-			<input type="text" name="to" class="date"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+			<div><input type="text" name="from" class="date required"/></div>
+			<div><input type="text" name="to" class="date required"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
-		<span>按客户和区间</span>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+		<div class="clear">按客户和区间</div>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="productsales"/>
-			<input type="text" name="id" class="required" style="width:150px;"/>
-			<input type="text" name="from" class="date"/>
-			<input type="text" name="to" class="date"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+			<div><input type="text" name="id" class="required" style="width:150px;"/></div>
+			<div><input type="text" name="from" class="date required"/></div>
+			<div><input type="text" name="to" class="date required"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
 	</div>
 </div>
@@ -108,35 +110,36 @@ $(function(){
 	<h1 class="rounded">工资报表</h1>
 	<div>
 		<h3>工资详单</h3>
-		<span>按天</span>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+		<div class="clear">按天</div>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="reward"/>
-			<@s.textfield name="date" cssClass="date" theme="simple"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+			<div><@s.textfield name="date" cssClass="date required" theme="simple"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
-		<span>按区间</span>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+		<div class="clear">按区间</div>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="reward"/>
-			<input type="text" name="from" class="date"/>
-			<input type="text" name="to" class="date"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+			<div><input type="text" name="from" class="date required"/></div>
+			<div><input type="text" name="to" class="date required"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
-		<h3>个人工资详单</h3>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+		<h3 class="clear">个人工资详单</h3>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="privatereward"/>
-			<@s.select theme="simple" name="id" list="employeeList" cssStyle="width:80px;" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
-			<input type="text" name="from" class="date"/>
-			<input type="text" name="to" class="date"/>
-			<span>包括支出</span><input type="checkbox" name="includePaid" value="true"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+			<div><@s.select theme="simple" name="id" list="employeeList" cssClass="required" cssStyle="width:80px;" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
+			<div><input type="text" name="from" class="date required"/></div>
+			<div><input type="text" name="to" class="date required"/></div>
+			<div><span>包括支出</span><input type="checkbox" name="includePaid" value="true"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
-		<h3>所有员工工资统计</h3>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+		<h3 class="clear">所有员工工资统计</h3>
+		<div class="clear"></div>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="aggregationreward"/>
-			<input type="text" name="from" class="date"/>
-			<input type="text" name="to" class="date"/>
-			<span>包括支出</span><input type="checkbox" name="includePaid" value="true"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+			<div><input type="text" name="from" class="date required"/></div>
+			<div><input type="text" name="to" class="date required"/></div>
+			<div><span>包括支出</span><input type="checkbox" name="includePaid" value="true"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
 	</div>
 </div>
@@ -153,18 +156,18 @@ $(function(){
 	<h1 class="rounded">客户报表</h1>
 	<div>
 		<h3>客户资料</h3>
-		<span>按天</span>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+		<div class="clear">按天</div>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="customer"/>
-			<@s.textfield name="date" cssClass="date" theme="simple"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+			<div><@s.textfield name="date" cssClass="date required" theme="simple"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
-		<span>按区间</span>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report">
+		<div class="clear">按区间</div>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="customer"/>
-			<input type="text" name="from" class="date"/>
-			<input type="text" name="to" class="date"/>
-			<@s.submit theme="simple" value="%{getText('confirm')}"/>
+			<div><input type="text" name="from" class="date required"/></div>
+			<div><input type="text" name="to" class="date required"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/><div/>
 		</form>
 	</div>
 </div>
