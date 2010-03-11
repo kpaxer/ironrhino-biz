@@ -5,6 +5,14 @@
 </head>
 <body>
 <#assign config={"name":{"cellEdit":"click"},"stock":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
-<@richtable entityName="stuff" config=config/>
+<#assign actionColumnButtons=r"
+<@button text='${action.getText(\'edit\')}' view='input'/>
+<@button text='${action.getText(\'save\')}' action='save'/>
+<@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'stuffflow\')}' type='link' href='${getUrl(\'/stuffflow?sutff.id=\'+entity.id)}'/>
+<@button text='入库' type='link' href='${getUrl(\'/stuffflow/input?stuff.id=\'+entity.id)}' rel='richtable'/>
+<@button text='出库' type='link' href='${getUrl(\'/stuffflow/input?out=true&stuff.id=\'+entity.id)}' rel='richtable'/>
+">
+<@richtable entityName="stuff" config=config actionColumnWidth="240px" actionColumnButtons=actionColumnButtons/>
 </body>
 </html></#escape>

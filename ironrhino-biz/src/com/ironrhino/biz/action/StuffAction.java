@@ -9,11 +9,11 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.model.ResultPage;
-import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 
 import com.ironrhino.biz.model.Stuff;
+import com.ironrhino.biz.service.StuffManager;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
@@ -31,7 +31,7 @@ public class StuffAction extends BaseAction {
 
 	private ResultPage<Stuff> resultPage;
 
-	private transient BaseManager baseManager;
+	private transient StuffManager stuffManager;
 
 	public String getVendorId() {
 		return vendorId;
@@ -57,27 +57,20 @@ public class StuffAction extends BaseAction {
 		this.resultPage = resultPage;
 	}
 
-	public void setBaseManager(BaseManager baseManager) {
-		this.baseManager = baseManager;
-
-	}
-
 	@Override
 	public String execute() {
-		baseManager.setEntityClass(Stuff.class);
-		DetachedCriteria dc = baseManager.detachedCriteria();
+		DetachedCriteria dc = stuffManager.detachedCriteria();
 		if (resultPage == null)
 			resultPage = new ResultPage<Stuff>();
 		resultPage.setDetachedCriteria(dc);
 		resultPage.addOrder(Order.asc("name"));
-		resultPage = baseManager.findByResultPage(resultPage);
+		resultPage = stuffManager.findByResultPage(resultPage);
 		return LIST;
 	}
 
 	@Override
 	public String input() {
-		baseManager.setEntityClass(Stuff.class);
-		stuff = (Stuff) baseManager.get(getUid());
+		stuff = (Stuff) stuffManager.get(getUid());
 		if (stuff == null) {
 			stuff = new Stuff();
 		}
@@ -89,45 +82,42 @@ public class StuffAction extends BaseAction {
 	@Validations(requiredFields = { @RequiredFieldValidator(type = ValidatorType.FIELD, fieldName = "stuff.name", key = "stuff.name.required") })
 	public String save() {
 		if (stuff.isNew()) {
-			baseManager.setEntityClass(Stuff.class);
-			if (baseManager.findByNaturalId(stuff.getName()) != null) {
+			if (stuffManager.findByNaturalId(stuff.getName()) != null) {
 				addActionError(getText("validation.already.exists"));
 				return INPUT;
 			}
 		} else {
 			Stuff temp = stuff;
-			baseManager.setEntityClass(Stuff.class);
-			stuff = (Stuff) baseManager.get(temp.getId());
+			stuff = (Stuff) stuffManager.get(temp.getId());
 			if (!stuff.getName().equals(temp.getName()))
-				if (baseManager.findByNaturalId(temp.getName()) != null) {
+				if (stuffManager.findByNaturalId(temp.getName()) != null) {
 					addActionError(getText("validation.already.exists"));
 					return INPUT;
 				}
 			BeanUtils.copyProperties(temp, stuff);
 		}
-		baseManager.save(stuff);
+		stuffManager.save(stuff);
 		addActionMessage(getText("save.success"));
 		return SUCCESS;
 	}
 
 	@Override
 	public String delete() {
-		baseManager.setEntityClass(Stuff.class);
 		String[] id = getId();
 		if (id != null) {
 			List<Stuff> list;
 			if (id.length == 1) {
 				list = new ArrayList<Stuff>(1);
-				list.add((Stuff) baseManager.get(id[0]));
+				list.add((Stuff) stuffManager.get(id[0]));
 			} else {
-				DetachedCriteria dc = baseManager.detachedCriteria();
+				DetachedCriteria dc = stuffManager.detachedCriteria();
 				dc.add(Restrictions.in("id", id));
-				list = baseManager.findListByCriteria(dc);
+				list = stuffManager.findListByCriteria(dc);
 			}
 			if (list.size() > 0) {
 				boolean deletable = true;
 				for (Stuff temp : list) {
-					if (!baseManager.canDelete(temp)) {
+					if (!stuffManager.canDelete(temp)) {
 						addActionError(temp.getName() + "不能删除");
 						deletable = false;
 						break;
@@ -135,7 +125,7 @@ public class StuffAction extends BaseAction {
 				}
 				if (deletable) {
 					for (Stuff temp : list)
-						baseManager.delete(temp);
+						stuffManager.delete(temp);
 					addActionMessage(getText("delete.success"));
 				}
 			}
