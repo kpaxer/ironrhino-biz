@@ -4,7 +4,7 @@
 <title>出入库记录</title>
 </head>
 <body>
-<#assign config={"stuff":{},"quantity":{},"amount":{}}>
+<#assign config={"stuff":{},"quantity":{},"amount":{},"date":{"template":r"${value?string('yyyy年MM月dd日')}"}}>
 <#assign actionColumnButtons=''>
 <@richtable entityName="stuffflow" config=config readonly=true />
 </body>
