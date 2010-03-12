@@ -63,8 +63,6 @@ public class ReportAction extends BaseAction {
 
 	private List<? extends Serializable> list;
 
-	private List<Employee> employeeList;
-
 	@Inject
 	private transient RewardManager rewardManager;
 
@@ -144,9 +142,6 @@ public class ReportAction extends BaseAction {
 		return dataSource;
 	}
 
-	public List<Employee> getEmployeeList() {
-		return employeeList;
-	}
 
 	public String getDocumentName() {
 		try {
@@ -193,10 +188,6 @@ public class ReportAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		DetachedCriteria dc = employeeManager.detachedCriteria();
-		dc.add(Restrictions.eq("dimission", false));
-		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
-		employeeList = employeeManager.findListByCriteria(dc);
 		return SUCCESS;
 	}
 

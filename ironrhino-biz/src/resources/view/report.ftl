@@ -126,7 +126,7 @@ $(function(){
 		<h3 class="clear">个人工资详单</h3>
 		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="privatereward"/>
-			<div><@s.select theme="simple" name="id" list="employeeList" cssClass="required" cssStyle="width:80px;" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
+			<div><input type="text" name="id" class="required" style="width:80px;"/></div>
 			<div><input type="text" name="from" class="date required"/></div>
 			<div><input type="text" name="to" class="date required"/></div>
 			<div><span>包括支出</span><input type="checkbox" name="includePaid" value="true"/></div>
