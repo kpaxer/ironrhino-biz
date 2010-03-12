@@ -146,6 +146,7 @@ $(function(){
 <div class="block">
 <h1 class="rounded">产品和原料库存报表</h1>
 <div>
+	<h3 class="clear">库存清单</h3>
 	<@button text="库存单" type="link" href="${getUrl('/report/jasper?type=product')}" class="report"/>
 	<@button text="欠货单" type="link" href="${getUrl('/report/jasper?type=product&negative=true')}" class="report"/>
 	<@button text="原料库存单" type="link" href="${getUrl('/report/jasper?type=stuff')}" class="report"/>
