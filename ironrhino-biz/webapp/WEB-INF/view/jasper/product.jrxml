@@ -112,9 +112,7 @@
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{stock}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0" isBlankWhenNull="true">
-				<reportElement x="214" y="0" width="44" height="20">
-					<printWhenExpression><![CDATA[new Boolean($F{weight}!=null&&$F{weight}.doubleValue()>0)]]></printWhenExpression>
-				</reportElement>
+				<reportElement x="214" y="0" width="44" height="20"/>
 				<box leftPadding="0">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -126,21 +124,17 @@
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{weight}.multiply(new java.math.BigDecimal($F{stock}.doubleValue()))]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="258" y="0" width="19" height="20">
-					<printWhenExpression><![CDATA[new Boolean($F{weight}!=null&&$F{weight}.doubleValue()>0)]]></printWhenExpression>
-				</reportElement>
-				<box leftPadding="0">
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.0"/>
+			<textField>
+				<reportElement x="258" y="0" width="19" height="20"/>
+				<box>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 				</textElement>
-				<text><![CDATA[kg]]></text>
-			</staticText>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{weight}!=null?"kg":""]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
