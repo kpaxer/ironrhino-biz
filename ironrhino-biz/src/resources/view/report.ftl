@@ -133,7 +133,6 @@ $(function(){
 			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
 		<h3 class="clear">所有员工工资统计</h3>
-		<div class="clear"></div>
 		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="aggregationreward"/>
 			<div><input type="text" name="from" class="date required"/></div>
@@ -150,6 +149,13 @@ $(function(){
 	<@button text="库存单" type="link" href="${getUrl('/report/jasper?type=product')}" class="report"/>
 	<@button text="欠货单" type="link" href="${getUrl('/report/jasper?type=product&negative=true')}" class="report"/>
 	<@button text="原料库存单" type="link" href="${getUrl('/report/jasper?type=stuff')}" class="report"/>
+	<h3 class="clear">出入库统计</h3>
+	<form action="${getUrl('/report/jasper')}" method="post" class="report line">
+		<input type="hidden" name="type" value="stuffflow"/>
+		<div><input type="text" name="from" class="date required"/></div>
+		<div><input type="text" name="to" class="date required"/></div>
+		<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
+	</form>
 </div>
 </div>
 

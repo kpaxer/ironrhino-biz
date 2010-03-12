@@ -155,7 +155,7 @@ public class StuffflowAction extends BaseAction {
 		stuffflow.setStuff(stuff);
 		stuff.setStock(stuff.getStock() + stuffflow.getQuantity());
 		if(out&&stuff.getStock()<0){
-			addFieldError("stuff.quantity", "库存不够");
+			addFieldError("stuffflow.quantity", "库存不够");
 		}
 		stuffManager.save(stuff);
 		baseManager.save(stuffflow);

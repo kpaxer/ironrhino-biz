@@ -18,6 +18,7 @@ import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.support.RegionTreeControl;
+import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
 
@@ -26,6 +27,7 @@ import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Product;
+import com.ironrhino.biz.model.Stuffflow;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.EmployeeManager;
 import com.ironrhino.biz.service.OrderManager;
@@ -80,6 +82,9 @@ public class ReportAction extends BaseAction {
 
 	@Inject
 	private transient ProductManager productManager;
+
+	@Inject
+	private transient BaseManager baseManager;
 
 	@Inject
 	private transient RegionTreeControl regionTreeControl;
@@ -241,6 +246,19 @@ public class ReportAction extends BaseAction {
 		dc.addOrder(org.hibernate.criterion.Order.desc("stock"));
 		list = productManager.findListByCriteria(dc);
 
+	}
+
+	public void stuffflow() {
+		title = "出入库统计";
+		baseManager.setEntityClass(Stuffflow.class);
+		DetachedCriteria dc = baseManager.detachedCriteria();
+		dc.add(Restrictions.between("date", DateUtils.beginOfDay(getFrom()),
+				DateUtils.endOfDay(getTo())));
+		dc.createAlias("stuff", "s").addOrder(
+				org.hibernate.criterion.Order.asc("s.name"));
+		dc.addOrder(
+				org.hibernate.criterion.Order.desc("quantity"));
+		list = rewardManager.findListByCriteria(dc);
 	}
 
 	public void customer() {
