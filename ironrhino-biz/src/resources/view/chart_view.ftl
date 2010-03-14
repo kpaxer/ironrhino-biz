@@ -4,8 +4,7 @@
 <title>${title!'chart'}</title>
 </head>
 <body>
-
-<form id="daterange" action="${getUrl('/chart/view/'+uid!)}" method="get" class="ajax view line" replacement="c">
+<form id="daterange" action="${getUrl('/chart/view/'+uid!)}" method="get" class="ajax view line" replacement="c"  style="margin-left:10px;">
 	<#if uid??>
 		<input type="hidden" name="id" value="${uid}" />
 	</#if>
@@ -18,7 +17,6 @@
 	<div><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
 	<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 </form>
-
 <#assign dataurl='/chart/data'/>
 <#if uid??>
 <#assign dataurl=dataurl+'/'+uid>
