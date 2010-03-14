@@ -12,13 +12,14 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.core.chart.openflashchart.Chart;
+import org.ironrhino.core.chart.openflashchart.Text;
 import org.ironrhino.core.chart.openflashchart.axis.XAxis;
+import org.ironrhino.core.chart.openflashchart.axis.XAxisLabels;
 import org.ironrhino.core.chart.openflashchart.axis.YAxis;
 import org.ironrhino.core.chart.openflashchart.elements.BarChart;
 import org.ironrhino.core.metadata.AutoConfig;
@@ -52,6 +53,8 @@ public class ChartAction extends BaseAction {
 	private Date to;
 
 	private Chart chart;
+
+	private String title;
 
 	@Inject
 	private transient OrderManager orderManager;
@@ -107,9 +110,30 @@ public class ChartAction extends BaseAction {
 		return to;
 	}
 
+	public String getDateRange() {
+		if (date != null)
+			return DateUtils.format(date, datePattern);
+		else if (from != null && to != null)
+			if (!DateUtils.isSameDay(from, to))
+				return DateUtils.format(from, datePattern) + "-"
+						+ DateUtils.format(to, datePattern);
+			else
+				return DateUtils.format(from, datePattern);
+		return "";
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
 	@Override
 	public String execute() {
 		return SUCCESS;
+	}
+
+	@Override
+	public String view() {
+		return VIEW;
 	}
 
 	@JsonConfig(root = "chart")
@@ -126,12 +150,49 @@ public class ChartAction extends BaseAction {
 		return JSON;
 	}
 
-	public void brand() {
+	private int caculateSteps(double max) {
+		double d = max / 10;
+		if (d < 1)
+			return 1;
+		int i = (int) d;
+		if (d > i)
+			i++;
+		int digit = String.valueOf(i).length();
 
-		// 时间区间 默认一年内 柱图 接受可选参数品种缩小范围
+		int first = i % ((int) Math.pow(10, digit - 1));
+		if (first < 5)
+			first = 5;
+		else
+			first = 10;
+		return first * ((int) Math.pow(10, digit - 1));
+	}
+
+	private String[] colors = new String[] { "#ee4400", "#94ee00", "#00eee6",
+			"#ee00c7", "#9800ee" };
+
+	private String caculateColor(int seed) {
+		if (seed < colors.length)
+			return colors[seed - 1];
+		boolean odd = seed % 2 != 0;
+		seed = odd ? seed * 2 : 10 - seed;
+		StringBuilder sb = new StringBuilder();
+		sb.append('#');
+		sb.append(seed);
+		sb.append(10 - seed);
+		sb.append(seed);
+		sb.append(10 - seed);
+		sb.append(seed);
+		sb.append(10 - seed);
+		return sb.toString();
+	}
+
+	public void brand() {
 		baseManager.setEntityClass(Brand.class);
 		List<Brand> brands = baseManager.findAll(org.hibernate.criterion.Order
 				.asc("displayOrder"));
+		baseManager.setEntityClass(Category.class);
+		List<Category> cates = baseManager
+				.findAll(org.hibernate.criterion.Order.asc("displayOrder"));
 		List<String> labels = new ArrayList<String>();
 		for (Brand b : brands)
 			labels.add(b.getName());
@@ -164,19 +225,74 @@ public class ChartAction extends BaseAction {
 						return q.list();
 					}
 				});
-		chart = new Chart((category != null ? category.getName() : "") + "销量统计");
-		XAxis x = new XAxis();
-		YAxis y = new YAxis();
-		chart.setX_axis(x);
-		chart.setY_axis(y);
+		title = (category != null ? category.getName() : "") + "销量根据商标统计";
+		chart = new Chart(title + "(" + getDateRange() + ")",
+				"font-size: 15px;");
+		chart.setY_legend(new Text("销量", "font-size: 15px;"));
+		chart.setX_legend(new Text("商标", "font-size: 15x;"));
+
 		if (category != null) {
-			Map<String, BigDecimal> map = new HashMap<String, BigDecimal>();
+			Map<String, BigDecimal> sales = new HashMap<String, BigDecimal>();
 			for (Order order : orders) {
 				for (OrderItem item : order.getItems()) {
 					if (!item.getProduct().getCategory().equals(category))
 						continue;
 					String brand = item.getProduct().getBrand().getName();
-					BigDecimal total = map.get(brand);
+					BigDecimal total = sales.get(brand);
+					if (total == null) {
+						sales.put(brand, item.getSubtotal());
+					} else {
+						sales.put(brand, total.add(item.getSubtotal()));
+					}
+				}
+			}
+			Double[] values = new Double[labels.size()];
+			double max = 0;
+			for (int i = 0; i < labels.size(); i++) {
+				BigDecimal total = sales.get(labels.get(i));
+				if (total == null)
+					total = new BigDecimal(0.00);
+				if (max == 0)
+					max = total.doubleValue();
+				else if (max < total.doubleValue())
+					max = total.doubleValue();
+				values[i] = total.doubleValue();
+			}
+
+			XAxis x = new XAxis();
+			YAxis y = new YAxis();
+			XAxisLabels xAxisLabels = new XAxisLabels(labels);
+			xAxisLabels.setSize(12);
+			x.setXAxisLabels(xAxisLabels);
+			y.setTick_length(50);
+			y.setSteps(caculateSteps(max));
+			y.setMax(max);
+			chart.setX_axis(x);
+			chart.setY_axis(y);
+			BarChart element = new BarChart();
+			element.addValues(values);
+			chart.addElements(element);
+		} else {
+			Map<String, BigDecimal> sales = new HashMap<String, BigDecimal>();
+			Map<String, Map<String, BigDecimal>> salesByCate = new HashMap<String, Map<String, BigDecimal>>();
+			for (Order order : orders) {
+				for (OrderItem item : order.getItems()) {
+
+					String brand = item.getProduct().getBrand().getName();
+					BigDecimal total = sales.get(brand);
+					if (total == null) {
+						sales.put(brand, item.getSubtotal());
+					} else {
+						sales.put(brand, total.add(item.getSubtotal()));
+					}
+
+					String cate = item.getProduct().getCategory().getName();
+					Map<String, BigDecimal> map = salesByCate.get(cate);
+					if (map == null) {
+						map = new HashMap<String, BigDecimal>();
+						salesByCate.put(cate, map);
+					}
+					total = map.get(brand);
 					if (total == null) {
 						map.put(brand, item.getSubtotal());
 					} else {
@@ -187,7 +303,7 @@ public class ChartAction extends BaseAction {
 			Double[] values = new Double[labels.size()];
 			double max = 0;
 			for (int i = 0; i < labels.size(); i++) {
-				BigDecimal total = map.get(labels.get(i));
+				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
 				if (max == 0)
@@ -196,18 +312,38 @@ public class ChartAction extends BaseAction {
 					max = total.doubleValue();
 				values[i] = total.doubleValue();
 			}
-			BarChart element = new BarChart();
-			x.setLabels(labels);
+
+			XAxis x = new XAxis();
+			YAxis y = new YAxis();
+			XAxisLabels xAxisLabels = new XAxisLabels(labels);
+			xAxisLabels.setSize(12);
+			x.setXAxisLabels(xAxisLabels);
+			y.setTick_length(50);
+			y.setSteps(caculateSteps(max));
 			y.setMax(max);
+			chart.setX_axis(x);
+			chart.setY_axis(y);
+			BarChart element = new BarChart();
+			element.setText("总销量");
 			element.addValues(values);
 			chart.addElements(element);
-		} else {
-			for (Order order : orders) {
-				for (OrderItem item : order.getItems()) {
-
-					// TODO group by brand,category
-					// LinkedHashMap<String,LinkedHashMap<String,Double>>
+			int colorSeed = 0;
+			for (Category cate : cates) {
+				Map<String, BigDecimal> map = salesByCate.get(cate.getName());
+				if (map == null)
+					continue;
+				values = new Double[labels.size()];
+				for (int i = 0; i < labels.size(); i++) {
+					BigDecimal total = map.get(labels.get(i));
+					if (total == null)
+						total = new BigDecimal(0.00);
+					values[i] = total.doubleValue();
 				}
+				element = new BarChart();
+				element.setColour(caculateColor(++colorSeed));
+				element.setText(cate.getName());
+				element.addValues(values);
+				chart.addElements(element);
 			}
 		}
 
