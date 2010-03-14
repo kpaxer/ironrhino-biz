@@ -4,8 +4,10 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.core.chart.openflashchart.Chart;
 import org.ironrhino.core.chart.openflashchart.Text;
@@ -34,8 +37,6 @@ import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.service.OrderManager;
-import com.ironrhino.biz.service.ProductManager;
-import com.ironrhino.biz.service.StuffManager;
 
 @AutoConfig
 public class ChartAction extends BaseAction {
@@ -58,12 +59,6 @@ public class ChartAction extends BaseAction {
 
 	@Inject
 	private transient OrderManager orderManager;
-
-	@Inject
-	private transient StuffManager stuffManager;
-
-	@Inject
-	private transient ProductManager productManager;
 
 	@Inject
 	private transient BaseManager baseManager;
@@ -126,6 +121,10 @@ public class ChartAction extends BaseAction {
 		return title;
 	}
 
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	@Override
 	public String execute() {
 		return SUCCESS;
@@ -145,6 +144,7 @@ public class ChartAction extends BaseAction {
 			} catch (NoSuchMethodException e) {
 				throw new IllegalArgumentException("没有此图表");
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		return JSON;
@@ -246,6 +246,13 @@ public class ChartAction extends BaseAction {
 					}
 				}
 			}
+			Iterator<String> it = labels.iterator();
+			while (it.hasNext()) {
+				String label = it.next();
+				BigDecimal total = sales.get(label);
+				if (total == null || total.doubleValue() == 0)
+					it.remove();
+			}
 			Double[] values = new Double[labels.size()];
 			double max = 0;
 			for (int i = 0; i < labels.size(); i++) {
@@ -298,6 +305,13 @@ public class ChartAction extends BaseAction {
 						map.put(brand, total.add(item.getSubtotal()));
 					}
 				}
+			}
+			Iterator<String> it = labels.iterator();
+			while (it.hasNext()) {
+				String label = it.next();
+				BigDecimal total = sales.get(label);
+				if (total == null || total.doubleValue() == 0)
+					it.remove();
 			}
 			Double[] values = new Double[labels.size()];
 			double max = 0;
@@ -407,6 +421,13 @@ public class ChartAction extends BaseAction {
 					}
 				}
 			}
+			Iterator<String> it = labels.iterator();
+			while (it.hasNext()) {
+				String label = it.next();
+				BigDecimal total = sales.get(label);
+				if (total == null || total.doubleValue() == 0)
+					it.remove();
+			}
 			Double[] values = new Double[labels.size()];
 			double max = 0;
 			for (int i = 0; i < labels.size(); i++) {
@@ -460,6 +481,13 @@ public class ChartAction extends BaseAction {
 					}
 				}
 			}
+			Iterator<String> it = labels.iterator();
+			while (it.hasNext()) {
+				String label = it.next();
+				BigDecimal total = sales.get(label);
+				if (total == null || total.doubleValue() == 0)
+					it.remove();
+			}
 			Double[] values = new Double[labels.size()];
 			double max = 0;
 			for (int i = 0; i < labels.size(); i++) {
@@ -509,8 +537,197 @@ public class ChartAction extends BaseAction {
 	}
 
 	public void region() {
-		chart = new Chart("地区");
-		// 时间区间 默认一年内 湖南地级市级别 和 其他(外地和未知地区客户) 柱图 接受可选参数品种缩小范围
+		baseManager.setEntityClass(Category.class);
+		List<Category> cates = baseManager
+				.findAll(org.hibernate.criterion.Order.asc("displayOrder"));
+		List<String> labels = new ArrayList<String>();
+
+		Region hunan = regionTreeControl.parseByAddress("湖南省");
+		Collection<Region> regions = hunan.getChildren();
+		for (Region r : regions)
+			labels.add(r.getName());
+		labels.add("湖南未知");
+		labels.add("其它省市");
+
+		List<Order> orders;
+		Category category = null;
+		final String id = getUid();
+		String str;
+		baseManager.setEntityClass(Category.class);
+		if (StringUtils.isNumeric(id)) {
+			category = (Category) baseManager.get(Long.valueOf(id));
+			str = "select o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.id = ?";
+		} else if (StringUtils.isNotBlank(id)) {
+			category = (Category) baseManager.findByNaturalId(id);
+			str = "select o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.name = ?";
+		} else {
+			str = "select o from Order o join o.items item join item.product where o.orderDate between ? and ?";
+		}
+		final String hql = str;
+		orders = (List<Order>) orderManager
+				.executeFind(new HibernateCallback<List<Order>>() {
+					@Override
+					public List<Order> doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						Query q = session.createQuery(hql.toString());
+						q.setParameter(0, DateUtils.beginOfDay(getFrom()));
+						q.setParameter(1, DateUtils.endOfDay(getTo()));
+						if (StringUtils.isNotBlank(id))
+							q.setParameter(2, StringUtils.isNumeric(id) ? Long
+									.valueOf(id) : id);
+						return q.list();
+					}
+				});
+		title = (category != null ? category.getName() : "") + "销量根据地区统计";
+		chart = new Chart(title + "(" + getDateRange() + ")",
+				"font-size: 15px;");
+		chart.setY_legend(new Text("销量", "font-size: 15px;"));
+		chart.setX_legend(new Text("地区", "font-size: 15x;"));
+
+		if (category != null) {
+			Map<String, BigDecimal> sales = new HashMap<String, BigDecimal>();
+			for (Order order : orders) {
+				for (OrderItem item : order.getItems()) {
+					if (!item.getProduct().getCategory().equals(category))
+						continue;
+					String regionName = "其它省市";
+					Region r = order.getCustomer().getRegion();
+					if (r != null) {
+						if (r.isDescendantOrSelfOf(hunan))
+							if (r.getId().equals(hunan.getId()))
+								regionName = "湖南未知";
+							else
+								regionName = r.getAncestorName(2);
+					}
+					BigDecimal total = sales.get(regionName);
+					if (total == null) {
+						sales.put(regionName, item.getSubtotal());
+					} else {
+						sales.put(regionName, total.add(item.getSubtotal()));
+					}
+				}
+			}
+			Iterator<String> it = labels.iterator();
+			while (it.hasNext()) {
+				String label = it.next();
+				BigDecimal total = sales.get(label);
+				if (total == null || total.doubleValue() == 0)
+					it.remove();
+			}
+			Double[] values = new Double[labels.size()];
+			double max = 0;
+			for (int i = 0; i < labels.size(); i++) {
+				BigDecimal total = sales.get(labels.get(i));
+				if (total == null)
+					total = new BigDecimal(0.00);
+				if (max == 0)
+					max = total.doubleValue();
+				else if (max < total.doubleValue())
+					max = total.doubleValue();
+				values[i] = total.doubleValue();
+			}
+
+			XAxis x = new XAxis();
+			YAxis y = new YAxis();
+			XAxisLabels xAxisLabels = new XAxisLabels(labels);
+			xAxisLabels.setSize(12);
+			x.setXAxisLabels(xAxisLabels);
+			y.setSteps(caculateSteps(max));
+			y.setMax(max);
+			chart.setX_axis(x);
+			chart.setY_axis(y);
+			BarChart element = new BarChart();
+			element.addValues(values);
+			chart.addElements(element);
+		} else {
+			Map<String, BigDecimal> sales = new HashMap<String, BigDecimal>();
+			Map<String, Map<String, BigDecimal>> salesByCate = new HashMap<String, Map<String, BigDecimal>>();
+			for (Order order : orders) {
+				for (OrderItem item : order.getItems()) {
+
+					String regionName = "其它省市";
+					Region r = order.getCustomer().getRegion();
+					if (r != null) {
+						if (r.isDescendantOrSelfOf(hunan))
+							if (r.getId().equals(hunan.getId()))
+								regionName = "湖南未知";
+							else
+								regionName = r.getAncestorName(2);
+					}
+					BigDecimal total = sales.get(regionName);
+					if (total == null) {
+						sales.put(regionName, item.getSubtotal());
+					} else {
+						sales.put(regionName, total.add(item.getSubtotal()));
+					}
+
+					String cate = item.getProduct().getCategory().getName();
+					Map<String, BigDecimal> map = salesByCate.get(cate);
+					if (map == null) {
+						map = new HashMap<String, BigDecimal>();
+						salesByCate.put(cate, map);
+					}
+					total = map.get(regionName);
+					if (total == null) {
+						map.put(regionName, item.getSubtotal());
+					} else {
+						map.put(regionName, total.add(item.getSubtotal()));
+					}
+				}
+			}
+			Iterator<String> it = labels.iterator();
+			while (it.hasNext()) {
+				String label = it.next();
+				BigDecimal total = sales.get(label);
+				if (total == null || total.doubleValue() == 0)
+					it.remove();
+			}
+			Double[] values = new Double[labels.size()];
+			double max = 0;
+			for (int i = 0; i < labels.size(); i++) {
+				BigDecimal total = sales.get(labels.get(i));
+				if (total == null)
+					total = new BigDecimal(0.00);
+				if (max == 0)
+					max = total.doubleValue();
+				else if (max < total.doubleValue())
+					max = total.doubleValue();
+				values[i] = total.doubleValue();
+			}
+
+			XAxis x = new XAxis();
+			YAxis y = new YAxis();
+			XAxisLabels xAxisLabels = new XAxisLabels(labels);
+			xAxisLabels.setSize(12);
+			x.setXAxisLabels(xAxisLabels);
+			y.setSteps(caculateSteps(max));
+			y.setMax(max);
+			chart.setX_axis(x);
+			chart.setY_axis(y);
+			BarChart element = new BarChart();
+			element.setText("总销量");
+			element.addValues(values);
+			chart.addElements(element);
+			int colorSeed = 0;
+			for (Category cate : cates) {
+				Map<String, BigDecimal> map = salesByCate.get(cate.getName());
+				if (map == null)
+					continue;
+				values = new Double[labels.size()];
+				for (int i = 0; i < labels.size(); i++) {
+					BigDecimal total = map.get(labels.get(i));
+					if (total == null)
+						total = new BigDecimal(0.00);
+					values[i] = total.doubleValue();
+				}
+				element = new BarChart();
+				element.setColour(caculateColor(++colorSeed));
+				element.setText(cate.getName());
+				element.addValues(values);
+				chart.addElements(element);
+			}
+		}
+
 	}
 
 	public void month() {

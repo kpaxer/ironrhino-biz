@@ -199,6 +199,7 @@ public class ReportAction extends BaseAction {
 			} catch (NoSuchMethodException e) {
 				throw new IllegalArgumentException("没有此报表");
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		if (list == null || list.isEmpty()) {
