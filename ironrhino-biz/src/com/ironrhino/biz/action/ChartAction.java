@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -55,6 +54,8 @@ public class ChartAction extends BaseAction {
 
 	private Chart chart;
 
+	private String location = "湖南省";
+
 	private String title;
 
 	@Inject
@@ -103,6 +104,14 @@ public class ChartAction extends BaseAction {
 			to = getFrom();
 		}
 		return to;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getDateRange() {
@@ -541,13 +550,18 @@ public class ChartAction extends BaseAction {
 		List<Category> cates = baseManager
 				.findAll(org.hibernate.criterion.Order.asc("displayOrder"));
 		List<String> labels = new ArrayList<String>();
-
-		Region hunan = regionTreeControl.parseByAddress("湖南省");
-		Collection<Region> regions = hunan.getChildren();
-		for (Region r : regions)
+		Region region = null;
+		if (StringUtils.isNumeric(location))
+			region = regionTreeControl.getRegionTree().getDescendantOrSelfById(
+					Long.valueOf(location));
+		else
+			region = regionTreeControl.parseByAddress(location);
+		if (region == null) 
+			region = regionTreeControl.getRegionTree();
+		for (Region r : region.getChildren())
 			labels.add(r.getName());
-		labels.add("湖南未知");
-		labels.add("其它省市");
+		labels.add(region.getName() + "未知地区");
+		labels.add("其它地区");
 
 		List<Order> orders;
 		Category category = null;
@@ -590,14 +604,15 @@ public class ChartAction extends BaseAction {
 				for (OrderItem item : order.getItems()) {
 					if (!item.getProduct().getCategory().equals(category))
 						continue;
-					String regionName = "其它省市";
+					String regionName = "其它地区";
 					Region r = order.getCustomer().getRegion();
 					if (r != null) {
-						if (r.isDescendantOrSelfOf(hunan))
-							if (r.getId().equals(hunan.getId()))
-								regionName = "湖南未知";
+						if (r.isDescendantOrSelfOf(region))
+							if (r.getId().equals(region.getId()))
+								regionName = region.getName() + "未知地区";
 							else
-								regionName = r.getAncestorName(2);
+								regionName = r.getAncestorName(region
+										.getLevel() + 1);
 					}
 					BigDecimal total = sales.get(regionName);
 					if (total == null) {
@@ -644,15 +659,15 @@ public class ChartAction extends BaseAction {
 			Map<String, Map<String, BigDecimal>> salesByCate = new HashMap<String, Map<String, BigDecimal>>();
 			for (Order order : orders) {
 				for (OrderItem item : order.getItems()) {
-
-					String regionName = "其它省市";
+					String regionName = "其它地区";
 					Region r = order.getCustomer().getRegion();
 					if (r != null) {
-						if (r.isDescendantOrSelfOf(hunan))
-							if (r.getId().equals(hunan.getId()))
-								regionName = "湖南未知";
+						if (r.isDescendantOrSelfOf(region))
+							if (r.getId().equals(region.getId()))
+								regionName = region.getName() + "未知地区";
 							else
-								regionName = r.getAncestorName(2);
+								regionName = r.getAncestorName(region
+										.getLevel() + 1);
 					}
 					BigDecimal total = sales.get(regionName);
 					if (total == null) {
