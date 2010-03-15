@@ -13,6 +13,13 @@
 <@button text='${action.getText(\'plan\')}' type='link' href='${getUrl(\'/plan?product.id=\'+entity.id)}'/>
 <@button text='${action.getText(\'create\')+action.getText(\'plan\')}' type='link' href='${getUrl(\'/plan/input?product.id=\'+entity.id)}' rel='richtable'/>
 ">
-<@richtable entityName="product" actionColumnWidth="300px" actionColumnButtons=actionColumnButtons config=config searchable=true/>
+<#assign bottomButtons=r"
+<@button text='${action.getText(\'create\')}' view='input'/>
+<@button text='${action.getText(\'save\')}' action='save'/>
+<@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'reload\')}' action='reload'/>
+<@button text='${action.getText(\'compare\')+action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='${getUrl(\'/chart/view?type=product\')}' rel='richtable' windowoptions='{\'width\':\'1200px\'}'/>
+">
+<@richtable entityName="product" actionColumnWidth="300px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons config=config searchable=true/>
 </body>
 </html></#escape>

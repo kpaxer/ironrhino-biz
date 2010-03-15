@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.DetachedCriteria;
@@ -73,7 +74,9 @@ public class StuffAction extends BaseAction {
 
 	@Override
 	public String input() {
-		stuff = (Stuff) stuffManager.get(getUid());
+		String id = getUid();
+		if (StringUtils.isNumeric(id))
+			stuff = (Stuff) stuffManager.get(Long.valueOf(id));
 		if (stuff == null) {
 			stuff = new Stuff();
 		}
@@ -106,8 +109,11 @@ public class StuffAction extends BaseAction {
 
 	@Override
 	public String delete() {
-		String[] id = getId();
-		if (id != null) {
+		String[] _id = getId();
+		if (_id != null) {
+			Long[] id = new Long[_id.length];
+			for (int i = 0; i < _id.length; i++)
+				id[i] = Long.valueOf(_id[i]);
 			List<Stuff> list;
 			if (id.length == 1) {
 				list = new ArrayList<Stuff>(1);

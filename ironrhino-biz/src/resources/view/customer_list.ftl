@@ -23,7 +23,7 @@ text-decoration:none;
 <@button text='${action.getText(\'create\')}' view='input'/>
 <@button text='${action.getText(\'save\')}' action='save'/>
 <@button text='${action.getText(\'delete\')}' action='delete'/>
-<@button text='${action.getText(\'reload\')}' class='reload'/>
+<@button text='${action.getText(\'reload\')}' action='reload'/>
 <@button text='${action.getText(\'merge\')}' onclick='$(\'#merge\').show()'/>
 ">
 <#assign searchButtons=r"<@button text='按区域检索' type='link' href='${getUrl(\'/chart/geo\')}'/>"/>

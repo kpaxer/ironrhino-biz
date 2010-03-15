@@ -14,6 +14,13 @@
 <@button text='入库' type='link' href='${getUrl(\'/stuffflow/input?stuff.id=\'+entity.id)}' rel='richtable'/>
 <@button text='出库' type='link' href='${getUrl(\'/stuffflow/input?out=true&stuff.id=\'+entity.id)}' rel='richtable'/>
 ">
-<@richtable entityName="stuff" config=config actionColumnWidth="350px" actionColumnButtons=actionColumnButtons/>
+<#assign bottomButtons=r"
+<@button text='${action.getText(\'create\')}' view='input'/>
+<@button text='${action.getText(\'save\')}' action='save'/>
+<@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'reload\')}' action='reload'/>
+<@button text='${action.getText(\'compare\')+action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='${getUrl(\'/chart/view?type=stuff\')}' rel='richtable' windowoptions='{\'width\':\'1200px\'}'/>
+">
+<@richtable entityName="stuff" config=config actionColumnWidth="350px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons/>
 </body>
 </html></#escape>
