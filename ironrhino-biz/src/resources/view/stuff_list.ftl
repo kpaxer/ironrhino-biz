@@ -9,7 +9,7 @@
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'save\')}' action='save'/>
 <@button text='${action.getText(\'delete\')}' action='delete'/>
-<@button text='${action.getText(\'stuffflow\')+action.getText(\'record\')}' type='link' href='${getUrl(\'/stuffflow?sutff.id=\'+entity.id)}'/>
+<@button text='${action.getText(\'stuffflow\')+action.getText(\'record\')}' type='link' href='${getUrl(\'/stuffflow?stuff.id=\'+entity.id)}'/>
 <@button text='入库' type='link' href='${getUrl(\'/stuffflow/input?stuff.id=\'+entity.id)}' rel='richtable'/>
 <@button text='出库' type='link' href='${getUrl(\'/stuffflow/input?out=true&stuff.id=\'+entity.id)}' rel='richtable'/>
 ">
