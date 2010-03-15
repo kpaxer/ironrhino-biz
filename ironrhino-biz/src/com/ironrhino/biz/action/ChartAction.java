@@ -19,6 +19,7 @@ import org.hibernate.Session;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.core.chart.openflashchart.Chart;
+import org.ironrhino.core.chart.openflashchart.ChartUtils;
 import org.ironrhino.core.chart.openflashchart.Text;
 import org.ironrhino.core.chart.openflashchart.axis.XAxis;
 import org.ironrhino.core.chart.openflashchart.axis.XAxisLabels;
@@ -159,42 +160,6 @@ public class ChartAction extends BaseAction {
 		return JSON;
 	}
 
-	private int caculateSteps(double max) {
-		double d = max / 10;
-		if (d < 1)
-			return 1;
-		int i = (int) d;
-		if (d > i)
-			i++;
-		int digit = String.valueOf(i).length();
-
-		int first = i % ((int) Math.pow(10, digit - 1));
-		if (first < 5)
-			first = 5;
-		else
-			first = 10;
-		return first * ((int) Math.pow(10, digit - 1));
-	}
-
-	private String[] colors = new String[] { "#ee4400", "#94ee00", "#00eee6",
-			"#ee00c7", "#9800ee" };
-
-	private String caculateColor(int seed) {
-		if (seed <= colors.length)
-			return colors[seed - 1];
-		boolean odd = seed % 2 != 0;
-		seed = odd ? seed * 2 : 10 - seed;
-		StringBuilder sb = new StringBuilder();
-		sb.append('#');
-		sb.append(seed);
-		sb.append(10 - seed);
-		sb.append(seed);
-		sb.append(10 - seed);
-		sb.append(seed);
-		sb.append(10 - seed);
-		return sb.toString();
-	}
-
 	public void brand() {
 		baseManager.setEntityClass(Brand.class);
 		List<Brand> brands = baseManager.findAll(org.hibernate.criterion.Order
@@ -280,7 +245,7 @@ public class ChartAction extends BaseAction {
 			XAxisLabels xAxisLabels = new XAxisLabels(labels);
 			xAxisLabels.setSize(12);
 			x.setXAxisLabels(xAxisLabels);
-			y.setSteps(caculateSteps(max));
+			y.setSteps(ChartUtils.caculateSteps(max));
 			y.setMax(max);
 			chart.setX_axis(x);
 			chart.setY_axis(y);
@@ -340,7 +305,7 @@ public class ChartAction extends BaseAction {
 			XAxisLabels xAxisLabels = new XAxisLabels(labels);
 			xAxisLabels.setSize(12);
 			x.setXAxisLabels(xAxisLabels);
-			y.setSteps(caculateSteps(max));
+			y.setSteps(ChartUtils.caculateSteps(max));
 			y.setMax(max);
 			chart.setX_axis(x);
 			chart.setY_axis(y);
@@ -361,7 +326,7 @@ public class ChartAction extends BaseAction {
 					values[i] = total.doubleValue();
 				}
 				element = new BarChart();
-				element.setColour(caculateColor(++colorSeed));
+				element.setColour(ChartUtils.caculateColor(++colorSeed));
 				element.setText(cate.getName());
 				element.addValues(values);
 				chart.addElements(element);
@@ -455,7 +420,7 @@ public class ChartAction extends BaseAction {
 			XAxisLabels xAxisLabels = new XAxisLabels(labels);
 			xAxisLabels.setSize(12);
 			x.setXAxisLabels(xAxisLabels);
-			y.setSteps(caculateSteps(max));
+			y.setSteps(ChartUtils.caculateSteps(max));
 			y.setMax(max);
 			chart.setX_axis(x);
 			chart.setY_axis(y);
@@ -515,7 +480,7 @@ public class ChartAction extends BaseAction {
 			XAxisLabels xAxisLabels = new XAxisLabels(labels);
 			xAxisLabels.setSize(12);
 			x.setXAxisLabels(xAxisLabels);
-			y.setSteps(caculateSteps(max));
+			y.setSteps(ChartUtils.caculateSteps(max));
 			y.setMax(max);
 			chart.setX_axis(x);
 			chart.setY_axis(y);
@@ -536,7 +501,7 @@ public class ChartAction extends BaseAction {
 					values[i] = total.doubleValue();
 				}
 				element = new BarChart();
-				element.setColour(caculateColor(++colorSeed));
+				element.setColour(ChartUtils.caculateColor(++colorSeed));
 				element.setText(b.getName());
 				element.addValues(values);
 				chart.addElements(element);
@@ -653,7 +618,7 @@ public class ChartAction extends BaseAction {
 			XAxisLabels xAxisLabels = new XAxisLabels(labels);
 			xAxisLabels.setSize(12);
 			x.setXAxisLabels(xAxisLabels);
-			y.setSteps(caculateSteps(max));
+			y.setSteps(ChartUtils.caculateSteps(max));
 			y.setMax(max);
 			chart.setX_axis(x);
 			chart.setY_axis(y);
@@ -724,7 +689,7 @@ public class ChartAction extends BaseAction {
 			XAxisLabels xAxisLabels = new XAxisLabels(labels);
 			xAxisLabels.setSize(12);
 			x.setXAxisLabels(xAxisLabels);
-			y.setSteps(caculateSteps(max));
+			y.setSteps(ChartUtils.caculateSteps(max));
 			y.setMax(max);
 			chart.setX_axis(x);
 			chart.setY_axis(y);
@@ -745,7 +710,7 @@ public class ChartAction extends BaseAction {
 					values[i] = total.doubleValue();
 				}
 				element = new BarChart();
-				element.setColour(caculateColor(++colorSeed));
+				element.setColour(ChartUtils.caculateColor(++colorSeed));
 				element.setText(cate.getName());
 				element.addValues(values);
 				chart.addElements(element);
