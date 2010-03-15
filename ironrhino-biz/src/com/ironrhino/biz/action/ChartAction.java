@@ -153,6 +153,10 @@ public class ChartAction extends BaseAction {
 		this.title = title;
 	}
 
+	public Region getRegionTree() {
+		return regionTreeControl.getRegionTree();
+	}
+
 	@Override
 	public String execute() {
 		return SUCCESS;
@@ -161,6 +165,10 @@ public class ChartAction extends BaseAction {
 	@Override
 	public String view() {
 		return VIEW;
+	}
+
+	public String geo() {
+		return "geo";
 	}
 
 	@JsonConfig(root = "chart")
@@ -756,8 +764,9 @@ public class ChartAction extends BaseAction {
 			dc.createAlias("stuff", "s").add(
 					Restrictions.eq("s.id", Long.valueOf(id)));
 			dc.add(Restrictions.isNotNull("amount"));
-			dc.add(Restrictions.between("date", DateUtils
-					.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+			dc.add(Restrictions.between("date",
+					DateUtils.beginOfDay(getFrom()), DateUtils
+							.endOfDay(getTo())));
 			dc.addOrder(org.hibernate.criterion.Order.asc("date"));
 			List<Stuffflow> list = baseManager.findListByCriteria(dc);
 

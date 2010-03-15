@@ -26,7 +26,7 @@ text-decoration:none;
 <@button text='${action.getText(\'reload\')}' class='reload'/>
 <@button text='${action.getText(\'merge\')}' onclick='$(\'#merge\').show()'/>
 ">
-<#assign searchButtons=r"<@button text='按区域检索' type='link' href='customer/region'/>"/>
+<#assign searchButtons=r"<@button text='按区域检索' type='link' href='${getUrl(\'/chart/geo\')}'/>"/>
 <@richtable entityName="customer" config=config actionColumnWidth="270px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true searchButtons=searchButtons/>
 
 <form id="merge" action="<@url value="/customer/merge"/>" method="post" class="ajax reset" style="display:none;" onsuccess="Richtable.reload()">

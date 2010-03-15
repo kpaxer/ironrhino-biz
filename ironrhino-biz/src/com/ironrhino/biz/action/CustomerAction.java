@@ -70,10 +70,6 @@ public class CustomerAction extends BaseAction {
 		this.regionId = regionId;
 	}
 
-	public Region getRegionTree() {
-		return regionTreeControl.getRegionTree();
-	}
-
 	@Override
 	public String execute() {
 		if (StringUtils.isBlank(keyword)) {
@@ -260,10 +256,6 @@ public class CustomerAction extends BaseAction {
 			addActionMessage(getText("operate.success"));
 		}
 		return SUCCESS;
-	}
-
-	public String region() {
-		return "region";
 	}
 
 	@JsonConfig(root = "customer")
