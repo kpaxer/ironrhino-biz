@@ -4,12 +4,12 @@
 <title>${title!'chart'}</title>
 </head>
 <body>
-<form id="daterange" action="${getUrl('/chart/view/'+uid!)}" method="get" class="ajax view line" replacement="c"  style="margin-left:10px;">
-	<#if uid??>
-		<input type="hidden" name="id" value="${uid}" />
-	</#if>
+<form id="daterange" action="${getUrl('/chart/view')}" method="get" class="ajax view line" replacement="c"  style="margin-left:10px;">
+	<#list id as var>
+	<input type="hidden" name="id" value="${var}" />
+	</#list>
 	<#list Parameters?keys as name>
-	<#if name!='from'&&name!='to'>
+	<#if name!='id'&&name!='from'&&name!='to'>
 	<input type="hidden" name="${name}" value="${Parameters[name]}" />
 	</#if>
 	</#list>
@@ -18,9 +18,6 @@
 	<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 </form>
 <#assign dataurl='/chart/data'/>
-<#if uid??>
-<#assign dataurl=dataurl+'/'+uid>
-</#if>
 <#if request.queryString??>
 <#assign dataurl=dataurl+'?'+request.queryString>
 </#if>

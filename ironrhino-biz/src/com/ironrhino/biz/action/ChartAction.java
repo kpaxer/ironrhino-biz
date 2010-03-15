@@ -353,7 +353,7 @@ public class ChartAction extends BaseAction {
 					values[i] = total.doubleValue();
 				}
 				element = new BarChart();
-				element.setColour(ChartUtils.caculateColor(++colorSeed));
+				element.setColour(ChartUtils.caculateColor(colorSeed++));
 				element.setText(cate.getName());
 				element.setTip(cate.getName() + "销量 #val#");
 				element.addValues(values);
@@ -530,7 +530,7 @@ public class ChartAction extends BaseAction {
 					values[i] = total.doubleValue();
 				}
 				element = new BarChart();
-				element.setColour(ChartUtils.caculateColor(++colorSeed));
+				element.setColour(ChartUtils.caculateColor(colorSeed++));
 				element.setText(b.getName());
 				element.setTip(b.getName() + "销量 #val#");
 				element.addValues(values);
@@ -741,7 +741,7 @@ public class ChartAction extends BaseAction {
 					values[i] = total.doubleValue();
 				}
 				element = new BarChart();
-				element.setColour(ChartUtils.caculateColor(++colorSeed));
+				element.setColour(ChartUtils.caculateColor(colorSeed++));
 				element.setText(cate.getName());
 				element.setTip(cate.getName() + "销量 #val#");
 				element.addValues(values);
@@ -756,13 +756,31 @@ public class ChartAction extends BaseAction {
 	}
 
 	public void stuff() {
-		// 时间区间 默认一年内 按月统计 进货量 和价格 线图 接受必选参数原料id 可以多个 做成treeTable选择对比
+		title = "原料价格走势图";
+		chart = new Chart(title + "(" + getDateRange() + ")",
+				"font-size: 15px;");
+		chart.setY_legend(new Text("价格", "{font-size: 12px; color: #778877}"));
+		chart.setX_legend(new Text("时间", "{font-size: 12px; color: #778877}"));
+		XAxis x = new XAxis();
+		XAxisLabels xAxisLabels = new XAxisLabels();
+		xAxisLabels.setText("#date:y-m-d#");
+		xAxisLabels.setSteps(86400);
+		xAxisLabels.setVisible_steps(1);
+		xAxisLabels.setRotate(Rotate.VERTICAL);
+		xAxisLabels.setSize(12);
+		x.setXAxisLabels(xAxisLabels);
+		x.setSteps(86400);
+		x.setRange((long) (DateUtils.beginOfDay(getFrom()).getTime() / 1000),
+				(long) (DateUtils.endOfDay(getTo()).getTime() / 1000));
+		chart.setX_axis(x);
+		Double max = 0.0;
 		baseManager.setEntityClass(Stuffflow.class);
-		for (String id : getId()) {
-			Stuff stuff = stuffManager.get(Long.valueOf(id));
+		String[] ids = getId();
+		for (int index = 0; index < ids.length; index++) {
+			Long id = Long.valueOf(ids[index]);
+			Stuff stuff = stuffManager.get(id);
 			DetachedCriteria dc = baseManager.detachedCriteria();
-			dc.createAlias("stuff", "s").add(
-					Restrictions.eq("s.id", Long.valueOf(id)));
+			dc.createAlias("stuff", "s").add(Restrictions.eq("s.id", id));
 			dc.add(Restrictions.isNotNull("amount"));
 			dc.add(Restrictions.between("date",
 					DateUtils.beginOfDay(getFrom()), DateUtils
@@ -770,14 +788,6 @@ public class ChartAction extends BaseAction {
 			dc.addOrder(org.hibernate.criterion.Order.asc("date"));
 			List<Stuffflow> list = baseManager.findListByCriteria(dc);
 
-			title = "价格走势图";
-			chart = new Chart(title + "(" + getDateRange() + ")",
-					"font-size: 15px;");
-			chart.setY_legend(new Text("价格",
-					"{font-size: 12px; color: #778877}"));
-			chart.setX_legend(new Text("时间",
-					"{font-size: 12px; color: #778877}"));
-			Double max = 0.0;
 			List<Point> points = new ArrayList<Point>();
 			if (list.size() == 1) {
 				Stuffflow sf = list.get(0);
@@ -836,28 +846,17 @@ public class ChartAction extends BaseAction {
 
 				}
 			}
-			XAxis x = new XAxis();
-			XAxisLabels xAxisLabels = new XAxisLabels();
-			xAxisLabels.setText("#date:y-m-d#");
-			xAxisLabels.setSteps(86400);
-			xAxisLabels.setVisible_steps(1);
-			xAxisLabels.setRotate(Rotate.VERTICAL);
-			xAxisLabels.setSize(12);
-			x.setXAxisLabels(xAxisLabels);
-			x.setSteps(86400);
-			x.setRange(
-					(long) (DateUtils.beginOfDay(getFrom()).getTime() / 1000),
-					(long) (DateUtils.endOfDay(getTo()).getTime() / 1000));
-			YAxis y = new YAxis();
-			y.setSteps(ChartUtils.caculateSteps(max));
-			y.setMax(max);
-			chart.setX_axis(x);
-			chart.setY_axis(y);
 			LineChart element = new LineChart();
 			element.setText(stuff.getName());
 			element.setFontSize(12);
+			element.setColour(ChartUtils.caculateColor(index));
 			element.setValues(points);
 			chart.addElements(element);
 		}
+
+		YAxis y = new YAxis();
+		y.setSteps(ChartUtils.caculateSteps(max));
+		y.setMax(max);
+		chart.setY_axis(y);
 	}
 }
