@@ -9,9 +9,10 @@
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'save\')}' action='save'/>
 <@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='${getUrl(\'/chart/view?type=product&id=\'+entity.id)}' rel='richtable' windowoptions='{\'width\':\'1200px\'}'/>
 <@button text='${action.getText(\'plan\')}' type='link' href='${getUrl(\'/plan?product.id=\'+entity.id)}'/>
 <@button text='${action.getText(\'create\')+action.getText(\'plan\')}' type='link' href='${getUrl(\'/plan/input?product.id=\'+entity.id)}' rel='richtable'/>
 ">
-<@richtable entityName="product" actionColumnWidth="230px" actionColumnButtons=actionColumnButtons config=config searchable=true/>
+<@richtable entityName="product" actionColumnWidth="300px" actionColumnButtons=actionColumnButtons config=config searchable=true/>
 </body>
 </html></#escape>

@@ -41,9 +41,11 @@ import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
+import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.Stuffflow;
 import com.ironrhino.biz.service.OrderManager;
+import com.ironrhino.biz.service.ProductManager;
 import com.ironrhino.biz.service.StuffManager;
 
 @AutoConfig
@@ -69,6 +71,9 @@ public class ChartAction extends BaseAction {
 
 	@Inject
 	private transient OrderManager orderManager;
+
+	@Inject
+	private transient ProductManager productManager;
 
 	@Inject
 	private transient StuffManager stuffManager;
@@ -203,12 +208,12 @@ public class ChartAction extends BaseAction {
 		baseManager.setEntityClass(Category.class);
 		if (StringUtils.isNumeric(id)) {
 			category = (Category) baseManager.get(Long.valueOf(id));
-			str = "select o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.id = ?";
+			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.id = ?";
 		} else if (StringUtils.isNotBlank(id)) {
 			category = (Category) baseManager.findByNaturalId(id);
-			str = "select o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.name = ?";
+			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.name = ?";
 		} else {
-			str = "select o from Order o join o.items item join item.product where o.orderDate between ? and ?";
+			str = "select distinct o from Order o join o.items item join item.product where o.orderDate between ? and ?";
 		}
 		final String hql = str;
 		orders = (List<Order>) orderManager
@@ -380,12 +385,12 @@ public class ChartAction extends BaseAction {
 		baseManager.setEntityClass(Brand.class);
 		if (StringUtils.isNumeric(id)) {
 			brand = (Brand) baseManager.get(Long.valueOf(id));
-			str = "select o from Order o join o.items item join item.product p join p.brand b where (o.orderDate between ? and ?) and b.id = ?";
+			str = "select distinct o from Order o join o.items item join item.product p join p.brand b where (o.orderDate between ? and ?) and b.id = ?";
 		} else if (StringUtils.isNotBlank(id)) {
 			brand = (Brand) baseManager.findByNaturalId(id);
-			str = "select o from Order o join o.items item join item.product p join p.brand b where (o.orderDate between ? and ?) and b.name = ?";
+			str = "select distinct o from Order o join o.items item join item.product p join p.brand b where (o.orderDate between ? and ?) and b.name = ?";
 		} else {
-			str = "select o from Order o join o.items item join item.product where o.orderDate between ? and ?";
+			str = "select distinct o from Order o join o.items item join item.product where o.orderDate between ? and ?";
 		}
 		final String hql = str;
 		orders = (List<Order>) orderManager
@@ -565,12 +570,12 @@ public class ChartAction extends BaseAction {
 		baseManager.setEntityClass(Category.class);
 		if (StringUtils.isNumeric(id)) {
 			category = (Category) baseManager.get(Long.valueOf(id));
-			str = "select o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.id = ?";
+			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.id = ?";
 		} else if (StringUtils.isNotBlank(id)) {
 			category = (Category) baseManager.findByNaturalId(id);
-			str = "select o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.name = ?";
+			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.name = ?";
 		} else {
-			str = "select o from Order o join o.items item join item.product where o.orderDate between ? and ?";
+			str = "select distinct o from Order o join o.items item join item.product where o.orderDate between ? and ?";
 		}
 		final String hql = str;
 		orders = (List<Order>) orderManager
@@ -751,11 +756,132 @@ public class ChartAction extends BaseAction {
 
 	}
 
-	public void month() {
-		// 时间区间 默认一年内 按月统计 销量和价格 线图 接受必选参数产品id 可以多个 做成treeTable选择对比
+	public void product() {
+		
+		baseManager.setEntityClass(Stuffflow.class);
+		final String hql = "select distinct o from Order o join o.items item join item.product p where (o.orderDate between ? and ?) order by o.orderDate";
+		List<Order> orders = (List<Order>) orderManager
+				.executeFind(new HibernateCallback<List<Order>>() {
+					@Override
+					public List<Order> doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						Query q = session.createQuery(hql.toString());
+						q.setParameter(0, DateUtils.beginOfDay(getFrom()));
+						q.setParameter(1, DateUtils.endOfDay(getTo()));
+						return q.list();
+					}
+				});
+		
+		title = "产品价格走势图";
+		chart = new Chart(title + "(" + getDateRange() + ")",
+				"font-size: 15px;");
+		chart.setY_legend(new Text("价格", "{font-size: 12px; color: #778877}"));
+		chart.setX_legend(new Text("时间", "{font-size: 12px; color: #778877}"));
+		XAxis x = new XAxis();
+		XAxisLabels xAxisLabels = new XAxisLabels();
+		xAxisLabels.setText("#date:y-m-d#");
+		xAxisLabels.setSteps(86400);
+		xAxisLabels.setVisible_steps(1);
+		xAxisLabels.setRotate(Rotate.VERTICAL);
+		xAxisLabels.setSize(12);
+		x.setXAxisLabels(xAxisLabels);
+		x.setSteps(86400);
+		x.setRange((long) (DateUtils.beginOfDay(getFrom()).getTime() / 1000),
+				(long) (DateUtils.endOfDay(getTo()).getTime() / 1000));
+		chart.setX_axis(x);
+		Double max = 0.0;
+		
+		String[] ids = getId();
+		for (int index = 0; index < ids.length; index++) {
+			final Long id = Long.valueOf(ids[index]);
+			Product product = productManager.get(id);
+			List<OrderItem> list = new ArrayList<OrderItem>();
+			for (Order o : orders)
+				for (OrderItem oi : o.getItems())
+					if (oi.getProduct().getId().equals(id)) {
+						list.add(oi);
+						continue;
+					}
+			List<Point> points = new ArrayList<Point>();
+			if (list.size() == 1) {
+				OrderItem item = list.get(0);
+				points.add(new Point((long) (item.getOrder().getOrderDate()
+						.getTime() / 1000), item.getPrice()));
+			} else {
+				Date date = null;
+				BigDecimal amount = new BigDecimal(0.00);
+				int quantity = 0;
+				for (int i = 0; i < list.size(); i++) {
+					OrderItem item = list.get(i);
+					if (i == list.size() - 1) {
+						if ((date != null && !DateUtils.isSameDay(item
+								.getOrder().getOrderDate(), date))) {
+							BigDecimal price = amount.divide(new BigDecimal(
+									(double) quantity),
+									BigDecimal.ROUND_CEILING);
+							if (max < price.doubleValue())
+								max = price.doubleValue();
+							points.add(new Point(
+									(long) (date.getTime() / 1000), price));
+							date = item.getOrder().getOrderDate();
+							amount = new BigDecimal(0.00);
+							quantity = 0;
+
+						}
+						amount = amount.add(item.getSubtotal());
+						quantity += item.getQuantity();
+						BigDecimal price = amount.divide(new BigDecimal(
+								(double) quantity), BigDecimal.ROUND_CEILING);
+						if (max < price.doubleValue())
+							max = price.doubleValue();
+						points.add(new Point((long) (item.getOrder()
+								.getOrderDate().getTime() / 1000), price));
+					} else {
+						if ((date != null && !DateUtils.isSameDay(item
+								.getOrder().getOrderDate(), date))) {
+							BigDecimal price = amount.divide(new BigDecimal(
+									(double) quantity),
+									BigDecimal.ROUND_CEILING);
+							if (max < price.doubleValue())
+								max = price.doubleValue();
+							points.add(new Point(
+									(long) (date.getTime() / 1000), price));
+							date = item.getOrder().getOrderDate();
+							amount = item.getSubtotal();
+							quantity = item.getQuantity();
+						} else {
+							if (date == null)
+								date = item.getOrder().getOrderDate();
+							amount = amount.add(item.getSubtotal());
+							quantity += item.getQuantity();
+						}
+					}
+
+				}
+			}
+			LineChart element = new LineChart();
+			element.setText(product.getFullname());
+			element.setFontSize(12);
+			element.setColour(ChartUtils.caculateColor(index));
+			element.setValues(points);
+			chart.addElements(element);
+		}
+
+		YAxis y = new YAxis();
+		y.setSteps(ChartUtils.caculateSteps(max));
+		y.setMax(max);
+		chart.setY_axis(y);
 	}
 
 	public void stuff() {
+		baseManager.setEntityClass(Stuffflow.class);
+		DetachedCriteria dc = baseManager.detachedCriteria();
+		dc.add(Restrictions.isNotNull("amount"));
+		dc.add(Restrictions.between("date", DateUtils.beginOfDay(getFrom()),
+				DateUtils.endOfDay(getTo())));
+		dc.addOrder(org.hibernate.criterion.Order.asc("date"));
+		List<Stuffflow> stuffflows = baseManager.findListByCriteria(dc);
+		
 		title = "原料价格走势图";
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
@@ -774,19 +900,14 @@ public class ChartAction extends BaseAction {
 				(long) (DateUtils.endOfDay(getTo()).getTime() / 1000));
 		chart.setX_axis(x);
 		Double max = 0.0;
-		baseManager.setEntityClass(Stuffflow.class);
 		String[] ids = getId();
 		for (int index = 0; index < ids.length; index++) {
 			Long id = Long.valueOf(ids[index]);
 			Stuff stuff = stuffManager.get(id);
-			DetachedCriteria dc = baseManager.detachedCriteria();
-			dc.createAlias("stuff", "s").add(Restrictions.eq("s.id", id));
-			dc.add(Restrictions.isNotNull("amount"));
-			dc.add(Restrictions.between("date",
-					DateUtils.beginOfDay(getFrom()), DateUtils
-							.endOfDay(getTo())));
-			dc.addOrder(org.hibernate.criterion.Order.asc("date"));
-			List<Stuffflow> list = baseManager.findListByCriteria(dc);
+			List<Stuffflow> list = new ArrayList<Stuffflow>();
+			for (Stuffflow sf : stuffflows)
+				if (sf.getStuff().getId().equals(id))
+					list.add(sf);
 
 			List<Point> points = new ArrayList<Point>();
 			if (list.size() == 1) {
