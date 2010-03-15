@@ -25,7 +25,7 @@
 <#assign dataurl=dataurl+'?'+request.queryString>
 </#if>
 <div id="c">
-<div id="chart" class="chart" data="<@url value="${dataurl}"/>" style="width:1200px; height:400px;"></div>
+<div id="chart" class="chart" data="<@url value="${dataurl}"/>" style="width:1150px; height:400px;"></div>
 </div>
 </body>
 </html></#escape>

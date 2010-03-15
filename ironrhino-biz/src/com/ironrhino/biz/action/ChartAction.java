@@ -16,6 +16,8 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.core.chart.openflashchart.Chart;
@@ -24,7 +26,10 @@ import org.ironrhino.core.chart.openflashchart.Text;
 import org.ironrhino.core.chart.openflashchart.axis.XAxis;
 import org.ironrhino.core.chart.openflashchart.axis.XAxisLabels;
 import org.ironrhino.core.chart.openflashchart.axis.YAxis;
+import org.ironrhino.core.chart.openflashchart.axis.Label.Rotate;
 import org.ironrhino.core.chart.openflashchart.elements.BarChart;
+import org.ironrhino.core.chart.openflashchart.elements.LineChart;
+import org.ironrhino.core.chart.openflashchart.elements.Point;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.service.BaseManager;
@@ -36,7 +41,10 @@ import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
+import com.ironrhino.biz.model.Stuff;
+import com.ironrhino.biz.model.Stuffflow;
 import com.ironrhino.biz.service.OrderManager;
+import com.ironrhino.biz.service.StuffManager;
 
 @AutoConfig
 public class ChartAction extends BaseAction {
@@ -61,6 +69,9 @@ public class ChartAction extends BaseAction {
 
 	@Inject
 	private transient OrderManager orderManager;
+
+	@Inject
+	private transient StuffManager stuffManager;
 
 	@Inject
 	private transient BaseManager baseManager;
@@ -95,14 +106,21 @@ public class ChartAction extends BaseAction {
 	}
 
 	public Date getFrom() {
-		if (from == null)
-			from = getDate();
+		if (from == null) {
+			if (date != null)
+				from = date;
+			else
+				from = DateUtils.addDays(new Date(), -60);
+		}
 		return from;
 	}
 
 	public Date getTo() {
 		if (to == null) {
-			to = getFrom();
+			if (date != null)
+				to = date;
+			else
+				to = new Date();
 		}
 		return to;
 	}
@@ -202,8 +220,8 @@ public class ChartAction extends BaseAction {
 		title = (category != null ? category.getName() : "") + "销量根据商标统计";
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
-		chart.setY_legend(new Text("销量", "font-size: 15px;"));
-		chart.setX_legend(new Text("商标", "font-size: 15x;"));
+		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
+		chart.setX_legend(new Text("商标", "{font-size: 12px; color: #778877}"));
 
 		if (category != null) {
 			Map<String, BigDecimal> sales = new HashMap<String, BigDecimal>();
@@ -311,6 +329,7 @@ public class ChartAction extends BaseAction {
 			chart.setY_axis(y);
 			BarChart element = new BarChart();
 			element.setText("总销量");
+			element.setTip("总销量 #val#");
 			element.addValues(values);
 			chart.addElements(element);
 			int colorSeed = 0;
@@ -328,6 +347,7 @@ public class ChartAction extends BaseAction {
 				element = new BarChart();
 				element.setColour(ChartUtils.caculateColor(++colorSeed));
 				element.setText(cate.getName());
+				element.setTip(cate.getName() + "销量 #val#");
 				element.addValues(values);
 				chart.addElements(element);
 			}
@@ -377,8 +397,8 @@ public class ChartAction extends BaseAction {
 		title = (brand != null ? brand.getName() : "") + "销量根据品种统计";
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
-		chart.setY_legend(new Text("销量", "font-size: 15px;"));
-		chart.setX_legend(new Text("品种", "font-size: 15x;"));
+		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
+		chart.setX_legend(new Text("品种", "{font-size: 12px; color: #778877}"));
 
 		if (brand != null) {
 			Map<String, BigDecimal> sales = new HashMap<String, BigDecimal>();
@@ -486,6 +506,7 @@ public class ChartAction extends BaseAction {
 			chart.setY_axis(y);
 			BarChart element = new BarChart();
 			element.setText("总销量");
+			element.setTip("总销量 #val#");
 			element.addValues(values);
 			chart.addElements(element);
 			int colorSeed = 0;
@@ -503,6 +524,7 @@ public class ChartAction extends BaseAction {
 				element = new BarChart();
 				element.setColour(ChartUtils.caculateColor(++colorSeed));
 				element.setText(b.getName());
+				element.setTip(b.getName() + "销量 #val#");
 				element.addValues(values);
 				chart.addElements(element);
 			}
@@ -560,8 +582,8 @@ public class ChartAction extends BaseAction {
 		title = (category != null ? category.getName() : "") + "销量根据地区统计";
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
-		chart.setY_legend(new Text("销量", "font-size: 15px;"));
-		chart.setX_legend(new Text("地区", "font-size: 15x;"));
+		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
+		chart.setX_legend(new Text("地区", "{font-size: 12px; color: #778877}"));
 
 		if (category != null) {
 			Map<String, BigDecimal> sales = new HashMap<String, BigDecimal>();
@@ -695,6 +717,7 @@ public class ChartAction extends BaseAction {
 			chart.setY_axis(y);
 			BarChart element = new BarChart();
 			element.setText("总销量");
+			element.setTip("总销量 #val#");
 			element.addValues(values);
 			chart.addElements(element);
 			int colorSeed = 0;
@@ -712,6 +735,7 @@ public class ChartAction extends BaseAction {
 				element = new BarChart();
 				element.setColour(ChartUtils.caculateColor(++colorSeed));
 				element.setText(cate.getName());
+				element.setTip(cate.getName() + "销量 #val#");
 				element.addValues(values);
 				chart.addElements(element);
 			}
@@ -725,6 +749,106 @@ public class ChartAction extends BaseAction {
 
 	public void stuff() {
 		// 时间区间 默认一年内 按月统计 进货量 和价格 线图 接受必选参数原料id 可以多个 做成treeTable选择对比
-	}
+		baseManager.setEntityClass(Stuffflow.class);
+		for (String id : getId()) {
+			Stuff stuff = stuffManager.get(Long.valueOf(id));
+			DetachedCriteria dc = baseManager.detachedCriteria();
+			dc.createAlias("stuff", "s").add(
+					Restrictions.eq("s.id", Long.valueOf(id)));
+			dc.add(Restrictions.isNotNull("amount"));
+			dc.add(Restrictions.between("date", DateUtils
+					.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+			dc.addOrder(org.hibernate.criterion.Order.asc("date"));
+			List<Stuffflow> list = baseManager.findListByCriteria(dc);
 
+			title = "价格走势图";
+			chart = new Chart(title + "(" + getDateRange() + ")",
+					"font-size: 15px;");
+			chart.setY_legend(new Text("价格",
+					"{font-size: 12px; color: #778877}"));
+			chart.setX_legend(new Text("时间",
+					"{font-size: 12px; color: #778877}"));
+			Double max = 0.0;
+			List<Point> points = new ArrayList<Point>();
+			if (list.size() == 1) {
+				Stuffflow sf = list.get(0);
+				points.add(new Point((long) (sf.getDate().getTime() / 1000), sf
+						.getAmount().divide(new BigDecimal(sf.getQuantity()))));
+			} else {
+				Date date = null;
+				BigDecimal amount = new BigDecimal(0.00);
+				int quantity = 0;
+				for (int i = 0; i < list.size(); i++) {
+					Stuffflow sf = list.get(i);
+					if (i == list.size() - 1) {
+						if ((date != null && !DateUtils.isSameDay(sf.getDate(),
+								date))) {
+							BigDecimal price = amount.divide(new BigDecimal(
+									(double) quantity),
+									BigDecimal.ROUND_CEILING);
+							if (max < price.doubleValue())
+								max = price.doubleValue();
+							points.add(new Point(
+									(long) (date.getTime() / 1000), price));
+							date = sf.getDate();
+							amount = new BigDecimal(0.00);
+							quantity = 0;
+
+						}
+						amount = amount.add(sf.getAmount());
+						quantity += sf.getQuantity();
+						BigDecimal price = amount.divide(new BigDecimal(
+								(double) quantity), BigDecimal.ROUND_CEILING);
+						if (max < price.doubleValue())
+							max = price.doubleValue();
+						points.add(new Point(
+								(long) (sf.getDate().getTime() / 1000), price));
+					} else {
+						if ((date != null && !DateUtils.isSameDay(sf.getDate(),
+								date))) {
+							BigDecimal price = amount.divide(new BigDecimal(
+									(double) quantity),
+									BigDecimal.ROUND_CEILING);
+							if (max < price.doubleValue())
+								max = price.doubleValue();
+							points.add(new Point(
+									(long) (date.getTime() / 1000), price));
+							date = sf.getDate();
+							amount = sf.getAmount();
+							quantity = sf.getQuantity();
+						} else {
+							if (date == null)
+								date = sf.getDate();
+							amount = amount.add(sf.getAmount());
+							quantity += sf.getQuantity();
+
+						}
+					}
+
+				}
+			}
+			XAxis x = new XAxis();
+			XAxisLabels xAxisLabels = new XAxisLabels();
+			xAxisLabels.setText("#date:y-m-d#");
+			xAxisLabels.setSteps(86400);
+			xAxisLabels.setVisible_steps(1);
+			xAxisLabels.setRotate(Rotate.VERTICAL);
+			xAxisLabels.setSize(12);
+			x.setXAxisLabels(xAxisLabels);
+			x.setSteps(86400);
+			x.setRange(
+					(long) (DateUtils.beginOfDay(getFrom()).getTime() / 1000),
+					(long) (DateUtils.endOfDay(getTo()).getTime() / 1000));
+			YAxis y = new YAxis();
+			y.setSteps(ChartUtils.caculateSteps(max));
+			y.setMax(max);
+			chart.setX_axis(x);
+			chart.setY_axis(y);
+			LineChart element = new LineChart();
+			element.setText(stuff.getName());
+			element.setFontSize(12);
+			element.setValues(points);
+			chart.addElements(element);
+		}
+	}
 }

@@ -9,10 +9,11 @@
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'save\')}' action='save'/>
 <@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='${getUrl(\'/chart/view/\'+entity.id+\'?type=stuff\')}' rel='richtable' windowoptions='{\'width\':\'1200px\'}'/>
 <@button text='${action.getText(\'stuffflow\')+action.getText(\'record\')}' type='link' href='${getUrl(\'/stuffflow?stuff.id=\'+entity.id)}'/>
 <@button text='入库' type='link' href='${getUrl(\'/stuffflow/input?stuff.id=\'+entity.id)}' rel='richtable'/>
 <@button text='出库' type='link' href='${getUrl(\'/stuffflow/input?out=true&stuff.id=\'+entity.id)}' rel='richtable'/>
 ">
-<@richtable entityName="stuff" config=config actionColumnWidth="300px" actionColumnButtons=actionColumnButtons/>
+<@richtable entityName="stuff" config=config actionColumnWidth="350px" actionColumnButtons=actionColumnButtons/>
 </body>
 </html></#escape>
