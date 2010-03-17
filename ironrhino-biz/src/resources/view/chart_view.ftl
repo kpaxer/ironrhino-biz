@@ -5,9 +5,11 @@
 </head>
 <body>
 <form id="daterange" action="${getUrl('/chart/view')}" method="get" class="ajax view line" replacement="c"  style="margin-left:10px;">
+	<#if id??>
 	<#list id as var>
 	<input type="hidden" name="id" value="${var}" />
 	</#list>
+	</#if>
 	<#list Parameters?keys as name>
 	<#if name!='id'&&name!='from'&&name!='to'>
 	<input type="hidden" name="${name}" value="${Parameters[name]}" />
@@ -21,8 +23,10 @@
 <#if request.queryString??>
 <#assign dataurl=dataurl+'?'+request.queryString>
 </#if>
-<div id="c">
-<div id="chart" class="chart" data="<@url value="${dataurl}"/>" style="width:1150px; height:400px;"></div>
+<div id="c" style="clear: both;">
+<div id="chart" class="chart" data="<@url value="${dataurl}"/>" style="width:1150px; height:400px;">
+<span style="color:red;">请先安装flash插件</span>
+</div>
 </div>
 </body>
 </html></#escape>
