@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.util.RegionParser;
 import org.ironrhino.core.aop.AopContext;
@@ -24,7 +22,6 @@ import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.User;
-import com.ironrhino.biz.service.UserManager;
 
 @AutoConfig
 public class SetupAction extends BaseAction {
@@ -32,9 +29,6 @@ public class SetupAction extends BaseAction {
 	private static final long serialVersionUID = 7038201018786069091L;
 
 	private transient BaseManager baseManager;
-
-	@Inject
-	private transient UserManager userManager;
 
 	boolean region;
 
@@ -48,7 +42,8 @@ public class SetupAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		int cnt = userManager.countAll();
+		baseManager.setEntityClass(User.class);
+		int cnt = baseManager.countAll();
 		if (cnt == 0) {
 			initUser();
 			if (region)
@@ -70,7 +65,7 @@ public class SetupAction extends BaseAction {
 		admin.setLegiblePassword("password");
 		admin.setName(Constants.ROLE_SUPERVISOR);
 		admin.getRoles().add(new SimpleElement(Constants.ROLE_SUPERVISOR));
-		userManager.save(admin);
+		baseManager.save(admin);
 	}
 
 	private void initProduct() {

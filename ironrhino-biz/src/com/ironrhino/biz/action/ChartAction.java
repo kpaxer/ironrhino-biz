@@ -44,6 +44,8 @@ import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.Stuffflow;
+import com.ironrhino.biz.service.BrandManager;
+import com.ironrhino.biz.service.CategoryManager;
 import com.ironrhino.biz.service.OrderManager;
 import com.ironrhino.biz.service.ProductManager;
 import com.ironrhino.biz.service.StuffManager;
@@ -68,6 +70,12 @@ public class ChartAction extends BaseAction {
 	private String location = "湖南省";
 
 	private String title;
+
+	@Inject
+	private transient BrandManager brandManager;
+
+	@Inject
+	private transient CategoryManager categoryManager;
 
 	@Inject
 	private transient OrderManager orderManager;
@@ -192,11 +200,9 @@ public class ChartAction extends BaseAction {
 	}
 
 	public void brand() {
-		baseManager.setEntityClass(Brand.class);
-		List<Brand> brands = baseManager.findAll(org.hibernate.criterion.Order
+		List<Brand> brands = brandManager.findAll(org.hibernate.criterion.Order
 				.asc("displayOrder"));
-		baseManager.setEntityClass(Category.class);
-		List<Category> cates = baseManager
+		List<Category> cates = categoryManager
 				.findAll(org.hibernate.criterion.Order.asc("displayOrder"));
 		List<String> labels = new ArrayList<String>();
 		for (Brand b : brands)
@@ -205,12 +211,11 @@ public class ChartAction extends BaseAction {
 		Category category = null;
 		final String id = getUid();
 		String str;
-		baseManager.setEntityClass(Category.class);
 		if (StringUtils.isNumeric(id)) {
-			category = (Category) baseManager.get(Long.valueOf(id));
+			category = categoryManager.get(Long.valueOf(id));
 			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.id = ?";
 		} else if (StringUtils.isNotBlank(id)) {
-			category = (Category) baseManager.findByNaturalId(id);
+			category = categoryManager.findByNaturalId(id);
 			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.name = ?";
 		} else {
 			str = "select distinct o from Order o join o.items item join item.product where o.orderDate between ? and ?";
@@ -369,11 +374,9 @@ public class ChartAction extends BaseAction {
 	}
 
 	public void category() {
-		baseManager.setEntityClass(Brand.class);
-		List<Brand> brands = baseManager.findAll(org.hibernate.criterion.Order
+		List<Brand> brands = brandManager.findAll(org.hibernate.criterion.Order
 				.asc("displayOrder"));
-		baseManager.setEntityClass(Category.class);
-		List<Category> cates = baseManager
+		List<Category> cates = categoryManager
 				.findAll(org.hibernate.criterion.Order.asc("displayOrder"));
 		List<String> labels = new ArrayList<String>();
 		for (Category c : cates)
@@ -382,12 +385,11 @@ public class ChartAction extends BaseAction {
 		Brand brand = null;
 		final String id = getUid();
 		String str;
-		baseManager.setEntityClass(Brand.class);
 		if (StringUtils.isNumeric(id)) {
-			brand = (Brand) baseManager.get(Long.valueOf(id));
+			brand = brandManager.get(Long.valueOf(id));
 			str = "select distinct o from Order o join o.items item join item.product p join p.brand b where (o.orderDate between ? and ?) and b.id = ?";
 		} else if (StringUtils.isNotBlank(id)) {
-			brand = (Brand) baseManager.findByNaturalId(id);
+			brand = brandManager.findByNaturalId(id);
 			str = "select distinct o from Order o join o.items item join item.product p join p.brand b where (o.orderDate between ? and ?) and b.name = ?";
 		} else {
 			str = "select distinct o from Order o join o.items item join item.product where o.orderDate between ? and ?";
@@ -546,8 +548,7 @@ public class ChartAction extends BaseAction {
 	}
 
 	public void region() {
-		baseManager.setEntityClass(Category.class);
-		List<Category> cates = baseManager
+		List<Category> cates = categoryManager
 				.findAll(org.hibernate.criterion.Order.asc("displayOrder"));
 		List<String> labels = new ArrayList<String>();
 		Region region = null;
@@ -567,12 +568,11 @@ public class ChartAction extends BaseAction {
 		Category category = null;
 		final String id = getUid();
 		String str;
-		baseManager.setEntityClass(Category.class);
 		if (StringUtils.isNumeric(id)) {
-			category = (Category) baseManager.get(Long.valueOf(id));
+			category = categoryManager.get(Long.valueOf(id));
 			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.id = ?";
 		} else if (StringUtils.isNotBlank(id)) {
-			category = (Category) baseManager.findByNaturalId(id);
+			category = categoryManager.findByNaturalId(id);
 			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.name = ?";
 		} else {
 			str = "select distinct o from Order o join o.items item join item.product where o.orderDate between ? and ?";
@@ -757,8 +757,6 @@ public class ChartAction extends BaseAction {
 	}
 
 	public void product() {
-		
-		baseManager.setEntityClass(Stuffflow.class);
 		final String hql = "select distinct o from Order o join o.items item join item.product p where (o.orderDate between ? and ?) order by o.orderDate";
 		List<Order> orders = (List<Order>) orderManager
 				.executeFind(new HibernateCallback<List<Order>>() {
@@ -771,7 +769,7 @@ public class ChartAction extends BaseAction {
 						return q.list();
 					}
 				});
-		
+
 		title = "产品价格走势图";
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
@@ -790,7 +788,7 @@ public class ChartAction extends BaseAction {
 				(long) (DateUtils.endOfDay(getTo()).getTime() / 1000));
 		chart.setX_axis(x);
 		Double max = 0.0;
-		
+
 		String[] ids = getId();
 		for (int index = 0; index < ids.length; index++) {
 			final Long id = Long.valueOf(ids[index]);
@@ -881,7 +879,7 @@ public class ChartAction extends BaseAction {
 				DateUtils.endOfDay(getTo())));
 		dc.addOrder(org.hibernate.criterion.Order.asc("date"));
 		List<Stuffflow> stuffflows = baseManager.findListByCriteria(dc);
-		
+
 		title = "原料价格走势图";
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");

@@ -17,7 +17,6 @@ import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
-import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 
@@ -25,6 +24,8 @@ import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Product;
+import com.ironrhino.biz.service.BrandManager;
+import com.ironrhino.biz.service.CategoryManager;
 import com.ironrhino.biz.service.ProductManager;
 
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
@@ -44,7 +45,11 @@ public class ProductAction extends BaseAction {
 
 	private List<Brand> brandList;
 
-	private transient BaseManager baseManager;
+	@Inject
+	private transient CategoryManager categoryManager;
+
+	@Inject
+	private transient BrandManager brandManager;
 
 	@Inject
 	private transient ProductManager productManager;
@@ -90,11 +95,6 @@ public class ProductAction extends BaseAction {
 
 	public void setProduct(Product product) {
 		this.product = product;
-	}
-
-	public void setBaseManager(BaseManager baseManager) {
-		this.baseManager = baseManager;
-
 	}
 
 	@Override
@@ -146,12 +146,8 @@ public class ProductAction extends BaseAction {
 
 	@Override
 	public String input() {
-		baseManager.setEntityClass(Category.class);
-		categoryList = baseManager.findAll();
-		Collections.sort(categoryList);
-		baseManager.setEntityClass(Brand.class);
-		brandList = baseManager.findAll();
-		Collections.sort(brandList);
+		categoryList = categoryManager.findAll(Order.asc("displayOrder"));
+		brandList = brandManager.findAll(Order.asc("displayOrder"));
 		String id = getUid();
 		if (StringUtils.isNumeric(id))
 			product = productManager.get(Long.valueOf(id));
@@ -171,11 +167,9 @@ public class ProductAction extends BaseAction {
 		if (product == null)
 			return ACCESSDENIED;
 		if (product.isNew()) {
-			baseManager.setEntityClass(Category.class);
-			Category category = (Category) baseManager.get(categoryId);
+			Category category = categoryManager.get(categoryId);
 			product.setCategory(category);
-			baseManager.setEntityClass(Brand.class);
-			Brand brand = (Brand) baseManager.get(brandId);
+			Brand brand = brandManager.get(brandId);
 			product.setBrand(brand);
 			if (productManager.findByNaturalId("name", product.getName(),
 					"brand", product.getBrand(), "category", product
@@ -191,8 +185,8 @@ public class ProductAction extends BaseAction {
 					&& !product.getBrand().getId().equals(brandId)
 					|| categoryId != null
 					&& !product.getCategory().getId().equals(categoryId)) {
-				if (productManager.findByNaturalId("name", product.getName(),
-						"brand", product.getBrand(), "category", product
+				if (productManager.findByNaturalId("name", temp.getName(),
+						"brand", temp.getBrand(), "category", product
 								.getCategory()) != null) {
 					addFieldError("product.name",
 							getText("validation.already.exists"));
@@ -203,15 +197,13 @@ public class ProductAction extends BaseAction {
 			if (categoryId != null) {
 				Category category = product.getCategory();
 				if (category == null || !category.getId().equals(categoryId)) {
-					baseManager.setEntityClass(Category.class);
-					product.setCategory((Category) baseManager.get(categoryId));
+					product.setCategory(categoryManager.get(categoryId));
 				}
 			}
 			if (brandId != null) {
 				Brand brand = product.getBrand();
 				if (brand == null || !brand.getId().equals(brandId)) {
-					baseManager.setEntityClass(Brand.class);
-					product.setBrand((Brand) baseManager.get(brandId));
+					product.setBrand(brandManager.get(brandId));
 				}
 			}
 		}
