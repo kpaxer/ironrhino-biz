@@ -904,7 +904,8 @@ public class ChartAction extends BaseAction {
 			Stuff stuff = stuffManager.get(id);
 			List<Stuffflow> list = new ArrayList<Stuffflow>();
 			for (Stuffflow sf : stuffflows)
-				if (sf.getStuff().getId().equals(id))
+				if (sf.getStuff().getId().equals(id) && sf.getAmount() != null
+						&& sf.getAmount().doubleValue() > 0)
 					list.add(sf);
 
 			List<Point> points = new ArrayList<Point>();
