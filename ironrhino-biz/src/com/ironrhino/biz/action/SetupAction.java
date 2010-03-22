@@ -21,6 +21,7 @@ import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Product;
+import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.User;
 
 @AutoConfig
@@ -88,26 +89,50 @@ public class SetupAction extends BaseAction {
 			cates.put(c.getName(), c);
 		}
 
+		String[] xiangling99 = "2500*10,2270*10,2200*4,2000*5".split(",");
 		String[] xiangling99cb = "2500*4,1000*10,908*10,50*200,40*200"
 				.split(",");
 		String[] xiangling99cblb = "500*20,480*20,450*22,400*25,380*25,360*25,350*28,340*28,340*25,320*30,300*32,280*35,260*35,250*40,227*40,200*50,180*50,170*56,160*60,150*64,140*70,130*70,100*100,80*100,70*120"
 				.split(",");
 		String[] xiangling80 = "2500*5,500*20,480*20,454*22,400*25,380*25,360*25,350*27,340*28,320*30,300*32,280*35,260*35,250*40,227*40,200*50,180*50,170*56,160*60,150*64,140*70,130*70,100*100,80*100,70*120,60*150,50*200,40*200"
 				.split(",");
-		String[] yunyang99 = "2500*4,1000*10,908*10,500*20,480*20,454*20,400*25,380*25,360*25,350*27,250*40,227*40,200*50,180*50,100*100,80*100"
+		String[] yunyang99 = "2500*10,2500*4,2270*10,2200*4,2000*5,1000*10,908*10,500*20,480*20,454*20,400*25,380*25,360*25,350*27,250*40,227*40,200*50,180*50,100*100,80*100"
 				.split(",");
 		String[] yunyang80 = "2500*5,500*20,480*20,454*20,400*25,380*25,360*25,350*27,340*28,320*30,200*50,180*50,170*56,160*60,80*100,70*120"
 				.split(",");
 
-		for (String s : brandNames) {
+		int productDisplayOrder = 0;
+		int stuffDisplayOrder = 0;
+		for (int i = 0; i < brandNames.length; i++) {
+			String s = brandNames[i];
 			for (String name : "粗晶,中晶,小晶,粉晶".split(",")) {
 				Product p = new Product();
 				p.setName(name + "(25kg/包)");
 				p.setBrand(brands.get(s));
 				p.setCategory(cates.get("味精"));
 				p.setWeight(new BigDecimal(25));
+				p.setDisplayOrder(++productDisplayOrder);
 				baseManager.save(p);
+				if (i > 2) {
+					Stuff stuff = new Stuff();
+					stuff.setName(s + "味精" + name);
+					stuff.setWeight(new BigDecimal(25));
+					stuff.setDisplayOrder(++stuffDisplayOrder);
+					baseManager.save(stuff);
+				}
 			}
+		}
+
+		for (String s : xiangling99) {
+			String[] arr = s.split("\\*");
+			Product p = new Product();
+			p.setName("99%(" + arr[0] + "g*" + arr[1] + "/包)");
+			p.setBrand(brands.get("湘陵"));
+			p.setCategory(cates.get("味精"));
+			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
+					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
+			p.setDisplayOrder(++productDisplayOrder);
+			baseManager.save(p);
 		}
 
 		for (String s : xiangling99cb) {
@@ -118,6 +143,7 @@ public class SetupAction extends BaseAction {
 			p.setCategory(cates.get("味精"));
 			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
 					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
+			p.setDisplayOrder(++productDisplayOrder);
 			baseManager.save(p);
 		}
 
@@ -129,6 +155,7 @@ public class SetupAction extends BaseAction {
 			p.setCategory(cates.get("味精"));
 			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
 					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
+			p.setDisplayOrder(++productDisplayOrder);
 			baseManager.save(p);
 			p = new Product();
 			p.setName("蓝版99%(" + arr[0] + "g*" + arr[1] + "/包)");
@@ -136,6 +163,7 @@ public class SetupAction extends BaseAction {
 			p.setCategory(cates.get("味精"));
 			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
 					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
+			p.setDisplayOrder(++productDisplayOrder);
 			baseManager.save(p);
 		}
 
@@ -147,6 +175,7 @@ public class SetupAction extends BaseAction {
 			p.setCategory(cates.get("味精"));
 			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
 					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
+			p.setDisplayOrder(++productDisplayOrder);
 			baseManager.save(p);
 		}
 
@@ -158,6 +187,7 @@ public class SetupAction extends BaseAction {
 			p.setCategory(cates.get("味精"));
 			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
 					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
+			p.setDisplayOrder(++productDisplayOrder);
 			baseManager.save(p);
 		}
 		for (String s : yunyang80) {
@@ -168,6 +198,7 @@ public class SetupAction extends BaseAction {
 			p.setCategory(cates.get("味精"));
 			p.setWeight(new BigDecimal(Integer.parseInt(arr[0])
 					* Integer.parseInt(arr[1])).divide(new BigDecimal(1000)));
+			p.setDisplayOrder(++productDisplayOrder);
 			baseManager.save(p);
 		}
 

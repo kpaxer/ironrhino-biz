@@ -24,14 +24,8 @@
 	<li><a href="<@url value="/report"/>">报表</a></li>
 	<li><a href="<@url value="/chart"/>">图表</a></li>
 	<@authorize ifAnyGranted="ROLE_SUPERVISOR">
-		<li><a>基础数据</a>
-		<ul>
-			<li><a href="<@url value="/brand"/>">商标</a></li>
-			<li><a href="<@url value="/category"/>">品种</a></li>
-			<li><a href="<@url value="/common/region"/>">区域</a></li>
-			<li><a href="<@url value="/user"/>">用户</a></li>
-		</ul>
-		</li>
+	<li><a href="<@url value="/brand"/>">商标</a></li>
+	<li><a href="<@url value="/category"/>">品种</a></li>
 	</@authorize>
 	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_SALESMAN">
 	<li><a href="<@url value="/product"/>">产品</a></li>

@@ -67,7 +67,7 @@ public class StuffAction extends BaseAction {
 		if (resultPage == null)
 			resultPage = new ResultPage<Stuff>();
 		resultPage.setDetachedCriteria(dc);
-		resultPage.addOrder(Order.asc("name"));
+		resultPage.addOrder(Order.asc("displayOrder"));
 		resultPage = stuffManager.findByResultPage(resultPage);
 		return LIST;
 	}
