@@ -61,6 +61,22 @@ div.block > div {
 			<div><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
 			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
+		<h3 class="clear">按销售方式统计</h3>
+		<div class="clear">所有品种</div>
+		<form action="${getUrl('/chart/view')}" method="get" class="line">
+			<input type="hidden" name="type" value="saletype"/>
+			<div><@s.textfield theme="simple" name="from" cssClass="date required"/></div>
+			<div><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
+		</form>
+		<div class="clear">指定品种</div>
+		<form action="${getUrl('/chart/view')}" method="get" class="line">
+			<input type="hidden" name="type" value="saletype"/>
+			<div><span>品种:</span><input type="text" name="id" class="required" style="width:150px;"/></div>
+			<div><@s.textfield theme="simple" name="from" cssClass="date required"/></div>
+			<div><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
+		</form>
 		<h3 class="clear">按地区统计(<a href="<@url value="/chart/geo"/>">选择地区</a>)</h3>
 		<div class="clear">所有品种</div>
 		<form action="${getUrl('/chart/view')}" method="get" class="line">

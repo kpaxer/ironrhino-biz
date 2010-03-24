@@ -19,10 +19,12 @@ import org.ironrhino.core.struts.BaseAction;
 
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Customer;
+import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.service.CustomerManager;
+import com.ironrhino.biz.service.EmployeeManager;
 import com.ironrhino.biz.service.OrderManager;
 import com.ironrhino.biz.service.ProductManager;
 
@@ -38,15 +40,22 @@ public class OrderAction extends BaseAction {
 
 	private Customer customer;
 
+	private Employee employee;
+
 	private Long[] productId;
 
 	private List<Product> productList;
+
+	private List<Employee> employeeList;
 
 	@Inject
 	private transient OrderManager orderManager;
 
 	@Inject
 	private transient CustomerManager customerManager;
+
+	@Inject
+	private transient EmployeeManager employeeManager;
 
 	@Inject
 	private transient ProductManager productManager;
@@ -60,6 +69,10 @@ public class OrderAction extends BaseAction {
 
 	public void setResultPage(ResultPage<Order> resultPage) {
 		this.resultPage = resultPage;
+	}
+
+	public List<Employee> getEmployeeList() {
+		return employeeList;
 	}
 
 	public List<Product> getProductList() {
@@ -90,6 +103,14 @@ public class OrderAction extends BaseAction {
 		this.customer = customer;
 	}
 
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
 	@Override
 	public String execute() {
 		if (StringUtils.isBlank(keyword)) {
@@ -100,6 +121,9 @@ public class OrderAction extends BaseAction {
 			if (customer != null && customer.getId() != null)
 				dc.createAlias("customer", "c").add(
 						Restrictions.eq("c.id", customer.getId()));
+			if (employee != null && employee.getId() != null)
+				dc.createAlias("employee", "e").add(
+						Restrictions.eq("e.id", employee.getId()));
 			resultPage.addOrder(org.hibernate.criterion.Order.asc("paid"));
 			resultPage.addOrder(org.hibernate.criterion.Order.asc("shipped"));
 			resultPage.addOrder(org.hibernate.criterion.Order.desc("code"));
@@ -157,11 +181,16 @@ public class OrderAction extends BaseAction {
 			order = new Order();
 			if (customer != null && customer.getId() != null)
 				customer = customerManager.get(customer.getId());
+			if (employee != null && employee.getId() != null)
+				employee = employeeManager.get(employee.getId());
 			productList = productManager.findAll(org.hibernate.criterion.Order
 					.asc("displayOrder"));
 		} else {
 			customer = order.getCustomer();
+			employee = order.getEmployee();
 		}
+		employeeList = employeeManager
+		.findAll(org.hibernate.criterion.Order.asc("name"));
 		return INPUT;
 	}
 
@@ -177,6 +206,10 @@ public class OrderAction extends BaseAction {
 				customerManager.save(customer);
 			}
 			order.setCustomer(customer);
+			if (employee != null && employee.getId() != null) {
+				employee = employeeManager.get(employee.getId());
+				order.setEmployee(employee);
+			}
 			if (productId != null) {
 				for (int i = 0; i < order.getItems().size(); i++) {
 					if (i >= productId.length)
@@ -198,6 +231,16 @@ public class OrderAction extends BaseAction {
 			order.setFreight(temp.getFreight());
 			order.setSaleType(temp.getSaleType());
 			order.setMemo(temp.getMemo());
+			if (employee != null && employee.getId() != null) {
+				if (order.getEmployee() == null
+						|| !order.getEmployee().getId()
+								.equals(employee.getId())) {
+					employee = employeeManager.get(employee.getId());
+					order.setEmployee(employee);
+				}
+			} else {
+				order.setEmployee(null);
+			}
 			orderManager.save(order);
 		}
 

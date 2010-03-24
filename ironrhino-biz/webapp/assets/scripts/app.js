@@ -104,14 +104,12 @@
 			var freight = $('#freight').val();
 			if (freight)
 				grandTotal -= freight;
-			if (grandTotal > 0)
-				$('#grandTotal').text(grandTotal);
+			$('#grandTotal').html(grandTotal >= 0?grandTotal:'<span style="color:red;">负数</span>');	
 		}
 	}
 	var rename = function() {
 		$('#orderItems tbody tr').each(function(i) {
 			$('input', this).each(function() {
-				$(this).removeAttr('id');
 				var name = $(this).attr('name');
 				name = name.substring(0, name.indexOf('[') + 1) + i
 						+ name.substring(name.indexOf(']'));

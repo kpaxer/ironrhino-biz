@@ -142,7 +142,6 @@ public class ReportAction extends BaseAction {
 		return dataSource;
 	}
 
-
 	public String getDocumentName() {
 		try {
 			StringBuilder sb = new StringBuilder();
@@ -248,8 +247,7 @@ public class ReportAction extends BaseAction {
 				DateUtils.endOfDay(getTo())));
 		dc.createAlias("stuff", "s").addOrder(
 				org.hibernate.criterion.Order.asc("s.name"));
-		dc.addOrder(
-				org.hibernate.criterion.Order.desc("quantity"));
+		dc.addOrder(org.hibernate.criterion.Order.desc("quantity"));
 		list = rewardManager.findListByCriteria(dc);
 	}
 
@@ -333,6 +331,14 @@ public class ReportAction extends BaseAction {
 					Restrictions.eq("c.id", Long.valueOf(id)));
 		else if (StringUtils.isNotBlank(id))
 			dc.createAlias("customer", "c").add(Restrictions.eq("c.name", id));
+		String salesman = ServletActionContext.getRequest().getParameter(
+				"salesman");
+		if (StringUtils.isNumeric(salesman))
+			dc.createAlias("employee", "e").add(
+					Restrictions.eq("e.id", Long.valueOf(salesman)));
+		else if (StringUtils.isNotBlank(salesman))
+			dc.createAlias("employee", "e").add(
+					Restrictions.eq("e.name", salesman));
 		dc.add(Restrictions.between("orderDate", DateUtils
 				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		dc.addOrder(org.hibernate.criterion.Order.asc("code"));

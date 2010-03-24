@@ -41,6 +41,7 @@ import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
+import com.ironrhino.biz.model.SaleType;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.Stuffflow;
@@ -540,6 +541,179 @@ public class ChartAction extends BaseAction {
 				element.setColour(ChartUtils.caculateColor(colorSeed++));
 				element.setText(b.getName());
 				element.setTip(b.getName() + "销量 #val#");
+				element.addValues(values);
+				chart.addElements(element);
+			}
+		}
+
+	}
+
+	public void saletype() {
+		List<Category> cates = categoryManager
+				.findAll(org.hibernate.criterion.Order.asc("displayOrder"));
+		List<String> labels = new ArrayList<String>();
+		for (SaleType st : SaleType.values())
+			labels.add(st.getDisplayName());
+		List<Order> orders;
+		Category category = null;
+		final String id = getUid();
+		String str;
+		if (StringUtils.isNumeric(id)) {
+			category = categoryManager.get(Long.valueOf(id));
+			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.id = ?";
+		} else if (StringUtils.isNotBlank(id)) {
+			category = categoryManager.findByNaturalId(id);
+			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.name = ?";
+		} else {
+			str = "select o from Order o where o.orderDate between ? and ?";
+		}
+		final String hql = str;
+		orders = (List<Order>) orderManager
+				.executeFind(new HibernateCallback<List<Order>>() {
+					@Override
+					public List<Order> doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						Query q = session.createQuery(hql.toString());
+						q.setParameter(0, DateUtils.beginOfDay(getFrom()));
+						q.setParameter(1, DateUtils.endOfDay(getTo()));
+						if (StringUtils.isNotBlank(id))
+							q.setParameter(2, StringUtils.isNumeric(id) ? Long
+									.valueOf(id) : id);
+						return q.list();
+					}
+				});
+		title = (category != null ? category.getName() : "") + "销量根据销售方式统计";
+		chart = new Chart(title + "(" + getDateRange() + ")",
+				"font-size: 15px;");
+		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
+		chart
+				.setX_legend(new Text("销售方式",
+						"{font-size: 12px; color: #778877}"));
+
+		if (category != null) {
+			Map<String, BigDecimal> sales = new HashMap<String, BigDecimal>();
+			for (Order order : orders) {
+				for (OrderItem item : order.getItems()) {
+					if (!item.getProduct().getCategory().equals(category))
+						continue;
+					String saletype = order.getSaleType().getDisplayName();
+					BigDecimal total = sales.get(saletype);
+					if (total == null) {
+						sales.put(saletype, item.getSubtotal());
+					} else {
+						sales.put(saletype, total.add(item.getSubtotal()));
+					}
+				}
+			}
+			Iterator<String> it = labels.iterator();
+			while (it.hasNext()) {
+				String label = it.next();
+				BigDecimal total = sales.get(label);
+				if (total == null || total.doubleValue() == 0)
+					it.remove();
+			}
+			Double[] values = new Double[labels.size()];
+			double max = 0;
+			for (int i = 0; i < labels.size(); i++) {
+				BigDecimal total = sales.get(labels.get(i));
+				if (total == null)
+					total = new BigDecimal(0.00);
+				if (max == 0)
+					max = total.doubleValue();
+				else if (max < total.doubleValue())
+					max = total.doubleValue();
+				values[i] = total.doubleValue();
+			}
+
+			XAxis x = new XAxis();
+			YAxis y = new YAxis();
+			XAxisLabels xAxisLabels = new XAxisLabels(labels);
+			xAxisLabels.setSize(12);
+			x.setXAxisLabels(xAxisLabels);
+			y.setSteps(ChartUtils.caculateSteps(max));
+			y.setMax(max);
+			chart.setX_axis(x);
+			chart.setY_axis(y);
+			BarChart element = new BarChart();
+			element.addValues(values);
+			chart.addElements(element);
+		} else {
+			Map<String, BigDecimal> sales = new HashMap<String, BigDecimal>();
+			Map<String, Map<String, BigDecimal>> salesByCate = new HashMap<String, Map<String, BigDecimal>>();
+			for (Order order : orders) {
+				for (OrderItem item : order.getItems()) {
+					String saletype = order.getSaleType().getDisplayName();
+					BigDecimal total = sales.get(saletype);
+					if (total == null) {
+						sales.put(saletype, item.getSubtotal());
+					} else {
+						sales.put(saletype, total.add(item.getSubtotal()));
+					}
+
+					String cate = item.getProduct().getCategory().getName();
+					Map<String, BigDecimal> map = salesByCate.get(cate);
+					if (map == null) {
+						map = new HashMap<String, BigDecimal>();
+						salesByCate.put(cate, map);
+					}
+					total = map.get(saletype);
+					if (total == null) {
+						map.put(saletype, item.getSubtotal());
+					} else {
+						map.put(saletype, total.add(item.getSubtotal()));
+					}
+				}
+			}
+			Iterator<String> it = labels.iterator();
+			while (it.hasNext()) {
+				String label = it.next();
+				BigDecimal total = sales.get(label);
+				if (total == null || total.doubleValue() == 0)
+					it.remove();
+			}
+			Double[] values = new Double[labels.size()];
+			double max = 0;
+			for (int i = 0; i < labels.size(); i++) {
+				BigDecimal total = sales.get(labels.get(i));
+				if (total == null)
+					total = new BigDecimal(0.00);
+				if (max == 0)
+					max = total.doubleValue();
+				else if (max < total.doubleValue())
+					max = total.doubleValue();
+				values[i] = total.doubleValue();
+			}
+
+			XAxis x = new XAxis();
+			YAxis y = new YAxis();
+			XAxisLabels xAxisLabels = new XAxisLabels(labels);
+			xAxisLabels.setSize(12);
+			x.setXAxisLabels(xAxisLabels);
+			y.setSteps(ChartUtils.caculateSteps(max));
+			y.setMax(max);
+			chart.setX_axis(x);
+			chart.setY_axis(y);
+			BarChart element = new BarChart();
+			element.setText("总销量");
+			element.setTip("总销量 #val#");
+			element.addValues(values);
+			chart.addElements(element);
+			int colorSeed = 0;
+			for (Category cate : cates) {
+				Map<String, BigDecimal> map = salesByCate.get(cate.getName());
+				if (map == null)
+					continue;
+				values = new Double[labels.size()];
+				for (int i = 0; i < labels.size(); i++) {
+					BigDecimal total = map.get(labels.get(i));
+					if (total == null)
+						total = new BigDecimal(0.00);
+					values[i] = total.doubleValue();
+				}
+				element = new BarChart();
+				element.setColour(ChartUtils.caculateColor(colorSeed++));
+				element.setText(cate.getName());
+				element.setTip(cate.getName() + "销量 #val#");
 				element.addValues(values);
 				chart.addElements(element);
 			}

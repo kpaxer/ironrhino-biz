@@ -50,6 +50,9 @@ public class Order extends BaseEntity {
 	@SearchableComponent
 	private Customer customer;
 
+	@SearchableComponent
+	private Employee employee;
+
 	@CreateIfNull
 	private List<OrderItem> items = new ArrayList<OrderItem>(0);
 
@@ -107,6 +110,14 @@ public class Order extends BaseEntity {
 
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 	public Customer getCustomer() {
