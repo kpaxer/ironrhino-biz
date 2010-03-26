@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dailysales" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="title" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Documents and Settings\\mac\\zym\\workspace\\ironrhino-biz\\webapp\\WEB-INF\\view\\jasper\\"]]></defaultValueExpression>
+	</parameter>
+	<field name="customer" class="java.lang.Object"/>
+	<field name="grandTotal" class="java.math.BigDecimal"/>
+	<field name="orderDate" class="java.util.Date"/>
+	<field name="code" class="java.lang.String"/>
+	<field name="items" class="java.lang.Object"/>
+	<field name="discount" class="java.math.BigDecimal"/>
+	<field name="freight" class="java.math.BigDecimal"/>
+	<field name="employee.name" class="java.lang.String"/>
+	<variable name="total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{grandTotal}]]></variableExpression>
+	</variable>
+	<variable name="dailyTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="daily" calculation="Sum">
+		<variableExpression><![CDATA[$F{grandTotal}]]></variableExpression>
+	</variable>
+	<variable name="monthlyTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="monthly" calculation="Sum">
+		<variableExpression><![CDATA[$F{grandTotal}]]></variableExpression>
+	</variable>
+	<variable name="annualTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="annual" calculation="Sum">
+		<variableExpression><![CDATA[$F{grandTotal}]]></variableExpression>
+	</variable>
+	<variable name="dailyDiscount" class="java.math.BigDecimal" resetType="Group" resetGroup="daily" calculation="Sum">
+		<variableExpression><![CDATA[$F{discount}]]></variableExpression>
+	</variable>
+	<variable name="monthlyDiscount" class="java.math.BigDecimal" resetType="Group" resetGroup="monthly" calculation="Sum">
+		<variableExpression><![CDATA[$F{discount}]]></variableExpression>
+	</variable>
+	<variable name="annualDiscount" class="java.math.BigDecimal" resetType="Group" resetGroup="annual" calculation="Sum">
+		<variableExpression><![CDATA[$F{discount}]]></variableExpression>
+	</variable>
+	<variable name="dailyFreight" class="java.math.BigDecimal" resetType="Group" resetGroup="daily" calculation="Sum">
+		<variableExpression><![CDATA[$F{freight}]]></variableExpression>
+	</variable>
+	<variable name="monthlyFreight" class="java.math.BigDecimal" resetType="Group" resetGroup="monthly" calculation="Sum">
+		<variableExpression><![CDATA[$F{freight}]]></variableExpression>
+	</variable>
+	<variable name="annualFreight" class="java.math.BigDecimal" resetType="Group" resetGroup="annual" calculation="Sum">
+		<variableExpression><![CDATA[$F{freight}]]></variableExpression>
+	</variable>
+	<group name="annual">
+		<groupExpression><![CDATA[new SimpleDateFormat("yyyy").format($F{orderDate})]]></groupExpression>
+		<groupHeader>
+			<band height="34">
+				<textField evaluationTime="Group" evaluationGroup="annual" pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="258" y="8" width="86" height="20"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{annualDiscount}]]></textFieldExpression>
+				</textField>
+				<textField pattern="yyyy年">
+					<reportElement x="12" y="8" width="85" height="20"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{orderDate}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="220" y="8" width="38" height="20"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[折扣]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="97" y="8" width="38" height="20"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[金额]]></text>
+				</staticText>
+				<textField evaluationTime="Group" evaluationGroup="annual" pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="382" y="8" width="86" height="20"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{annualFreight}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="344" y="8" width="38" height="20"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[运费]]></text>
+				</staticText>
+				<textField evaluationTime="Group" evaluationGroup="annual" pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="135" y="8" width="85" height="20"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{annualTotal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="monthly">
+		<groupExpression><![CDATA[new SimpleDateFormat("yyyy-MM").format($F{orderDate})]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<line>
+					<reportElement x="1" y="0" width="555" height="1"/>
+				</line>
+				<textField evaluationTime="Group" evaluationGroup="monthly" pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="405" y="5" width="86" height="20"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{monthlyFreight}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="243" y="5" width="38" height="20"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[折扣]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="120" y="5" width="38" height="20"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[金额]]></text>
+				</staticText>
+				<textField pattern="yyyy年MM月">
+					<reportElement x="34" y="5" width="85" height="20"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{orderDate}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="monthly" pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="281" y="5" width="86" height="20"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{monthlyDiscount}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="monthly" pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="158" y="5" width="85" height="20"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{monthlyTotal}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="367" y="5" width="38" height="20"/>
+					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[运费]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="daily">
+		<groupExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($F{orderDate})]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField pattern="yyyy年MM月dd日">
+					<reportElement x="33" y="0" width="109" height="20"/>
+					<box leftPadding="5">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{orderDate}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="daily" pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="180" y="0" width="85" height="20"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{dailyTotal}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="142" y="0" width="38" height="20"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[金额]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="265" y="0" width="38" height="20"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[折扣]]></text>
+				</staticText>
+				<textField evaluationTime="Group" evaluationGroup="daily" pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="303" y="0" width="86" height="20"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{dailyDiscount}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="389" y="0" width="38" height="20"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[运费]]></text>
+				</staticText>
+				<textField evaluationTime="Group" evaluationGroup="daily" pattern="###0.00" isBlankWhenNull="true">
+					<reportElement x="427" y="0" width="86" height="20"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{dailyFreight}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="126" y="14" width="289" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="宋体" size="15" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{title}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="59" width="50" height="20">
+					<printWhenExpression><![CDATA[new Boolean($P{date}!=null)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[统计日期]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="50" y="59" width="173" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="288" y="59" width="29" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[总计]]></text>
+			</staticText>
+			<textField evaluationTime="Report" pattern="###0.00">
+				<reportElement x="317" y="59" width="66" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="###0">
+				<reportElement x="260" y="59" width="28" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="223" y="59" width="37" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[订单数]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="383" y="59" width="53" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
+					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[生成时间]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM-dd HH:mm:ss">
+				<reportElement x="436" y="59" width="119" height="20"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="436" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="宋体" isItalic="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["页码:"+$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="516" y="0" width="40" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="宋体" isBold="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

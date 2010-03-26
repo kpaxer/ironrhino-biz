@@ -28,6 +28,8 @@ public class Product extends Entity<Long> implements Ordered {
 
 	private int stock;
 
+	private int shopStock;
+
 	private BigDecimal weight;
 
 	private BigDecimal price;
@@ -78,6 +80,14 @@ public class Product extends Entity<Long> implements Ordered {
 
 	public void setStock(int stock) {
 		this.stock = stock;
+	}
+
+	public int getShopStock() {
+		return shopStock;
+	}
+
+	public void setShopStock(int shopStock) {
+		this.shopStock = shopStock;
 	}
 
 	public String getName() {

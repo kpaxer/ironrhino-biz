@@ -45,7 +45,7 @@
 				<tr>
 					<td width="47%">
 						<input type="text" size="5" class="filterselect" style="margin-right:3px;"/>
-						<@s.select theme="simple" name="productId" cssClass="required fetchprice" cssStyle="width:100px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
+						<@s.select theme="simple" name="productId" cssClass="required fetchprice" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
 						<span class="info" style="font-style:italic;margin-left:5px;"></span>
 					</td>
 					<td width="15%"><input type="text" name="order.items[0].quantity" class="required integer positive quantity" style="width:60px;"/></td>
@@ -58,10 +58,10 @@
 		</div>
 	</div>
 	</#if>
-	<@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
 	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date required"/>
 	<@s.select label="%{getText('salesman')}" name="employee.id" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 	<#if order.new>
+	<@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
 	<div>
 		<label class="field">${action.getText('pay')}</label>
 		<div>

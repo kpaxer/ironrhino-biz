@@ -15,6 +15,7 @@
 			<many-to-one name="brand" column="brandId" not-null="true"  lazy="false" fetch="join" />
 		</natural-id>
 		<property name="stock" />
+		<property name="shopStock" />
 		<property name="weight" />
 		<property name="price" />
 		<property name="displayOrder" />

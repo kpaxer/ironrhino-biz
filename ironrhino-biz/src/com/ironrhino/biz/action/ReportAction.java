@@ -26,6 +26,7 @@ import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
+import com.ironrhino.biz.model.SaleType;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.Stuffflow;
 import com.ironrhino.biz.service.CustomerManager;
@@ -324,38 +325,21 @@ public class ReportAction extends BaseAction {
 
 	public void order() {
 		title = "订单详细报表";
-		DetachedCriteria dc = orderManager.detachedCriteria();
-		String id = getUid();
-		if (StringUtils.isNumeric(id))
-			dc.createAlias("customer", "c").add(
-					Restrictions.eq("c.id", Long.valueOf(id)));
-		else if (StringUtils.isNotBlank(id))
-			dc.createAlias("customer", "c").add(Restrictions.eq("c.name", id));
-		String salesman = ServletActionContext.getRequest().getParameter(
-				"salesman");
-		if (StringUtils.isNumeric(salesman))
-			dc.createAlias("employee", "e").add(
-					Restrictions.eq("e.id", Long.valueOf(salesman)));
-		else if (StringUtils.isNotBlank(salesman))
-			dc.createAlias("employee", "e").add(
-					Restrictions.eq("e.name", salesman));
-		dc.add(Restrictions.between("orderDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		DetachedCriteria dc = prepareOrderCriteria();
 		dc.addOrder(org.hibernate.criterion.Order.asc("code"));
 		list = orderManager.findListByCriteria(dc);
 	}
 
+	public void dailysales() {
+		title = "按天统计销量报表";
+		DetachedCriteria dc = prepareOrderCriteria();
+		dc.addOrder(org.hibernate.criterion.Order.asc("orderDate"));
+		list = orderManager.findListByCriteria(dc);
+	}
+
 	public void productsales() {
-		title = "订单汇总报表";
-		DetachedCriteria dc = orderManager.detachedCriteria();
-		String id = getUid();
-		if (StringUtils.isNumeric(id))
-			dc.createAlias("customer", "c").add(
-					Restrictions.eq("c.id", Long.valueOf(id)));
-		else if (StringUtils.isNotBlank(id))
-			dc.createAlias("customer", "c").add(Restrictions.eq("c.name", id));
-		dc.add(Restrictions.between("orderDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		title = "产品销量报表";
+		DetachedCriteria dc = prepareOrderCriteria();
 		List<Order> ol = orderManager.findListByCriteria(dc);
 		List<OrderItem> orderItems = new ArrayList<OrderItem>();
 		for (Order o : ol) {
@@ -374,5 +358,44 @@ public class ReportAction extends BaseAction {
 			}
 		}
 		list = orderItems;
+	}
+
+	private DetachedCriteria prepareOrderCriteria() {
+		DetachedCriteria dc = orderManager.detachedCriteria();
+		String customer = ServletActionContext.getRequest().getParameter(
+				"customer");
+		if (StringUtils.isNotBlank(customer)) {
+			Customer cust;
+			if (StringUtils.isNumeric(customer))
+				cust = customerManager.get(Long.valueOf(customer));
+			else
+				cust = customerManager.findByNaturalId(customer);
+			if (cust != null)
+				title = cust.getName() + title;
+			dc.add(Restrictions.eq("customer", cust));
+		}
+		String salesman = ServletActionContext.getRequest().getParameter(
+				"salesman");
+		if (StringUtils.isNotBlank(salesman)) {
+			Employee employee;
+			if (StringUtils.isNumeric(salesman))
+				employee = employeeManager.get(Long.valueOf(salesman));
+			else
+				employee = employeeManager.findByNaturalId(salesman);
+			if (employee != null)
+				title = employee.getName() + title;
+			dc.add(Restrictions.eq("employee", employee));
+		}
+		String saletype = ServletActionContext.getRequest().getParameter(
+				"saletype");
+		if (StringUtils.isNotBlank(saletype)) {
+			SaleType st = SaleType.parse(saletype);
+			if (st != null)
+				title = st.getDisplayName() + title;
+			dc.add(Restrictions.eq("saleType", st));
+		}
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		return dc;
 	}
 }

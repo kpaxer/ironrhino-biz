@@ -21,21 +21,17 @@
 <div id="menu">
 <ul class="nav">
 	<li><a href="<@url value="/index"/>">首页</a></li>
-	<li><a href="<@url value="/report"/>">报表</a></li>
-	<li><a href="<@url value="/chart"/>">图表</a></li>
-	<@authorize ifAnyGranted="ROLE_SUPERVISOR">
-	<li><a href="<@url value="/brand"/>">商标</a></li>
-	<li><a href="<@url value="/category"/>">品种</a></li>
-	</@authorize>
-	<@authorize ifAnyGranted="ROLE_SUPERVISOR,ROLE_SALESMAN">
-	<li><a href="<@url value="/product"/>">产品</a></li>
-	<li><a href="<@url value="/plan"/>">生产计划</a></li>
 	<li><a href="<@url value="/customer"/>">客户</a></li>
 	<li><a href="<@url value="/order"/>">订单</a></li>
-	<li><a href="<@url value="/employee"/>">员工</a></li>
-	<li><a href="<@url value="/reward"/>">工资</a></li>
-	</@authorize>
+	<li><a href="<@url value="/plan"/>">生产计划</a></li>
 	<li><a href="<@url value="/stuff"/>">原料</a></li>
+	<li><a href="<@url value="/reward"/>">工资</a></li>
+	<li><a href="<@url value="/product"/>">产品</a></li>
+	<li><a href="<@url value="/employee"/>">员工</a></li>
+	<li><a href="<@url value="/brand"/>">商标</a></li>
+	<li><a href="<@url value="/category"/>">品种</a></li>
+	<li><a href="<@url value="/report"/>">报表</a></li>
+	<li><a href="<@url value="/chart"/>">图表</a></li>
 	<li><a href="<@url value="/changePassword"/>">修改密码</a></li>
 	<li><a href="<@url value="/logout"/>">注销</a></li>
 </ul>

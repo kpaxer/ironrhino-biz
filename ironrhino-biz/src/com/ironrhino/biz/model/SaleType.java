@@ -13,4 +13,11 @@ public enum SaleType {
 		return LocalizedTextUtil.findText(getClass(), name(), ActionContext
 				.getContext().getLocale(), name(), null);
 	}
+
+	public static SaleType parse(String name) {
+		for (SaleType s : values())
+			if (s.getName().equals(name) || s.getDisplayName().equals(name))
+				return s;
+		return null;
+	}
 }

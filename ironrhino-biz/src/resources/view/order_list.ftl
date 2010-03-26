@@ -23,7 +23,12 @@ text-align:center;
 <@button text='${action.getText(\'delete\')}' action='delete'/>
 </#if>
 ">
-
-<@richtable entityName="order" config=config actionColumnWidth="230px" actionColumnButtons=actionColumnButtons celleditable=false deleteable=false searchable=true/>
+<#assign bottomButtons=r"
+<@button text='${action.getText(\'create\')}' view='input' windowoptions='{\'width\':\'900px\'}'/>
+<@button text='${action.getText(\'save\')}' action='save'/>
+<@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'reload\')}' action='reload'/>
+">
+<@richtable entityName="order" config=config actionColumnWidth="230px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deleteable=false searchable=true/>
 </body>
 </html></#escape>

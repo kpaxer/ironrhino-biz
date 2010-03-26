@@ -16,6 +16,7 @@ import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Plan;
 import com.ironrhino.biz.model.Product;
+import com.ironrhino.biz.model.SaleType;
 
 @Singleton
 @Named("orderManager")
@@ -35,7 +36,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 	@Override
 	@Transactional
 	public void save(Order order) {
-		if(order.getItems().isEmpty())
+		if (order.getItems().isEmpty())
 			throw new IllegalArgumentException("must have item");
 		if (order.isNew())
 			order.setCode(nextCode());
@@ -47,6 +48,8 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		for (OrderItem item : order.getItems()) {
 			Product p = item.getProduct();
 			p.setStock(p.getStock() - item.getQuantity());
+			if (order.getSaleType() == SaleType.SHOP)
+				p.setShopStock(p.getShopStock() - item.getQuantity());
 			p.setPrice(item.getPrice());
 			productManager.save(p);
 			if (p.getStock() < 0) {
@@ -58,6 +61,17 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 				planManager.save(plan);
 			}
 		}
+	}
+
+	public void cancel(Order order) {
+		for (OrderItem item : order.getItems()) {
+			Product p = item.getProduct();
+			p.setStock(p.getStock() + item.getQuantity());
+			if (order.getSaleType() == SaleType.SHOP)
+				p.setShopStock(p.getShopStock() + item.getQuantity());
+			productManager.save(p);
+		}
+		delete(order);
 	}
 
 	@Override

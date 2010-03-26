@@ -189,8 +189,8 @@ public class OrderAction extends BaseAction {
 			customer = order.getCustomer();
 			employee = order.getEmployee();
 		}
-		employeeList = employeeManager
-		.findAll(org.hibernate.criterion.Order.asc("name"));
+		employeeList = employeeManager.findAll(org.hibernate.criterion.Order
+				.asc("name"));
 		return INPUT;
 	}
 
@@ -283,7 +283,7 @@ public class OrderAction extends BaseAction {
 				}
 				if (deletable) {
 					for (Order temp : list)
-						orderManager.delete(temp);
+						orderManager.cancel(temp);
 					addActionMessage(getText("delete.success"));
 				}
 			}

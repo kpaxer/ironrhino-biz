@@ -166,6 +166,11 @@ public class ProductAction extends BaseAction {
 	public String save() {
 		if (product == null)
 			return ACCESSDENIED;
+		if (product.getShopStock() > 0
+				&& product.getShopStock() > product.getStock()) {
+			addFieldError("product.shopStock", "总库存不够");
+			return INPUT;
+		}
 		if (product.isNew()) {
 			Category category = categoryManager.get(categoryId);
 			product.setCategory(category);
