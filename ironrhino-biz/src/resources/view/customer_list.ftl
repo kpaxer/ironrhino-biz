@@ -17,7 +17,7 @@ text-decoration:none;
 <@button text='${action.getText(\'save\')}' action='save'/>
 <@button text='${action.getText(\'delete\')}' action='delete'/>
 <@button text='${action.getText(\'order\')}' type='link' href='${getUrl(\'/order?customer.id=\'+entity.id)}'/>
-<@button text='${action.getText(\'create\')+action.getText(\'order\')}' type='link' href='${getUrl(\'/order/input?customer.id=\'+entity.id)}' rel='richtable'/>
+<@button text='${action.getText(\'create\')+action.getText(\'order\')}' type='link' href='${getUrl(\'/order/input?customer.id=\'+entity.id)}' rel='richtable' windowoptions='{\'width\':\'900px\'}'/>
 ">
 <#assign bottomButtons=r"
 <@button text='${action.getText(\'create\')}' view='input'/>

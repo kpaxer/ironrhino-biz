@@ -43,6 +43,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		super.save(order);
 	}
 
+	@Transactional
 	public void place(Order order) {
 		save(order);
 		for (OrderItem item : order.getItems()) {
@@ -63,6 +64,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		}
 	}
 
+	@Transactional
 	public void cancel(Order order) {
 		for (OrderItem item : order.getItems()) {
 			Product p = item.getProduct();
