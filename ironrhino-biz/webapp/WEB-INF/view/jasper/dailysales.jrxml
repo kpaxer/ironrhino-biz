@@ -133,12 +133,12 @@
 	<group name="monthly">
 		<groupExpression><![CDATA[new SimpleDateFormat("yyyy-MM").format($F{orderDate})]]></groupExpression>
 		<groupHeader>
-			<band height="30">
+			<band height="37">
 				<line>
-					<reportElement x="1" y="0" width="555" height="1"/>
+					<reportElement x="1" y="4" width="555" height="1"/>
 				</line>
 				<textField evaluationTime="Group" evaluationGroup="monthly" pattern="###0.00" isBlankWhenNull="true">
-					<reportElement x="405" y="5" width="86" height="20"/>
+					<reportElement x="427" y="11" width="86" height="20"/>
 					<box>
 						<topPen lineWidth="0.0"/>
 						<leftPen lineWidth="0.0"/>
@@ -151,21 +151,21 @@
 					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{monthlyFreight}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="243" y="5" width="38" height="20"/>
+					<reportElement x="265" y="11" width="38" height="20"/>
 					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[折扣]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="120" y="5" width="38" height="20"/>
+					<reportElement x="142" y="11" width="38" height="20"/>
 					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					</textElement>
 					<text><![CDATA[金额]]></text>
 				</staticText>
 				<textField pattern="yyyy年MM月">
-					<reportElement x="34" y="5" width="85" height="20"/>
+					<reportElement x="34" y="11" width="85" height="20"/>
 					<box>
 						<topPen lineWidth="0.0"/>
 						<leftPen lineWidth="0.0"/>
@@ -178,7 +178,7 @@
 					<textFieldExpression class="java.util.Date"><![CDATA[$F{orderDate}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="monthly" pattern="###0.00" isBlankWhenNull="true">
-					<reportElement x="281" y="5" width="86" height="20"/>
+					<reportElement x="303" y="11" width="86" height="20"/>
 					<box>
 						<topPen lineWidth="0.0"/>
 						<leftPen lineWidth="0.0"/>
@@ -191,7 +191,7 @@
 					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{monthlyDiscount}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Group" evaluationGroup="monthly" pattern="###0.00" isBlankWhenNull="true">
-					<reportElement x="158" y="5" width="85" height="20"/>
+					<reportElement x="180" y="11" width="85" height="20"/>
 					<box>
 						<topPen lineWidth="0.0"/>
 						<leftPen lineWidth="0.0"/>
@@ -204,7 +204,7 @@
 					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{monthlyTotal}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="367" y="5" width="38" height="20"/>
+					<reportElement x="389" y="11" width="38" height="20"/>
 					<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 					</textElement>
