@@ -223,6 +223,10 @@ public class OrderAction extends BaseAction {
 						order.getItems().remove(i);
 				}
 			}
+			if(order.getItems().size()==0){
+				addActionError("没有订单项");
+				return INPUT;
+			}
 			orderManager.place(order);
 		} else {
 			Order temp = order;

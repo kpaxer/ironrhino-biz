@@ -7,6 +7,70 @@
 <@s.form action="${getUrl('/order/save')}" method="post" cssClass="ajax">
 	<#if !order.new>
 		<@s.hidden name="order.id" />
+		<div>
+		<label class="field" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
+		<div>
+			${customer.name}
+		</div>
+		</div>
+		<table border="0" width="100%">
+			<thead>
+				<tr>
+					<td>
+					${action.getText('product')}
+					</td>
+					<td>
+					${action.getText('quantity')}
+					</td>
+					<td>
+					${action.getText('price')}
+					</td>
+					<td align="right">
+					${action.getText('subtotal')}
+					</td>
+				</tr>
+			</thead>
+			<tfoot align="right">
+				<tr>
+					<td colspan="3">${action.getText('amount')}</td>
+					<td>${order.amount}</td>
+				</tr>
+				<#if order.discount??>
+				<tr>
+					<td colspan="3">${action.getText('discount')}</td>
+					<td>-${order.discount}</td>
+				</tr>
+				</#if>
+				<#if order.freight??>
+				<tr>
+					<td colspan="3">${action.getText('freight')}</td>
+					<td>-${order.freight}</td>
+				</tr>
+				</#if>
+				<tr>
+					<td colspan="3">${action.getText('grandTotal')}</td>
+					<td style="font-weight:bold;">${order.grandTotal}</td>
+				</tr>
+			</tfoot>
+			<tbody>
+			<#list order.items as item>
+			<tr>
+			<td>
+			${item.product}
+			</td>
+			<td>
+			${item.quantity}
+			</td>
+			<td>
+			${item.price}
+			</td>
+			<td align="right">
+			${item.subtotal}
+			</td>
+			</tr>
+			</#list>
+			</tbody>
+		</table>
 	<#else>
 	<div>
 		<label class="field" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
@@ -48,8 +112,8 @@
 						<@s.select theme="simple" name="productId" cssClass="required fetchprice" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
 						<span class="info" style="font-style:italic;margin-left:5px;"></span>
 					</td>
-					<td width="15%"><input type="text" name="order.items[0].quantity" class="required integer positive quantity" style="width:60px;"/></td>
-					<td width="15%"><input type="text" name="order.items[0].price" class="required double positive price" style="width:60px;"/></td>
+					<td width="15%"><input type="text" name="order.items[0].quantity" class="required integer positive quantity"/></td>
+					<td width="15%"><input type="text" name="order.items[0].price" class="required double positive price"/></td>
 					<td width="14%" align="right"></td>
 					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
 				</tr>
@@ -62,6 +126,7 @@
 	<@s.select label="%{getText('salesman')}" name="employee.id" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 	<#if order.new>
 	<@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
+	<!--
 	<div>
 		<label class="field">${action.getText('pay')}</label>
 		<div>
@@ -72,8 +137,11 @@
 		</span>
 		</div>
 	</div>
+	-->
 	<#else>
-		<@s.textfield id="freight" label="%{getText('freight')}" name="order.freight" cssClass="double positive"/>
+		<#if order.shipped>
+			<@s.textfield id="freight" label="%{getText('freight')}" name="order.freight" cssClass="double positive"/>
+		</#if>
 	</#if>
 	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:80%;" rows="3"/>
 	<@s.submit value="%{getText('save')}" />
