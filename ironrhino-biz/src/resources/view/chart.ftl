@@ -95,6 +95,20 @@ div.block > div {
 			<div><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
 			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
+		<h3 class="clear">全国销量分布图</h3>
+		<div class="clear">所有品种</div>
+		<form action="${getUrl('/chart/ammap')}" method="get" class="line">
+			<div><@s.textfield theme="simple" name="from" cssClass="date required"/></div>
+			<div><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
+		</form>
+		<div class="clear">指定品种</div>
+		<form action="${getUrl('/chart/ammap')}" method="get" class="line">
+			<div><input type="text" name="id" class="required" style="width:150px;"/></div>
+			<div><@s.textfield theme="simple" name="from" cssClass="date required"/></div>
+			<div><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
+		</form>
 	</div>
 </div>
 

@@ -30,6 +30,8 @@ public class RewardAction extends BaseAction {
 
 	private static final long serialVersionUID = 4331302727890834065L;
 
+	private boolean negative;
+
 	private Reward reward;
 
 	private ResultPage<Reward> resultPage;
@@ -49,6 +51,14 @@ public class RewardAction extends BaseAction {
 
 	public ResultPage<Reward> getResultPage() {
 		return resultPage;
+	}
+
+	public boolean isNegative() {
+		return negative;
+	}
+
+	public void setNegative(boolean negative) {
+		this.negative = negative;
 	}
 
 	public void setResultPage(ResultPage<Reward> resultPage) {
@@ -141,6 +151,9 @@ public class RewardAction extends BaseAction {
 			dc.addOrder(Order.asc("name"));
 			employeeList = employeeManager.findListByCriteria(dc);
 		} else {
+			negative = reward.getAmount().doubleValue() < 0;
+			if (negative)
+				reward.setAmount(reward.getAmount().negate());
 			employee = reward.getEmployee();
 		}
 		return INPUT;
@@ -150,6 +163,8 @@ public class RewardAction extends BaseAction {
 	public String save() {
 		if (reward == null)
 			return INPUT;
+		if (negative)
+			reward.setAmount(reward.getAmount().negate());
 		if (reward.isNew()) {
 			reward.setEmployee(employeeManager.get(employee.getId()));
 		} else {

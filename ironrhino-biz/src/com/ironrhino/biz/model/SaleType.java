@@ -15,9 +15,15 @@ public enum SaleType {
 	}
 
 	public static SaleType parse(String name) {
-		for (SaleType s : values())
-			if (s.getName().equals(name) || s.getDisplayName().equals(name))
-				return s;
+		if (name != null)
+			for (SaleType en : values())
+				if (name.equals(en.name()) || name.equals(en.getDisplayName()))
+					return en;
 		return null;
+	}
+
+	@Override
+	public String toString() {
+		return getDisplayName();
 	}
 }

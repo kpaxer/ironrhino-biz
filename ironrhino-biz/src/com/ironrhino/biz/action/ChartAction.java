@@ -1,8 +1,8 @@
 package com.ironrhino.biz.action;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,15 +13,15 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
+import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
+import org.ironrhino.common.util.RegionUtils;
+import org.ironrhino.core.chart.ammap.DataFile;
 import org.ironrhino.core.chart.openflashchart.Chart;
-import org.ironrhino.core.chart.openflashchart.ChartUtils;
+import org.ironrhino.core.chart.ChartUtils;
 import org.ironrhino.core.chart.openflashchart.Text;
 import org.ironrhino.core.chart.openflashchart.axis.XAxis;
 import org.ironrhino.core.chart.openflashchart.axis.XAxisLabels;
@@ -35,14 +35,13 @@ import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
-import org.springframework.orm.hibernate3.HibernateCallback;
 
 import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
-import com.ironrhino.biz.model.SaleType;
 import com.ironrhino.biz.model.Product;
+import com.ironrhino.biz.model.SaleType;
 import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.Stuffflow;
 import com.ironrhino.biz.service.BrandManager;
@@ -50,6 +49,8 @@ import com.ironrhino.biz.service.CategoryManager;
 import com.ironrhino.biz.service.OrderManager;
 import com.ironrhino.biz.service.ProductManager;
 import com.ironrhino.biz.service.StuffManager;
+
+import freemarker.template.TemplateException;
 
 @AutoConfig
 public class ChartAction extends BaseAction {
@@ -185,6 +186,60 @@ public class ChartAction extends BaseAction {
 		return "geo";
 	}
 
+	public String ammap() {
+		return "ammap";
+	}
+
+	public String ammapdata() throws TemplateException, IOException {
+		title = "全国销量分布图";
+		DataFile df = new DataFile();
+		Map<String, BigDecimal> data = new HashMap<String, BigDecimal>();
+		List<Order> orders;
+		Category category = null;
+		final String id = getUid();
+		if (StringUtils.isNumeric(id))
+			category = categoryManager.get(Long.valueOf(id));
+		else if (StringUtils.isNotBlank(id))
+			category = categoryManager.findByNaturalId(id);
+		title = (category != null ? category.getName() : "") + title;
+		DetachedCriteria dc = orderManager.detachedCriteria();
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		orders = orderManager.findListByCriteria(dc);
+		for (Order order : orders) {
+			Region r = order.getCustomer().getRegion();
+			if (r == null)
+				continue;
+			String regionName = regionTreeControl.getRegionTree()
+					.getDescendantOrSelfById(r.getId()).getAncestorName(1);
+			for (OrderItem item : order.getItems()) {
+				if (category != null
+						&& !item.getProduct().getCategory().getId().equals(
+								category.getId()))
+					continue;
+				BigDecimal total = data.get(regionName);
+				if (total == null) {
+					data.put(regionName, item.getSubtotal());
+				} else {
+					data.put(regionName, total.add(item.getSubtotal()));
+				}
+			}
+		}
+		double max = 0;
+		for (Map.Entry<String, BigDecimal> entry : data.entrySet()) {
+			BigDecimal total = entry.getValue();
+			if (max < total.doubleValue())
+				max = total.doubleValue();
+		}
+
+		for (Map.Entry<String, BigDecimal> entry : data.entrySet())
+			df.put(entry.getKey(), entry.getValue().toString(), ChartUtils
+					.caculateStepColor(max, entry.getValue().doubleValue()));
+		df.setLabel(title);
+		df.render(ServletActionContext.getResponse().getWriter());
+		return NONE;
+	}
+
 	@JsonConfig(root = "chart")
 	public String data() {
 		if (type != null) {
@@ -210,33 +265,17 @@ public class ChartAction extends BaseAction {
 			labels.add(b.getName());
 		List<Order> orders;
 		Category category = null;
-		final String id = getUid();
-		String str;
-		if (StringUtils.isNumeric(id)) {
+		String id = getUid();
+		if (StringUtils.isNumeric(id))
 			category = categoryManager.get(Long.valueOf(id));
-			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.id = ?";
-		} else if (StringUtils.isNotBlank(id)) {
+		else if (StringUtils.isNotBlank(id))
 			category = categoryManager.findByNaturalId(id);
-			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.name = ?";
-		} else {
-			str = "select distinct o from Order o join o.items item join item.product where o.orderDate between ? and ?";
-		}
-		final String hql = str;
-		orders = (List<Order>) orderManager
-				.executeFind(new HibernateCallback<List<Order>>() {
-					@Override
-					public List<Order> doInHibernate(Session session)
-							throws HibernateException, SQLException {
-						Query q = session.createQuery(hql.toString());
-						q.setParameter(0, DateUtils.beginOfDay(getFrom()));
-						q.setParameter(1, DateUtils.endOfDay(getTo()));
-						if (StringUtils.isNotBlank(id))
-							q.setParameter(2, StringUtils.isNumeric(id) ? Long
-									.valueOf(id) : id);
-						return q.list();
-					}
-				});
 		title = (category != null ? category.getName() : "") + "销量根据商标统计";
+		DetachedCriteria dc = orderManager.detachedCriteria();
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		orders = orderManager.findListByCriteria(dc);
+
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
 		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
@@ -270,9 +309,7 @@ public class ChartAction extends BaseAction {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max == 0)
-					max = total.doubleValue();
-				else if (max < total.doubleValue())
+				if (max < total.doubleValue())
 					max = total.doubleValue();
 				values[i] = total.doubleValue();
 			}
@@ -330,9 +367,7 @@ public class ChartAction extends BaseAction {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max == 0)
-					max = total.doubleValue();
-				else if (max < total.doubleValue())
+				if (max < total.doubleValue())
 					max = total.doubleValue();
 				values[i] = total.doubleValue();
 			}
@@ -366,7 +401,7 @@ public class ChartAction extends BaseAction {
 				element = new BarChart();
 				element.setColour(ChartUtils.caculateColor(colorSeed++));
 				element.setText(cate.getName());
-				element.setTip(cate.getName() + "销量 #val#");
+				element.setTip(cate.getName() + "#val#");
 				element.addValues(values);
 				chart.addElements(element);
 			}
@@ -385,32 +420,15 @@ public class ChartAction extends BaseAction {
 		List<Order> orders;
 		Brand brand = null;
 		final String id = getUid();
-		String str;
-		if (StringUtils.isNumeric(id)) {
+		if (StringUtils.isNumeric(id))
 			brand = brandManager.get(Long.valueOf(id));
-			str = "select distinct o from Order o join o.items item join item.product p join p.brand b where (o.orderDate between ? and ?) and b.id = ?";
-		} else if (StringUtils.isNotBlank(id)) {
+		else if (StringUtils.isNotBlank(id))
 			brand = brandManager.findByNaturalId(id);
-			str = "select distinct o from Order o join o.items item join item.product p join p.brand b where (o.orderDate between ? and ?) and b.name = ?";
-		} else {
-			str = "select distinct o from Order o join o.items item join item.product where o.orderDate between ? and ?";
-		}
-		final String hql = str;
-		orders = (List<Order>) orderManager
-				.executeFind(new HibernateCallback<List<Order>>() {
-					@Override
-					public List<Order> doInHibernate(Session session)
-							throws HibernateException, SQLException {
-						Query q = session.createQuery(hql.toString());
-						q.setParameter(0, DateUtils.beginOfDay(getFrom()));
-						q.setParameter(1, DateUtils.endOfDay(getTo()));
-						if (StringUtils.isNotBlank(id))
-							q.setParameter(2, StringUtils.isNumeric(id) ? Long
-									.valueOf(id) : id);
-						return q.list();
-					}
-				});
 		title = (brand != null ? brand.getName() : "") + "销量根据品种统计";
+		DetachedCriteria dc = orderManager.detachedCriteria();
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		orders = orderManager.findListByCriteria(dc);
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
 		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
@@ -444,9 +462,7 @@ public class ChartAction extends BaseAction {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max == 0)
-					max = total.doubleValue();
-				else if (max < total.doubleValue())
+				if (max < total.doubleValue())
 					max = total.doubleValue();
 				values[i] = total.doubleValue();
 			}
@@ -504,9 +520,7 @@ public class ChartAction extends BaseAction {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max == 0)
-					max = total.doubleValue();
-				else if (max < total.doubleValue())
+				if (max < total.doubleValue())
 					max = total.doubleValue();
 				values[i] = total.doubleValue();
 			}
@@ -540,7 +554,7 @@ public class ChartAction extends BaseAction {
 				element = new BarChart();
 				element.setColour(ChartUtils.caculateColor(colorSeed++));
 				element.setText(b.getName());
-				element.setTip(b.getName() + "销量 #val#");
+				element.setTip(b.getName() + "#val#");
 				element.addValues(values);
 				chart.addElements(element);
 			}
@@ -556,33 +570,16 @@ public class ChartAction extends BaseAction {
 			labels.add(st.getDisplayName());
 		List<Order> orders;
 		Category category = null;
-		final String id = getUid();
-		String str;
-		if (StringUtils.isNumeric(id)) {
+		String id = getUid();
+		if (StringUtils.isNumeric(id))
 			category = categoryManager.get(Long.valueOf(id));
-			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.id = ?";
-		} else if (StringUtils.isNotBlank(id)) {
+		else if (StringUtils.isNotBlank(id))
 			category = categoryManager.findByNaturalId(id);
-			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.name = ?";
-		} else {
-			str = "select o from Order o where o.orderDate between ? and ?";
-		}
-		final String hql = str;
-		orders = (List<Order>) orderManager
-				.executeFind(new HibernateCallback<List<Order>>() {
-					@Override
-					public List<Order> doInHibernate(Session session)
-							throws HibernateException, SQLException {
-						Query q = session.createQuery(hql.toString());
-						q.setParameter(0, DateUtils.beginOfDay(getFrom()));
-						q.setParameter(1, DateUtils.endOfDay(getTo()));
-						if (StringUtils.isNotBlank(id))
-							q.setParameter(2, StringUtils.isNumeric(id) ? Long
-									.valueOf(id) : id);
-						return q.list();
-					}
-				});
 		title = (category != null ? category.getName() : "") + "销量根据销售方式统计";
+		DetachedCriteria dc = orderManager.detachedCriteria();
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		orders = orderManager.findListByCriteria(dc);
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
 		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
@@ -618,9 +615,7 @@ public class ChartAction extends BaseAction {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max == 0)
-					max = total.doubleValue();
-				else if (max < total.doubleValue())
+				if (max < total.doubleValue())
 					max = total.doubleValue();
 				values[i] = total.doubleValue();
 			}
@@ -677,9 +672,7 @@ public class ChartAction extends BaseAction {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max == 0)
-					max = total.doubleValue();
-				else if (max < total.doubleValue())
+				if (max < total.doubleValue())
 					max = total.doubleValue();
 				values[i] = total.doubleValue();
 			}
@@ -735,38 +728,21 @@ public class ChartAction extends BaseAction {
 			region = regionTreeControl.getRegionTree();
 		for (Region r : region.getChildren())
 			labels.add(r.getName());
-		labels.add(region.getName() + "未知地区");
-		labels.add("其它地区");
+		labels.add(region.getName() + "未知");
+		labels.add("其它");
 
 		List<Order> orders;
 		Category category = null;
 		final String id = getUid();
-		String str;
-		if (StringUtils.isNumeric(id)) {
+		if (StringUtils.isNumeric(id))
 			category = categoryManager.get(Long.valueOf(id));
-			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.id = ?";
-		} else if (StringUtils.isNotBlank(id)) {
+		else if (StringUtils.isNotBlank(id))
 			category = categoryManager.findByNaturalId(id);
-			str = "select distinct o from Order o join o.items item join item.product p join p.category c where (o.orderDate between ? and ?) and c.name = ?";
-		} else {
-			str = "select distinct o from Order o join o.items item join item.product where o.orderDate between ? and ?";
-		}
-		final String hql = str;
-		orders = (List<Order>) orderManager
-				.executeFind(new HibernateCallback<List<Order>>() {
-					@Override
-					public List<Order> doInHibernate(Session session)
-							throws HibernateException, SQLException {
-						Query q = session.createQuery(hql.toString());
-						q.setParameter(0, DateUtils.beginOfDay(getFrom()));
-						q.setParameter(1, DateUtils.endOfDay(getTo()));
-						if (StringUtils.isNotBlank(id))
-							q.setParameter(2, StringUtils.isNumeric(id) ? Long
-									.valueOf(id) : id);
-						return q.list();
-					}
-				});
 		title = (category != null ? category.getName() : "") + "销量根据地区统计";
+		DetachedCriteria dc = orderManager.detachedCriteria();
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		orders = orderManager.findListByCriteria(dc);
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
 		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
@@ -776,9 +752,7 @@ public class ChartAction extends BaseAction {
 			Map<String, BigDecimal> sales = new HashMap<String, BigDecimal>();
 			for (Order order : orders) {
 				for (OrderItem item : order.getItems()) {
-					if (!item.getProduct().getCategory().equals(category))
-						continue;
-					String regionName = "其它地区";
+					String regionName = "其它";
 					Region r = order.getCustomer().getRegion();
 					if (r != null)
 						r = regionTreeControl.getRegionTree()
@@ -786,14 +760,14 @@ public class ChartAction extends BaseAction {
 					if (r != null) {
 						if (r.isDescendantOrSelfOf(region)) {
 							if (r.getId().equals(region.getId()))
-								regionName = region.getName() + "未知地区";
+								regionName = region.getName() + "未知";
 							else
 								regionName = r.getAncestorName(region
 										.getLevel() + 1);
-						} else {
-							System.out.println(region);
 						}
 					}
+					if (!item.getProduct().getCategory().equals(category))
+						continue;
 					BigDecimal total = sales.get(regionName);
 					if (total == null) {
 						sales.put(regionName, item.getSubtotal());
@@ -815,16 +789,17 @@ public class ChartAction extends BaseAction {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max == 0)
-					max = total.doubleValue();
-				else if (max < total.doubleValue())
+				if (max < total.doubleValue())
 					max = total.doubleValue();
 				values[i] = total.doubleValue();
 			}
 
 			XAxis x = new XAxis();
 			YAxis y = new YAxis();
-			XAxisLabels xAxisLabels = new XAxisLabels(labels);
+			List<String> shortLabels = new ArrayList<String>(labels.size());
+			for(String s : labels)
+				shortLabels.add(RegionUtils.shortenName(s));
+			XAxisLabels xAxisLabels = new XAxisLabels(shortLabels);
 			xAxisLabels.setSize(12);
 			x.setXAxisLabels(xAxisLabels);
 			y.setSteps(ChartUtils.caculateSteps(max));
@@ -839,7 +814,7 @@ public class ChartAction extends BaseAction {
 			Map<String, Map<String, BigDecimal>> salesByCate = new HashMap<String, Map<String, BigDecimal>>();
 			for (Order order : orders) {
 				for (OrderItem item : order.getItems()) {
-					String regionName = "其它地区";
+					String regionName = "其它";
 					Region r = order.getCustomer().getRegion();
 					if (r != null)
 						r = regionTreeControl.getRegionTree()
@@ -847,7 +822,7 @@ public class ChartAction extends BaseAction {
 					if (r != null) {
 						if (r.isDescendantOrSelfOf(region))
 							if (r.getId().equals(region.getId()))
-								regionName = region.getName() + "未知地区";
+								regionName = region.getName() + "未知";
 							else
 								regionName = r.getAncestorName(region
 										.getLevel() + 1);
@@ -886,16 +861,17 @@ public class ChartAction extends BaseAction {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max == 0)
-					max = total.doubleValue();
-				else if (max < total.doubleValue())
+				if (max < total.doubleValue())
 					max = total.doubleValue();
 				values[i] = total.doubleValue();
 			}
 
 			XAxis x = new XAxis();
 			YAxis y = new YAxis();
-			XAxisLabels xAxisLabels = new XAxisLabels(labels);
+			List<String> shortLabels = new ArrayList<String>(labels.size());
+			for(String s : labels)
+				shortLabels.add(RegionUtils.shortenName(s));
+			XAxisLabels xAxisLabels = new XAxisLabels(shortLabels);
 			xAxisLabels.setSize(12);
 			x.setXAxisLabels(xAxisLabels);
 			y.setSteps(ChartUtils.caculateSteps(max));
@@ -931,19 +907,11 @@ public class ChartAction extends BaseAction {
 	}
 
 	public void product() {
-		final String hql = "select distinct o from Order o join o.items item join item.product p where (o.orderDate between ? and ?) order by o.orderDate";
-		List<Order> orders = (List<Order>) orderManager
-				.executeFind(new HibernateCallback<List<Order>>() {
-					@Override
-					public List<Order> doInHibernate(Session session)
-							throws HibernateException, SQLException {
-						Query q = session.createQuery(hql.toString());
-						q.setParameter(0, DateUtils.beginOfDay(getFrom()));
-						q.setParameter(1, DateUtils.endOfDay(getTo()));
-						return q.list();
-					}
-				});
-
+		DetachedCriteria dc = orderManager.detachedCriteria();
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.addOrder(org.hibernate.criterion.Order.asc("orderDate"));
+		List<Order> orders = orderManager.findListByCriteria(dc);
 		title = "产品价格走势图";
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");

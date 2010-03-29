@@ -24,7 +24,7 @@ text-decoration:none;
 <@button text='${action.getText(\'save\')}' action='save'/>
 <@button text='${action.getText(\'delete\')}' action='delete'/>
 <@button text='${action.getText(\'reload\')}' action='reload'/>
-<@button text='${action.getText(\'merge\')}' onclick='$(\'#merge\').show()'/>
+<@button text='${action.getText(\'merge\')}' onclick='$(\'#merge\').toggle()'/>
 ">
 <#assign searchButtons=r"<@button text='按区域检索' type='link' href='${getUrl(\'/chart/geo\')}'/>"/>
 <@richtable entityName="customer" config=config actionColumnWidth="270px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true searchButtons=searchButtons/>

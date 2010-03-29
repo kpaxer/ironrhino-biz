@@ -17,8 +17,9 @@ text-decoration:none;
 <@button text='${action.getText(\'delete\')}' action='delete'/>
 <@button text='${action.getText(\'order\')}' type='link' href='${getUrl(\'/order?employee.id=\'+entity.id)}'/>
 <@button text='${action.getText(\'reward\')}' type='link' href='${getUrl(\'/reward?employee.id=\'+entity.id)}'/>
-<@button text='${action.getText(\'create\')+action.getText(\'reward\')}' type='link' href='${getUrl(\'/reward/input?employee.id=\'+entity.id)}' rel='richtable'/>
+<@button text='支工资' type='link' href='${getUrl(\'/reward/input?negative=true&employee.id=\'+entity.id)}' rel='richtable'/>
+<@button text='发工资' type='link' href='${getUrl(\'/reward/input?employee.id=\'+entity.id)}' rel='richtable'/>
 ">
-<@richtable entityName="employee" config=config actionColumnWidth="270px" actionColumnButtons=actionColumnButtons/>
+<@richtable entityName="employee" config=config actionColumnWidth="330px" actionColumnButtons=actionColumnButtons/>
 </body>
 </html></#escape>
