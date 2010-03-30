@@ -126,7 +126,6 @@
 	<@s.select label="%{getText('salesman')}" name="employee.id" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 	<#if order.new>
 	<@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
-	<!--
 	<div>
 		<label class="field">${action.getText('pay')}</label>
 		<div>
@@ -137,7 +136,6 @@
 		</span>
 		</div>
 	</div>
-	-->
 	<#else>
 		<#if order.shipped>
 			<@s.textfield id="freight" label="%{getText('freight')}" name="order.freight" cssClass="double positive"/>
