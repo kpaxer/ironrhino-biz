@@ -26,8 +26,8 @@ import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
-import com.ironrhino.biz.model.SaleType;
 import com.ironrhino.biz.model.Product;
+import com.ironrhino.biz.model.SaleType;
 import com.ironrhino.biz.model.Stuffflow;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.EmployeeManager;
@@ -260,7 +260,10 @@ public class ReportAction extends BaseAction {
 		String id = getUid();
 		if (StringUtils.isNotBlank(id))
 			dc.createAlias("region", "r").add(
-					Restrictions.eq("r.id", Long.valueOf(id)));
+					Restrictions.or(Restrictions.or(Restrictions.eq("r.id",
+							Long.valueOf(id)), Restrictions.like("r.fullId",
+							"%." + id + ".%")), Restrictions.like("r.fullId",
+							id + ".%")));
 		else
 			dc.add(Restrictions.between("createDate", DateUtils
 					.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
