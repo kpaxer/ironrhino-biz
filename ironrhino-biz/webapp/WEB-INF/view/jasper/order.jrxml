@@ -37,7 +37,7 @@
 			</textField>
 			<staticText>
 				<reportElement x="0" y="59" width="50" height="20">
-					<printWhenExpression><![CDATA[new Boolean($P{date}!=null)]]></printWhenExpression>
+					<printWhenExpression><![CDATA[new Boolean($P{date}!=null&&!$P{date}.equals(""))]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="none">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>

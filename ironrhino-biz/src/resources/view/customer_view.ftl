@@ -13,6 +13,7 @@
 <div>
 <span>${action.getText('linkman')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.linkman!}</span>
 <span style="margin-left:40px;">${action.getText('phone')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.phone!}</span>
+<span style="margin-left:40px;">${action.getText('mobile')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.mobile!}</span>
 </div>
 <#if customer.memo?has_content>
 <div>

@@ -17,6 +17,7 @@
 	<@s.textfield label="%{getText('address')}" id="address" name="customer.address"/>
 	<@s.textfield label="%{getText('linkman')}" name="customer.linkman" />
 	<@s.textfield label="%{getText('phone')}" name="customer.phone" />
+	<@s.textfield label="%{getText('mobile')}" name="customer.mobile" />
 	<@s.textfield label="%{getText('fax')}" name="customer.fax" />
 	<@s.textarea label="%{getText('memo')}" name="customer.memo" cols="50" rows="10"/>
 	<@s.submit value="%{getText('save')}" />

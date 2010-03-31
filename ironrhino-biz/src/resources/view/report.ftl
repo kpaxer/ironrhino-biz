@@ -210,11 +210,11 @@ $(function(){
 			<div><@s.textfield name="date" cssClass="date required" theme="simple"/></div>
 			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
-		<div class="clear">按区间</div>
+		<div class="clear">按地区</div>
 		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="customer"/>
-			<div><input type="text" name="from" class="date required"/></div>
-			<div><input type="text" name="to" class="date required"/></div>
+			<input id="regionId" type="hidden" name="id"/>
+			<div><span id="region" onclick="Region.select('region',true,'regionId')" style="cursor:pointer;">请选择地区</span></div>
 			<div><@s.submit theme="simple" value="%{getText('confirm')}"/><div/>
 		</form>
 	</div>

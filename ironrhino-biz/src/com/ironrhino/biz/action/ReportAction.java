@@ -173,6 +173,8 @@ public class ReportAction extends BaseAction {
 			else
 				reportParameters.put("date", DateUtils
 						.format(from, datePattern));
+		else
+			reportParameters.put("date", "");
 		reportParameters.put("SUBREPORT_DIR", ServletActionContext
 				.getServletContext().getRealPath("/WEB-INF/view/jasper/"));
 		return reportParameters;
@@ -255,8 +257,13 @@ public class ReportAction extends BaseAction {
 	public void customer() {
 		title = "客户信息";
 		DetachedCriteria dc = customerManager.detachedCriteria();
-		dc.add(Restrictions.between("createDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		String id = getUid();
+		if (StringUtils.isNotBlank(id))
+			dc.createAlias("region", "r").add(
+					Restrictions.eq("r.id", Long.valueOf(id)));
+		else
+			dc.add(Restrictions.between("createDate", DateUtils
+					.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 		List<Customer> cl = customerManager.findListByCriteria(dc);
 		for (Customer c : cl) {

@@ -10,7 +10,6 @@
 	<property name="test.src.dir" location="${basedir}/test/src" />
 	<property name="test.classes.dir" location="${basedir}/test/classes" />
 	<property name="test.results.dir" location="${basedir}/test/results" />
-	<property name="jar.name" value="ironrhino-biz.jar" />
 	<property name="war.name" value="ROOT.war" />
 
 	<path id="lib.classpath">
@@ -161,22 +160,8 @@
 		</java>
 	</target>
 
-	<target name="jar">
-		<mkdir dir="${target.dir}" />
-		<delete file="${target.dir}/${jar.name}" />
-		<jar jarfile="${target.dir}/${jar.name}" basedir="${classes.dir}" />
-	</target>
-
-	<target name="war" depends="jar">
-		<move file="${classes.dir}" todir="${target.dir}" />
-		<copy todir="${webapp.dir}/WEB-INF/lib">
-			<fileset dir="${target.dir}">
-				<include name="${jar.name}" />
-			</fileset>
-		</copy>
+	<target name="war">
 		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}" webxml="${webapp.dir}/WEB-INF/web.xml" />
-		<delete file="${webapp.dir}/WEB-INF/lib/${jar.name}"/>
-		<move file="${target.dir}/classes" todir="${webapp.dir}/WEB-INF" />
 	</target>
 
 	<target name="clean">

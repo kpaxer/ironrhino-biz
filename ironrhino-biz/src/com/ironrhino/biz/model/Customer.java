@@ -33,6 +33,9 @@ public class Customer extends Entity<Long> {
 	private String phone;
 
 	@SearchableProperty
+	private String mobile;
+
+	@SearchableProperty
 	private String fax;
 
 	@SearchableProperty(boost = 3)
@@ -103,6 +106,14 @@ public class Customer extends Entity<Long> {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public String getPhone() {
