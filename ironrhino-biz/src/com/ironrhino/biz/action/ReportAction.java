@@ -16,7 +16,9 @@ import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
@@ -258,15 +260,24 @@ public class ReportAction extends BaseAction {
 		title = "客户信息";
 		DetachedCriteria dc = customerManager.detachedCriteria();
 		String id = getUid();
-		if (StringUtils.isNotBlank(id))
-			dc.createAlias("region", "r").add(
-					Restrictions.or(Restrictions.or(Restrictions.eq("r.id",
-							Long.valueOf(id)), Restrictions.like("r.fullId",
-							"%." + id + ".%")), Restrictions.like("r.fullId",
-							id + ".%")));
-		else
+		if (StringUtils.isNotBlank(id)) {
+			Region r = regionTreeControl.getRegionTree()
+					.getDescendantOrSelfById(Long.valueOf(id));
+			if (r == null)
+				return;
+			if (r.isLeaf()) {
+				dc.createAlias("region", "r").add(
+						Restrictions.eq("r.id", r.getId()));
+			} else {
+				dc.createAlias("region", "r").add(
+						Restrictions.or(Restrictions.eq("r.id", r.getId()),
+								Restrictions.like("r.fullId", r.getFullId()
+										+ ".", MatchMode.START)));
+			}
+		} else {
 			dc.add(Restrictions.between("createDate", DateUtils
 					.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		}
 		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 		List<Customer> cl = customerManager.findListByCriteria(dc);
 		for (Customer c : cl) {
