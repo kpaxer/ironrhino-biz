@@ -44,7 +44,7 @@ public class SetupAction extends BaseAction {
 	@Override
 	public String execute() {
 		baseManager.setEntityClass(User.class);
-		int cnt = baseManager.countAll();
+		long cnt = baseManager.countAll();
 		if (cnt == 0) {
 			initUser();
 			if (region)
