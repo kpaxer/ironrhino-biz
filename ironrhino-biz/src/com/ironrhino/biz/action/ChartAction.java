@@ -715,6 +715,7 @@ public class ChartAction extends BaseAction {
 	}
 
 	public void region() {
+		boolean includeOther = false;
 		List<Category> cates = categoryManager
 				.findAll(org.hibernate.criterion.Order.asc("displayOrder"));
 		List<String> labels = new ArrayList<String>();
@@ -729,7 +730,8 @@ public class ChartAction extends BaseAction {
 		for (Region r : region.getChildren())
 			labels.add(r.getName());
 		labels.add(region.getName() + "未知");
-		labels.add("其它");
+		if (includeOther)
+			labels.add("其它");
 
 		List<Order> orders;
 		Category category = null;
@@ -797,7 +799,7 @@ public class ChartAction extends BaseAction {
 			XAxis x = new XAxis();
 			YAxis y = new YAxis();
 			List<String> shortLabels = new ArrayList<String>(labels.size());
-			for(String s : labels)
+			for (String s : labels)
 				shortLabels.add(RegionUtils.shortenName(s));
 			XAxisLabels xAxisLabels = new XAxisLabels(shortLabels);
 			xAxisLabels.setSize(12);
@@ -869,7 +871,7 @@ public class ChartAction extends BaseAction {
 			XAxis x = new XAxis();
 			YAxis y = new YAxis();
 			List<String> shortLabels = new ArrayList<String>(labels.size());
-			for(String s : labels)
+			for (String s : labels)
 				shortLabels.add(RegionUtils.shortenName(s));
 			XAxisLabels xAxisLabels = new XAxisLabels(shortLabels);
 			xAxisLabels.setSize(12);
