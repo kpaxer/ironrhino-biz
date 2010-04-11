@@ -20,6 +20,7 @@ import org.ironrhino.core.struts.BaseAction;
 import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
+import com.ironrhino.biz.model.EmployeeType;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Product;
@@ -46,7 +47,7 @@ public class OrderAction extends BaseAction {
 
 	private List<Product> productList;
 
-	private List<Employee> employeeList;
+	private List<Employee> salesmanList;
 
 	@Inject
 	private transient OrderManager orderManager;
@@ -71,8 +72,8 @@ public class OrderAction extends BaseAction {
 		this.resultPage = resultPage;
 	}
 
-	public List<Employee> getEmployeeList() {
-		return employeeList;
+	public List<Employee> getSalesmanList() {
+		return salesmanList;
 	}
 
 	public List<Product> getProductList() {
@@ -189,8 +190,9 @@ public class OrderAction extends BaseAction {
 			customer = order.getCustomer();
 			employee = order.getEmployee();
 		}
-		employeeList = employeeManager.findAll(org.hibernate.criterion.Order
-				.asc("name"));
+		DetachedCriteria dc = employeeManager.detachedCriteria();
+		dc.add(Restrictions.eq("type", EmployeeType.SALESMAN));
+		salesmanList = employeeManager.findListByCriteria(dc);
 		return INPUT;
 	}
 
@@ -223,7 +225,7 @@ public class OrderAction extends BaseAction {
 						order.getItems().remove(i);
 				}
 			}
-			if(order.getItems().size()==0){
+			if (order.getItems().size() == 0) {
 				addActionError("没有订单项");
 				return INPUT;
 			}

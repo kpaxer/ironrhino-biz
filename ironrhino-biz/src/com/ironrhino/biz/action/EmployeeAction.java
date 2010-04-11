@@ -53,7 +53,7 @@ public class EmployeeAction extends BaseAction {
 			resultPage = new ResultPage<Employee>();
 		resultPage.setDetachedCriteria(dc);
 		resultPage.addOrder(org.hibernate.criterion.Order.asc("dimission"));
-		resultPage.addOrder(org.hibernate.criterion.Order.asc("id"));
+		resultPage.addOrder(org.hibernate.criterion.Order.asc("type"));
 		resultPage = employeeManager.findByResultPage(resultPage);
 		return LIST;
 	}

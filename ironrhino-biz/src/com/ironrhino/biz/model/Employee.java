@@ -25,6 +25,8 @@ public class Employee extends Entity<Long> {
 	@SearchableProperty(boost = 3)
 	private String name;
 
+	private EmployeeType type;
+
 	private boolean dimission;
 
 	private String phone;
@@ -80,6 +82,14 @@ public class Employee extends Entity<Long> {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public EmployeeType getType() {
+		return type;
+	}
+
+	public void setType(EmployeeType type) {
+		this.type = type;
 	}
 
 	@Override

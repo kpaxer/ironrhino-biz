@@ -123,7 +123,7 @@
 	</div>
 	</#if>
 	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date required"/>
-	<@s.select label="%{getText('salesman')}" name="employee.id" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
+	<@s.select label="%{getText('salesman')}" name="employee.id" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 	<#if order.new>
 	<@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
 	<div>

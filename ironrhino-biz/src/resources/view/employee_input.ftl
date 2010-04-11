@@ -9,6 +9,7 @@
 		<@s.hidden name="employee.id" />
 	</@s.if>
 	<@s.textfield label="%{getText('name')}" name="employee.name" cssClass="required"/>
+	<@s.select label="%{getText('type')}" name="employee.type" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
 	<@s.textfield label="%{getText('phone')}" name="employee.phone" />
 	<@s.checkbox label="%{getText('dimission')}" name="employee.dimission" />
 	<@s.textarea label="%{getText('memo')}" name="employee.memo" cols="50" rows="10"/>

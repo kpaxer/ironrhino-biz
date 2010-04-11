@@ -12,6 +12,13 @@
 <@button text='${action.getText(\'complete\')}' action='complete'/>
 </#if>
 ">
-<@richtable entityName="plan" config=config actionColumnButtons=actionColumnButtons celleditable=false searchable=true/>
+<#assign bottomButtons=r"
+<@button text='${action.getText(\'create\')}' view='input'/>
+<@button text='${action.getText(\'save\')}' action='save'/>
+<@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'complete\')}' action='complete'/>
+<@button text='${action.getText(\'reload\')}' action='reload'/>
+">
+<@richtable entityName="plan" config=config actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false searchable=true/>
 </body>
 </html></#escape>

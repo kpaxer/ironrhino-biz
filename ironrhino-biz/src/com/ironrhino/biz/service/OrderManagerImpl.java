@@ -85,6 +85,8 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 	@Override
 	@Transactional
 	public void pay(Order order) {
+		if (order.isPaid())
+			return;
 		order.setPaid(true);
 		save(order);
 	}
@@ -92,6 +94,8 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 	@Override
 	@Transactional
 	public void ship(Order order) {
+		if (order.isShipped())
+			return;
 		order.setShipped(true);
 		save(order);
 	}

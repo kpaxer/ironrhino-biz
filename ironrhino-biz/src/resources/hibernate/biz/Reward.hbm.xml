@@ -10,6 +10,13 @@
 			<generator class="org.ironrhino.core.hibernate.StringIdGenerator" />
 		</id>
 		<property name="amount" />
+		<property name="type">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">
+					com.ironrhino.biz.model.RewardType
+				</param>
+			</type>
+		</property>
 		<property name="rewardDate" />
 		<property name="createDate" />
 		<property name="memo" length="2500" />

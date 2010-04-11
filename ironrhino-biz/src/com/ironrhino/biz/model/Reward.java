@@ -21,6 +21,8 @@ public class Reward extends BaseEntity {
 	@SearchableProperty(index = Index.NO, store = Store.YES)
 	private BigDecimal amount;
 
+	private RewardType type;
+
 	@SearchableProperty(converter = "date", format = "yyyy-MM-dd")
 	private Date rewardDate = new Date();
 
@@ -72,6 +74,14 @@ public class Reward extends BaseEntity {
 
 	public void setMemo(String memo) {
 		this.memo = memo;
+	}
+
+	public RewardType getType() {
+		return type;
+	}
+
+	public void setType(RewardType type) {
+		this.type = type;
 	}
 
 }

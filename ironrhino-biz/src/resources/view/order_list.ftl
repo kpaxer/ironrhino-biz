@@ -9,7 +9,7 @@ text-align:center;
 </style>
 </head>
 <body>
-<#assign config={"code":{},"customer":{},"grandTotal":{},"orderDate":{"template":r"${value?string('yyyy年MM月dd日')}"},"saleType":{},"paid":{},"shipped":{}}>
+<#assign config={"code":{"width":"100px"},"customer":{},"grandTotal":{"width":"80px"},"orderDate":{"template":r"${value?string('yyyy年MM月dd日')}","width":"120px"},"saleType":{"width":"100px"},"paid":{"width":"80px"},"shipped":{"width":"80px"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'view\')}' view='view'/>
 <@button text='${action.getText(\'edit\')}' view='input'/>
@@ -27,6 +27,8 @@ text-align:center;
 <@button text='${action.getText(\'create\')}' view='input' windowoptions='{\'width\':\'900px\'}'/>
 <@button text='${action.getText(\'save\')}' action='save'/>
 <@button text='${action.getText(\'delete\')}' action='delete'/>
+<@button text='${action.getText(\'pay\')}' action='pay'/>
+<@button text='${action.getText(\'ship\')}' action='ship'/>
 <@button text='${action.getText(\'reload\')}' action='reload'/>
 ">
 <@richtable entityName="order" config=config actionColumnWidth="230px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deleteable=false searchable=true/>

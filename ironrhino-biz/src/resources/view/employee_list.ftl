@@ -10,7 +10,7 @@ text-decoration:none;
 </style>
 </head>
 <body>
-<#assign config={"id":{},"name":{"cellEdit":"click"},"phone":{"cellEdit":"click"},"dimission":{"cellEdit":"click,select_template_boolean"}}>
+<#assign config={"id":{},"name":{"cellEdit":"click"},"type":{"cellEdit":"click,select_template_type"},"phone":{"cellEdit":"click"},"dimission":{"cellEdit":"click,select_template_boolean"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'save\')}' action='save'/>
@@ -21,5 +21,10 @@ text-decoration:none;
 <@button text='发工资' type='link' href='${getUrl(\'/reward/input?employee.id=\'+entity.id)}' rel='richtable'/>
 ">
 <@richtable entityName="employee" config=config actionColumnWidth="330px" actionColumnButtons=actionColumnButtons/>
+<div style="display: none;">
+<textarea id="select_template_type">
+<@s.select theme="simple" cssStyle="width: 100%;" onblur="Richtable.updateCell(this,'select')" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
+</textarea>
+</div>
 </body>
 </html></#escape>
