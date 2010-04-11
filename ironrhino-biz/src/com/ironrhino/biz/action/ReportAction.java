@@ -303,6 +303,7 @@ public class ReportAction extends BaseAction {
 		else
 			title += "(包括支出)";
 		dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
+		dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 		dc.addOrder(org.hibernate.criterion.Order.desc("amount"));
 		list = rewardManager.findListByCriteria(dc);
 	}
@@ -326,6 +327,7 @@ public class ReportAction extends BaseAction {
 			else
 				title += "(包括支出)";
 			dc.addOrder(org.hibernate.criterion.Order.asc("rewardDate"));
+			dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 			list = rewardManager.findListByCriteria(dc);
 		}
 	}

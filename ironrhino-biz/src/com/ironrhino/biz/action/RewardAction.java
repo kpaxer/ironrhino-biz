@@ -97,6 +97,7 @@ public class RewardAction extends BaseAction {
 						Restrictions.eq("c.id", employee.getId()));
 			resultPage.addOrder(org.hibernate.criterion.Order
 					.desc("rewardDate"));
+			resultPage.addOrder(org.hibernate.criterion.Order.asc("type"));
 			resultPage = rewardManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
