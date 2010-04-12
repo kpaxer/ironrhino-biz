@@ -5,12 +5,9 @@
 </head>
 <body>
 <@s.form method="post" cssClass="ajax">
-	<@s.password label="%{getText('currentPassword')}"
-		name="currentPassword" cssClass="required" />
-	<@s.password label="%{getText('password')}" name="password"
-		cssClass="required" />
-	<@s.password label="%{getText('confirmPassword')}"
-		name="confirmPassword" cssClass="required" />
+	<@s.password label="%{getText('currentPassword')}" name="currentPassword" cssClass="required focus" />
+	<@s.password label="%{getText('password')}" name="password" cssClass="required" />
+	<@s.password label="%{getText('confirmPassword')}" name="confirmPassword" cssClass="required" />
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

@@ -6,6 +6,6 @@
 <body>
 <#assign config={"stuff":{},"quantity":{},"amount":{},"date":{"template":r"${value?string('yyyy年MM月dd日')}"}}>
 <#assign actionColumnButtons=''>
-<@richtable entityName="stuffflow" config=config readonly=true />
+<@richtable entityName="stuffflow" config=config readonly=true searchable=true/>
 </body>
 </html></#escape>

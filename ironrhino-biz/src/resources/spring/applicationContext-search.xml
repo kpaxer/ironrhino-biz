@@ -10,6 +10,8 @@
 				<value>org.ironrhino.common.model.Region</value>
 				<value>com.ironrhino.biz.model.Product</value>
 				<value>com.ironrhino.biz.model.Plan</value>
+				<value>com.ironrhino.biz.model.Stuff</value>
+				<value>com.ironrhino.biz.model.Stuffflow</value>
 				<value>com.ironrhino.biz.model.Customer</value>
 				<value>com.ironrhino.biz.model.Order</value>
 				<value>com.ironrhino.biz.model.Employee</value>

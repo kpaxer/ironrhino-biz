@@ -20,7 +20,7 @@ text-decoration:none;
 <@button text='支工资' type='link' href='${getUrl(\'/reward/input?negative=true&employee.id=\'+entity.id)}' rel='richtable'/>
 <@button text='发工资' type='link' href='${getUrl(\'/reward/input?employee.id=\'+entity.id)}' rel='richtable'/>
 ">
-<@richtable entityName="employee" config=config actionColumnWidth="330px" actionColumnButtons=actionColumnButtons/>
+<@richtable entityName="employee" config=config actionColumnWidth="330px" actionColumnButtons=actionColumnButtons searchable=true/>
 <div style="display: none;">
 <textarea id="select_template_type">
 <@s.select theme="simple" cssStyle="width: 100%;" onblur="Richtable.updateCell(this,'select')" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
