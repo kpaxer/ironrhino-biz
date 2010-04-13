@@ -1,27 +1,30 @@
 <beans default-autowire="byName"
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" p:ignoreResourceNotFound="true">
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		p:ignoreResourceNotFound="true">
 		<property name="locations">
 			<list>
-				<value>classpath:resources/spring/applicationContext.properties</value>
-				<value>file:///${ironrhino-biz.home}/conf/applicationContext.properties</value>
+				<value>classpath:resources/spring/applicationContext.properties
+				</value>
+				<value>file:///${ironrhino-biz.home}/conf/applicationContext.properties
+				</value>
 			</list>
 		</property>
 	</bean>
 	<context:annotation-config />
-	<context:component-scan base-package="org.ironrhino,com.ironrhino.biz"/>
+	<context:component-scan base-package="org.ironrhino,com.ironrhino.biz" />
 	<aop:aspectj-autoproxy />
-	<bean id="dataSource"
-		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-		p:url="${jdbc.url}" p:username="${jdbc.username}"
-		p:password="${jdbc.password}"
-		p:driverClassName="${jdbc.driverClassName}"
-		p:poolPreparedStatements="true" />
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" p:url="${jdbc.url}" p:username="${jdbc.username}"
+		p:password="${jdbc.password}" p:driverClassName="${jdbc.driverClassName}"
+		p:poolPreparedStatements="true" p:removeAbandoned="true"
+		p:initialSize="${dataSource.initialSize}" p:maxActive="${dataSource.maxActive}"
+		p:maxIdle="${dataSource.maxIdle}" p:minIdle="${dataSource.minIdle}"
+		p:maxWait="${dataSource.maxWait}" />
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">
@@ -30,9 +33,8 @@
 				<value>resources.i18n.messages</value>
 			</list>
 		</property>
-	</bean>	
-	<bean id="templateProvider"
-		class="org.ironrhino.core.struts.TemplateProvider">
+	</bean>
+	<bean id="templateProvider" class="org.ironrhino.core.struts.TemplateProvider">
 		<property name="allSharedVariables">
 			<map>
 				<entry key="base" value="${base}" />

@@ -14,10 +14,8 @@
 				<value>com.ironrhino.biz.model.Reward</value>
 				<value>com.ironrhino.biz.model.Employee</value>
 				<value>com.ironrhino.biz.model.Order</value>
-				<!--
 				<value>com.ironrhino.biz.model.Stuff</value>
 				<value>com.ironrhino.biz.model.Stuffflow</value>
-				-->
 			</list>
 		</property>
 		<property name="compassConfiguration">
