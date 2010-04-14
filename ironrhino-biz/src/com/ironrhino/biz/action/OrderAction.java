@@ -192,6 +192,7 @@ public class OrderAction extends BaseAction {
 		}
 		DetachedCriteria dc = employeeManager.detachedCriteria();
 		dc.add(Restrictions.eq("type", EmployeeType.SALESMAN));
+		dc.add(Restrictions.eq("dimission", false));
 		salesmanList = employeeManager.findListByCriteria(dc);
 		return INPUT;
 	}
