@@ -4,7 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.util.LocalizedTextUtil;
 
 public enum EmployeeType {
-	PACKER, DELIVERYMAN, WAREHOUSEMAN , SALESMAN, MANAGER;
+	PACKER, DELIVERYMAN, WAREHOUSEMAN , SALESMAN, MANAGER, SERVANT;
 	public String getName() {
 		return name();
 	}
