@@ -24,6 +24,7 @@ import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.Reward;
 import com.ironrhino.biz.service.EmployeeManager;
 import com.ironrhino.biz.service.RewardManager;
+import com.opensymphony.xwork2.util.CreateIfNull;
 
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR + "," + Constants.ROLE_HR)
 public class RewardAction extends BaseAction {
@@ -33,6 +34,8 @@ public class RewardAction extends BaseAction {
 	private boolean negative;
 
 	private Reward reward;
+
+	private List<Reward> rewardList;
 
 	private ResultPage<Reward> resultPage;
 
@@ -48,6 +51,15 @@ public class RewardAction extends BaseAction {
 
 	@Inject
 	private transient CompassSearchService compassSearchService;
+
+	@CreateIfNull
+	public List<Reward> getRewardList() {
+		return rewardList;
+	}
+
+	public void setRewardList(List<Reward> rewardList) {
+		this.rewardList = rewardList;
+	}
 
 	public ResultPage<Reward> getResultPage() {
 		return resultPage;
@@ -162,19 +174,36 @@ public class RewardAction extends BaseAction {
 
 	@Override
 	public String save() {
-		if (reward == null)
-			return INPUT;
-		if (negative)
-			reward.setAmount(reward.getAmount().negate());
-		if (reward.isNew()) {
-			reward.setEmployee(employeeManager.get(employee.getId()));
+		if (employee != null)
+			employee = employeeManager.get(employee.getId());
+		if (rewardList != null) {
+			if (employee == null)
+				return INPUT;
+			for (Reward r : rewardList) {
+				if (r == null || r.getAmount() == null)
+					continue;
+				r.setEmployee(employee);
+				r.setRewardDate(reward.getRewardDate());
+				rewardManager.save(r);
+			}
+			addActionMessage(getText("save.success"));
 		} else {
-			Reward temp = reward;
-			reward = rewardManager.get(temp.getId());
-			BeanUtils.copyProperties(temp, reward);
+			if (reward == null)
+				return INPUT;
+			if (negative)
+				reward.setAmount(reward.getAmount().negate());
+			if (reward.isNew()) {
+				if (employee == null)
+					return INPUT;
+				reward.setEmployee(employee);
+			} else {
+				Reward temp = reward;
+				reward = rewardManager.get(temp.getId());
+				BeanUtils.copyProperties(temp, reward);
+			}
+			rewardManager.save(reward);
+			addActionMessage(getText("save.success"));
 		}
-		rewardManager.save(reward);
-		addActionMessage(getText("save.success"));
 		return SUCCESS;
 	}
 
