@@ -309,27 +309,30 @@ public class ReportAction extends BaseAction {
 	}
 
 	public void privatereward() {
+		title = "工资详单";
 		Employee employee = null;
 		String id = getUid();
 		if (StringUtils.isNumeric(id))
 			employee = employeeManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
 			employee = employeeManager.findByNaturalId(id);
+		DetachedCriteria dc = rewardManager.detachedCriteria();
+		dc.createAlias("employee", "e");
 		if (employee != null) {
-			title = employee.getName() + "工资详单";
-			DetachedCriteria dc = rewardManager.detachedCriteria();
-			dc.createAlias("employee", "e").add(
+			title = employee.getName() + title;
+			dc.add(
 					Restrictions.eq("e.id", employee.getId()));
-			dc.add(Restrictions.between("rewardDate", DateUtils
-					.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
-			if (!includePaid)
-				dc.add(Restrictions.gt("amount", new BigDecimal(0)));
-			else
-				title += "(包括支出)";
-			dc.addOrder(org.hibernate.criterion.Order.asc("rewardDate"));
-			dc.addOrder(org.hibernate.criterion.Order.asc("type"));
-			list = rewardManager.findListByCriteria(dc);
 		}
+		dc.add(Restrictions.between("rewardDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		if (!includePaid)
+			dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+		else
+			title += "(包括支出)";
+		dc.addOrder(org.hibernate.criterion.Order.asc("e.id"));
+		dc.addOrder(org.hibernate.criterion.Order.asc("rewardDate"));
+		dc.addOrder(org.hibernate.criterion.Order.asc("type"));
+		list = rewardManager.findListByCriteria(dc);
 	}
 
 	public void aggregationreward() {

@@ -149,7 +149,24 @@ $(function(){
 <div class="block">
 	<h1 class="rounded">工资报表</h1>
 	<div>
-		<h3>工资详单</h3>
+		<h3 class="clear">所有人工资详单</h3>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
+			<input type="hidden" name="type" value="privatereward"/>
+			<div><input type="text" name="from" class="date required"/></div>
+			<div><input type="text" name="to" class="date required"/></div>
+			<div><span>包括支出</span><input type="checkbox" name="includePaid" value="true"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
+		</form>
+		<h3 class="clear">个人工资详单</h3>
+		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
+			<input type="hidden" name="type" value="privatereward"/>
+			<div><input type="text" name="id" class="required" style="width:80px;"/></div>
+			<div><input type="text" name="from" class="date required"/></div>
+			<div><input type="text" name="to" class="date required"/></div>
+			<div><span>包括支出</span><input type="checkbox" name="includePaid" value="true"/></div>
+			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
+		</form>
+		<h3 class="clear">工资清单</h3>
 		<div class="clear">按天</div>
 		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="reward"/>
@@ -161,15 +178,6 @@ $(function(){
 			<input type="hidden" name="type" value="reward"/>
 			<div><input type="text" name="from" class="date required"/></div>
 			<div><input type="text" name="to" class="date required"/></div>
-			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
-		</form>
-		<h3 class="clear">个人工资详单</h3>
-		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
-			<input type="hidden" name="type" value="privatereward"/>
-			<div><input type="text" name="id" class="required" style="width:80px;"/></div>
-			<div><input type="text" name="from" class="date required"/></div>
-			<div><input type="text" name="to" class="date required"/></div>
-			<div><span>包括支出</span><input type="checkbox" name="includePaid" value="true"/></div>
 			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
 		<h3 class="clear">所有员工工资统计</h3>
