@@ -69,7 +69,7 @@ $(function(){
 		<span>按天</span>
 		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="order"/>
-			<div><@s.textfield name="date" cssClass="date required" theme="simple"/></div>
+			<div><@s.textfield id="date1" name="date" cssClass="date required" theme="simple"/></div>
 			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
 		<div class="clear">按区间</div>
@@ -153,7 +153,7 @@ $(function(){
 		<div class="clear">按天</div>
 		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="reward"/>
-			<div><@s.textfield name="date" cssClass="date required" theme="simple"/></div>
+			<div><@s.textfield id="date2" name="date" cssClass="date required" theme="simple"/></div>
 			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
 		<div class="clear">按区间</div>
@@ -207,7 +207,7 @@ $(function(){
 		<div class="clear">按天</div>
 		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="customer"/>
-			<div><@s.textfield name="date" cssClass="date required" theme="simple"/></div>
+			<div><@s.textfield id="date3" name="date" cssClass="date required" theme="simple"/></div>
 			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 		</form>
 		<div class="clear">按地区</div>
