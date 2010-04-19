@@ -349,6 +349,7 @@ public class ReportAction extends BaseAction {
 	public void order() {
 		title = "订单详细报表";
 		DetachedCriteria dc = prepareOrderCriteria();
+		dc.addOrder(org.hibernate.criterion.Order.asc("orderDate"));
 		dc.addOrder(org.hibernate.criterion.Order.asc("code"));
 		list = orderManager.findListByCriteria(dc);
 	}

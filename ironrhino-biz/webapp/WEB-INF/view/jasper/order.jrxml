@@ -20,6 +20,7 @@
 	<field name="discount" class="java.math.BigDecimal"/>
 	<field name="freight" class="java.math.BigDecimal"/>
 	<field name="employee.name" class="java.lang.String"/>
+	<field name="memo" class="java.lang.String"/>
 	<variable name="total" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{grandTotal}]]></variableExpression>
 	</variable>
@@ -177,6 +178,9 @@
 				<subreportParameter name="salesman">
 					<subreportParameterExpression><![CDATA[$F{employee.name}]]></subreportParameterExpression>
 				</subreportParameter>
+				<subreportParameter name="memo">
+					<subreportParameterExpression><![CDATA[$F{memo}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="freight">
 					<subreportParameterExpression><![CDATA[$F{freight}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -184,7 +188,7 @@
 					<subreportParameterExpression><![CDATA[$F{discount}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[$F{items}]]></dataSourceExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "/orderitems.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "/orderdetail.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
