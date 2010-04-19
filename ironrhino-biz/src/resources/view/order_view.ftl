@@ -73,7 +73,7 @@
 
 <#if order.memo?has_content>
 <div>
-<span>${action.getText('memo')}:</span><span style="margin-left:20px;">${order.memo!}</span>
+<pre style="margin-left:20px;">${order.memo!}</pre>
 </div>
 </#if>
 </div>
