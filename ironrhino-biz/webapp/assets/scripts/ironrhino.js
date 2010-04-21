@@ -22129,13 +22129,20 @@ Captcha = {
 	$.fn.ajaxpanel = function() {
 		$(this).each(function() {
 					var t = $(this);
-					if(!t.html())
+					if (!t.html())
 						t.html(MessageBundle.get('ajax.loading'));
-					if (t.attr('lazy'))
-						t.bind('load', function() {
-									ajaxpanel(t)
-								});
-					else
+					t.bind('load', function() {
+								ajaxpanel(t)
+							});
+					if (t.attr('timeout')) {
+						setTimeout(function() {
+									ajaxpanel(t);
+								}, parseInt(t.attr('timeout')));
+					} else if (t.attr('interval')) {
+						setInterval(function() {
+									ajaxpanel(t);
+								}, parseInt(t.attr('interval')));
+					} else if (!t.attr('manual'))
 						ajaxpanel(t);
 				});
 		return this;
