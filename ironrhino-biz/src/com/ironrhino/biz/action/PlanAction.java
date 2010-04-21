@@ -84,7 +84,6 @@ public class PlanAction extends BaseAction {
 			if (product != null && product.getId() != null)
 				dc.createAlias("product", "c").add(
 						Restrictions.eq("c.id", product.getId()));
-			resultPage.addOrder(org.hibernate.criterion.Order.asc("completed"));
 			resultPage.addOrder(org.hibernate.criterion.Order.desc("planDate"));
 			resultPage = planManager.findByResultPage(resultPage);
 		} else {
