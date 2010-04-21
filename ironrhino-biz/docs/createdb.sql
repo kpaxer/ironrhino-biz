@@ -3,7 +3,7 @@ DROP DATABASE IF EXISTS xiangling;
 CREATE DATABASE xiangling DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 
 use xiangling;
-
+set names gbk;
 
 /*
 CREATE INDEX orders_pa ON  orders (paid);
