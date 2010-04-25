@@ -4,8 +4,8 @@
 <title>首页</title>
 </head>
 <body>
-<div id="unpaidOrders" class="ajaxpanel" url="/order/unpaid"></div>
-<div id="unshippedOrders" class="ajaxpanel" url="/order/unshipped"></div>
-<div id="uncompletedPlans" class="ajaxpanel" url="/plan/uncompleted">
+<div class="ajaxpanel" url="/order/unpaid"></div>
+<div class="ajaxpanel" url="/order/unshipped"></div>
+<div class="ajaxpanel" url="/plan/uncompleted"></div>
 </body>
 </html></#escape>
