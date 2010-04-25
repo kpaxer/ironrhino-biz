@@ -37,6 +37,8 @@ public class PlanAction extends BaseAction {
 
 	private List<Product> productList;
 
+	private List<Plan> uncompletedPlans;
+
 	@Inject
 	private transient PlanManager planManager;
 
@@ -52,6 +54,10 @@ public class PlanAction extends BaseAction {
 
 	public void setResultPage(ResultPage<Plan> resultPage) {
 		this.resultPage = resultPage;
+	}
+
+	public List<Plan> getUncompletedPlans() {
+		return uncompletedPlans;
 	}
 
 	public List<Product> getProductList() {
@@ -220,6 +226,13 @@ public class PlanAction extends BaseAction {
 			}
 		}
 		return REFERER;
+	}
+
+	public String uncompleted() {
+		DetachedCriteria dc = planManager.detachedCriteria();
+		dc.add(Restrictions.eq("completed", false));
+		uncompletedPlans = planManager.findListByCriteria(dc);
+		return "uncompleted";
 	}
 
 }

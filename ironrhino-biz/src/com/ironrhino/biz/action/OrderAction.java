@@ -49,6 +49,10 @@ public class OrderAction extends BaseAction {
 
 	private List<Employee> salesmanList;
 
+	private List<Order> unpaidOrders;
+
+	private List<Order> unshippedOrders;
+
 	@Inject
 	private transient OrderManager orderManager;
 
@@ -70,6 +74,14 @@ public class OrderAction extends BaseAction {
 
 	public void setResultPage(ResultPage<Order> resultPage) {
 		this.resultPage = resultPage;
+	}
+
+	public List<Order> getUnpaidOrders() {
+		return unpaidOrders;
+	}
+
+	public List<Order> getUnshippedOrders() {
+		return unshippedOrders;
 	}
 
 	public List<Employee> getSalesmanList() {
@@ -125,9 +137,10 @@ public class OrderAction extends BaseAction {
 			if (employee != null && employee.getId() != null)
 				dc.createAlias("employee", "e").add(
 						Restrictions.eq("e.id", employee.getId()));
-			//resultPage.addOrder(org.hibernate.criterion.Order.asc("paid"));
-			//resultPage.addOrder(org.hibernate.criterion.Order.asc("shipped"));
-			resultPage.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
+			// resultPage.addOrder(org.hibernate.criterion.Order.asc("paid"));
+			// resultPage.addOrder(org.hibernate.criterion.Order.asc("shipped"));
+			resultPage
+					.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
 			resultPage.addOrder(org.hibernate.criterion.Order.desc("code"));
 			resultPage = orderManager.findByResultPage(resultPage);
 		} else {
@@ -339,6 +352,20 @@ public class OrderAction extends BaseAction {
 			}
 		}
 		return REFERER;
+	}
+
+	public String unpaid() {
+		DetachedCriteria dc = orderManager.detachedCriteria();
+		dc.add(Restrictions.eq("paid", false));
+		unpaidOrders = orderManager.findListByCriteria(dc);
+		return "unpaid";
+	}
+
+	public String unshipped() {
+		DetachedCriteria dc = orderManager.detachedCriteria();
+		dc.add(Restrictions.eq("shipped", false));
+		unshippedOrders = orderManager.findListByCriteria(dc);
+		return "unshipped";
 	}
 
 }
