@@ -8,7 +8,6 @@ set names gbk;
 /*
 CREATE INDEX orders_pa ON  orders (paid);
 CREATE INDEX orders_sh ON  orders (shipped);
-CREATE INDEX orders_or ON  orders (orderDate);
 CREATE INDEX orders_or_co ON  orders (orderDate desc,code desc);
 CREATE INDEX plan_com ON  plan (completed);
 CREATE INDEX plan_pl ON  plan (planDate);

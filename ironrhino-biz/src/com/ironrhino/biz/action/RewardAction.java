@@ -161,7 +161,7 @@ public class RewardAction extends BaseAction {
 			}
 			DetachedCriteria dc = employeeManager.detachedCriteria();
 			dc.add(Restrictions.eq("dimission", false));
-			dc.addOrder(Order.asc("name"));
+			dc.addOrder(Order.asc("type"));
 			employeeList = employeeManager.findListByCriteria(dc);
 		} else {
 			negative = reward.getAmount().doubleValue() < 0;
