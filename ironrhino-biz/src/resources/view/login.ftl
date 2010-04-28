@@ -6,35 +6,16 @@
 <meta http-equiv="refresh" content="0; url=<@url value="/"/>" />
 </@authorize>
 <meta name="decorator" content="simple" />
-<style>
-form fieldset div.fieldset {
-	margin-top: 20px;
-	margin-bottom: 20px;
-	margin-left: auto;
-	margin-right: auto;
-	width: 300px;
-	text-align: center;
-}
-
-form fieldset {
-	background-color: #CAE1FF;
-}
-
-form fieldset div.label {
-	float: left;
-	width: 100px;
-}
-</style>
 </head>
-
 <body>
+<div><@includePage path="/login/intro"/></div>
 <@authorize ifAnyGranted="ROLE_BUILTIN_USER">
 	<p style="text-align: center;">您已经以${authentication('name')}身份登录,换个用户名请先<a href="<@url value="/logout"/>">注销</a>,<a
 		href="<@url value="/"/>">进入</a></p>
 </@authorize>
 <@authorize ifNotGranted="ROLE_BUILTIN_USER">
 	<div
-		style="margin-left: auto; margin-right: auto; width: 300px; font-size: 120%;">
+		style="margin: auto; width: 300px; font-size: 120%;">
 	<@s.form id="login" action="login" method="post" cssClass="ajax focus">
 		<@s.hidden id="targetUrl" name="targetUrl" />
 		<@s.textfield label="%{getText('username')}" name="username" cssClass="required" labelposition="left" />
