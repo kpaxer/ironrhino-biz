@@ -222,7 +222,7 @@ $(function(){
 		<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 			<input type="hidden" name="type" value="customer"/>
 			<input id="regionId" type="hidden" name="id"/>
-			<div><span id="region" onclick="Region.select('region',true,'regionId')" style="cursor:pointer;">请选择地区</span></div>
+			<div style="margin-right:5px;"><span id="region" class="region" regionname="region" full="true" regionid="regionId">请点击选择地区</span></div>
 			<div><@s.submit theme="simple" value="%{getText('confirm')}"/><div/>
 		</form>
 	</div>

@@ -401,7 +401,7 @@ public class ChartAction extends BaseAction {
 				element = new BarChart();
 				element.setColour(ChartUtils.caculateColor(colorSeed++));
 				element.setText(cate.getName());
-				element.setTip(cate.getName() + "#val#");
+				element.setTip(cate.getName() + "销量 #val#");
 				element.addValues(values);
 				chart.addElements(element);
 			}
@@ -554,7 +554,7 @@ public class ChartAction extends BaseAction {
 				element = new BarChart();
 				element.setColour(ChartUtils.caculateColor(colorSeed++));
 				element.setText(b.getName());
-				element.setTip(b.getName() + "#val#");
+				element.setTip(b.getName() + "销量 #val#");
 				element.addValues(values);
 				chart.addElements(element);
 			}
@@ -740,7 +740,7 @@ public class ChartAction extends BaseAction {
 			category = categoryManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
 			category = categoryManager.findByNaturalId(id);
-		title = (category != null ? category.getName() : "") + "销量根据地区统计";
+		title = (category != null ? category.getName() : "") + region.getFullname()+"销量统计";
 		DetachedCriteria dc = orderManager.detachedCriteria();
 		dc.add(Restrictions.between("orderDate", DateUtils
 				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
