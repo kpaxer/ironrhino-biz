@@ -81,7 +81,7 @@ div.block > div {
 		<div class="clear">所有品种</div>
 		<form action="${getUrl('/chart/view')}" method="get" class="line">
 			<input type="hidden" name="type" value="region"/>
-			<div style="margin-right:5px;"><input id="location" type="hidden" name="location"/><span id="region" class="region" regionname="region" full="true" regionid="location">请点击选择地区</span></div>
+			<div style="margin-right:5px;"><input id="location" type="hidden" name="location"/><span id="region" class="selectregion" regionname="region" full="true" regionid="location">请点击选择地区</span></div>
 			<div><@s.textfield theme="simple" id="date13" name="from" cssClass="date required"/></div>
 			<div><@s.textfield theme="simple" id="date14" name="to" cssClass="date required"/></div>
 			<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
