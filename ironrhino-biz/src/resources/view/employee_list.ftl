@@ -25,7 +25,7 @@ text-decoration:none;
 <@richtable entityName="employee" config=config actionColumnWidth="330px" actionColumnButtons=actionColumnButtons searchable=true/>
 <div style="display: none;">
 <textarea id="select_template_type">
-<@s.select theme="simple" cssStyle="width: 100%;" onblur="Richtable.updateCell(this,'select')" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
+<@s.select theme="simple" cssStyle="width: 100%;" onblur="Richtable.updateCell(this)" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
 </textarea>
 </div>
 </body>
