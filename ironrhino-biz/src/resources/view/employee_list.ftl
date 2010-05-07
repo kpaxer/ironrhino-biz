@@ -15,10 +15,12 @@ text-decoration:none;
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'save\')}' action='save'/>
 <@button text='${action.getText(\'delete\')}' action='delete'/>
-<@button text='${action.getText(\'order\')}' type='link' href='${getUrl(\'/order?employee.id=\'+entity.id)}'/>
 <@button text='${action.getText(\'reward\')}' type='link' href='${getUrl(\'/reward?employee.id=\'+entity.id)}'/>
 <@button text='支工资' type='link' href='${getUrl(\'/reward/input?negative=true&employee.id=\'+entity.id)}' rel='richtable'/>
 <@button text='发工资' type='link' href='${getUrl(\'/reward/input?employee.id=\'+entity.id)}' rel='richtable'/>
+<#if entity.type??&&entity.type.name()=='SALESMAN'>
+<@button text='${action.getText(\'order\')}' type='link' href='${getUrl(\'/order?employee.id=\'+entity.id)}'/>
+</#if>
 ">
 <@richtable entityName="employee" config=config actionColumnWidth="330px" actionColumnButtons=actionColumnButtons searchable=true/>
 <div style="display: none;">
