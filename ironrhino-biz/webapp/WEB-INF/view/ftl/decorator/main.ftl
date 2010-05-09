@@ -31,6 +31,7 @@
 	<li><a href="<@url value="/employee"/>">员工</a></li>
 	<li><a href="<@url value="/brand"/>">商标</a></li>
 	<li><a href="<@url value="/category"/>">品种</a></li>
+	<li><a href="<@url value="/station"/>">货运站</a></li>
 	<li><a href="<@url value="/report"/>">报表</a></li>
 	<li><a href="<@url value="/chart"/>">图表</a></li>
 	<li><a href="<@url value="/changePassword"/>">修改密码</a></li>

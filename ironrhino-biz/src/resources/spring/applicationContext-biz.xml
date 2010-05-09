@@ -7,7 +7,4 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 	<bean id="orderCodeSequence" class="org.ironrhino.core.spring.CyclicMySQLMaxValueIncrementer" 
 		p:incrementerName="common_sequence" p:columnName="orderCode"/>
-		<!--
-	<bean id="httpSessionManager" class="org.ironrhino.core.session.impl.DefaultHttpSessionManager" p:maxInactiveInterval="43200"/>
-	-->
 </beans>

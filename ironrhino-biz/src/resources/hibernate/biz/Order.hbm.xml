@@ -29,6 +29,8 @@
 		<property name="memo" length="2500" />
 		<many-to-one name="customer" column="customerId" not-null="true"
 			lazy="false" fetch="join" />
+		<many-to-one name="station" column="stationId" not-null="false"
+			lazy="false" fetch="join" />
 		<many-to-one name="employee" column="employeeId" not-null="false"
 			lazy="false" fetch="join" />
 		<list name="items" table="orderItem" cascade="all" lazy="true"

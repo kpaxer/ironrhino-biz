@@ -24,10 +24,12 @@ import com.ironrhino.biz.model.EmployeeType;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Product;
+import com.ironrhino.biz.model.Station;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.EmployeeManager;
 import com.ironrhino.biz.service.OrderManager;
 import com.ironrhino.biz.service.ProductManager;
+import com.ironrhino.biz.service.StationManager;
 
 @Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR + ","
 		+ Constants.ROLE_SALESMAN)
@@ -44,6 +46,10 @@ public class OrderAction extends BaseAction {
 	private Employee employee;
 
 	private Long[] productId;
+
+	private Long stationId;
+
+	private List<Station> stationList;
 
 	private List<Product> productList;
 
@@ -66,6 +72,9 @@ public class OrderAction extends BaseAction {
 	private transient ProductManager productManager;
 
 	@Inject
+	private transient StationManager stationManager;
+
+	@Inject
 	private transient CompassSearchService compassSearchService;
 
 	public ResultPage<Order> getResultPage() {
@@ -86,6 +95,18 @@ public class OrderAction extends BaseAction {
 
 	public List<Employee> getSalesmanList() {
 		return salesmanList;
+	}
+
+	public Long getStationId() {
+		return stationId;
+	}
+
+	public void setStationId(Long stationId) {
+		this.stationId = stationId;
+	}
+
+	public List<Station> getStationList() {
+		return stationList;
 	}
 
 	public List<Product> getProductList() {
@@ -203,11 +224,15 @@ public class OrderAction extends BaseAction {
 		} else {
 			customer = order.getCustomer();
 			employee = order.getEmployee();
+			if (order.getStation() != null)
+				stationId = order.getStation().getId();
 		}
 		DetachedCriteria dc = employeeManager.detachedCriteria();
 		dc.add(Restrictions.eq("type", EmployeeType.SALESMAN));
 		dc.add(Restrictions.eq("dimission", false));
 		salesmanList = employeeManager.findListByCriteria(dc);
+		stationList = stationManager.findAll(org.hibernate.criterion.Order
+				.asc("id"));
 		return INPUT;
 	}
 
@@ -244,6 +269,8 @@ public class OrderAction extends BaseAction {
 				addActionError("没有订单项");
 				return INPUT;
 			}
+			if (stationId != null)
+				order.setStation(stationManager.get(stationId));
 			orderManager.place(order);
 		} else {
 			Order temp = order;
@@ -262,6 +289,8 @@ public class OrderAction extends BaseAction {
 			} else {
 				order.setEmployee(null);
 			}
+			if (stationId != null)
+				order.setStation(stationManager.get(stationId));
 			orderManager.save(order);
 		}
 

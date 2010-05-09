@@ -51,6 +51,9 @@ public class Order extends BaseEntity {
 	private Customer customer;
 
 	@SearchableComponent
+	private Station station;
+
+	@SearchableComponent
 	private Employee employee;
 
 	@CreateIfNull
@@ -126,6 +129,14 @@ public class Order extends BaseEntity {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public Station getStation() {
+		return station;
+	}
+
+	public void setStation(Station station) {
+		this.station = station;
 	}
 
 	public List<OrderItem> getItems() {
