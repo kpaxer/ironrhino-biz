@@ -4,11 +4,11 @@
 <title>${action.getText('user')}${action.getText('list')}</title>
 </head>
 <body>
-<#assign config={"username":{},"name":{},"password":{"value":"********","trimPrefix":true,"cellEdit":"click,ec_edit_template_password","class":"include_if_edited"},"rolesAsString":{"trimPrefix":true,"cellEdit":"click","class":"include_if_edited"}}>
+<#assign config={"username":{},"name":{},"password":{"value":"********","trimPrefix":true,"cellEdit":"click,rt_edit_template_password","class":"include_if_edited"},"rolesAsString":{"trimPrefix":true,"cellEdit":"click","class":"include_if_edited"}}>
 <@richtable entityName="user" config=config/>
 <div style="display: none;">
-<textarea id="ec_edit_template_password">
-	<input type="password" class="inputtext" value=""
+<textarea id="rt_edit_template_password">
+	<input type="password" class="text" value=""
 	onblur="Richtable.updatePasswordCell(this)" style="width: 100%;" name="" />
 </textarea></div>
 </body>
