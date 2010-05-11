@@ -5,7 +5,6 @@
 </head>
 <body>
 <#if unshippedOrders.size() gt 0>
-<h3 class="rounded" style="background-color:#adadad;">未发货的订单</h3>
 <table border="0" width="88%" style="margin: 20px;">
 			<thead>
 				<tr>

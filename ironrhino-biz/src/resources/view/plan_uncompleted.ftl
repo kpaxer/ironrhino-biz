@@ -5,7 +5,6 @@
 </head>
 <body>
 <#if uncompletedPlans.size() gt 0>
-<h3 class="rounded" style="background-color:#adadad;">未完成的计划</h3>
 <table border="0" width="88%">
 	<thead>
 		<tr>
