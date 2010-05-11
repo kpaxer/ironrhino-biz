@@ -2,11 +2,6 @@
 <#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title>${action.getText('order')}${action.getText('list')}</title>
-<style>
-form p.submit{
-text-align:center;
-}
-</style>
 </head>
 <body>
 <#assign config={"code":{"width":"100px"},"customer":{},"grandTotal":{"width":"80px"},"orderDate":{"template":r"${value?string('yyyy年MM月dd日')}","width":"120px"},"saleType":{"width":"100px"},"paid":{"width":"80px"},"shipped":{"width":"80px"}}>
