@@ -135,7 +135,7 @@
 			<span style="margin:5px;">
 			${action.getText('freight')}</span>－<@s.textfield id="freight"  theme="simple" name="order.freight" cssClass="double positive"/>
 			<span style="margin:5px;">${action.getText('station')}</span>
-			<@s.select theme="simple" name="stationId" cssClass="required" cssStyle="width:200px;" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
+			<@s.select theme="simple" name="stationId" cssStyle="width:200px;" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 			</span>
 		</div>
 	</div>
@@ -146,7 +146,7 @@
 		<div>
 			<@s.textfield theme="simple" id="freight" name="order.freight" cssClass="double positive"/>
 			<span style="margin:5px;">${action.getText('station')}</span>
-			<@s.select theme="simple" name="stationId" cssClass="required" cssStyle="width:200px;" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
+			<@s.select theme="simple" name="stationId" cssStyle="width:200px;" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 		</div>
 		</div>
 		</#if>
