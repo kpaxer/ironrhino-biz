@@ -73,6 +73,10 @@ public class ChartAction extends BaseAction {
 
 	private String title;
 
+	private List<Category> categoryList;
+
+	private List<Brand> brandList;
+
 	@Inject
 	private transient BrandManager brandManager;
 
@@ -93,6 +97,14 @@ public class ChartAction extends BaseAction {
 
 	@Inject
 	private transient RegionTreeControl regionTreeControl;
+
+	public List<Category> getCategoryList() {
+		return categoryList;
+	}
+
+	public List<Brand> getBrandList() {
+		return brandList;
+	}
 
 	public Chart getChart() {
 		return chart;
@@ -174,6 +186,8 @@ public class ChartAction extends BaseAction {
 
 	@Override
 	public String execute() {
+		categoryList = categoryManager.findAll(org.hibernate.criterion.Order.asc("displayOrder"));
+		brandList = brandManager.findAll(org.hibernate.criterion.Order.asc("displayOrder"));
 		return SUCCESS;
 	}
 
@@ -740,7 +754,8 @@ public class ChartAction extends BaseAction {
 			category = categoryManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
 			category = categoryManager.findByNaturalId(id);
-		title = (category != null ? category.getName() : "") + region.getFullname()+"销量统计";
+		title = (category != null ? category.getName() : "")
+				+ region.getFullname() + "销量统计";
 		DetachedCriteria dc = orderManager.detachedCriteria();
 		dc.add(Restrictions.between("orderDate", DateUtils
 				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));

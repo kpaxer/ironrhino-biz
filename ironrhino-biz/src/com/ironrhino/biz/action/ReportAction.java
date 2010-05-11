@@ -26,6 +26,7 @@ import org.ironrhino.core.util.DateUtils;
 
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
+import com.ironrhino.biz.model.EmployeeType;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Product;
@@ -65,6 +66,10 @@ public class ReportAction extends BaseAction {
 	private Map<String, Object> reportParameters = new HashMap<String, Object>();
 
 	private List<? extends Serializable> list;
+
+	private List<Employee> employeeList;
+
+	private List<Employee> salesmanList;
 
 	@Inject
 	private transient RewardManager rewardManager;
@@ -145,6 +150,14 @@ public class ReportAction extends BaseAction {
 		return dataSource;
 	}
 
+	public List<Employee> getEmployeeList() {
+		return employeeList;
+	}
+
+	public List<Employee> getSalesmanList() {
+		return salesmanList;
+	}
+
 	public String getDocumentName() {
 		try {
 			StringBuilder sb = new StringBuilder();
@@ -192,6 +205,19 @@ public class ReportAction extends BaseAction {
 
 	@Override
 	public String execute() {
+		DetachedCriteria dc = employeeManager.detachedCriteria();
+		dc.add(Restrictions.eq("dimission", false));
+		dc.addOrder(org.hibernate.criterion.Order.asc("type"));
+		employeeList = employeeManager.findListByCriteria(dc);
+		dc = employeeManager.detachedCriteria();
+		dc.add(Restrictions.eq("dimission", false));
+		dc.addOrder(org.hibernate.criterion.Order.asc("type"));
+		employeeList = employeeManager.findListByCriteria(dc);
+		dc = employeeManager.detachedCriteria();
+		dc.add(Restrictions.eq("type", EmployeeType.SALESMAN));
+		dc.add(Restrictions.eq("dimission", false));
+		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
+		salesmanList = employeeManager.findListByCriteria(dc);
 		return SUCCESS;
 	}
 
@@ -320,8 +346,7 @@ public class ReportAction extends BaseAction {
 		dc.createAlias("employee", "e");
 		if (employee != null) {
 			title = employee.getName() + title;
-			dc.add(
-					Restrictions.eq("e.id", employee.getId()));
+			dc.add(Restrictions.eq("e.id", employee.getId()));
 		}
 		dc.add(Restrictions.between("rewardDate", DateUtils
 				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));

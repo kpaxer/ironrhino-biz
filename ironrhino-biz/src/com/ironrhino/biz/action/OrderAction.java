@@ -223,7 +223,7 @@ public class OrderAction extends BaseAction {
 					.asc("displayOrder"));
 		} else {
 			customer = order.getCustomer();
-			employee = order.getEmployee();
+			employee = order.getSalesman();
 			if (order.getStation() != null)
 				stationId = order.getStation().getId();
 		}
@@ -250,7 +250,7 @@ public class OrderAction extends BaseAction {
 			order.setCustomer(customer);
 			if (employee != null && employee.getId() != null) {
 				employee = employeeManager.get(employee.getId());
-				order.setEmployee(employee);
+				order.setSalesman(employee);
 			}
 			if (productId != null) {
 				for (int i = 0; i < order.getItems().size(); i++) {
@@ -280,14 +280,14 @@ public class OrderAction extends BaseAction {
 			order.setSaleType(temp.getSaleType());
 			order.setMemo(temp.getMemo());
 			if (employee != null && employee.getId() != null) {
-				if (order.getEmployee() == null
-						|| !order.getEmployee().getId()
+				if (order.getSalesman() == null
+						|| !order.getSalesman().getId()
 								.equals(employee.getId())) {
 					employee = employeeManager.get(employee.getId());
-					order.setEmployee(employee);
+					order.setSalesman(employee);
 				}
 			} else {
-				order.setEmployee(null);
+				order.setSalesman(null);
 			}
 			if (stationId != null)
 				order.setStation(stationManager.get(stationId));
