@@ -9,21 +9,21 @@
 </style>
 </head>
 <body>
-
+<div id="c"></div>
 <div class="portal">
 	<div class="portal-column">
 		<div class="portlet"> 
 			<div class="portlet-header">按商标统计</div> 
 			<div class="portlet-content">
 				<div class="clear">所有品种</div>
-				<form action="${getUrl('/chart/view')}" method="get" class="line">
+				<form action="${getUrl('/chart/view')}" method="get" class="line ajax view" replacement="c">
 					<input type="hidden" name="type" value="brand"/>
 					<div><@s.textfield theme="simple" id="date1" name="from" cssClass="date required"/></div>
 					<div><@s.textfield theme="simple" id="date2" name="to" cssClass="date required"/></div>
 					<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
 				<div class="clear">指定品种</div>
-				<form action="${getUrl('/chart/view')}" method="get" class="line">
+				<form action="${getUrl('/chart/view')}" method="get" class="line ajax view" replacement="c">
 					<input type="hidden" name="type" value="brand"/>
 					<div><@s.select theme="simple" cssClass="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
 					<div><@s.textfield theme="simple" id="date3" name="from" cssClass="date required"/></div>
@@ -37,14 +37,14 @@
 			<div class="portlet-header">按销售方式</div> 
 			<div class="portlet-content">
 				<div class="clear">所有品种</div>
-				<form action="${getUrl('/chart/view')}" method="get" class="line">
+				<form action="${getUrl('/chart/view')}" method="get" class="line ajax view" replacement="c">
 					<input type="hidden" name="type" value="saletype"/>
 					<div><@s.textfield theme="simple" id="date9" name="from" cssClass="date required"/></div>
 					<div><@s.textfield theme="simple" id="date10" name="to" cssClass="date required"/></div>
 					<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
 				<div class="clear">指定品种</div>
-				<form action="${getUrl('/chart/view')}" method="get" class="line">
+				<form action="${getUrl('/chart/view')}" method="get" class="line ajax view" replacement="c">
 					<input type="hidden" name="type" value="saletype"/>
 					<div><@s.select theme="simple" cssClass="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
 					<div><@s.textfield theme="simple" id="date11" name="from" cssClass="date required"/></div>
@@ -58,13 +58,13 @@
 			<div class="portlet-header">全国销量分布图</div> 
 			<div class="portlet-content">
 				<div class="clear">所有品种</div>
-				<form action="${getUrl('/chart/ammap')}" method="get" class="line">
+				<form action="${getUrl('/chart/ammap')}" method="get" class="line ajax view" replacement="c">
 					<div><@s.textfield theme="simple" id="date17" name="from" cssClass="date required"/></div>
 					<div><@s.textfield theme="simple" id="date18" name="to" cssClass="date required"/></div>
 					<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
 				<div class="clear">指定品种</div>
-				<form action="${getUrl('/chart/ammap')}" method="get" class="line">
+				<form action="${getUrl('/chart/ammap')}" method="get" class="line ajax view" replacement="c">
 					<div><@s.select theme="simple" cssClass="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
 					<div><@s.textfield theme="simple" id="date19" name="from" cssClass="date required"/></div>
 					<div><@s.textfield theme="simple" id="date20" name="to" cssClass="date required"/></div>
@@ -81,14 +81,14 @@
 			<div class="portlet-header">按品种统计</div> 
 			<div class="portlet-content">
 				<div class="clear">所有商标</div>
-				<form action="${getUrl('/chart/view')}" method="get" class="line">
+				<form action="${getUrl('/chart/view')}" method="get" class="line ajax view" replacement="c">
 					<input type="hidden" name="type" value="category"/>
 					<div><@s.textfield theme="simple" id="date5" name="from" cssClass="date required"/></div>
 					<div><@s.textfield theme="simple" id="date6" name="to" cssClass="date required"/></div>
 					<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
 				<div class="clear">指定商标</div>
-				<form action="${getUrl('/chart/view')}" method="get" class="line">
+				<form action="${getUrl('/chart/view')}" method="get" class="line ajax view" replacement="c">
 					<input type="hidden" name="type" value="category"/>
 					<div><@s.select theme="simple" cssClass="required" name="id" list="brandList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
 					<div><@s.textfield theme="simple" id="date7" name="from" cssClass="date required"/></div>
@@ -102,7 +102,7 @@
 			<div class="portlet-header">按地区统计</div> 
 			<div class="portlet-content">
 				<div class="clear">所有品种</div>
-				<form action="${getUrl('/chart/view')}" method="get" class="line">
+				<form action="${getUrl('/chart/view')}" method="get" class="line ajax view" replacement="c">
 					<input type="hidden" name="type" value="region"/>
 					<div style="margin-right:5px;"><input id="location" type="hidden" name="location"/><span id="region" class="selectregion" regionname="region" full="true" regionid="location">请点击选择地区</span></div>
 					<div><@s.textfield theme="simple" id="date13" name="from" cssClass="date required"/></div>
@@ -110,7 +110,7 @@
 					<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
 				<div class="clear">指定品种</div>
-				<form action="${getUrl('/chart/view')}" method="get" class="line">
+				<form action="${getUrl('/chart/view')}" method="get" class="line ajax view" replacement="c">
 					<input type="hidden" name="type" value="category"/>
 					<div style="margin-right:5px;"><input id="location2" type="hidden" name="location"/><span id="region2" class="selectregion" regionname="region2" full="true" regionid="location2">请点击选择地区</span></div>
 					<div><@s.select theme="simple" cssClass="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
