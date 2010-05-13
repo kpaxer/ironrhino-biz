@@ -7,52 +7,52 @@
 					else
 						span.hide();
 				});
-		$('#customerName.ajax').blur(function(event) {
-			var ele = $(event.target);
-			var val = ele.val();
-			if (val) {
-				var url = CONTEXT_PATH + '/customer/json/' + val;
-				$.ajax({
-							url : url,
-							dataType : 'json',
-							success : function(data) {
-								if (data.name) {
-									if (data.id) {
-										ele.val(data.name)
-												.siblings('span.info').html('');
-									} else {
-										ele.focus().siblings('span.info')
-												.html('备选:' + data.name);
-									}
-								} else {
-									ele.siblings('span.info').html('将自动保存为新客户');
-								}
-							}
-						});
-			}
-		});
+//		$('#customerName').blur(function(event) {
+//			var ele = $(event.target);
+//			var val = ele.val();
+//			if (val) {
+//				var url = CONTEXT_PATH + '/customer/json/' + val;
+//				$.ajax({
+//							url : url,
+//							dataType : 'json',
+//							success : function(data) {
+//								if (data && data.id)
+//									ele.val(data.name).siblings('span.info')
+//											.html('');
+//								else
+//									ele.siblings('span.info').html('将自动保存为新客户');
+//							}
+//						});
+//			}
+//		});
+		$('.customerName').autocomplete(
+				CONTEXT_PATH + "/customer/suggest?decorator=none", {
+					minChars : 2,
+					delay : 500
+				});
 		$('select.fetchprice').change(function(event) {
-			var ele = $(event.target);
-			var price = $('input.price:eq(0)', ele.closest('tr'));
-			var val = ele.val();
-			if (val&&!price.val()) {
-				var url = CONTEXT_PATH + '/product/json/' + val;
-				$.ajax({
-							url : url,
-							dataType : 'json',
-							success : function(data) {
-								if (data.price) {
-									price.val(data.price);
-									calculate();
-								}
-								if (data.stock <= 0)
-									ele.siblings('span.info').html('没有库存');
-								else
-									ele.siblings('span.info').html('');
-							}
-						});
-			}
-		});
+					var ele = $(event.target);
+					var price = $('input.price:eq(0)', ele.closest('tr'));
+					var val = ele.val();
+					if (val && !price.val()) {
+						var url = CONTEXT_PATH + '/product/json/' + val;
+						$.ajax({
+									url : url,
+									dataType : 'json',
+									success : function(data) {
+										if (data.price) {
+											price.val(data.price);
+											calculate();
+										}
+										if (data.stock <= 0)
+											ele.siblings('span.info')
+													.html('没有库存');
+										else
+											ele.siblings('span.info').html('');
+									}
+								});
+					}
+				});
 		$('#orderItems input.quantity').blur(function(event) {
 			calculate();
 			var quantity = $(event.target).val();
@@ -96,7 +96,7 @@
 			$('#orderItems tbody tr').each(function() {
 						grandTotal += calculate(this);
 					});
-			if(grandTotal>0)
+			if (grandTotal > 0)
 				$('#amount').text(grandTotal);
 			var discount = $('#discount').val();
 			if (discount)
@@ -104,7 +104,9 @@
 			var freight = $('#freight').val();
 			if (freight)
 				grandTotal -= freight;
-			$('#grandTotal').html(grandTotal >= 0?grandTotal:'<span style="color:red;">负数</span>');	
+			$('#grandTotal').html(grandTotal >= 0
+					? grandTotal
+					: '<span style="color:red;">负数</span>');
 		}
 	}
 	var rename = function() {

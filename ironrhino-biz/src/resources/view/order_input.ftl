@@ -75,7 +75,7 @@
 	<div>
 		<label class="field" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
 		<div>
-			<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required ajax"/>
+			<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required customerName"/>
 			<span class="info" style="font-style:italic;margin-left:20px;"></span>
 		</div>
 	</div>

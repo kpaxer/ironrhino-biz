@@ -59,7 +59,7 @@ $(function(){
 				<div class="clear">按客户和区间</div>
 				<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 					<input type="hidden" name="type" value="order"/>
-					<div><input type="text" name="customer" class="required" style="width:120px;"/></div>
+					<div><input type="text" name="customer" class="required customerName" style="width:120px;"/></div>
 					<div><input type="text" name="from" class="date required"/></div>
 					<div><input type="text" name="to" class="date required"/></div>
 					<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
@@ -91,7 +91,7 @@ $(function(){
 				<div class="clear">按客户和区间</div>
 				<form action="${getUrl('/report/jasper')}" method="post" class="report line">
 					<input type="hidden" name="type" value="productsales"/>
-					<div><input type="text" name="customer" class="required" style="width:120px;"/></div>
+					<div><input type="text" name="customer" class="required customerName" style="width:120px;"/></div>
 					<div><input type="text" name="from" class="date required"/></div>
 					<div><input type="text" name="to" class="date required"/></div>
 					<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>

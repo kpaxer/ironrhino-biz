@@ -7,6 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.compass.core.CompassHit;
 import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
@@ -34,6 +35,8 @@ public class CustomerAction extends BaseAction {
 	private Customer customer;
 
 	private ResultPage<Customer> resultPage;
+
+	private List<String> suggestions;
 
 	private Long regionId;
 
@@ -68,6 +71,10 @@ public class CustomerAction extends BaseAction {
 
 	public void setRegionId(Long regionId) {
 		this.regionId = regionId;
+	}
+
+	public List<String> getSuggestions() {
+		return suggestions;
 	}
 
 	@Override
@@ -258,36 +265,27 @@ public class CustomerAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	public String suggest() {
+		CompassCriteria cc = new CompassCriteria();
+		cc.setQuery(ServletActionContext.getRequest().getParameter("q"));
+		cc.setAliases(new String[] { "customer" });
+		CompassSearchResults searchResults = compassSearchService.search(cc);
+		if (searchResults.getTotalHits() > 0) {
+			suggestions = new ArrayList<String>();
+			for (CompassHit ch : searchResults.getHits())
+				suggestions.add(((Customer) ch.getData()).getName());
+			return "suggest";
+		}
+		return NONE;
+	}
+
 	@JsonConfig(root = "customer")
 	public String json() {
-		String id = getUid();
-		if (StringUtils.isNumeric(id)) {
+		String id = getUid().trim();
+		if (StringUtils.isNumeric(id))
 			customer = customerManager.get(Long.valueOf(id));
-		} else if (StringUtils.isNotBlank(id)) {
-			id = id.trim();
+		else if (StringUtils.isNotBlank(id))
 			customer = customerManager.findByNaturalId(id);
-			if (customer == null) {
-				CompassCriteria cc = new CompassCriteria();
-				cc.setQuery(id);
-				cc.setAliases(new String[] { "customer" });
-				cc.setPageNo(1);
-				cc.setPageSize(10);
-				CompassSearchResults searchResults = compassSearchService
-						.search(cc);
-				int hits = searchResults.getTotalHits();
-				if (hits == 1) {
-					customer = (Customer) searchResults.getHits()[0].getData();
-				} else if (hits > 1) {
-					StringBuilder sb = new StringBuilder();
-					for (CompassHit ch : searchResults.getHits())
-						sb.append(((Customer) ch.getData()).getName()).append(
-								",");
-					sb.deleteCharAt(sb.length() - 1);
-					customer = new Customer();
-					customer.setName(sb.toString());
-				}
-			}
-		}
 		return JSON;
 	}
 
