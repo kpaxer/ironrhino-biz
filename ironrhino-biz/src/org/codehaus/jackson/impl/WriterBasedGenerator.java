@@ -456,10 +456,6 @@ public final class WriterBasedGenerator
     public void writeNumber(double d)
         throws IOException, JsonGenerationException
     {
-    	if(d==(long)d){
-    		writeNumber((long)d);
-    		return;
-    	}
         if (_cfgNumbersAsStrings ||
             // [JACKSON-139]
             (((Double.isNaN(d) || Double.isInfinite(d))
@@ -469,7 +465,7 @@ public final class WriterBasedGenerator
         }
         // What is the max length for doubles? 40 chars?
         _verifyValueWrite("write number");
-        writeRaw(String.valueOf(d));
+        writeRaw(new BigDecimal(d).toString());
     }
 
     @Override
