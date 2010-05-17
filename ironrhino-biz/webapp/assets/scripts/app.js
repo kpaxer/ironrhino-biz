@@ -7,24 +7,24 @@
 					else
 						span.hide();
 				});
-//		$('#customerName').blur(function(event) {
-//			var ele = $(event.target);
-//			var val = ele.val();
-//			if (val) {
-//				var url = CONTEXT_PATH + '/customer/json/' + val;
-//				$.ajax({
-//							url : url,
-//							dataType : 'json',
-//							success : function(data) {
-//								if (data && data.id)
-//									ele.val(data.name).siblings('span.info')
-//											.html('');
-//								else
-//									ele.siblings('span.info').html('将自动保存为新客户');
-//							}
-//						});
-//			}
-//		});
+		// $('#customerName').blur(function(event) {
+		// var ele = $(event.target);
+		// var val = ele.val();
+		// if (val) {
+		// var url = CONTEXT_PATH + '/customer/json/' + val;
+		// $.ajax({
+		// url : url,
+		// dataType : 'json',
+		// success : function(data) {
+		// if (data && data.id)
+		// ele.val(data.name).siblings('span.info')
+		// .html('');
+		// else
+		// ele.siblings('span.info').html('将自动保存为新客户');
+		// }
+		// });
+		// }
+		// });
 		$('.customerName').autocomplete(
 				CONTEXT_PATH + "/customer/suggest?decorator=none", {
 					minChars : 2,
@@ -77,6 +77,24 @@
 		$('#orderItems input.price,#discount,#freight').blur(function() {
 					calculate()
 				});
+		$('#orderItems tr input:last').keydown(function(event) {
+					if (event.keyCode && event.keyCode == 13) {
+						if (event.preventDefault) {
+							event.preventDefault();
+							addRow(event);
+						}
+					}
+				});
+		$('#orderItems tr input:first').keydown(function(event) {
+			alert(event.keyCode);
+			if (event.keyCode
+					&& (event.keyCode == 8 && !$(event.target).val())) {
+				if (event.preventDefault) {
+					event.preventDefault();
+					removeRow(event);
+				}
+			}
+		});
 		$('#orderItems button.add').click(addRow);
 		$('#orderItems button.remove').click(removeRow);
 	};

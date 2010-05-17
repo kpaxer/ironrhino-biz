@@ -16,10 +16,10 @@
 		<thead>
 			<tr>
 				<td>
-				${action.getText('type')}
+				${action.getText('amount')}
 				</td>
 				<td>
-				${action.getText('amount')}
+				${action.getText('type')}
 				</td>
 				<td>
 				${action.getText('memo')}
@@ -28,10 +28,10 @@
 		</thead>
 		<tbody>
 			<tr>
+				<td><input type="text" name="rewardList[0].amount" class="required double positive"/></td>
 				<td>
 					<@s.select theme="simple" name="rewardList[0].type" list="@com.ironrhino.biz.model.RewardType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
 				</td>
-				<td><input type="text" name="rewardList[0].amount" class="required double positive"/></td>
 				<td><input type="text" name="rewardList[0].memo"/></td>
 				<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
 			</tr>
