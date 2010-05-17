@@ -7,71 +7,7 @@
 <@s.form action="${getUrl('/order/save')}" method="post" cssClass="ajax">
 	<#if !order.new>
 		<@s.hidden name="order.id" />
-		<div>
-		<label class="field" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
-		<div>
-			${customer.name}
-		</div>
-		</div>
-		<table border="0" width="100%">
-			<thead>
-				<tr>
-					<td>
-					${action.getText('product')}
-					</td>
-					<td>
-					${action.getText('quantity')}
-					</td>
-					<td>
-					${action.getText('price')}
-					</td>
-					<td align="right">
-					${action.getText('subtotal')}
-					</td>
-				</tr>
-			</thead>
-			<tfoot align="right">
-				<tr>
-					<td colspan="3">${action.getText('amount')}</td>
-					<td>${order.amount}</td>
-				</tr>
-				<#if order.discount??>
-				<tr>
-					<td colspan="3">${action.getText('discount')}</td>
-					<td>-${order.discount}</td>
-				</tr>
-				</#if>
-				<#if order.freight??>
-				<tr>
-					<td colspan="3">${action.getText('freight')}</td>
-					<td>-${order.freight}</td>
-				</tr>
-				</#if>
-				<tr>
-					<td colspan="3">${action.getText('grandTotal')}</td>
-					<td style="font-weight:bold;">${order.grandTotal}</td>
-				</tr>
-			</tfoot>
-			<tbody>
-			<#list order.items as item>
-			<tr>
-			<td>
-			${item.product}
-			</td>
-			<td>
-			${item.quantity}
-			</td>
-			<td>
-			${item.price}
-			</td>
-			<td align="right">
-			${item.subtotal}
-			</td>
-			</tr>
-			</#list>
-			</tbody>
-		</table>
-	<#else>
+	</#if>
 	<div>
 		<label class="field" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
 		<div>
@@ -102,10 +38,25 @@
 				</tr>
 				<tr>
 					<td colspan="3">${action.getText('grandTotal')}</td>
-					<td id="grandTotal" style="font-weight:bold;"></td>
+					<td id="grandTotal" style="font-weight:bold;">${order.grandTotal!}</td>
 				</tr>
 			</tfoot>
 			<tbody>
+			<#if !order.new>
+				<#list 0..productId?size-1 as index>
+				<tr>
+					<td width="47%">
+						<input type="text" size="5" class="filterselect" style="margin-right:3px;"/>
+						<@s.select theme="simple" name="productId" value="${productId[index]}" cssClass="required fetchprice" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
+						<span class="info" style="font-style:italic;margin-left:5px;"></span>
+					</td>
+					<td width="15%"><@s.textfield name="order.items[${index}].quantity" cssClass="required integer positive quantity"/></td>
+					<td width="15%"><@s.textfield name="order.items[${index}].price" cssClass="required double positive price"/></td>
+					<td width="14%" align="right"><span class="info">${order.items[index].subtotal}</span></td>
+					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
+				</tr>
+				</#list>
+			<#else>
 				<tr>
 					<td width="47%">
 						<input type="text" size="5" class="filterselect" style="margin-right:3px;"/>
@@ -117,13 +68,13 @@
 					<td width="14%" align="right"><span class="info"></span></td>
 					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
 				</tr>
+			</#if>
 			</tbody>
 		</table>
 		</div>
 	</div>
-	</#if>
 	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date required"/>
-	<@s.select label="%{getText('salesman')}" name="employee.id" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue=""/>
+	<@s.select label="%{getText('salesman')}" name="salesman.id" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 	<#if order.new>
 	<@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
 	<div>

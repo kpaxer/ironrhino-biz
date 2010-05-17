@@ -43,7 +43,7 @@ public class OrderAction extends BaseAction {
 
 	private Customer customer;
 
-	private Employee employee;
+	private Employee salesman;
 
 	private Long[] productId;
 
@@ -137,12 +137,12 @@ public class OrderAction extends BaseAction {
 		this.customer = customer;
 	}
 
-	public Employee getEmployee() {
-		return employee;
+	public Employee getSalesman() {
+		return salesman;
 	}
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
+	public void setSalesman(Employee salesman) {
+		this.salesman = salesman;
 	}
 
 	@Override
@@ -155,9 +155,9 @@ public class OrderAction extends BaseAction {
 			if (customer != null && customer.getId() != null)
 				dc.createAlias("customer", "c").add(
 						Restrictions.eq("c.id", customer.getId()));
-			if (employee != null && employee.getId() != null)
-				dc.createAlias("employee", "e").add(
-						Restrictions.eq("e.id", employee.getId()));
+			if (salesman != null && salesman.getId() != null)
+				dc.createAlias("salesman", "e").add(
+						Restrictions.eq("e.id", salesman.getId()));
 			// resultPage.addOrder(org.hibernate.criterion.Order.asc("paid"));
 			// resultPage.addOrder(org.hibernate.criterion.Order.asc("shipped"));
 			resultPage
@@ -217,16 +217,20 @@ public class OrderAction extends BaseAction {
 			order = new Order();
 			if (customer != null && customer.getId() != null)
 				customer = customerManager.get(customer.getId());
-			if (employee != null && employee.getId() != null)
-				employee = employeeManager.get(employee.getId());
-			productList = productManager.findAll(org.hibernate.criterion.Order
-					.asc("displayOrder"));
+			if (salesman != null && salesman.getId() != null)
+				salesman = employeeManager.get(salesman.getId());
+
 		} else {
 			customer = order.getCustomer();
-			employee = order.getSalesman();
+			salesman = order.getSalesman();
 			if (order.getStation() != null)
 				stationId = order.getStation().getId();
+			productId = new Long[order.getItems().size()];
+			for (int i = 0; i < productId.length; i++)
+				productId[i] = order.getItems().get(i).getProduct().getId();
 		}
+		productList = productManager.findAll(org.hibernate.criterion.Order
+				.asc("displayOrder"));
 		DetachedCriteria dc = employeeManager.detachedCriteria();
 		dc.add(Restrictions.eq("type", EmployeeType.SALESMAN));
 		dc.add(Restrictions.eq("dimission", false));
@@ -240,60 +244,53 @@ public class OrderAction extends BaseAction {
 	public String save() {
 		if (order == null)
 			return INPUT;
-		if (order.isNew()) {
-			String customerName = customer.getName().trim();
-			customer = customerManager.findByNaturalId(customerName);
-			if (customer == null) {
-				customer = new Customer(customerName);
-				customerManager.save(customer);
-			}
-			order.setCustomer(customer);
-			if (employee != null && employee.getId() != null) {
-				employee = employeeManager.get(employee.getId());
-				order.setSalesman(employee);
-			}
-			if (productId != null) {
-				for (int i = 0; i < order.getItems().size(); i++) {
-					if (i >= productId.length)
-						break;
-					OrderItem item = order.getItems().get(i);
-					if (item == null)
-						continue;
-					if (item.getQuantity() > 0 && item.getPrice() != null)
-						item.setProduct(productManager.get(productId[i]));
-					else
-						order.getItems().remove(i);
-				}
-			}
-			if (order.getItems().size() == 0) {
-				addActionError("没有订单项");
-				return INPUT;
-			}
-			if (stationId != null)
-				order.setStation(stationManager.get(stationId));
-			orderManager.place(order);
-		} else {
-			Order temp = order;
+		Order temp = order;
+		if (!order.isNew()) {
 			order = orderManager.get(temp.getId());
+			order.setCustomer(customer);
 			order.setOrderDate(temp.getOrderDate());
 			order.setFreight(temp.getFreight());
 			order.setSaleType(temp.getSaleType());
 			order.setMemo(temp.getMemo());
-			if (employee != null && employee.getId() != null) {
-				if (order.getSalesman() == null
-						|| !order.getSalesman().getId()
-								.equals(employee.getId())) {
-					employee = employeeManager.get(employee.getId());
-					order.setSalesman(employee);
-				}
-			} else {
-				order.setSalesman(null);
-			}
-			if (stationId != null)
-				order.setStation(stationManager.get(stationId));
-			orderManager.save(order);
 		}
-
+		String customerName = customer.getName().trim();
+		customer = customerManager.findByNaturalId(customerName);
+		if (customer == null) {
+			customer = new Customer(customerName);
+			customerManager.save(customer);
+		}
+		order.setCustomer(customer);
+		if (salesman != null && salesman.getId() != null) {
+			salesman = employeeManager.get(salesman.getId());
+			order.setSalesman(salesman);
+		} else {
+			order.setSalesman(null);
+		}
+		if (stationId != null)
+			order.setStation(stationManager.get(stationId));
+		else
+			order.setStation(null);
+		order.setItems(temp.getItems());
+		if (productId != null) {
+			for (int i = 0; i < order.getItems().size(); i++) {
+				if (i >= productId.length)
+					break;
+				OrderItem item = order.getItems().get(i);
+				if (item == null) {
+					order.getItems().remove(i);
+					continue;
+				}
+				if (item.getQuantity() > 0 && item.getPrice() != null)
+					item.setProduct(productManager.get(productId[i]));
+				else
+					order.getItems().remove(i);
+			}
+		}
+		if (order.getItems().size() == 0) {
+			addActionError("没有订单项");
+			return INPUT;
+		}
+		orderManager.save(order);
 		addActionMessage(getText("save.success"));
 		return SUCCESS;
 	}

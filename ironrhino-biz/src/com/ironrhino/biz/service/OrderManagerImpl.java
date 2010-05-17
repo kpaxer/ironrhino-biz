@@ -39,13 +39,16 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		if (order.getItems().isEmpty())
 			throw new IllegalArgumentException("must have item");
 		if (order.isNew())
-			order.setCode(nextCode());
-		super.save(order);
+			place(order);
+		else
+			modify(order);
+
 	}
 
 	@Transactional
 	public void place(Order order) {
-		save(order);
+		order.setCode(nextCode());
+		super.save(order);
 		for (OrderItem item : order.getItems()) {
 			Product p = item.getProduct();
 			p.setStock(p.getStock() - item.getQuantity());
@@ -62,6 +65,37 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 				planManager.save(plan);
 			}
 		}
+	}
+
+	@Transactional
+	public void modify(Order order) {
+		Order old = get(order.getId());
+		for (OrderItem item : old.getItems()) {
+			Product p = item.getProduct();
+			p.setStock(p.getStock() + item.getQuantity());
+			if (order.getSaleType() == SaleType.SHOP)
+				p.setShopStock(p.getShopStock() + item.getQuantity());
+			productManager.save(p);
+		}
+		sessionFactory.getCurrentSession().evict(old);
+		super.save(order);
+		for (OrderItem item : order.getItems()) {
+			Product p = item.getProduct();
+			p.setStock(p.getStock() - item.getQuantity());
+			if (order.getSaleType() == SaleType.SHOP)
+				p.setShopStock(p.getShopStock() - item.getQuantity());
+			p.setPrice(item.getPrice());
+			productManager.save(p);
+			if (p.getStock() < 0) {
+				Plan plan = new Plan();
+				plan.setProduct(p);
+				plan.setQuantity(-p.getStock());
+				plan.setPlanDate(DateUtils.addDays(new Date(), 1));
+				plan.setMemo("根据订单" + order + "自动生成");
+				planManager.save(plan);
+			}
+		}
+
 	}
 
 	@Transactional
