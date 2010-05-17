@@ -82,7 +82,7 @@
 	<div>
 		<label class="field" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems">
-		<table border="0" width="88%">
+		<table border="0" width="90%">
 			<thead>
 				<tr>
 					<td>${action.getText('product')}</td>
@@ -114,7 +114,7 @@
 					</td>
 					<td width="15%"><input type="text" name="order.items[0].quantity" class="required integer positive quantity"/></td>
 					<td width="15%"><input type="text" name="order.items[0].price" class="required double positive price"/></td>
-					<td width="14%" align="right"></td>
+					<td width="14%" align="right"><span class="info"></span></td>
 					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
 				</tr>
 			</tbody>

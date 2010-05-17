@@ -77,26 +77,10 @@
 		$('#orderItems input.price,#discount,#freight').blur(function() {
 					calculate()
 				});
-		$('#orderItems tr input:last').keydown(function(event) {
-					if (event.keyCode && event.keyCode == 13) {
-						if (event.preventDefault) {
-							event.preventDefault();
-							addRow(event);
-						}
-					}
+
+		$('#orderItems table').datagridTable({
+					onremove : calculate
 				});
-		$('#orderItems tr input:first').keydown(function(event) {
-			alert(event.keyCode);
-			if (event.keyCode
-					&& (event.keyCode == 8 && !$(event.target).val())) {
-				if (event.preventDefault) {
-					event.preventDefault();
-					removeRow(event);
-				}
-			}
-		});
-		$('#orderItems button.add').click(addRow);
-		$('#orderItems button.remove').click(removeRow);
 	};
 
 	var calculate = function(row) {
@@ -106,7 +90,7 @@
 			var subtotal = 0;
 			if (quantity && price) {
 				subtotal = quantity * price;
-				$('td:eq(3)', row).text(subtotal);
+				$('td:eq(3) span.info', row).text(subtotal);
 			}
 			return subtotal;
 		} else {
@@ -127,39 +111,5 @@
 					: '<span style="color:red;">负数</span>');
 		}
 	}
-	var rename = function() {
-		$('#orderItems tbody tr').each(function(i) {
-			$('input', this).each(function() {
-				var name = $(this).attr('name');
-				name = name.substring(0, name.indexOf('[') + 1) + i
-						+ name.substring(name.indexOf(']'));
-				$(this).attr('name', name);
-			});
-		});
-	}
-	var addRow = function(event) {
-		var event = event || window.event;
-		var row = $(event.srcElement || event.target).closest('tr');
-		var r = row.clone(true);
-		$('input,select', r).removeAttr('id');
-		$('span.info', r).html('');
-		row.after(r);
-		$('td:eq(3)', r).text('');
-		$('select:eq(0)', r).html(function() {
-					return $(this).data('innerHTML')
-				});
-		$('input', r).val('');
-		$('input:eq(0)', r).focus();
-		rename();
-	};
-	var removeRow = function(event) {
-		var event = event || window.event;
-		var row = $(event.srcElement || event.target).closest('tr');
-		if ($('tr', row.parent()).length > 1) {
-			row.remove();
-			rename();
-			calculate();
-		}
-	};
 
 })();
