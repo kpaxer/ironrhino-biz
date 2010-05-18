@@ -13,6 +13,7 @@
 			<property name="name" not-null="true"/>
 		</natural-id>
 		<property name="address" />
+		<property name="destination" />
 		<property name="linkman" />
 		<property name="phone" />
 		<property name="mobile" />

@@ -29,6 +29,9 @@ public class Station extends Entity<Long> {
 	@SearchableProperty(boost = 3)
 	private String address;
 
+	@SearchableProperty(boost = 3)
+	private String destination;
+
 	@SearchableProperty
 	private String phone;
 
@@ -66,6 +69,14 @@ public class Station extends Entity<Long> {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 
 	public String getFax() {
