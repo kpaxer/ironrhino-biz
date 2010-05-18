@@ -9,7 +9,6 @@
 </style>
 </head>
 <body>
-
 <div class="portal savable">
 	<div class="portal-column">
 		<div id="unpaid" class="portlet"> 
@@ -20,6 +19,12 @@
 		</div>
 	</div>
 	<div class="portal-column">
+		<div id="inputreward" class="portlet"> 
+			<div class="portlet-header">录入工资</div> 
+			<div class="portlet-content">
+				<div class="ajaxpanel" url="/reward/input"></div>
+			</div>
+		</div>
 		<div id="unshipped" class="portlet"> 
 			<div class="portlet-header">未发货的订单</div> 
 			<div class="portlet-content">

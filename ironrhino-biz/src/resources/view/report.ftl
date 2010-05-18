@@ -3,16 +3,11 @@
 <head>
 <title>报表</title>
 <script>
-$(function(){
-	$('#pdf,#xls').click(function(){
-		var btn = $(this);
-		var format = btn.attr('id');
+function toggleFormat(btn,format){
 		if(format=='xls'){
-			$('#xls').hide();
-			$('#pdf').show();
-		}else{
-			$('#pdf').hide();
-			$('#xls').show();
+			$(btn).html('<span><span>当前是EXCEL,点击切换到PDF</span></span>');
+		}else if(format=='pdf'){
+			$(btn).html('<span><span>当前是PDF,点击切换到EXCEL</span></span>');
 		}
 		$('a.report').attr('href',function(i,href){
 			var i = href.indexOf('format=');
@@ -28,13 +23,19 @@ $(function(){
 				$(this).prepend('<input type="hidden" name="format" value="'+format+'"/>');
 			}
 		});
+}
+$(function(){
+	$('#format').toggle(function(){
+		toggleFormat(this,'xls');
+	},function(){
+		toggleFormat(this,'pdf');
 	});
 });
 </script>
 </head>
 <body>
 <div style="clear:both;text-align:center;margin-bottom:10px;">
-<@button id="xls" text="当前是PDF,切换到EXCEL"/><@button id="pdf" text="当前是EXCEL,切换到PDF" style="display:none;"/>
+<@button id="format" text="当前是PDF,点击切换到EXCEL"/>
 </div>
 
 <div class="portal">
