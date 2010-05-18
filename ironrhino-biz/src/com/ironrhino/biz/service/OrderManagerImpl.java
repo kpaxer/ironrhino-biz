@@ -1,11 +1,15 @@
 package com.ironrhino.biz.service;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.service.BaseManagerImpl;
 import org.ironrhino.core.util.DateUtils;
 import org.ironrhino.core.util.NumberUtils;
@@ -49,57 +53,46 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 	public void place(Order order) {
 		order.setCode(nextCode());
 		super.save(order);
-		for (OrderItem item : order.getItems()) {
-			Product p = item.getProduct();
-			p.setStock(p.getStock() - item.getQuantity());
-			if (order.getSaleType() == SaleType.SHOP)
-				p.setShopStock(p.getShopStock() - item.getQuantity());
-			p.setPrice(item.getPrice());
-			productManager.save(p);
-			if (p.getStock() < 0) {
-				Plan plan = new Plan();
-				plan.setProduct(p);
-				plan.setQuantity(-p.getStock());
-				plan.setPlanDate(DateUtils.addDays(new Date(), 1));
-				plan.setMemo("根据订单" + order + "自动生成");
-				planManager.save(plan);
-			}
-		}
+		createPlanAndModifyStock(order);
 	}
 
 	@Transactional
 	public void modify(Order order) {
+		sessionFactory.getCurrentSession().evict(order);
 		Order old = get(order.getId());
-		for (OrderItem item : old.getItems()) {
-			Product p = item.getProduct();
-			p.setStock(p.getStock() + item.getQuantity());
-			if (order.getSaleType() == SaleType.SHOP)
-				p.setShopStock(p.getShopStock() + item.getQuantity());
-			productManager.save(p);
+		boolean onlyModifyPrice = true;
+		List<OrderItem> oldItems = old.getItems();
+		List<OrderItem> newItems = order.getItems();
+		if (oldItems.size() == newItems.size()) {
+			for (int i = 0; i < oldItems.size(); i++) {
+				OrderItem oldItem = oldItems.get(i);
+				OrderItem newItem = newItems.get(i);
+				if (!oldItem.getProduct().getId().equals(
+						newItem.getProduct().getId())
+						|| oldItem.getQuantity() != newItem.getQuantity()) {
+					onlyModifyPrice = false;
+					break;
+				}
+			}
+		} else {
+			onlyModifyPrice = false;
+		}
+		if (!onlyModifyPrice) {
+			cancelPlanAndRestoreStock(old);
+			createPlanAndModifyStock(order);
 		}
 		sessionFactory.getCurrentSession().evict(old);
 		super.save(order);
-		for (OrderItem item : order.getItems()) {
-			Product p = item.getProduct();
-			p.setStock(p.getStock() - item.getQuantity());
-			if (order.getSaleType() == SaleType.SHOP)
-				p.setShopStock(p.getShopStock() - item.getQuantity());
-			p.setPrice(item.getPrice());
-			productManager.save(p);
-			if (p.getStock() < 0) {
-				Plan plan = new Plan();
-				plan.setProduct(p);
-				plan.setQuantity(-p.getStock());
-				plan.setPlanDate(DateUtils.addDays(new Date(), 1));
-				plan.setMemo("根据订单" + order + "自动生成");
-				planManager.save(plan);
-			}
-		}
 
 	}
 
 	@Transactional
 	public void cancel(Order order) {
+		cancelPlanAndRestoreStock(order);
+		delete(order);
+	}
+
+	private void cancelPlanAndRestoreStock(Order order) {
 		for (OrderItem item : order.getItems()) {
 			Product p = item.getProduct();
 			p.setStock(p.getStock() + item.getQuantity());
@@ -107,7 +100,31 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 				p.setShopStock(p.getShopStock() + item.getQuantity());
 			productManager.save(p);
 		}
-		delete(order);
+		DetachedCriteria dc = planManager.detachedCriteria();
+		dc.add(Restrictions.eq("completed", false));
+		dc.add(Restrictions.like("memo", order.getCode(), MatchMode.ANYWHERE));
+		List<Plan> plans = planManager.findListByCriteria(dc);
+		for (Plan p : plans)
+			planManager.delete(p);
+	}
+
+	private void createPlanAndModifyStock(Order order) {
+		for (OrderItem item : order.getItems()) {
+			Product p = item.getProduct();
+			p.setStock(p.getStock() - item.getQuantity());
+			if (order.getSaleType() == SaleType.SHOP)
+				p.setShopStock(p.getShopStock() - item.getQuantity());
+			p.setPrice(item.getPrice());
+			productManager.save(p);
+			if (p.getStock() < 0) {
+				Plan plan = new Plan();
+				plan.setProduct(p);
+				plan.setQuantity(-p.getStock());
+				plan.setPlanDate(DateUtils.addDays(new Date(), 1));
+				plan.setMemo("根据订单" + order.getCode() + "自动生成");
+				planManager.save(plan);
+			}
+		}
 	}
 
 	@Override
