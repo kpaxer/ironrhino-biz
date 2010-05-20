@@ -4,7 +4,7 @@
 <title><#if reward.new><#if negative>支<#else>发</#if><#else>${action.getText('edit')}</#if>${action.getText('reward')}</title>
 </head>
 <body>
-<@s.form action="${getUrl('/reward/save')}" method="post" cssClass="ajax">
+<@s.form action="${getUrl('/reward/save')}" method="post" cssClass="ajax reset">
 	<@s.hidden name="negative" />
 	<@s.textfield label="%{getText('rewardDate')}" name="reward.rewardDate" cssClass="required date"/>
 	<#if !reward.new>
