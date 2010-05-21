@@ -267,6 +267,7 @@ public class CustomerAction extends BaseAction {
 
 	public String suggest() {
 		CompassCriteria cc = new CompassCriteria();
+		cc.setPageSize(1000);
 		cc.setQuery(ServletActionContext.getRequest().getParameter("q"));
 		cc.setAliases(new String[] { "customer" });
 		CompassSearchResults searchResults = compassSearchService.search(cc);

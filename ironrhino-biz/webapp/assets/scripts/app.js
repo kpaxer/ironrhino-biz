@@ -27,6 +27,7 @@
 		// });
 		$('.customerName').autocomplete(
 				CONTEXT_PATH + "/customer/suggest?decorator=none", {
+					max : 1000,
 					minChars : 2,
 					delay : 500
 				});
