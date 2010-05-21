@@ -678,27 +678,31 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
   zoom: 1; /* IE7 Hack */
 }
 
+.treeTable tr.collapsed td .expander,.treeTable tr.expanded td .expander,.treeTable tr.collapsed.selected td .expander, .treeTable tr.collapsed.accept td .expander,.treeTable tr.expanded.selected td .expander, .treeTable tr.expanded.accept td .expander {
+  background-image: url(../images/treeTable.png);
+}
+
 .treeTable tr.collapsed td .expander {
-  background-image: url(../images/toggle-expand-dark.png);
+  background-position: 0px -32px;
 }
 
 .treeTable tr.expanded td .expander {
-  background-image: url(../images/toggle-collapse-dark.png);
+  background-position: 0px 0px;
+}
+
+.treeTable tr.collapsed.selected td .expander, .treeTable tr.collapsed.accept td .expander {
+  background-position: 0px -48px;
+}
+
+.treeTable tr.expanded.selected td .expander, .treeTable tr.expanded.accept td .expander {
+  background-position: 0px -16px;
 }
 
 /* jquery.treeTable.sortable
  * ------------------------------------------------------------------------- */
 .treeTable tr.selected, .treeTable tr.accept {
-  background-color: #EBC79E;
+  background-color: #3875d7;
   color: #fff;
-}
-
-.treeTable tr.collapsed.selected td .expander, .treeTable tr.collapsed.accept td .expander {
-  background-image: url(../images/toggle-expand-light.png);
-}
-
-.treeTable tr.expanded.selected td .expander, .treeTable tr.expanded.accept td .expander {
-  background-image: url(../images/toggle-collapse-light.png);
 }
 
 .treeTable .ui-draggable-dragging {
@@ -706,11 +710,11 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
   z-index: 1;
 }
 
-
 /**fixed span position**/
 .treeTable tbody tr td {
   padding: .3em 1.5em;
 }
+
 
 /*
 Uploadify v2.0.3
