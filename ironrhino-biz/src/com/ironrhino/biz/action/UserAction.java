@@ -167,9 +167,19 @@ public class UserAction extends BaseAction {
 				list = userManager.findListByCriteria(dc);
 			}
 			if (list.size() > 0) {
-				for (User user : list)
-					userManager.delete(user);
-				addActionMessage(getText("delete.success"));
+				boolean deletable = true;
+				for (final User user : list) {
+					if (!userManager.canDelete(user)) {
+						deletable = false;
+						addActionError(getText("delete.forbidden"));
+						break;
+					}
+				}
+				if (deletable) {
+					for (User user : list)
+						userManager.delete(user);
+					addActionMessage(getText("delete.success"));
+				}
 			}
 		}
 		return SUCCESS;
