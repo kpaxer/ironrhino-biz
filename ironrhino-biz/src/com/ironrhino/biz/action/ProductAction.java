@@ -20,15 +20,15 @@ import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 
-import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Product;
+import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.BrandManager;
 import com.ironrhino.biz.service.CategoryManager;
 import com.ironrhino.biz.service.ProductManager;
 
-@Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
 public class ProductAction extends BaseAction {
 
 	private static final long serialVersionUID = -7021713504816843968L;

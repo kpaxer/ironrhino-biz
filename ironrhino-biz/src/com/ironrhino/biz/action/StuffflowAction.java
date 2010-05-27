@@ -14,6 +14,7 @@ import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
@@ -22,8 +23,10 @@ import org.ironrhino.core.struts.BaseAction;
 
 import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.Stuffflow;
+import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.StuffManager;
 
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
 public class StuffflowAction extends BaseAction {
 
 	private static final long serialVersionUID = 3919769173051324935L;

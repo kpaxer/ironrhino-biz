@@ -15,14 +15,13 @@ import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.model.SimpleElement;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
-import org.ironrhino.core.util.AuthzUtils;
 
-import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.User;
+import com.ironrhino.biz.model.UserRole;
 
 @AutoConfig
 public class SetupAction extends BaseAction {
@@ -50,9 +49,6 @@ public class SetupAction extends BaseAction {
 			if (region)
 				initRegion();
 			initProduct();
-		} else {
-			if (!AuthzUtils.getRoleNames().contains(Constants.ROLE_SUPERVISOR))
-				return ACCESSDENIED;
 		}
 		targetUrl = "/";
 		return REDIRECT;
@@ -64,8 +60,8 @@ public class SetupAction extends BaseAction {
 		User admin = new User();
 		admin.setUsername("admin");
 		admin.setLegiblePassword("password");
-		admin.setName(Constants.ROLE_SUPERVISOR);
-		admin.getRoles().add(new SimpleElement(Constants.ROLE_SUPERVISOR));
+		admin.setName("管理员");
+		admin.getRoles().add(new SimpleElement(UserRole.ROLE_ADMINISTRATOR));
 		baseManager.save(admin);
 	}
 

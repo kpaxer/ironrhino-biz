@@ -1,7 +1,9 @@
 package com.ironrhino.biz.action;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -11,11 +13,12 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
+import org.ironrhino.core.model.SimpleElement;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 
-import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.User;
+import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.UserManager;
 import com.opensymphony.xwork2.validator.annotations.FieldExpressionValidator;
 import com.opensymphony.xwork2.validator.annotations.RegexFieldValidator;
@@ -23,7 +26,7 @@ import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
-@Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
 public class UserAction extends BaseAction {
 
 	private static final long serialVersionUID = -79191921685741502L;
@@ -32,7 +35,7 @@ public class UserAction extends BaseAction {
 
 	private String[] roleId;
 
-	private String rolesAsString;
+	private Map<String, String> roles;
 
 	private ResultPage<User> resultPage;
 
@@ -51,12 +54,8 @@ public class UserAction extends BaseAction {
 		this.roleId = roleId;
 	}
 
-	public String getRolesAsString() {
-		return rolesAsString;
-	}
-
-	public void setRolesAsString(String rolesAsString) {
-		this.rolesAsString = rolesAsString;
+	public Map<String, String> getRoles() {
+		return roles;
 	}
 
 	public String getConfirmPassword() {
@@ -109,8 +108,16 @@ public class UserAction extends BaseAction {
 	@Override
 	public String input() {
 		user = userManager.get(getUid());
-		if (user == null)
+		if (user == null) {
 			user = new User();
+		} else {
+			roleId = new String[user.getRoles().size()];
+			Iterator<SimpleElement> it = user.getRoles().iterator();
+			int i = 0;
+			while (it.hasNext())
+				roleId[i++] = it.next().getValue();
+		}
+		roles = UserRole.getRoles();
 		return INPUT;
 	}
 
@@ -131,6 +138,11 @@ public class UserAction extends BaseAction {
 			user = userManager.get(temp.getId());
 			BeanUtils.copyProperties(temp, user);
 		}
+		user.getRoles().clear();
+		if (roleId != null) {
+			for(String role : roleId)
+				user.getRoles().add(new SimpleElement(role));
+		}
 		userManager.save(user);
 		addActionMessage(getText("save.success"));
 		return SUCCESS;
@@ -144,8 +156,7 @@ public class UserAction extends BaseAction {
 				if (StringUtils.isNotBlank(password)
 						&& !password.equals("********"))
 					user.setLegiblePassword(password);
-				if (rolesAsString != null)
-					user.setRolesAsString(rolesAsString);
+				
 				userManager.save(user);
 				addActionMessage(getText("save.success"));
 			}
@@ -175,10 +186,10 @@ public class UserAction extends BaseAction {
 						break;
 					}
 				}
-				if (deletable) {
-					for (User user : list)
-						userManager.delete(user);
-					addActionMessage(getText("delete.success"));
+				if(deletable){
+				for (User user : list)
+					userManager.delete(user);
+				addActionMessage(getText("delete.success"));
 				}
 			}
 		}

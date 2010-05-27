@@ -19,6 +19,7 @@
 	</#if>
 	<@s.textfield label="%{getText('name')}" name="user.name" required="true" cssClass="required"/>
 	<@s.checkbox label="%{getText('enabled')}" name="user.enabled" />
+	<@s.checkboxlist label="%{getText('role')}" name="roleId" list="roles" listKey="key" listValue="value"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

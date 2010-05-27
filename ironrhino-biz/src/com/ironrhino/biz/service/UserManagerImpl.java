@@ -15,8 +15,8 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.User;
+import com.ironrhino.biz.model.UserRole;
 
 @Singleton
 @Named("userManager")
@@ -52,8 +52,8 @@ public class UserManagerImpl extends BaseManagerImpl<User> implements
 
 	private void populateAuthorities(User user) {
 		List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
-		auths.add(new GrantedAuthorityImpl(Constants.ROLE_BUILTIN_ANONYMOUS));
-		auths.add(new GrantedAuthorityImpl(Constants.ROLE_BUILTIN_USER));
+		auths.add(new GrantedAuthorityImpl(UserRole.ROLE_BUILTIN_ANONYMOUS));
+		auths.add(new GrantedAuthorityImpl(UserRole.ROLE_BUILTIN_USER));
 		for (SimpleElement sce : user.getRoles())
 			auths.add(new GrantedAuthorityImpl(sce.getValue()));
 		user.setAuthorities(auths);

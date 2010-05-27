@@ -7,10 +7,8 @@ import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
 
-import com.ironrhino.biz.Constants;
-
 @AutoConfig
-@Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR)
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
 public class Category extends Entity<Long> implements Ordered {
 
 	private static final long serialVersionUID = 2084288046799489929L;

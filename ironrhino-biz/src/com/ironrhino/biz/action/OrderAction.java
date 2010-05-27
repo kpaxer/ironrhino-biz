@@ -17,7 +17,6 @@ import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 
-import com.ironrhino.biz.Constants;
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.EmployeeType;
@@ -25,14 +24,14 @@ import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.Station;
+import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.EmployeeManager;
 import com.ironrhino.biz.service.OrderManager;
 import com.ironrhino.biz.service.ProductManager;
 import com.ironrhino.biz.service.StationManager;
 
-@Authorize(ifAnyGranted = Constants.ROLE_SUPERVISOR + ","
-		+ Constants.ROLE_SALESMAN)
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
 public class OrderAction extends BaseAction {
 
 	private static final long serialVersionUID = 4331302727890834065L;
