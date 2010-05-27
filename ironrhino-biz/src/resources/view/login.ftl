@@ -5,7 +5,6 @@
 <@authorize ifAnyGranted="ROLE_BUILTIN_USER">
 <meta http-equiv="refresh" content="0; url=<@url value="/"/>" />
 </@authorize>
-<meta name="decorator" content="simple" />
 </head>
 <body>
 <div><@includePage path="/login/intro"/></div>

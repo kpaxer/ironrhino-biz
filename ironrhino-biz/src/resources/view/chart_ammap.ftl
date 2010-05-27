@@ -1,6 +1,6 @@
-<html> 
-<head> 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>${title!}</title>
 <script>
 Observation.ammap = function(container){
@@ -14,7 +14,7 @@ swfobject.embedSWF("<@url value='/assets/components/ammap/ammap.swf'/>","chart",
 		});
 };
 </script>
-</head> 
+</head>
 <body>
 <form id="daterange" action="${getUrl('/chart/ammap')}" method="get" class="ajax view line" replacement="c"  style="margin-left:10px;">
 	<#if id??>
@@ -39,6 +39,6 @@ swfobject.embedSWF("<@url value='/assets/components/ammap/ammap.swf'/>","chart",
 	<div id="chart" data_file="${data_file}">
 	</div>
 </div>
-</body> 
+</body>
 </html>
 

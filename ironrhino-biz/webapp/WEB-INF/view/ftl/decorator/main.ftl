@@ -19,8 +19,8 @@
 <body>
 <div id="wrapper">
 <div id="header">
-<div id="menu">
-<ul class="nav">
+<@authorize ifAnyGranted="ROLE_BUILTIN_USER">
+<ul class="menu">
 	<li><a href="<@url value="/index"/>">首页</a></li>
 	<li><a href="<@url value="/customer"/>">客户</a></li>
 	<li><a href="<@url value="/order"/>">订单</a></li>
@@ -37,18 +37,31 @@
 	<li><a href="<@url value="/changePassword"/>">修改密码</a></li>
 	<li><a href="<@url value="/logout"/>">注销</a></li>
 </ul>
+</@authorize>
+<@authorize ifNotGranted="ROLE_BUILTIN_USER">
+<div class="menu" style="text-align:center;font-size:1.2em;font-weight:bold;">
+请登录
 </div>
+</@authorize>
 </div>
 
-<div id="main">
-<div id="content" style="margin: 20px 20px; padding: 10px;">
+<div id="content">
 <div id="message">
 <@s.actionerror cssClass="action_error" />
 <@s.actionmessage cssClass="action_message" />
 </div>
 <#noescape>${body}</#noescape>
 </div>
+
+<!--
+<div id="footer">
+	<ul>
+		<li><a href="<@url value="/index"/>">首页</a></li>
+	</ul>
+	<p class="copyright">Copyright 2010, 版权所有</p>
 </div>
+-->
+
 </div>
 </body>
 </html></#escape></#compress>

@@ -14,8 +14,8 @@
 <div class="portal savable">
 
 	<div class="portal-column" style="width:100%;">
-		<div id="inputorder" class="portlet"> 
-			<div class="portlet-header">输入订单</div> 
+		<div id="inputorder" class="portlet">
+			<div class="portlet-header">输入订单</div>
 			<div class="portlet-content">
 				<div class="ajaxpanel" url="/order/input"></div>
 			</div>
@@ -23,8 +23,8 @@
 	</div>
 
 	<div class="portal-column">
-		<div id="unpaid" class="portlet"> 
-			<div class="portlet-header">未付款的订单</div> 
+		<div id="unpaid" class="portlet">
+			<div class="portlet-header">未付款的订单</div>
 			<div class="portlet-content">
 				<div class="ajaxpanel" url="/order/unpaid"></div>
 			</div>
@@ -32,20 +32,20 @@
 	</div>
 	
 	<div class="portal-column">
-		<div id="inputreward" class="portlet"> 
-			<div class="portlet-header">录入工资</div> 
+		<div id="inputreward" class="portlet">
+			<div class="portlet-header">录入工资</div>
 			<div class="portlet-content">
 				<div class="ajaxpanel" url="/reward/input"></div>
 			</div>
 		</div>
-		<div id="unshipped" class="portlet"> 
-			<div class="portlet-header">未发货的订单</div> 
+		<div id="unshipped" class="portlet">
+			<div class="portlet-header">未发货的订单</div>
 			<div class="portlet-content">
 				<div class="ajaxpanel" url="/order/unshipped"></div>
 			</div>
 		</div>
-		<div id="uncompleted" class="portlet"> 
-			<div class="portlet-header">未完成的计划</div> 
+		<div id="uncompleted" class="portlet">
+			<div class="portlet-header">未完成的计划</div>
 			<div class="portlet-content">
 				<div class="ajaxpanel" url="/plan/uncompleted"></div>
 			</div>

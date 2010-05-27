@@ -11,7 +11,7 @@
 	<@s.textfield label="%{getText('name')}" name="station.name" cssClass="required"/>
 	<div class="selectregion" regionname="region" full="true" regionid="regionId">
 	<@s.hidden id="regionId" name="regionId" />
-	<label class="field" for="region"><span style="cursor:pointer;">请选择地区</span></label> 
+	<label class="field" for="region"><span style="cursor:pointer;">请选择地区</span></label>
 	<div id="region"><#if station.region??>${station.region.fullname}<#else>...</#if></div>
 	</div>
 	<@s.textfield label="%{getText('address')}" id="address" name="station.address"/>
