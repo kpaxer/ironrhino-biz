@@ -19,7 +19,7 @@ body {
 	float:left;
 	width:100%;
 	background: #B7B7B7;
-	background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#b7b7b7));
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#CCCCCC), to(#CCCCCC), color-stop(.5,#A7A7A7));
 	background: -moz-linear-gradient(top,  #cccccc,  #b7b7b7);
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
