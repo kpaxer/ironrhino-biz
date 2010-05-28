@@ -12,7 +12,6 @@ import org.ironrhino.common.util.RegionParser;
 import org.ironrhino.core.aop.AopContext;
 import org.ironrhino.core.aop.PublishAspect;
 import org.ironrhino.core.metadata.AutoConfig;
-import org.ironrhino.core.model.SimpleElement;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 
@@ -61,7 +60,7 @@ public class SetupAction extends BaseAction {
 		admin.setUsername("admin");
 		admin.setLegiblePassword("password");
 		admin.setName("管理员");
-		admin.getRoles().add(new SimpleElement(UserRole.ROLE_ADMINISTRATOR));
+		admin.getRoles().add(UserRole.ROLE_ADMINISTRATOR);
 		baseManager.save(admin);
 	}
 

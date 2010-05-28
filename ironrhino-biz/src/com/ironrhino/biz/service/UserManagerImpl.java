@@ -8,7 +8,6 @@ import javax.inject.Singleton;
 
 import org.ironrhino.core.metadata.CheckCache;
 import org.ironrhino.core.metadata.FlushCache;
-import org.ironrhino.core.model.SimpleElement;
 import org.ironrhino.core.service.BaseManagerImpl;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
@@ -54,8 +53,8 @@ public class UserManagerImpl extends BaseManagerImpl<User> implements
 		List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 		auths.add(new GrantedAuthorityImpl(UserRole.ROLE_BUILTIN_ANONYMOUS));
 		auths.add(new GrantedAuthorityImpl(UserRole.ROLE_BUILTIN_USER));
-		for (SimpleElement sce : user.getRoles())
-			auths.add(new GrantedAuthorityImpl(sce.getValue()));
+		for (String role : user.getRoles())
+			auths.add(new GrantedAuthorityImpl(role));
 		user.setAuthorities(auths);
 	}
 

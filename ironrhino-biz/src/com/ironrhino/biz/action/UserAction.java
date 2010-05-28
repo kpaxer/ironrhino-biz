@@ -13,7 +13,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
-import org.ironrhino.core.model.SimpleElement;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 
@@ -112,10 +111,10 @@ public class UserAction extends BaseAction {
 			user = new User();
 		} else {
 			roleId = new String[user.getRoles().size()];
-			Iterator<SimpleElement> it = user.getRoles().iterator();
+			Iterator<String> it = user.getRoles().iterator();
 			int i = 0;
 			while (it.hasNext())
-				roleId[i++] = it.next().getValue();
+				roleId[i++] = it.next();
 		}
 		roles = UserRole.getRoles();
 		return INPUT;
@@ -140,8 +139,8 @@ public class UserAction extends BaseAction {
 		}
 		user.getRoles().clear();
 		if (roleId != null) {
-			for(String role : roleId)
-				user.getRoles().add(new SimpleElement(role));
+			for (String role : roleId)
+				user.getRoles().add(role);
 		}
 		userManager.save(user);
 		addActionMessage(getText("save.success"));
@@ -156,7 +155,7 @@ public class UserAction extends BaseAction {
 				if (StringUtils.isNotBlank(password)
 						&& !password.equals("********"))
 					user.setLegiblePassword(password);
-				
+
 				userManager.save(user);
 				addActionMessage(getText("save.success"));
 			}
@@ -186,10 +185,10 @@ public class UserAction extends BaseAction {
 						break;
 					}
 				}
-				if(deletable){
-				for (User user : list)
-					userManager.delete(user);
-				addActionMessage(getText("delete.success"));
+				if (deletable) {
+					for (User user : list)
+						userManager.delete(user);
+					addActionMessage(getText("delete.success"));
 				}
 			}
 		}

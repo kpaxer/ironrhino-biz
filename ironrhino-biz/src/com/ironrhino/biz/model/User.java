@@ -1,5 +1,6 @@
 package com.ironrhino.biz.model;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -14,7 +15,6 @@ import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.metadata.RecordAware;
 import org.ironrhino.core.model.BaseEntity;
-import org.ironrhino.core.model.SimpleElement;
 import org.ironrhino.core.util.CodecUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,19 +38,14 @@ public class User extends BaseEntity implements UserDetails {
 
 	private Collection<GrantedAuthority> authorities;
 
-	private boolean enabled;
+	private boolean enabled = true;
 
 	@NotInCopy
-	private Date createDate;
+	private Date createDate = new Date();
 
 	@NotInCopy
 	@NotInJson
-	private Set<SimpleElement> roles = new HashSet<SimpleElement>(0);
-
-	public User() {
-		createDate = new Date();
-		enabled = true;
-	}
+	private Set<String> roles = new HashSet<String>(0);
 
 	public Date getCreateDate() {
 		return createDate;
@@ -68,21 +63,24 @@ public class User extends BaseEntity implements UserDetails {
 		this.password = password;
 	}
 
-	public Set<SimpleElement> getRoles() {
+	public Set<String> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<SimpleElement> roles) {
+	public void setRoles(Set<String> roles) {
 		this.roles = roles;
 	}
 
 	@NotInCopy
 	public String getRolesAsString() {
-		return StringUtils.join(roles.iterator(), ',');
+		if (roles.size() > 0)
+			return StringUtils.join(roles.iterator(), ',');
+		return null;
 	}
 
 	public void setRolesAsString(String rolesAsString) {
-		SimpleElement.fillCollectionWithString(roles, rolesAsString);
+		if (StringUtils.isNotBlank(rolesAsString))
+			roles.addAll(Arrays.asList(rolesAsString.split(",")));
 	}
 
 	public void setEnabled(boolean enabled) {

@@ -15,11 +15,6 @@
 		<property name="name" />
 		<property name="enabled" />
 		<property name="createDate" />
-		<set name="roles" table="userrole" cascade="all">
-			<key column="userId" />
-			<composite-element class="org.ironrhino.core.model.SimpleElement">
-				<property name="value" not-null="true" />
-			</composite-element>
-		</set>
+		<property name="rolesAsString" type="java.lang.String" column="roles" length="500"/>
 	</class>
 </hibernate-mapping>
