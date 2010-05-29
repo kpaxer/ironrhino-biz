@@ -11,7 +11,7 @@
 	<#if !plan.completed>
 		<div>
 		<label class="field" for="filterproduct">${action.getText('product')}</label>
-		<input id="filterproduct" type="text" size="5" class="filterselect" style="margin-right:3px;"/><@s.select theme="simple" name="product.id" cssClass="required" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
+		<input id="filterproduct" type="text" size="5" class="filterselect" style="margin-right:3px;"/><@s.select theme="simple" name="product.id" cssClass="required" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
 		</div>
 		<@s.textfield label="%{getText('quantity')}" name="plan.quantity" cssClass="integer positive required"/>
 		<@s.textfield label="%{getText('planDate')}" name="plan.planDate" cssClass="date required"/>
