@@ -14,12 +14,12 @@ import org.ironrhino.core.aop.PublishAspect;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
+import org.ironrhino.security.model.User;
 
 import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.Stuff;
-import com.ironrhino.biz.model.User;
 import com.ironrhino.biz.model.UserRole;
 
 @AutoConfig

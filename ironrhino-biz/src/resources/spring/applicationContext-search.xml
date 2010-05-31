@@ -5,8 +5,7 @@
 	<bean id="compass" class="org.compass.spring.LocalCompassBean">
 		<property name="classMappings">
 			<list>
-				<value>org.ironrhino.core.model.SimpleElement</value>
-				<value>org.ironrhino.core.model.Attribute</value>
+				<value>org.ironrhino.security.model.User</value>
 				<value>org.ironrhino.common.model.Region</value>
 				<value>com.ironrhino.biz.model.Product</value>
 				<value>com.ironrhino.biz.model.Plan</value>

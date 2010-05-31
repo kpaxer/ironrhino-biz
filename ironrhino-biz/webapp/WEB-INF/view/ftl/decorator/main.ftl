@@ -34,7 +34,7 @@
 	<li><a href="<@url value="/station"/>">货运站</a></li>
 	<li><a href="<@url value="/report"/>">报表</a></li>
 	<li><a href="<@url value="/chart"/>">图表</a></li>
-	<li><a href="<@url value="/changePassword"/>">修改密码</a></li>
+	<li><a href="<@url value="/user/password"/>">修改密码</a></li>
 	<li><a href="<@url value="/logout"/>">注销</a></li>
 </ul>
 </@authorize>
