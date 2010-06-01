@@ -10,7 +10,7 @@ text-decoration:none;
 </style>
 </head>
 <body>
-<#assign config={"id":{},"name":{"cellEdit":"click"},"type":{"cellEdit":"click,rt_select_template_type"},"phone":{"cellEdit":"click"},"dimission":{"cellEdit":"click,rt_select_template_boolean"}}>
+<#assign columns={"id":{},"name":{"cellEdit":"click"},"type":{"cellEdit":"click,rt_select_template_type"},"phone":{"cellEdit":"click"},"dimission":{"cellEdit":"click,rt_select_template_boolean"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'save\')}' action='save'/>
@@ -22,7 +22,7 @@ text-decoration:none;
 <@button text='${action.getText(\'order\')}' type='link' href='${getUrl(\'/order?employee.id=\'+entity.id)}'/>
 </#if>
 ">
-<@richtable entityName="employee" config=config actionColumnWidth="330px" actionColumnButtons=actionColumnButtons searchable=true/>
+<@richtable entityName="employee" columns=columns actionColumnWidth="330px" actionColumnButtons=actionColumnButtons searchable=true/>
 <div style="display: none;">
 <textarea id="rt_select_template_type">
 <@s.select theme="simple" cssStyle="width: 100%;" onblur="Richtable.updateCell(this)" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>

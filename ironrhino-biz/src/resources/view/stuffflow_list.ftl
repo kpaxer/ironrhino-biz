@@ -4,8 +4,8 @@
 <title>${action.getText('stuffflow')}${action.getText('list')}</title>
 </head>
 <body>
-<#assign config={"stuff":{},"quantity":{},"amount":{},"date":{"template":r"${value?string('yyyy年MM月dd日')}"}}>
+<#assign columns={"stuff":{},"quantity":{},"amount":{},"date":{"template":r"${value?string('yyyy年MM月dd日')}"}}>
 <#assign actionColumnButtons=''>
-<@richtable entityName="stuffflow" config=config readonly=true searchable=true/>
+<@richtable entityName="stuffflow" columns=columns readonly=true searchable=true/>
 </body>
 </html></#escape>

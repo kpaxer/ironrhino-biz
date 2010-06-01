@@ -4,7 +4,7 @@
 <title>${action.getText('reward')}${action.getText('list')}</title>
 </head>
 <body>
-<#assign config={"employee":{},"amount":{},"type":{},"rewardDate":{"template":r"${value?string('yyyy年MM月dd日')}"}}>
-<@richtable entityName="reward" config=config celleditable=false searchable=true/>
+<#assign columns={"employee":{},"amount":{},"type":{},"rewardDate":{"template":r"${value?string('yyyy年MM月dd日')}"}}>
+<@richtable entityName="reward" columns=columns celleditable=false searchable=true/>
 </body>
 </html></#escape>

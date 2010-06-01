@@ -4,7 +4,7 @@
 <title>${action.getText('product')}${action.getText('list')}</title>
 </head>
 <body>
-<#assign config={"brand":{},"category":{},"name":{"width":"200px","cellEdit":"click"},"stock":{"cellEdit":"click"},"shopStock":{"cellEdit":"click"},"weight":{"cellEdit":"click"},"price":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
+<#assign columns={"brand":{},"category":{},"name":{"width":"200px","cellEdit":"click"},"stock":{"cellEdit":"click"},"shopStock":{"cellEdit":"click"},"weight":{"cellEdit":"click"},"price":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'save\')}' action='save'/>
@@ -20,6 +20,6 @@
 <@button text='${action.getText(\'reload\')}' action='reload'/>
 <@button text='${action.getText(\'compare\')+action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='${getUrl(\'/chart/view?type=product\')}' rel='richtable' windowoptions='{\'width\':\'1200px\'}'/>
 ">
-<@richtable entityName="product" actionColumnWidth="300px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons config=config searchable=true/>
+<@richtable entityName="product" actionColumnWidth="300px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons columns=columns searchable=true/>
 </body>
 </html></#escape>
