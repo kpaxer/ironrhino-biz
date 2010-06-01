@@ -27,12 +27,9 @@
 		<property name="orderDate" />
 		<property name="createDate" />
 		<property name="memo" length="2500" />
-		<many-to-one name="customer" column="customerId" not-null="true"
-			lazy="false" fetch="join" />
-		<many-to-one name="station" column="stationId" not-null="false"
-			lazy="false" fetch="join" />
-		<many-to-one name="salesman" column="salesmanId" not-null="false"
-			lazy="false" fetch="join" />
+		<many-to-one name="customer" column="customerId" not-null="true" lazy="false" fetch="join" />
+		<many-to-one name="station" column="stationId" not-null="false" lazy="proxy" />
+		<many-to-one name="salesman" column="salesmanId" not-null="false" lazy="proxy" />
 		<list name="items" table="orderItem" cascade="all" lazy="true"
 			fetch="subselect">
 			<key column="orderId" />
