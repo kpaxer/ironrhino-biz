@@ -25,6 +25,7 @@ function toggleFormat(btn,format){
 		});
 }
 $(function(){
+	$('.report').attr('target','_blank');
 	$('#format').toggle(function(){
 		toggleFormat(this,'xls');
 	},function(){

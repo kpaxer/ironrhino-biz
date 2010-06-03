@@ -233,10 +233,9 @@ public class ReportAction extends BaseAction {
 			}
 		}
 		if (list == null || list.isEmpty()) {
-			addActionMessage("没有数据");
-			return SUCCESS;
+			addActionError("没有数据");
+			return ERROR;
 		}
-
 		return "jasper";
 	}
 
