@@ -28,7 +28,7 @@ import com.ironrhino.biz.service.BrandManager;
 import com.ironrhino.biz.service.CategoryManager;
 import com.ironrhino.biz.service.ProductManager;
 
-@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
+@Authorize(ifAnyGranted = org.ironrhino.security.model.UserRole.ROLE_ADMINISTRATOR)
 public class ProductAction extends BaseAction {
 
 	private static final long serialVersionUID = -7021713504816843968L;

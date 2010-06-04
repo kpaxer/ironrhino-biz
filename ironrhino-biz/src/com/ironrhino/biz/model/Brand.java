@@ -8,7 +8,7 @@ import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
 
 @AutoConfig
-@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
+@Authorize(ifAnyGranted = org.ironrhino.security.model.UserRole.ROLE_ADMINISTRATOR)
 public class Brand extends Entity<Long> implements Ordered {
 
 	private static final long serialVersionUID = 6728147186060800090L;
@@ -36,7 +36,6 @@ public class Brand extends Entity<Long> implements Ordered {
 		this.id = id;
 	}
 
-	@Override
 	@NotInJson
 	public boolean isNew() {
 		return id == null || id == 0;

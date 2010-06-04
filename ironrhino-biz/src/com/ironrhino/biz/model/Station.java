@@ -143,7 +143,6 @@ public class Station extends Entity<Long> {
 		this.region = region;
 	}
 
-	@Override
 	@NotInJson
 	public boolean isNew() {
 		return id == null || id == 0;

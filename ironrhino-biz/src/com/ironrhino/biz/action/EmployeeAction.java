@@ -23,7 +23,7 @@ import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.EmployeeManager;
 
-@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
+@Authorize(ifAnyGranted = org.ironrhino.security.model.UserRole.ROLE_ADMINISTRATOR)
 public class EmployeeAction extends BaseAction {
 
 	private static final long serialVersionUID = 4331302727890834065L;

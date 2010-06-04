@@ -30,7 +30,6 @@ public class StationManagerImpl extends BaseManagerImpl<Station> implements
 		return orderManager.countByCriteria(dc) == 0;
 	}
 
-	@Override
 	@Transactional
 	public void merge(Station source, Station target) {
 		DetachedCriteria dc = orderManager.detachedCriteria();

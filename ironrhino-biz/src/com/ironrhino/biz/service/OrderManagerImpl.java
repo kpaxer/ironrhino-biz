@@ -133,7 +133,6 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		return !(order.isPaid() || order.isShipped());
 	}
 
-	@Override
 	@Transactional
 	public void pay(Order order) {
 		if (order.isPaid())
@@ -142,7 +141,6 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		save(order);
 	}
 
-	@Override
 	@Transactional
 	public void ship(Order order) {
 		if (order.isShipped())

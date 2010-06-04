@@ -46,7 +46,6 @@ public class Stuff extends Entity<Long> implements Ordered {
 		this.id = id;
 	}
 
-	@Override
 	@NotInJson
 	public boolean isNew() {
 		return id == null || id == 0;

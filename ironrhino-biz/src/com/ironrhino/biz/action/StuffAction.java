@@ -29,7 +29,7 @@ import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
-@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
+@Authorize(ifAnyGranted = org.ironrhino.security.model.UserRole.ROLE_ADMINISTRATOR)
 public class StuffAction extends BaseAction {
 
 	private static final long serialVersionUID = -3091345003472881248L;
@@ -113,7 +113,7 @@ public class StuffAction extends BaseAction {
 	public String input() {
 		String id = getUid();
 		if (StringUtils.isNumeric(id))
-			stuff = (Stuff) stuffManager.get(Long.valueOf(id));
+			stuff = stuffManager.get(Long.valueOf(id));
 		if (stuff == null) {
 			stuff = new Stuff();
 		}
@@ -131,7 +131,7 @@ public class StuffAction extends BaseAction {
 			}
 		} else {
 			Stuff temp = stuff;
-			stuff = (Stuff) stuffManager.get(temp.getId());
+			stuff = stuffManager.get(temp.getId());
 			if (!stuff.getName().equals(temp.getName()))
 				if (stuffManager.findByNaturalId(temp.getName()) != null) {
 					addActionError(getText("validation.already.exists"));
@@ -154,7 +154,7 @@ public class StuffAction extends BaseAction {
 			List<Stuff> list;
 			if (id.length == 1) {
 				list = new ArrayList<Stuff>(1);
-				list.add((Stuff) stuffManager.get(id[0]));
+				list.add(stuffManager.get(id[0]));
 			} else {
 				DetachedCriteria dc = stuffManager.detachedCriteria();
 				dc.add(Restrictions.in("id", id));

@@ -30,7 +30,6 @@ public class CustomerManagerImpl extends BaseManagerImpl<Customer> implements
 		return orderManager.countByCriteria(dc) == 0;
 	}
 
-	@Override
 	@Transactional
 	public void merge(Customer source, Customer target) {
 		DetachedCriteria dc = orderManager.detachedCriteria();

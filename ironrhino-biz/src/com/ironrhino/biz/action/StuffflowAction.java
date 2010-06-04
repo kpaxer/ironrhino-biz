@@ -26,7 +26,7 @@ import com.ironrhino.biz.model.Stuffflow;
 import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.StuffManager;
 
-@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
+@Authorize(ifAnyGranted = org.ironrhino.security.model.UserRole.ROLE_ADMINISTRATOR)
 public class StuffflowAction extends BaseAction {
 
 	private static final long serialVersionUID = 3919769173051324935L;

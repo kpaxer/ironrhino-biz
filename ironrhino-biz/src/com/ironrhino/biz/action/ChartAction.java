@@ -191,7 +191,6 @@ public class ChartAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	@Override
 	public String view() {
 		return VIEW;
 	}
