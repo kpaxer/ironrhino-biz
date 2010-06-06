@@ -19,6 +19,6 @@
 <@button text='${action.getText(\'complete\')}' action='complete'/>
 <@button text='${action.getText(\'reload\')}' action='reload'/>
 ">
-<@richtable entityName="plan" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false searchable=true/>
+<@richtable entityName="plan" columns=columns actionColumnWidth="160px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false searchable=true/>
 </body>
 </html></#escape>

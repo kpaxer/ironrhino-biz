@@ -13,8 +13,6 @@ text-decoration:none;
 <#assign columns={"id":{},"name":{"cellEdit":"click"},"type":{"cellEdit":"click,rt_select_template_type"},"phone":{"cellEdit":"click"},"dimission":{"cellEdit":"click,rt_select_template_boolean"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'edit\')}' view='input'/>
-<@button text='${action.getText(\'save\')}' action='save'/>
-<@button text='${action.getText(\'delete\')}' action='delete'/>
 <@button text='${action.getText(\'reward\')}' type='link' href='${getUrl(\'/reward?employee.id=\'+entity.id)}'/>
 <@button text='支工资' type='link' href='${getUrl(\'/reward/input?negative=true&employee.id=\'+entity.id)}' rel='richtable' windowoptions='{\'reloadonclose\':false}'/>
 <@button text='发工资' type='link' href='${getUrl(\'/reward/input?employee.id=\'+entity.id)}' rel='richtable' windowoptions='{\'reloadonclose\':false}'/>
@@ -22,7 +20,7 @@ text-decoration:none;
 <@button text='${action.getText(\'order\')}' type='link' href='${getUrl(\'/order?employee.id=\'+entity.id)}'/>
 </#if>
 ">
-<@richtable entityName="employee" columns=columns actionColumnWidth="330px" actionColumnButtons=actionColumnButtons searchable=true/>
+<@richtable entityName="employee" columns=columns actionColumnWidth="200px" actionColumnButtons=actionColumnButtons searchable=true/>
 <div style="display: none;">
 <textarea id="rt_select_template_type">
 <@s.select theme="simple" cssStyle="width: 100%;" onblur="Richtable.updateCell(this)" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>

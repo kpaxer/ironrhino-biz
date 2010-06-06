@@ -18,7 +18,7 @@ text-decoration:none;
 <@button text='${action.getText(\'reload\')}' action='reload'/>
 <@button text='${action.getText(\'merge\')}' onclick='$(\'#merge\').toggle()'/>
 ">
-<@richtable entityName="station" columns=columns actionColumnWidth="120px" bottomButtons=bottomButtons searchable=true/>
+<@richtable entityName="station" columns=columns bottomButtons=bottomButtons searchable=true/>
 
 <form id="merge" action="<@url value="/station/merge"/>" method="post" class="ajax reset" style="display:none;" onsuccess="Richtable.reload()">
 <div>

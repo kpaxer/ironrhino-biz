@@ -14,8 +14,6 @@ text-decoration:none;
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'view\')}' view='view'/>
 <@button text='${action.getText(\'edit\')}' view='input'/>
-<@button text='${action.getText(\'save\')}' action='save'/>
-<@button text='${action.getText(\'delete\')}' action='delete'/>
 <@button text='${action.getText(\'order\')}' type='link' href='${getUrl(\'/order?customer.id=\'+entity.id)}'/>
 <@button text='${action.getText(\'create\')+action.getText(\'order\')}' type='link' href='${getUrl(\'/order/input?customer.id=\'+entity.id)}' rel='richtable' windowoptions='{\'width\':\'900px\',\'reloadonclose\':false}'/>
 ">
@@ -27,7 +25,7 @@ text-decoration:none;
 <@button text='${action.getText(\'merge\')}' onclick='$(\'#merge\').toggle()'/>
 ">
 <#assign searchButtons=r"<@button text='按区域检索' type='link' href='${getUrl(\'/chart/geo\')}'/>"/>
-<@richtable entityName="customer" columns=columns actionColumnWidth="270px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true searchButtons=searchButtons/>
+<@richtable entityName="customer" columns=columns actionColumnWidth="200px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true searchButtons=searchButtons/>
 
 <form id="merge" action="<@url value="/customer/merge"/>" method="post" class="ajax reset" style="display:none;" onsuccess="Richtable.reload()">
 <div>

@@ -7,8 +7,6 @@
 <#assign columns={"brand":{},"category":{},"name":{"width":"200px","cellEdit":"click"},"stock":{"cellEdit":"click"},"shopStock":{"cellEdit":"click"},"weight":{"cellEdit":"click"},"price":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'edit\')}' view='input'/>
-<@button text='${action.getText(\'save\')}' action='save'/>
-<@button text='${action.getText(\'delete\')}' action='delete'/>
 <@button text='${action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='${getUrl(\'/chart/view?type=product&id=\'+entity.id)}' rel='richtable' windowoptions='{\'width\':\'1200px\',\'reloadonclose\':false}'/>
 <@button text='${action.getText(\'plan\')}' type='link' href='${getUrl(\'/plan?product.id=\'+entity.id)}'/>
 <@button text='${action.getText(\'create\')+action.getText(\'plan\')}' type='link' href='${getUrl(\'/plan/input?product.id=\'+entity.id)}' rel='richtable'/>
@@ -20,6 +18,6 @@
 <@button text='${action.getText(\'reload\')}' action='reload'/>
 <@button text='${action.getText(\'compare\')+action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='${getUrl(\'/chart/view?type=product\')}' rel='richtable' windowoptions='{\'width\':\'1200px\',\'reloadonclose\':false}'/>
 ">
-<@richtable entityName="product" actionColumnWidth="300px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons columns=columns searchable=true/>
+<@richtable entityName="product" actionColumnWidth="230px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons columns=columns searchable=true/>
 </body>
 </html></#escape>
