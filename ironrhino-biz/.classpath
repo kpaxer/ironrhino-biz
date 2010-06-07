@@ -48,7 +48,6 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpcore-4.0.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/aopalliance-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/inject-api-1.0.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-pool-1.5.4.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/freemarker-2.3.16.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/jericho-html-3.1.jar"/>
