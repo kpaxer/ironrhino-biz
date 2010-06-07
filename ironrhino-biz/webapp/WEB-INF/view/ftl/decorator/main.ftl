@@ -24,7 +24,7 @@
 	<li><a href="<@url value="/index"/>">首页</a></li>
 	<li><a href="<@url value="/customer"/>">客户</a></li>
 	<li><a href="<@url value="/order"/>">订单</a></li>
-	<li><a href="<@url value="/plan"/>">生产计划</a></li>
+	<li><a href="<@url value="/plan"/>">计划</a></li>
 	<li><a href="<@url value="/stuff"/>">原料</a></li>
 	<li><a href="<@url value="/reward"/>">工资</a></li>
 	<li><a href="<@url value="/product"/>">产品</a></li>
