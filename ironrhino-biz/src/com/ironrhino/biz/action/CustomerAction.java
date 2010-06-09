@@ -26,7 +26,7 @@ import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.CustomerManager;
 
-@Authorize(ifAnyGranted = org.ironrhino.security.model.UserRole.ROLE_ADMINISTRATOR)
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
 public class CustomerAction extends BaseAction {
 
 	private static final long serialVersionUID = 4331302727890834065L;

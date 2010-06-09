@@ -60,7 +60,7 @@ public class SetupAction extends BaseAction {
 		admin.setUsername("admin");
 		admin.setLegiblePassword("password");
 		admin.setName("管理员");
-		admin.getRoles().add(org.ironrhino.security.model.UserRole.ROLE_ADMINISTRATOR);
+		admin.getRoles().add(UserRole.ROLE_ADMINISTRATOR);
 		baseManager.save(admin);
 	}
 
