@@ -21,7 +21,7 @@ public class Stuff extends Entity<Long> implements Ordered {
 	@SearchableId(converter = "long", index = Index.NOT_ANALYZED)
 	private Long id;
 
-	@NaturalId
+	@NaturalId(mutable = true)
 	@SearchableProperty(boost = 3)
 	private String name;
 

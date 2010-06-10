@@ -22,7 +22,7 @@ public class Customer extends Entity<Long> {
 	@SearchableId(converter = "long")
 	private Long id;
 
-	@NaturalId
+	@NaturalId(mutable = true)
 	@SearchableProperty(boost = 3)
 	private String name;
 

@@ -15,7 +15,7 @@ public class Category extends Entity<Long> implements Ordered {
 
 	private Long id;
 
-	@NaturalId
+	@NaturalId(mutable = true)
 	private String name;
 
 	private int displayOrder;
