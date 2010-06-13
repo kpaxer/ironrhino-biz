@@ -27,9 +27,9 @@ swfobject.embedSWF("<@url value='/assets/components/ammap/ammap.swf'/>","chart",
 	<input type="hidden" name="${name}" value="${Parameters[name]}" />
 	</#if>
 	</#list>
-	<div><@s.textfield theme="simple" name="from" cssClass="date required"/></div>
-	<div><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
-	<div><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
+	<div class="field"><@s.textfield theme="simple" name="from" cssClass="date required"/></div>
+	<div class="field"><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
+	<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 </form>
 <#assign data_file='/chart/ammapdata'/>
 <#if request.queryString??>
