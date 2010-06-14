@@ -435,7 +435,7 @@ public class ReportAction extends BaseAction {
 				employee = employeeManager.findByNaturalId(salesman);
 			if (employee != null)
 				title = employee.getName() + title;
-			dc.add(Restrictions.eq("employee", employee));
+			dc.add(Restrictions.eq("salesman", employee));
 		}
 		String saletype = ServletActionContext.getRequest().getParameter(
 				"saletype");
