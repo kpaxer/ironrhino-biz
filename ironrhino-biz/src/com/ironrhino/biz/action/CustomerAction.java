@@ -2,7 +2,9 @@ package com.ironrhino.biz.action;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -21,10 +23,15 @@ import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
+import org.ironrhino.core.util.JsonUtils;
 
 import com.ironrhino.biz.model.Customer;
+import com.ironrhino.biz.model.Employee;
+import com.ironrhino.biz.model.Order;
+import com.ironrhino.biz.model.Station;
 import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.CustomerManager;
+import com.ironrhino.biz.service.OrderManager;
 
 @Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
 public class CustomerAction extends BaseAction {
@@ -41,6 +48,9 @@ public class CustomerAction extends BaseAction {
 
 	@Inject
 	private transient CustomerManager customerManager;
+
+	@Inject
+	private transient OrderManager orderManager;
 
 	@Inject
 	private transient RegionTreeControl regionTreeControl;
@@ -286,6 +296,24 @@ public class CustomerAction extends BaseAction {
 			customer = customerManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
 			customer = customerManager.findByNaturalId(id);
+		if (customer != null) {
+			DetachedCriteria dc = orderManager.detachedCriteria();
+			dc.add(Restrictions.eq("customer", customer));
+			dc.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
+			dc.addOrder(org.hibernate.criterion.Order.desc("code"));
+			Order lastOrder = orderManager.findByCriteria(dc);
+			if (lastOrder != null) {
+				Map<String, String> map = new HashMap<String, String>();
+				Employee salesman = lastOrder.getSalesman();
+				if (salesman != null)
+					map.put("salesman", String.valueOf(salesman.getId()));
+				Station station = lastOrder.getStation();
+				if (station != null)
+					map.put("station", String.valueOf(station.getId()));
+				if (!map.isEmpty())
+					customer.setMemo(JsonUtils.toJson(map));
+			}
+		}
 		return JSON;
 	}
 

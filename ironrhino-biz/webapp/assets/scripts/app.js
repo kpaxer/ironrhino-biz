@@ -7,24 +7,49 @@
 					else
 						span.hide();
 				});
-		// $('#customerName').blur(function(event) {
-		// var ele = $(event.target);
-		// var val = ele.val();
-		// if (val) {
-		// var url = CONTEXT_PATH + '/customer/json/' + val;
-		// $.ajax({
-		// url : url,
-		// dataType : 'json',
-		// success : function(data) {
-		// if (data && data.id)
-		// ele.val(data.name).siblings('span.info')
-		// .html('');
-		// else
-		// ele.siblings('span.info').html('将自动保存为新客户');
-		// }
-		// });
-		// }
-		// });
+		$('#customerName').blur(function(event) {
+			var ele = $(event.target);
+			var val = ele.val();
+			if (val) {
+				var url = CONTEXT_PATH + '/customer/json/' + val;
+				$.ajax({
+					url : url,
+					dataType : 'json',
+					success : function(data) {
+						var salesman = $('select[name="salesman.id"]', ele
+										.closest('form'));
+						var station = $('select[name="stationId"]', ele
+										.closest('form'));
+						if (data && data.id) {
+							ele.val(data.name).siblings('span.info').html('');
+							if (data.memo) {
+								var obj = $.parseJSON(data.memo);
+								if (document.location.search
+										.indexOf('salesman.id') < 0) {
+									if (!obj.salesman)
+										$('option:selected', salesman)
+												.removeAttr('selected');
+									else
+										salesman.val(obj.salesman);
+								}
+								if (!obj.station)
+									$('option:selected', station)
+											.removeAttr('selected');
+								else
+									station.val(obj.station);
+							}
+						} else {
+							if (document.location.search.indexOf('salesman.id') < 0)
+								$('option:selected', salesman)
+										.removeAttr('selected');
+							$('option:selected', station)
+									.removeAttr('selected');
+							ele.siblings('span.info').html('将自动保存为新客户');
+						}
+					}
+				});
+			}
+		});
 		$('.customerName').autocomplete(
 				CONTEXT_PATH + "/customer/suggest?decorator=none", {
 					max : 1000,
