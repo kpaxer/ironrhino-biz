@@ -11,8 +11,10 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.service.BaseManagerImpl;
+import org.ironrhino.core.util.AuthzUtils;
 import org.ironrhino.core.util.DateUtils;
 import org.ironrhino.core.util.NumberUtils;
+import org.ironrhino.security.model.User;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,6 +54,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 	@Transactional
 	public void place(Order order) {
 		order.setCode(nextCode());
+		order.setCreateUser(AuthzUtils.getUserDetails(User.class));
 		super.save(order);
 		createPlanAndModifyStock(order);
 	}
@@ -82,6 +85,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 			createPlanAndModifyStock(order);
 		}
 		sessionFactory.getCurrentSession().evict(old);
+		order.setModifyUser(AuthzUtils.getUserDetails(User.class));
 		super.save(order);
 
 	}

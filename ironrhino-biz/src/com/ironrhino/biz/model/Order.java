@@ -13,6 +13,7 @@ import org.compass.annotations.Store;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.model.BaseEntity;
+import org.ironrhino.security.model.User;
 
 import com.opensymphony.xwork2.util.CreateIfNull;
 
@@ -49,6 +50,12 @@ public class Order extends BaseEntity {
 
 	@SearchableComponent
 	private Customer customer;
+
+	@SearchableComponent
+	private User createUser;
+
+	@SearchableComponent
+	private User modifyUser;
 
 	@SearchableComponent
 	private Station station;
@@ -129,6 +136,22 @@ public class Order extends BaseEntity {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public User getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(User createUser) {
+		this.createUser = createUser;
+	}
+
+	public User getModifyUser() {
+		return modifyUser;
+	}
+
+	public void setModifyUser(User modifyUser) {
+		this.modifyUser = modifyUser;
 	}
 
 	public Station getStation() {
