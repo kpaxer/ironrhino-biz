@@ -18,6 +18,7 @@ import org.ironrhino.security.model.User;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Plan;
@@ -34,6 +35,9 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 	private DataFieldMaxValueIncrementer orderCodeSequence;
 
 	@Inject
+	private CustomerManager customerManager;
+
+	@Inject
 	private ProductManager productManager;
 
 	@Inject
@@ -44,6 +48,13 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 	public void save(Order order) {
 		if (order.getItems().isEmpty())
 			throw new IllegalArgumentException("must have item");
+		Date orderDate = order.getOrderDate();
+		Customer customer = order.getCustomer();
+		if (customer.getActiveDate() == null
+				|| customer.getActiveDate().before(orderDate)) {
+			customer.setActiveDate(orderDate);
+			customerManager.save(customer);
+		}
 		if (order.isNew())
 			place(order);
 		else
@@ -86,8 +97,8 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		}
 		sessionFactory.getCurrentSession().evict(old);
 		order.setModifyUser(AuthzUtils.getUserDetails(User.class));
+		order.setModifyDate(new Date());
 		super.save(order);
-
 	}
 
 	@Transactional

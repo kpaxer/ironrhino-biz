@@ -12,6 +12,7 @@ import org.compass.annotations.SearchableProperty;
 import org.compass.annotations.Store;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
+import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
 import org.ironrhino.security.model.User;
 
@@ -39,6 +40,8 @@ public class Order extends BaseEntity {
 
 	private Date createDate = new Date();
 
+	private Date modifyDate;
+
 	private boolean paid;
 
 	private boolean shipped;
@@ -49,154 +52,57 @@ public class Order extends BaseEntity {
 	private BigDecimal freight;
 
 	@SearchableComponent
+	@NotInCopy
 	private Customer customer;
 
 	@SearchableComponent
-	private User createUser;
-
-	@SearchableComponent
-	private User modifyUser;
-
-	@SearchableComponent
+	@NotInCopy
 	private Station station;
 
 	@SearchableComponent
+	@NotInCopy
 	private Employee salesman;
+
+	@SearchableComponent
+	@NotInCopy
+	private User createUser;
+
+	@SearchableComponent
+	@NotInCopy
+	private User modifyUser;
 
 	@CreateIfNull
 	private List<OrderItem> items = new ArrayList<OrderItem>(0);
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public boolean isPaid() {
-		return paid;
-	}
-
-	public void setPaid(boolean paid) {
-		this.paid = paid;
-	}
-
-	public boolean isShipped() {
-		return shipped;
-	}
-
-	public void setShipped(boolean shipped) {
-		this.shipped = shipped;
-	}
-
-	public SaleType getSaleType() {
-		return saleType;
-	}
-
-	public void setSaleType(SaleType saleType) {
-		this.saleType = saleType;
-	}
-
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-
-	public String getMemo() {
-		return memo;
-	}
-
-	public void setMemo(String memo) {
-		this.memo = memo;
-	}
-
-	public Date getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;
-	}
-
-	public Employee getSalesman() {
-		return salesman;
-	}
-
-	public void setSalesman(Employee salesman) {
-		this.salesman = salesman;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public User getCreateUser() {
-		return createUser;
-	}
-
-	public void setCreateUser(User createUser) {
-		this.createUser = createUser;
-	}
-
-	public User getModifyUser() {
-		return modifyUser;
-	}
-
-	public void setModifyUser(User modifyUser) {
-		this.modifyUser = modifyUser;
-	}
-
-	public Station getStation() {
-		return station;
-	}
-
-	public void setStation(Station station) {
-		this.station = station;
-	}
-
-	public List<OrderItem> getItems() {
-		return items;
-	}
-
-	public void setItems(List<OrderItem> items) {
-		this.items = items;
-	}
-
-	public BigDecimal getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(BigDecimal discount) {
-		this.discount = discount;
-		grandTotal = null;
-	}
-
-	public BigDecimal getFreight() {
-		return freight;
-	}
-
-	public void setFreight(BigDecimal freight) {
-		this.freight = freight;
-		grandTotal = null;
-	}
-
-	public void setGrandTotal(BigDecimal grandTotal) {
-		this.grandTotal = grandTotal;
-	}
 
 	public BigDecimal getAmount() {
 		BigDecimal amount = new BigDecimal(0.0);
 		for (OrderItem item : items)
 			amount = amount.add(item.getSubtotal());
 		return amount;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public User getCreateUser() {
+		return createUser;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public BigDecimal getDiscount() {
+		return discount;
+	}
+
+	public BigDecimal getFreight() {
+		return freight;
 	}
 
 	public BigDecimal getGrandTotal() {
@@ -210,6 +116,116 @@ public class Order extends BaseEntity {
 				grandTotal = grandTotal.subtract(freight);
 		}
 		return grandTotal;
+	}
+
+	public List<OrderItem> getItems() {
+		return items;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public Date getModifyDate() {
+		return modifyDate;
+	}
+
+	public User getModifyUser() {
+		return modifyUser;
+	}
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public Employee getSalesman() {
+		return salesman;
+	}
+
+	public SaleType getSaleType() {
+		return saleType;
+	}
+
+	public Station getStation() {
+		return station;
+	}
+
+	public boolean isPaid() {
+		return paid;
+	}
+
+	public boolean isShipped() {
+		return shipped;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public void setCreateUser(User createUser) {
+		this.createUser = createUser;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public void setDiscount(BigDecimal discount) {
+		this.discount = discount;
+		grandTotal = null;
+	}
+
+	public void setFreight(BigDecimal freight) {
+		this.freight = freight;
+		grandTotal = null;
+	}
+
+	public void setGrandTotal(BigDecimal grandTotal) {
+		this.grandTotal = grandTotal;
+	}
+
+	public void setItems(List<OrderItem> items) {
+		this.items = items;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
+
+	public void setModifyUser(User modifyUser) {
+		this.modifyUser = modifyUser;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
+
+	public void setSalesman(Employee salesman) {
+		this.salesman = salesman;
+	}
+
+	public void setSaleType(SaleType saleType) {
+		this.saleType = saleType;
+	}
+
+	public void setShipped(boolean shipped) {
+		this.shipped = shipped;
+	}
+
+	public void setStation(Station station) {
+		this.station = station;
 	}
 
 	@Override

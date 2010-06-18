@@ -2,6 +2,7 @@ package com.ironrhino.biz.action;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
+import org.ironrhino.core.util.DateUtils;
 import org.ironrhino.core.util.JsonUtils;
 
 import com.ironrhino.biz.model.Customer;
@@ -45,6 +47,8 @@ public class CustomerAction extends BaseAction {
 	private List<String> suggestions;
 
 	private Long regionId;
+
+	private int threshold;
 
 	@Inject
 	private transient CustomerManager customerManager;
@@ -74,6 +78,14 @@ public class CustomerAction extends BaseAction {
 		this.customer = customer;
 	}
 
+	public int getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(int threshold) {
+		this.threshold = threshold;
+	}
+
 	public Long getRegionId() {
 		return regionId;
 	}
@@ -89,6 +101,8 @@ public class CustomerAction extends BaseAction {
 	@Override
 	public String execute() {
 		if (StringUtils.isBlank(keyword)) {
+			if (resultPage == null)
+				resultPage = new ResultPage<Customer>();
 			DetachedCriteria dc = customerManager.detachedCriteria();
 			Region region = null;
 			if (regionId != null) {
@@ -103,8 +117,12 @@ public class CustomerAction extends BaseAction {
 					}
 				}
 			}
-			if (resultPage == null)
-				resultPage = new ResultPage<Customer>();
+			if (threshold > 0) {
+				dc.add(Restrictions.le("activeDate", DateUtils.addDays(
+						DateUtils.beginOfDay(new Date()), -threshold)));
+				resultPage.addOrder(org.hibernate.criterion.Order
+						.asc("activeDate"));
+			}
 			resultPage.setDetachedCriteria(dc);
 			resultPage.addOrder(org.hibernate.criterion.Order.asc("id"));
 			resultPage = customerManager.findByResultPage(resultPage);

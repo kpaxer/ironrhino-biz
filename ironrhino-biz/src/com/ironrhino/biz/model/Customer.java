@@ -46,7 +46,11 @@ public class Customer extends Entity<Long> {
 
 	@NotInCopy
 	@NotInJson
-	private Date createDate = new Date();;
+	private Date activeDate = new Date();
+
+	@NotInCopy
+	@NotInJson
+	private Date createDate = new Date();
 
 	@NotInCopy
 	@NotInJson
@@ -60,76 +64,48 @@ public class Customer extends Entity<Long> {
 		this.name = name;
 	}
 
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-
-	public String getFax() {
-		return fax;
-	}
-
-	public void setFax(String fax) {
-		this.fax = fax;
-	}
-
-	public String getMemo() {
-		return memo;
-	}
-
-	public void setMemo(String memo) {
-		this.memo = memo;
-	}
-
-	public String getLinkman() {
-		return linkman;
-	}
-
-	public void setLinkman(String linkman) {
-		this.linkman = linkman;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public Date getActiveDate() {
+		return activeDate;
 	}
 
 	public String getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public String getFax() {
+		return fax;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getLinkman() {
+		return linkman;
+	}
+
+	public String getMemo() {
+		return memo;
 	}
 
 	public String getMobile() {
 		return mobile;
 	}
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
+	public String getName() {
+		return name;
 	}
 
 	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
 	public Region getRegion() {
 		return region;
-	}
-
-	public void setRegion(Region region) {
-		this.region = region;
 	}
 
 	@NotInJson
@@ -137,12 +113,48 @@ public class Customer extends Entity<Long> {
 		return id == null || id == 0;
 	}
 
-	public Long getId() {
-		return id;
+	public void setActiveDate(Date activeDate) {
+		this.activeDate = activeDate;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public void setLinkman(String linkman) {
+		this.linkman = linkman;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
 	}
 
 	@Override

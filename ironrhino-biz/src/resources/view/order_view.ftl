@@ -6,21 +6,25 @@
 <body>
 <div id="info">
 <div>
-<span>${action.getText('code')}:</span><span style="margin-left:5px;">${order.code}</span>
+<span style="margin-left:5px;">${action.getText('code')}:</span><span style="margin-left:5px;">${order.code}</span>
 <span style="margin-left:5px;">${action.getText('customer')}:</span><span>${order.customer}</span>
 <span style="margin-left:5px;">${action.getText('orderDate')}:</span><span>${order.orderDate?string('yyyy年MM月dd日')}</span>
 <span style="margin-left:5px;">${action.getText('saleType')}:</span><span>${order.saleType.displayName}</span>
-<#if order.createUser??>
-<span style="margin-left:5px;">${action.getText('createUser')}:</span><span>${order.createUser.name}</span>
-</#if>
-<#if order.modifyUser??>
-<span style="margin-left:5px;">${action.getText('modifyUser')}:</span><span>${order.modifyUser.name}</span>
-</#if>
 <#if order.salesman??>
 <span style="margin-left:5px;">${action.getText('salesman')}:</span><span>${order.salesman.name}</span>
 </#if>
+</div>
+<div>
 <#if order.station??>
 <span style="margin-left:5px;">${action.getText('station')}:</span><span>${order.station.name}</span>
+</#if>
+<#if order.createUser??>
+<span style="margin-left:5px;">${action.getText('createUser')}:</span><span>${order.createUser.name}</span>
+<span style="margin-left:5px;">${action.getText('createDate')}:</span><span>${order.createDate?string('yyyy-MM-dd HH:mm:ss')}</span>
+</#if>
+<#if order.modifyUser??>
+<span style="margin-left:5px;">${action.getText('modifyUser')}:</span><span>${order.modifyUser.name}</span>
+<span style="margin-left:5px;">${action.getText('modifyDate')}:</span><span>${order.modifyDate?string('yyyy-MM-dd HH:mm:ss')}</span>
 </#if>
 </div>
 <table border="0" width="100%">
