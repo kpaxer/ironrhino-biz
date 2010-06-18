@@ -12,6 +12,8 @@
 		<natural-id mutable="true">
 			<property name="name" not-null="true"/>
 		</natural-id>
+		<property name="nameAsPinyin"/>
+		<property name="nameAsPinyinAbbr"/>
 		<property name="address" />
 		<property name="linkman" />
 		<property name="phone" />

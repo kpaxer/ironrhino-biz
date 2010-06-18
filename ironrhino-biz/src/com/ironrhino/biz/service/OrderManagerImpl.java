@@ -129,8 +129,10 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 			p.setStock(p.getStock() - item.getQuantity());
 			if (order.getSaleType() == SaleType.SHOP)
 				p.setShopStock(p.getShopStock() - item.getQuantity());
-			p.setPrice(item.getPrice());
-			productManager.save(p);
+			if (item.getPrice().doubleValue() > 0) {
+				p.setPrice(item.getPrice());
+				productManager.save(p);
+			}
 			if (p.getStock() < 0) {
 				Plan plan = new Plan();
 				plan.setProduct(p);

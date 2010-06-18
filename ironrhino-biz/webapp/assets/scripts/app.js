@@ -44,7 +44,7 @@
 										.removeAttr('selected');
 							$('option:selected', station)
 									.removeAttr('selected');
-							ele.siblings('span.info').html('将自动保存为新客户');
+//							ele.siblings('span.info').html('将自动保存为新客户');
 						}
 					}
 				});

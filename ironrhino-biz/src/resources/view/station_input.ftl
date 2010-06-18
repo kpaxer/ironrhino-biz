@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title><#if station.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('station')}</title>
@@ -14,7 +14,8 @@
 	<label class="field" for="region"><span style="cursor:pointer;">请选择地区</span></label>
 	<div id="region"><#if station.region??>${station.region.fullname}<#else>...</#if></div>
 	</div>
-	<@s.textfield label="%{getText('address')}" id="address" name="station.address"/>
+	<@s.textfield label="%{getText('address')}" name="station.address"/>
+	<@s.textfield label="%{getText('destination')}" name="station.destination"/>
 	<@s.textfield label="%{getText('linkman')}" name="station.linkman" />
 	<@s.textfield label="%{getText('phone')}" name="station.phone" />
 	<@s.textfield label="%{getText('mobile')}" name="station.mobile" />

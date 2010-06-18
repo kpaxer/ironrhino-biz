@@ -45,7 +45,7 @@ public class OrderItem implements Serializable {
 	}
 
 	public void setPrice(BigDecimal price) {
-		if (price != null && price.doubleValue() > 0)
+		if (price != null && price.doubleValue() >= 0)
 			this.price = price;
 	}
 

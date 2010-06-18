@@ -12,6 +12,7 @@ import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
+import org.ironrhino.core.util.StringUtils;
 
 @Searchable(alias = "customer")
 @AutoConfig
@@ -25,6 +26,12 @@ public class Customer extends Entity<Long> {
 	@NaturalId(mutable = true)
 	@SearchableProperty(boost = 3)
 	private String name;
+
+	@SearchableProperty(boost = 3)
+	private String nameAsPinyin;
+
+	@SearchableProperty(boost = 3)
+	private String nameAsPinyinAbbr;
 
 	@SearchableProperty(boost = 3)
 	private String address;
@@ -147,6 +154,24 @@ public class Customer extends Entity<Long> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getNameAsPinyin() {
+		nameAsPinyin = StringUtils.pinyin(name);
+		return nameAsPinyin;
+	}
+
+	public void setNameAsPinyin(String nameAsPinyin) {
+		this.nameAsPinyin = nameAsPinyin;
+	}
+
+	public String getNameAsPinyinAbbr() {
+		nameAsPinyinAbbr = StringUtils.pinyinAbbr(name);
+		return nameAsPinyinAbbr;
+	}
+
+	public void setNameAsPinyinAbbr(String nameAsPinyinAbbr) {
+		this.nameAsPinyinAbbr = nameAsPinyinAbbr;
 	}
 
 	public void setPhone(String phone) {
