@@ -107,6 +107,7 @@ public class PlanAction extends BaseAction {
 				query = sb.toString();
 			}
 			CompassCriteria cc = new CompassCriteria();
+			cc.addSort("planDate", null, true);
 			cc.setQuery(query);
 			cc.setAliases(new String[] { "plan" });
 			if (resultPage == null)

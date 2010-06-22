@@ -46,6 +46,10 @@ public class Order extends BaseEntity {
 
 	private boolean shipped;
 
+	private Date shipDate;
+
+	private Date payDate;
+
 	@SearchableProperty(index = Index.NO, store = Store.YES)
 	private BigDecimal grandTotal;
 
@@ -156,6 +160,22 @@ public class Order extends BaseEntity {
 
 	public boolean isShipped() {
 		return shipped;
+	}
+
+	public Date getShipDate() {
+		return shipDate;
+	}
+
+	public void setShipDate(Date shipDate) {
+		this.shipDate = shipDate;
+	}
+
+	public Date getPayDate() {
+		return payDate;
+	}
+
+	public void setPayDate(Date payDate) {
+		this.payDate = payDate;
 	}
 
 	public void setCode(String code) {

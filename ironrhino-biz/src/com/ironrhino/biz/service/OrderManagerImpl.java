@@ -155,6 +155,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		if (order.isPaid())
 			return;
 		order.setPaid(true);
+		order.setPayDate(new Date());
 		save(order);
 	}
 
@@ -163,6 +164,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		if (order.isShipped())
 			return;
 		order.setShipped(true);
+		order.setShipDate(new Date());
 		save(order);
 	}
 

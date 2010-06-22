@@ -178,6 +178,7 @@ public class OrderAction extends BaseAction {
 				query = sb.toString();
 			}
 			CompassCriteria cc = new CompassCriteria();
+			cc.addSort("orderDate", null, true);
 			cc.setQuery(query);
 			cc.setAliases(new String[] { "order" });
 			if (resultPage == null)
@@ -248,8 +249,10 @@ public class OrderAction extends BaseAction {
 			order = orderManager.get(temp.getId());
 			order.setCustomer(customer);
 			order.setOrderDate(temp.getOrderDate());
-			order.setFreight(temp.getFreight());
 			order.setSaleType(temp.getSaleType());
+			order.setPaid(temp.isPaid());
+			order.setShipped(temp.isShipped());
+			order.setFreight(temp.getFreight());
 			order.setMemo(temp.getMemo());
 		}
 		String customerName = customer.getName().trim();

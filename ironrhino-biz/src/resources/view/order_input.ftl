@@ -4,18 +4,18 @@
 <title><#if order.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('order')}</title>
 </head>
 <body>
-<@s.form action="${getUrl('/order/save')}" method="post" cssClass="ajax reset">
+<@s.form action="${getUrl('/order/save')}" method="post" cssClass="ajax">
 	<#if !order.new>
 		<@s.hidden name="order.id" />
 	</#if>
-	<div>
+	<div class="field">
 		<label class="field" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
 		<div>
 			<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required customerName"/>
 			<span class="info" style="font-style:italic;margin-left:20px;"></span>
 		</div>
 	</div>
-	<div>
+	<div class="field">
 		<label class="field" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems">
 		<table border="0" width="90%">
@@ -75,33 +75,28 @@
 	</div>
 	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date required"/>
 	<@s.select label="%{getText('salesman')}" name="salesman.id" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue=""/>
-	<#if order.new>
 	<@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
-	<div>
+	<div class="field">
 		<label class="field">${action.getText('pay')}</label>
 		<div>
-			<span style="margin-right:5px;">${action.getText('paid')}</span><@s.checkbox theme="simple" name="order.paid" cssStyle="margin-right:20px;"/>
-			<span style="margin:5px;">${action.getText('shipped')}</span><@s.checkbox id="shipped" theme="simple" name="order.shipped"/>
-			<span style="display:none;">
-			<span style="margin:5px;">
-			${action.getText('freight')}</span>－<@s.textfield id="freight"  theme="simple" name="order.freight" cssClass="double positive"/>
-			<span style="margin:5px;">${action.getText('station')}</span>
-			<@s.select theme="simple" name="stationId" cssStyle="width:200px;" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
+			<span>${action.getText('paid')}</span><@s.checkbox id="paid" theme="simple" name="order.paid" cssStyle="margin-right:20px;"/>
+			<span<#if !order.paid> style="display:none;"</#if>>
+				<span style="margin:5px;">${action.getText('payDate')}</span><@s.textfield theme="simple" name="order.payDate"  cssClass="date"/>
 			</span>
 		</div>
 	</div>
-	<#else>
-		<#if order.shipped>
+	<div class="field">
+		<label class="field">${action.getText('ship')}</label>
 		<div>
-		<label class="field" for="freight">${action.getText('freight')}</label>
-		<div>
-			<@s.textfield theme="simple" id="freight" name="order.freight" cssClass="double positive"/>
-			<span style="margin:5px;">${action.getText('station')}</span>
-			<@s.select theme="simple" name="stationId" cssStyle="width:200px;" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
+			<span>${action.getText('shipped')}</span><@s.checkbox id="shipped" theme="simple" name="order.shipped"/>
+			<span<#if !order.shipped> style="display:none;"</#if>>
+				<span style="margin:5px;">${action.getText('shipDate')}</span><@s.textfield theme="simple" name="order.shipDate" cssClass="date"/>
+				<span style="margin:5px;">${action.getText('freight')}</span>－<@s.textfield id="freight"  theme="simple" name="order.freight" cssClass="double positive"/>
+				<span style="margin:5px;">${action.getText('station')}</span>
+				<@s.select theme="simple" name="stationId" cssStyle="width:200px;" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
+			</span>
 		</div>
-		</div>
-		</#if>
-	</#if>
+	</div>
 	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:80%;" rows="3"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>

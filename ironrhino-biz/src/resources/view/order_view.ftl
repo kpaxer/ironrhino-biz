@@ -8,6 +8,7 @@
 <div>
 <span style="margin-left:5px;">${action.getText('code')}:</span><span style="margin-left:5px;">${order.code}</span>
 <span style="margin-left:5px;">${action.getText('customer')}:</span><span>${order.customer}</span>
+<span style="margin-left:5px;">${action.getText('phone')}:</span><span>${order.customer.phone!}&nbsp;${order.customer.mobile!}</span>
 <span style="margin-left:5px;">${action.getText('orderDate')}:</span><span>${order.orderDate?string('yyyy年MM月dd日')}</span>
 <span style="margin-left:5px;">${action.getText('saleType')}:</span><span>${order.saleType.displayName}</span>
 <#if order.salesman??>
@@ -15,9 +16,21 @@
 </#if>
 </div>
 <div>
-<#if order.station??>
-<span style="margin-left:5px;">${action.getText('station')}:</span><span>${order.station.name}</span>
+<#if order.paid>
+	<#if order.payDate??>
+	<span style="margin-left:5px;">${action.getText('payDate')}:</span><span>${order.payDate?string('yyyy年MM月dd日')}</span>
+	</#if>
+	<#if order.station??>
+	<span style="margin-left:5px;">${action.getText('station')}:</span><span>${order.station.name}</span>
+	</#if>
 </#if>
+<#if order.shipped>
+	<#if order.shipDate??>
+	<span style="margin-left:5px;">${action.getText('shipDate')}:</span><span>${order.shipDate?string('yyyy年MM月dd日')}</span>
+	</#if>
+</#if>
+</div>
+<div>
 <#if order.createUser??>
 <span style="margin-left:5px;">${action.getText('createUser')}:</span><span>${order.createUser.name}</span>
 <span style="margin-left:5px;">${action.getText('createDate')}:</span><span>${order.createDate?string('yyyy-MM-dd HH:mm:ss')}</span>

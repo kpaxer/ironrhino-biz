@@ -25,6 +25,8 @@
 		<property name="paid" />
 		<property name="shipped" />
 		<property name="orderDate" />
+		<property name="shipDate" />
+		<property name="payDate" />
 		<property name="createDate" />
 		<property name="modifyDate" />
 		<property name="memo" length="2500" />
