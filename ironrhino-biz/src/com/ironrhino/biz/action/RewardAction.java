@@ -101,15 +101,15 @@ public class RewardAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword)) {
 			DetachedCriteria dc = rewardManager.detachedCriteria();
-			if (resultPage == null)
-				resultPage = new ResultPage<Reward>();
-			resultPage.setDetachedCriteria(dc);
 			if (employee != null && employee.getId() != null)
 				dc.createAlias("employee", "c").add(
 						Restrictions.eq("c.id", employee.getId()));
-			resultPage.addOrder(org.hibernate.criterion.Order
+			dc.addOrder(org.hibernate.criterion.Order
 					.desc("rewardDate"));
-			resultPage.addOrder(org.hibernate.criterion.Order.asc("type"));
+			dc.addOrder(org.hibernate.criterion.Order.asc("type"));
+			if (resultPage == null)
+				resultPage = new ResultPage<Reward>();
+			resultPage.setDetachedCriteria(dc);
 			resultPage = rewardManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

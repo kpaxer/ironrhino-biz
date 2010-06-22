@@ -84,13 +84,13 @@ public class PlanAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword)) {
 			DetachedCriteria dc = planManager.detachedCriteria();
-			if (resultPage == null)
-				resultPage = new ResultPage<Plan>();
-			resultPage.setDetachedCriteria(dc);
 			if (product != null && product.getId() != null)
 				dc.createAlias("product", "c").add(
 						Restrictions.eq("c.id", product.getId()));
-			resultPage.addOrder(org.hibernate.criterion.Order.desc("planDate"));
+			dc.addOrder(org.hibernate.criterion.Order.desc("planDate"));
+			if (resultPage == null)
+				resultPage = new ResultPage<Plan>();
+			resultPage.setDetachedCriteria(dc);
 			resultPage = planManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

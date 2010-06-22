@@ -148,20 +148,17 @@ public class OrderAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword)) {
 			DetachedCriteria dc = orderManager.detachedCriteria();
-			if (resultPage == null)
-				resultPage = new ResultPage<Order>();
-			resultPage.setDetachedCriteria(dc);
 			if (customer != null && customer.getId() != null)
 				dc.createAlias("customer", "c").add(
 						Restrictions.eq("c.id", customer.getId()));
 			if (salesman != null && salesman.getId() != null)
 				dc.createAlias("salesman", "e").add(
 						Restrictions.eq("e.id", salesman.getId()));
-			// resultPage.addOrder(org.hibernate.criterion.Order.asc("paid"));
-			// resultPage.addOrder(org.hibernate.criterion.Order.asc("shipped"));
-			resultPage
-					.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
-			resultPage.addOrder(org.hibernate.criterion.Order.desc("code"));
+			dc.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
+			dc.addOrder(org.hibernate.criterion.Order.desc("code"));
+			if (resultPage == null)
+				resultPage = new ResultPage<Order>();
+			resultPage.setDetachedCriteria(dc);
 			resultPage = orderManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

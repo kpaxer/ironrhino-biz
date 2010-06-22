@@ -107,10 +107,10 @@ public class ProductAction extends BaseAction {
 			if (brandId != null)
 				dc.createAlias("brand", "b").add(
 						Restrictions.eq("b.id", brandId));
+			dc.addOrder(Order.asc("displayOrder"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Product>();
 			resultPage.setDetachedCriteria(dc);
-			resultPage.addOrder(Order.asc("displayOrder"));
 			resultPage = productManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

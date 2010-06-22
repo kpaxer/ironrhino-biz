@@ -86,10 +86,10 @@ public class StationAction extends BaseAction {
 					}
 				}
 			}
+			dc.addOrder(org.hibernate.criterion.Order.asc("id"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Station>();
 			resultPage.setDetachedCriteria(dc);
-			resultPage.addOrder(org.hibernate.criterion.Order.asc("id"));
 			resultPage = stationManager.findByResultPage(resultPage);
 			for (Station c : resultPage.getResult())
 				if (c.getRegion() != null)

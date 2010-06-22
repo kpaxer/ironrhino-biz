@@ -76,10 +76,10 @@ public class StuffAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword)) {
 			DetachedCriteria dc = stuffManager.detachedCriteria();
+			dc.addOrder(Order.asc("displayOrder"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuff>();
 			resultPage.setDetachedCriteria(dc);
-			resultPage.addOrder(Order.asc("displayOrder"));
 			resultPage = stuffManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

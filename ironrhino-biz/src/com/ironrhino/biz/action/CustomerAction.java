@@ -101,8 +101,6 @@ public class CustomerAction extends BaseAction {
 	@Override
 	public String execute() {
 		if (StringUtils.isBlank(keyword)) {
-			if (resultPage == null)
-				resultPage = new ResultPage<Customer>();
 			DetachedCriteria dc = customerManager.detachedCriteria();
 			Region region = null;
 			if (regionId != null) {
@@ -120,11 +118,12 @@ public class CustomerAction extends BaseAction {
 			if (threshold > 0) {
 				dc.add(Restrictions.le("activeDate", DateUtils.addDays(
 						DateUtils.beginOfDay(new Date()), -threshold)));
-				resultPage.addOrder(org.hibernate.criterion.Order
-						.asc("activeDate"));
+				dc.addOrder(org.hibernate.criterion.Order.asc("activeDate"));
 			}
+			dc.addOrder(org.hibernate.criterion.Order.asc("id"));
+			if (resultPage == null)
+				resultPage = new ResultPage<Customer>();
 			resultPage.setDetachedCriteria(dc);
-			resultPage.addOrder(org.hibernate.criterion.Order.asc("id"));
 			resultPage = customerManager.findByResultPage(resultPage);
 			for (Customer c : resultPage.getResult())
 				if (c.getRegion() != null)

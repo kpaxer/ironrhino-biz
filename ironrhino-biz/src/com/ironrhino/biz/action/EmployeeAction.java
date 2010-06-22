@@ -58,11 +58,11 @@ public class EmployeeAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword)) {
 			DetachedCriteria dc = employeeManager.detachedCriteria();
+			dc.addOrder(org.hibernate.criterion.Order.asc("dimission"));
+			dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Employee>();
 			resultPage.setDetachedCriteria(dc);
-			resultPage.addOrder(org.hibernate.criterion.Order.asc("dimission"));
-			resultPage.addOrder(org.hibernate.criterion.Order.asc("type"));
 			resultPage = employeeManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

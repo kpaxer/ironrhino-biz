@@ -100,10 +100,10 @@ public class StuffflowAction extends BaseAction {
 			if (stuff != null && stuff.getId() != null)
 				dc.createAlias("stuff", "s").add(
 						Restrictions.eq("s.id", stuff.getId()));
+			dc.addOrder(Order.desc("date"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuffflow>();
 			resultPage.setDetachedCriteria(dc);
-			resultPage.addOrder(Order.desc("date"));
 			resultPage = baseManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
@@ -157,7 +157,7 @@ public class StuffflowAction extends BaseAction {
 			stuffflow.setQuantity(-stuffflow.getQuantity());
 		stuffflow.setStuff(stuff);
 		stuff.setStock(stuff.getStock() + stuffflow.getQuantity());
-		if(out&&stuff.getStock()<0){
+		if (out && stuff.getStock() < 0) {
 			addFieldError("stuffflow.quantity", "库存不够");
 		}
 		stuffManager.save(stuff);
