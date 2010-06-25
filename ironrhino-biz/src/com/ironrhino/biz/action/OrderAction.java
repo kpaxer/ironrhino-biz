@@ -245,6 +245,7 @@ public class OrderAction extends BaseAction {
 		if (!order.isNew()) {
 			order = orderManager.get(temp.getId());
 			order.setCustomer(customer);
+			order.setDiscount(temp.getDiscount());
 			order.setOrderDate(temp.getOrderDate());
 			order.setSaleType(temp.getSaleType());
 			order.setPaid(temp.isPaid());

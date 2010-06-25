@@ -34,7 +34,7 @@
 				</tr>
 				<tr>
 					<td colspan="3">${action.getText('discount')}</td>
-					<td>－<input type="text" id="discount" name="order.discount" class="double positive" style="text-align:right;width:60px;" tabindex="10"/></td>
+					<td>－<@s.textfield id="discount" name="order.discount" cssClass="double positive" cssStyle="text-align:right;width:60px;" tabindex="10"/></td>
 				</tr>
 				<tr>
 					<td colspan="3">${action.getText('grandTotal')}</td>
