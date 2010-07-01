@@ -33,8 +33,8 @@
 		<many-to-one name="customer" column="customerId" not-null="true" lazy="false" fetch="join" />
 		<many-to-one name="station" column="stationId" not-null="false" lazy="proxy" />
 		<many-to-one name="salesman" column="salesmanId" not-null="false" lazy="proxy" />
-		<many-to-one name="createUser" column="createUser" not-null="false" lazy="proxy" />
-		<many-to-one name="modifyUser" column="modifyUser" not-null="false" lazy="proxy" />
+		<many-to-one name="createUser" class="org.ironrhino.security.model.User" column="createUser" not-null="false" lazy="proxy" />
+		<many-to-one name="modifyUser" class="org.ironrhino.security.model.User" column="modifyUser" not-null="false" lazy="proxy" />
 		<list name="items" table="orderItem" cascade="all" lazy="true"
 			fetch="subselect">
 			<key column="orderId" />

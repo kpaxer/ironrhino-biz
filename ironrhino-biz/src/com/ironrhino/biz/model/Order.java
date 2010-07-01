@@ -14,13 +14,14 @@ import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
+import org.ironrhino.core.model.Recordable;
 import org.ironrhino.security.model.User;
 
 import com.opensymphony.xwork2.util.CreateIfNull;
 
 @Searchable(alias = "order")
 @AutoConfig
-public class Order extends BaseEntity {
+public class Order extends BaseEntity implements Recordable<User>{
 
 	private static final long serialVersionUID = -3191022860732749749L;
 
@@ -38,8 +39,10 @@ public class Order extends BaseEntity {
 	@SearchableProperty(converter = "date", format = "yyyy-MM-dd")
 	private Date orderDate = new Date();
 
+	@NotInCopy
 	private Date createDate = new Date();
 
+	@NotInCopy
 	private Date modifyDate;
 
 	private boolean paid;
