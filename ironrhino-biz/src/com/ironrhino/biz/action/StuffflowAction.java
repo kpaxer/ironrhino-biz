@@ -122,6 +122,7 @@ public class StuffflowAction extends BaseAction {
 			CompassCriteria cc = new CompassCriteria();
 			cc.setQuery(query);
 			cc.setAliases(new String[] { "stuffflow" });
+			cc.addSort("date", null, true);
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuffflow>();
 			cc.setPageNo(resultPage.getPageNo());

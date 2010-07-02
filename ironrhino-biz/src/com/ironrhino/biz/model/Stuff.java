@@ -12,7 +12,7 @@ import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
 
-@AutoConfig
+@AutoConfig(searchable = true)
 @Searchable(alias = "stuff")
 public class Stuff extends Entity<Long> implements Ordered {
 

@@ -86,6 +86,7 @@ public class StuffAction extends BaseAction {
 			CompassCriteria cc = new CompassCriteria();
 			cc.setQuery(query);
 			cc.setAliases(new String[] { "stuff" });
+			cc.addSort("displayOrder", "INT", false);
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuff>();
 			cc.setPageNo(resultPage.getPageNo());

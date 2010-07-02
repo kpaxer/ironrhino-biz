@@ -12,7 +12,7 @@ import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
 
-@AutoConfig
+@AutoConfig(searchable = true)
 @Searchable(alias = "stuffflow")
 public class Stuffflow extends BaseEntity {
 

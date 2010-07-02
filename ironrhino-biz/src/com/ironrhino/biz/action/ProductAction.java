@@ -117,6 +117,7 @@ public class ProductAction extends BaseAction {
 			CompassCriteria cc = new CompassCriteria();
 			cc.setQuery(query);
 			cc.setAliases(new String[] { "product" });
+			cc.addSort("displayOrder", "INT", false);
 			if (resultPage == null)
 				resultPage = new ResultPage<Product>();
 			cc.setPageNo(resultPage.getPageNo());

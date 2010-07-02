@@ -1,5 +1,9 @@
 package com.ironrhino.biz.model;
 
+import org.compass.annotations.Index;
+import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableId;
+import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
@@ -7,15 +11,18 @@ import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
 
-@AutoConfig
+@AutoConfig(searchable = true)
 @Authorize(ifAnyGranted = org.ironrhino.security.model.UserRole.ROLE_ADMINISTRATOR)
+@Searchable(alias = "brand")
 public class Brand extends Entity<Long> implements Ordered {
 
 	private static final long serialVersionUID = 6728147186060800090L;
 
+	@SearchableId(converter = "long", index = Index.NOT_ANALYZED)
 	private Long id;
 
 	@NaturalId(mutable = true)
+	@SearchableProperty
 	private String name;
 
 	private int displayOrder;

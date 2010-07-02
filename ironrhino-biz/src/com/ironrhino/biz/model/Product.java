@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.compass.annotations.Index;
 import org.compass.annotations.Searchable;
+import org.compass.annotations.SearchableComponent;
 import org.compass.annotations.SearchableId;
 import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
@@ -14,7 +15,7 @@ import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
 
 @RecordAware
-@AutoConfig
+@AutoConfig(searchable = true)
 @Searchable(alias = "product")
 public class Product extends Entity<Long> implements Ordered {
 
@@ -38,10 +39,12 @@ public class Product extends Entity<Long> implements Ordered {
 
 	@NotInCopy
 	@NotInJson
+	@SearchableComponent
 	private Category category;
 
 	@NotInCopy
 	@NotInJson
+	@SearchableComponent
 	private Brand brand;
 
 	public Long getId() {
