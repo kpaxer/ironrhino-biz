@@ -137,12 +137,12 @@ public class Product extends Entity<Long> implements Ordered {
 	}
 
 	public int compareTo(Object object) {
-		if (!(object instanceof Product))
+		if (!(object instanceof Ordered))
 			return 0;
-		Product entity = (Product) object;
-		if (this.getDisplayOrder() != entity.getDisplayOrder())
-			return this.getDisplayOrder() - entity.getDisplayOrder();
-		return this.getName().compareTo(entity.getName());
+		Ordered ordered = (Ordered) object;
+		if (this.getDisplayOrder() != ordered.getDisplayOrder())
+			return this.getDisplayOrder() - ordered.getDisplayOrder();
+		return this.toString().compareTo(ordered.toString());
 	}
 
 	@Override
