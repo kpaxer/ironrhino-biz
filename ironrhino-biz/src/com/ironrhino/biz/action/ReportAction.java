@@ -436,6 +436,7 @@ public class ReportAction extends BaseAction {
 			if (employee != null)
 				title = employee.getName() + title;
 			dc.add(Restrictions.eq("salesman", employee));
+			dc.createAlias("customer", "c").addOrder(org.hibernate.criterion.Order.asc("c.id"));
 		}
 		String saletype = ServletActionContext.getRequest().getParameter(
 				"saletype");
