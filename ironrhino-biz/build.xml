@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="ironrhino-biz" default="compile" basedir=".">
 
+	<property name="version" value="1.0" />
 	<property name="src.dir" location="${basedir}/src" />
 	<property name="webapp.dir" location="${basedir}/webapp" />
 	<property name="lib.dir" location="${basedir}/lib" />
@@ -10,6 +11,7 @@
 	<property name="test.src.dir" location="${basedir}/test/src" />
 	<property name="test.classes.dir" location="${basedir}/test/classes" />
 	<property name="test.results.dir" location="${basedir}/test/results" />
+	<property name="jar.name" value="ironrhino-biz-${version}.jar" />
 	<property name="war.name" value="ROOT.war" />
 
 	<path id="lib.classpath">
@@ -40,31 +42,7 @@
 		</copy>
 	</target>
 
-	<!--
-	<target name="init">
-			<mkdir dir="${target.dir}" />
-			<mkdir dir="${classes.dir}" />
-			<mkdir dir="${test.classes.dir}" />
-			<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
-				<classpath>
-					<pathelement path="${lib.dir}/aspectjtools.jar" />
-				</classpath>
-			</taskdef>
-		</target>
 
-	<target name="compile" depends="init">
-		<antcall target="clean" />
-		<iajc sourceroots="${src.dir}" destdir="${classes.dir}" aspectpath="${lib.dir}/spring-aspects.jar" fork="true" forkclasspath="${lib.dir}/aspectjtools.jar" source="1.5">
-			<classpath refid="lib.classpath"/>
-		</iajc>
-		<copy todir="${classes.dir}">
-			<fileset dir="${src.dir}">
-				<exclude name="**/*.java" />
-			</fileset>
-		</copy>
-	</target>
-	
-		-->
 
 	<target name="test" depends="compile">
 		<mkdir dir="${test.classes.dir}" />
@@ -104,8 +82,24 @@
 		</java>
 	</target>
 
-	<target name="war">
+	<target name="jar">
+		<mkdir dir="${target.dir}" />
+		<delete file="${target.dir}/${jar.name}" />
+		<jar jarfile="${target.dir}/${jar.name}" basedir="${classes.dir}" includes="com/**,resources/hibernate/**,resources/i18n/**,resources/view/**" />
+	</target>
+
+	<target name="war" depends="jar">
+		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" />
+		<mkdir dir="${target.dir}/classes" />
+		<move todir="${target.dir}/classes">
+			<fileset dir="${webapp.dir}/WEB-INF/classes" includes="com/**,resources/hibernate/**,resources/i18n/**,resources/view/**" />
+		</move>
 		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}" webxml="${webapp.dir}/WEB-INF/web.xml" />
+		<move todir="${webapp.dir}/WEB-INF/classes">
+			<fileset dir="${target.dir}/classes" />
+		</move>
+		<delete dir="${target.dir}/classes" />
+		<move file="${webapp.dir}/WEB-INF/lib/${jar.name}" todir="${target.dir}" />
 	</target>
 
 	<target name="clean">
