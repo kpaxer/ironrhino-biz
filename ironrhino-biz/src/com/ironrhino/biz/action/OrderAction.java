@@ -184,23 +184,20 @@ public class OrderAction extends BaseAction {
 			cc.setPageSize(resultPage.getPageSize());
 			CompassSearchResults searchResults = compassSearchService
 					.search(cc);
-			int totalHits = searchResults.getTotalHits();
+			resultPage.setTotalRecord(searchResults.getTotalHits());
 			CompassHit[] hits = searchResults.getHits();
 			if (hits != null) {
 				List<Order> list = new ArrayList<Order>(hits.length);
 				for (CompassHit ch : searchResults.getHits()) {
 					Order c = (Order) ch.getData();
 					c = orderManager.get(c.getId());
-					if (c != null)
-						list.add(c);
-					else
-						totalHits--;
+					list.add(c);
 				}
 				resultPage.setResult(list);
 			} else {
 				resultPage.setResult(Collections.EMPTY_LIST);
 			}
-			resultPage.setTotalRecord(totalHits);
+
 		}
 		return LIST;
 	}
