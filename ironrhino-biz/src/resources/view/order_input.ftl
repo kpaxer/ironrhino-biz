@@ -34,7 +34,7 @@
 				</tr>
 				<tr>
 					<td colspan="3">${action.getText('discount')}</td>
-					<td>－<@s.textfield id="discount" name="order.discount" cssClass="double positive" cssStyle="text-align:right;width:60px;" tabindex="10"/></td>
+					<td>－<@s.textfield id="discount" name="order.discount" theme="simple" cssClass="double positive" cssStyle="text-align:right;width:60px;" tabindex="10"/></td>
 				</tr>
 				<tr>
 					<td colspan="3">${action.getText('grandTotal')}</td>
@@ -91,10 +91,10 @@
 			<span>${action.getText('shipped')}</span><@s.checkbox id="shipped" theme="simple" name="order.shipped"/>
 			<span<#if !order.shipped> style="display:none;"</#if>>
 				<span style="margin:5px;">${action.getText('shipDate')}</span><@s.textfield theme="simple" name="order.shipDate" cssClass="date"/>
-				<span style="margin:5px;">${action.getText('freight')}</span>－<@s.textfield id="freight"  theme="simple" name="order.freight" cssClass="double positive"/>
-				<span style="margin:5px;">${action.getText('station')}</span>
-				<@s.select theme="simple" name="stationId" cssStyle="width:200px;" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 			</span>
+			<span style="margin:5px;">${action.getText('freight')}</span>－<@s.textfield id="freight"  theme="simple" name="order.freight" cssClass="double positive"/>
+			<span style="margin:5px;">${action.getText('station')}</span>
+			<@s.select theme="simple" name="stationId" cssStyle="width:200px;" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 		</div>
 	</div>
 	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:80%;" rows="3"/>
