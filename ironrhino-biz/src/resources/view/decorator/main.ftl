@@ -20,7 +20,7 @@
 <div id="wrapper">
 <div id="header">
 <@authorize ifAnyGranted="ROLE_BUILTIN_USER">
-<ul class="menu">
+<ul class="menu rounded" corner="top 8px">
 	<li><a href="<@url value="/index"/>">首页</a></li>
 	<li><a href="<@url value="/customer"/>">客户</a></li>
 	<li><a href="<@url value="/order"/>">订单</a></li>
@@ -39,13 +39,13 @@
 </ul>
 </@authorize>
 <@authorize ifNotGranted="ROLE_BUILTIN_USER">
-<div class="menu" style="text-align:center;font-size:1.2em;font-weight:bold;">
+<div class="menu rounded" corner="top 8px" style="text-align:center;font-size:1.2em;font-weight:bold;">
 请登录
 </div>
 </@authorize>
 </div>
 
-<div id="content">
+<div id="content" class="rounded" corner="bottom 8px">
 <div id="message">
 <@s.actionerror cssClass="action_error" />
 <@s.actionmessage cssClass="action_message" />
