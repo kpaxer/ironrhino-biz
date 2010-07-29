@@ -40,7 +40,7 @@
 </@authorize>
 <@authorize ifNotGranted="ROLE_BUILTIN_USER">
 <div class="menu rounded" corner="top 8px" style="text-align:center;font-size:1.2em;font-weight:bold;">
-请登录
+${title}
 </div>
 </@authorize>
 </div>
