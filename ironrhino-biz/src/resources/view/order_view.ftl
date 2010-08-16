@@ -9,6 +9,9 @@
 <span style="margin-left:5px;">${action.getText('code')}:</span><span style="margin-left:5px;">${order.code}</span>
 <span style="margin-left:5px;">${action.getText('customer')}:</span><span>${order.customer}</span>
 <span style="margin-left:5px;">${action.getText('phone')}:</span><span>${order.customer.phone!}&nbsp;${order.customer.mobile!}</span>
+<span style="margin-left:5px;">${action.getText('address')}:</span><span><#if order.customer.region??>${order.customer.region.fullname}</#if>${order.customer.address!}</span>
+</div>
+<div>
 <span style="margin-left:5px;">${action.getText('orderDate')}:</span><span>${order.orderDate?string('yyyy年MM月dd日')}</span>
 <span style="margin-left:5px;">${action.getText('saleType')}:</span><span>${order.saleType.displayName}</span>
 <#if order.salesman??>
