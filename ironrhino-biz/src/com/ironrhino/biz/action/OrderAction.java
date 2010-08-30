@@ -44,6 +44,8 @@ public class OrderAction extends BaseAction {
 
 	private Employee salesman;
 
+	private Employee deliveryman;
+
 	private Long[] productId;
 
 	private Long stationId;
@@ -53,6 +55,8 @@ public class OrderAction extends BaseAction {
 	private List<Product> productList;
 
 	private List<Employee> salesmanList;
+
+	private List<Employee> deliverymanList;
 
 	private List<Order> unpaidOrders;
 
@@ -94,6 +98,10 @@ public class OrderAction extends BaseAction {
 
 	public List<Employee> getSalesmanList() {
 		return salesmanList;
+	}
+
+	public List<Employee> getDeliverymanList() {
+		return deliverymanList;
 	}
 
 	public Long getStationId() {
@@ -144,6 +152,14 @@ public class OrderAction extends BaseAction {
 		this.salesman = salesman;
 	}
 
+	public Employee getDeliveryman() {
+		return deliveryman;
+	}
+
+	public void setDeliveryman(Employee deliveryman) {
+		this.deliveryman = deliveryman;
+	}
+
 	@Override
 	public String execute() {
 		if (StringUtils.isBlank(keyword)) {
@@ -154,6 +170,9 @@ public class OrderAction extends BaseAction {
 			if (salesman != null && salesman.getId() != null)
 				dc.createAlias("salesman", "e").add(
 						Restrictions.eq("e.id", salesman.getId()));
+			if (deliveryman != null && deliveryman.getId() != null)
+				dc.createAlias("deliveryman", "d").add(
+						Restrictions.eq("d.id", deliveryman.getId()));
 			dc.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
 			dc.addOrder(org.hibernate.criterion.Order.desc("code"));
 			if (resultPage == null)
@@ -213,10 +232,12 @@ public class OrderAction extends BaseAction {
 				customer = customerManager.get(customer.getId());
 			if (salesman != null && salesman.getId() != null)
 				salesman = employeeManager.get(salesman.getId());
-
+			if (deliveryman != null && deliveryman.getId() != null)
+				deliveryman = employeeManager.get(deliveryman.getId());
 		} else {
 			customer = order.getCustomer();
 			salesman = order.getSalesman();
+			deliveryman = order.getDeliveryman();
 			if (order.getStation() != null)
 				stationId = order.getStation().getId();
 			productId = new Long[order.getItems().size()];
@@ -228,7 +249,13 @@ public class OrderAction extends BaseAction {
 		DetachedCriteria dc = employeeManager.detachedCriteria();
 		dc.add(Restrictions.eq("type", EmployeeType.SALESMAN));
 		dc.add(Restrictions.eq("dimission", false));
+		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 		salesmanList = employeeManager.findListByCriteria(dc);
+		dc = employeeManager.detachedCriteria();
+		dc.add(Restrictions.eq("type", EmployeeType.DELIVERYMAN));
+		dc.add(Restrictions.eq("dimission", false));
+		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
+		deliverymanList = employeeManager.findListByCriteria(dc);
 		stationList = stationManager.findAll(org.hibernate.criterion.Order
 				.asc("id"));
 		return INPUT;
@@ -262,6 +289,12 @@ public class OrderAction extends BaseAction {
 			order.setSalesman(salesman);
 		} else {
 			order.setSalesman(null);
+		}
+		if (deliveryman != null && deliveryman.getId() != null) {
+			deliveryman = employeeManager.get(deliveryman.getId());
+			order.setDeliveryman(deliveryman);
+		} else {
+			order.setDeliveryman(null);
 		}
 		if (stationId != null)
 			order.setStation(stationManager.get(stationId));

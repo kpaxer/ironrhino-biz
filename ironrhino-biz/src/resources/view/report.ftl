@@ -74,6 +74,14 @@ $(function(){
 					<div class="field"><input type="text" name="to" class="date required"/></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
+				<div style="clear:left;">按配送员和区间</div>
+				<form action="${getUrl('/report/jasper')}" method="post" class="report line clearfix">
+					<input type="hidden" name="type" value="order"/>
+					<div class="field"><@s.select theme="simple" cssClass="required" cssStyle="width:120px;" name="deliveryman" list="deliverymanList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
+					<div class="field"><input type="text" name="from" class="date required"/></div>
+					<div class="field"><input type="text" name="to" class="date required"/></div>
+					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
+				</form>
 				<div style="clear:left;">按销售方式和区间</div>
 				<form action="${getUrl('/report/jasper')}" method="post" class="report line clearfix">
 					<input type="hidden" name="type" value="order"/>

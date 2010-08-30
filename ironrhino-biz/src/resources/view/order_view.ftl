@@ -17,6 +17,9 @@
 <#if order.salesman??>
 <span style="margin-left:5px;">${action.getText('salesman')}:</span><span>${order.salesman.name}</span>
 </#if>
+<#if order.deliveryman??>
+<span style="margin-left:5px;">${action.getText('deliveryman')}:</span><span>${order.deliveryman.name}</span>
+</#if>
 </div>
 <div>
 <#if order.paid>

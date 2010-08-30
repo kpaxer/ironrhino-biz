@@ -70,6 +70,8 @@ public class ReportAction extends BaseAction {
 	private List<Employee> employeeList;
 
 	private List<Employee> salesmanList;
+	
+	private List<Employee> deliverymanList;
 
 	@Inject
 	private transient RewardManager rewardManager;
@@ -158,6 +160,11 @@ public class ReportAction extends BaseAction {
 		return salesmanList;
 	}
 
+	
+	public List<Employee> getDeliverymanList() {
+		return deliverymanList;
+	}
+
 	public String getDocumentName() {
 		try {
 			StringBuilder sb = new StringBuilder();
@@ -218,6 +225,11 @@ public class ReportAction extends BaseAction {
 		dc.add(Restrictions.eq("dimission", false));
 		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 		salesmanList = employeeManager.findListByCriteria(dc);
+		dc = employeeManager.detachedCriteria();
+		dc.add(Restrictions.eq("type", EmployeeType.DELIVERYMAN));
+		dc.add(Restrictions.eq("dimission", false));
+		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
+		deliverymanList = employeeManager.findListByCriteria(dc);
 		return SUCCESS;
 	}
 
@@ -437,6 +449,18 @@ public class ReportAction extends BaseAction {
 				title = employee.getName() + title;
 			dc.add(Restrictions.eq("salesman", employee));
 			dc.createAlias("customer", "c").addOrder(org.hibernate.criterion.Order.asc("c.id"));
+		}
+		String deliveryman = ServletActionContext.getRequest().getParameter(
+		"deliveryman");
+		if (StringUtils.isNotBlank(deliveryman)) {
+			Employee employee;
+			if (StringUtils.isNumeric(deliveryman))
+				employee = employeeManager.get(Long.valueOf(deliveryman));
+			else
+				employee = employeeManager.findByNaturalId(deliveryman);
+			if (employee != null)
+				title = employee.getName() + title;
+			dc.add(Restrictions.eq("deliveryman", employee));
 		}
 		String saletype = ServletActionContext.getRequest().getParameter(
 				"saletype");

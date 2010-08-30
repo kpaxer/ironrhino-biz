@@ -21,7 +21,7 @@ import com.opensymphony.xwork2.util.CreateIfNull;
 
 @Searchable(alias = "order")
 @AutoConfig
-public class Order extends BaseEntity implements Recordable<User>{
+public class Order extends BaseEntity implements Recordable<User> {
 
 	private static final long serialVersionUID = -3191022860732749749L;
 
@@ -69,6 +69,10 @@ public class Order extends BaseEntity implements Recordable<User>{
 	@SearchableComponent
 	@NotInCopy
 	private Employee salesman;
+
+	@SearchableComponent
+	@NotInCopy
+	private Employee deliveryman;
 
 	@SearchableComponent
 	@NotInCopy
@@ -249,6 +253,14 @@ public class Order extends BaseEntity implements Recordable<User>{
 
 	public void setStation(Station station) {
 		this.station = station;
+	}
+
+	public Employee getDeliveryman() {
+		return deliveryman;
+	}
+
+	public void setDeliveryman(Employee deliveryman) {
+		this.deliveryman = deliveryman;
 	}
 
 	@Override

@@ -59,7 +59,7 @@
 				</textElement>
 				<text><![CDATA[总计]]></text>
 			</staticText>
-			<textField evaluationTime="Report" pattern="###0.00">
+			<textField evaluationTime="Report" pattern="###0.0">
 				<reportElement x="317" y="59" width="66" height="20"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
