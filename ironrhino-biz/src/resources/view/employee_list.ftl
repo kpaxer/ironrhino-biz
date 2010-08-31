@@ -20,7 +20,7 @@ text-decoration:none;
 <@button text='${action.getText(\'order\')}' type='link' href='${getUrl(\'/order?employee.id=\'+entity.id)}'/>
 </#if>
 ">
-<@richtable entityName="employee" columns=columns actionColumnWidth="200px" actionColumnButtons=actionColumnButtons searchable=true/>
+<@richtable entityName="employee" columns=columns actionColumnWidth="230px" actionColumnButtons=actionColumnButtons searchable=true/>
 <div style="display: none;">
 <textarea id="rt_select_template_type">
 <@s.select theme="simple" cssStyle="width: 100%;" onblur="Richtable.updateCell(this)" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
