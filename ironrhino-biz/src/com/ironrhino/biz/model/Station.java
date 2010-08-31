@@ -1,7 +1,11 @@
 package com.ironrhino.biz.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.type.TypeReference;
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableComponent;
 import org.compass.annotations.SearchableId;
@@ -12,6 +16,7 @@ import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
+import org.ironrhino.core.util.JsonUtils;
 
 @Searchable(alias = "station")
 @AutoConfig
@@ -46,6 +51,10 @@ public class Station extends Entity<Long> {
 
 	@SearchableProperty
 	private String memo;
+
+	@NotInCopy
+	@NotInJson
+	private List<String> cashCondition = new ArrayList<String>();
 
 	@NotInCopy
 	@NotInJson
@@ -141,6 +150,31 @@ public class Station extends Entity<Long> {
 
 	public void setRegion(Region region) {
 		this.region = region;
+	}
+
+	public String getCashConditionAsString() {
+		if (cashCondition != null && cashCondition.size() > 0)
+			return JsonUtils.toJson(cashCondition);
+		return null;
+	}
+
+	public void setCashConditionAsString(String cashConditionAsString) {
+		if (StringUtils.isNotBlank(cashConditionAsString))
+			try {
+				this.cashCondition = JsonUtils.fromJson(cashConditionAsString,
+						new TypeReference<List<String>>() {
+						});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+
+	public List<String> getCashCondition() {
+		return cashCondition;
+	}
+
+	public void setCashCondition(List<String> cashCondition) {
+		this.cashCondition = cashCondition;
 	}
 
 	@NotInJson

@@ -18,6 +18,7 @@
 		<property name="phone" />
 		<property name="mobile" />
 		<property name="fax" />
+		<property name="cashConditionAsString" />
 		<property name="memo" length="2500" />
 		<property name="createDate" />
 		<many-to-one name="region" column="regionId" lazy="false"

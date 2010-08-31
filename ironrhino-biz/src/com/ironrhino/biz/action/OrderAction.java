@@ -2,6 +2,7 @@ package com.ironrhino.biz.action;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -167,6 +168,9 @@ public class OrderAction extends BaseAction {
 			if (customer != null && customer.getId() != null)
 				dc.createAlias("customer", "c").add(
 						Restrictions.eq("c.id", customer.getId()));
+			if (stationId != null)
+				dc.createAlias("station", "st").add(
+						Restrictions.eq("st.id", stationId));
 			if (salesman != null && salesman.getId() != null)
 				dc.createAlias("salesman", "e").add(
 						Restrictions.eq("e.id", salesman.getId()));
@@ -273,7 +277,9 @@ public class OrderAction extends BaseAction {
 			order.setOrderDate(temp.getOrderDate());
 			order.setSaleType(temp.getSaleType());
 			order.setPaid(temp.isPaid());
+			order.setPayDate(temp.getPayDate());
 			order.setShipped(temp.isShipped());
+			order.setShipDate(temp.getShipDate());
 			order.setFreight(temp.getFreight());
 			order.setMemo(temp.getMemo());
 		}
@@ -414,6 +420,18 @@ public class OrderAction extends BaseAction {
 		DetachedCriteria dc = orderManager.detachedCriteria();
 		dc.add(Restrictions.eq("paid", false));
 		unpaidOrders = orderManager.findListByCriteria(dc);
+		Collections.sort(unpaidOrders, new Comparator<Order>() {
+			@Override
+			public int compare(Order o1, Order o2) {
+				int value = Boolean.valueOf(o2.isCashable()).compareTo(
+						Boolean.valueOf(o1.isCashable()));
+				if (o1.isCashable() && value == 0)
+					return o2.getStation().getName().compareTo(
+							o1.getStation().getName());
+				else
+					return value;
+			}
+		});
 		return "unpaid";
 	}
 

@@ -22,18 +22,17 @@
 </#if>
 </div>
 <div>
-<#if order.paid>
-	<#if order.payDate??>
-	<span style="margin-left:5px;">${action.getText('payDate')}:</span><span>${order.payDate?string('yyyy年MM月dd日')}</span>
-	</#if>
-	<#if order.station??>
-	<span style="margin-left:5px;">${action.getText('station')}:</span><span>${order.station.name}</span>
-	</#if>
+<#if order.paid&&order.payDate??>
+<span style="margin-left:5px;">${action.getText('payDate')}:</span><span>${order.payDate?string('yyyy年MM月dd日')}</span>
 </#if>
+
 <#if order.shipped>
-	<#if order.shipDate??>
-	<span style="margin-left:5px;">${action.getText('shipDate')}:</span><span>${order.shipDate?string('yyyy年MM月dd日')}</span>
-	</#if>
+<#if order.shipDate??>
+<span style="margin-left:5px;">${action.getText('shipDate')}:</span><span>${order.shipDate?string('yyyy年MM月dd日')}</span>
+</#if>
+<#if order.station??>
+<span style="margin-left:5px;">${action.getText('station')}:</span><span>${order.station.name}</span>
+</#if>
 </#if>
 </div>
 <div>

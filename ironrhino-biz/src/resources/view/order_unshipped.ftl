@@ -5,7 +5,7 @@
 </head>
 <body>
 <#if unshippedOrders.size() gt 0>
-<table border="0" width="88%" style="margin: 20px;">
+<table border="0" width="95%" style="margin: 10px;">
 			<thead>
 				<tr>
 					<td>${action.getText('code')}</td>
@@ -18,8 +18,8 @@
 			<tbody>
 			<#list unshippedOrders as var>
 				<tr>
-					<td>${var.code}</td>
-					<td>${var.customer?string}</td>
+					<td><a target="_blank" href="<@url value="/order/view/${var.id}"/>">${var.code}</a></td>
+					<td><a target="_blank" href="<@url value="/order?customer.id=${var.customer.id}"/>">${var.customer!}</a></td>
 					<td>${var.orderDate?string("yyyy年MM月dd日")}</td>
 					<td>${var.grandTotal}</td>
 					<td><@button text="${action.getText('ship')}" type="link" href="${getUrl('/order/ship/'+var.id)}" class="ajax" onsuccess="$(this).closest('tr').remove()"/></td>

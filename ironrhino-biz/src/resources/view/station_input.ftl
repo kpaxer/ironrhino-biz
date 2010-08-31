@@ -20,6 +20,32 @@
 	<@s.textfield label="%{getText('phone')}" name="station.phone" />
 	<@s.textfield label="%{getText('mobile')}" name="station.mobile" />
 	<@s.textfield label="%{getText('fax')}" name="station.fax" />
+	<div class="field clearfix">
+		<label class="field" for="cashCondition">${action.getText('cashCondition')}</label>
+		<div id="cashCondition" style="float:right;">
+		<table border="0" width="600px;" class="datagrid">
+			<tbody>
+			<#if !station.new&&station.cashCondition?size gt 0>
+				<#list 0..station.cashCondition?size-1 as index>
+				<tr>
+					<td width="80%">
+						<@s.select theme="simple" name="station.cashCondition[${index}]" cssClass="required" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue="请选择"/>
+					</td>
+					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
+				</tr>
+				</#list>
+			<#else>
+				<tr>
+					<td width="80%">
+						<@s.select theme="simple" name="station.cashCondition[0]" cssClass="required" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue="请选择"/>
+					</td>
+					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
+				</tr>
+			</#if>
+			</tbody>
+		</table>
+		</div>
+	</div>
 	<@s.textarea label="%{getText('memo')}" name="station.memo" cols="50" rows="10"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>

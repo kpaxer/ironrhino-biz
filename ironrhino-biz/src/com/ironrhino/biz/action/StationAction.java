@@ -1,8 +1,11 @@
 package com.ironrhino.biz.action;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -67,6 +70,22 @@ public class StationAction extends BaseAction {
 
 	public void setRegionId(Long regionId) {
 		this.regionId = regionId;
+	}
+
+	public Map<String, String> getCashConditionMap() {
+		Map<String, String> map = new LinkedHashMap<String, String>();
+		int type = Calendar.DAY_OF_WEEK;
+		map.put(type + "," + Calendar.MONDAY, "每周一");
+		map.put(type + "," + Calendar.TUESDAY, "每周二");
+		map.put(type + "," + Calendar.WEDNESDAY, "每周三");
+		map.put(type + "," + Calendar.THURSDAY, "每周四");
+		map.put(type + "," + Calendar.FRIDAY, "每周五");
+		map.put(type + "," + Calendar.SATURDAY, "每周六");
+		map.put(type + "," + Calendar.SUNDAY, "每周天");
+		type = Calendar.DAY_OF_MONTH;
+		for (int i = 1; i <= 31; i++)
+			map.put(type + "," + i, "每月" + i + "号");
+		return map;
 	}
 
 	@Override
@@ -188,6 +207,8 @@ public class StationAction extends BaseAction {
 			}
 			if (temp.getAddress() == null)
 				temp.setAddress(station.getAddress());
+			if (temp.getCashCondition() == null)
+				temp.setCashCondition(station.getCashCondition());
 			if (temp.getMemo() == null)
 				temp.setMemo(station.getMemo());
 			BeanUtils.copyProperties(temp, station);

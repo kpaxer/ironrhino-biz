@@ -2,6 +2,7 @@ package com.ironrhino.biz.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -261,6 +262,33 @@ public class Order extends BaseEntity implements Recordable<User> {
 
 	public void setDeliveryman(Employee deliveryman) {
 		this.deliveryman = deliveryman;
+	}
+
+	public boolean isCashable() {
+		if (paid || station == null)
+			return false;
+		try {
+			List<String> list = station.getCashCondition();
+			if (list == null || list.isEmpty())
+				return false;
+			Calendar cal = Calendar.getInstance();
+			for (String line : list) {
+				String[] arr = line.split(",");
+				int type = Integer.parseInt(arr[0]);
+				int value = Integer.parseInt(arr[1]);
+				boolean b = cal.get(type) == value;
+				if (type == Calendar.DAY_OF_MONTH) {
+					int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+					if (maxDay < value)
+						b = cal.get(type) == maxDay;
+				}
+				if (b)
+					return b;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	@Override
