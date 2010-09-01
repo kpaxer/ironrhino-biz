@@ -30,6 +30,7 @@ import org.ironrhino.core.chart.openflashchart.axis.Label.Rotate;
 import org.ironrhino.core.chart.openflashchart.elements.BarChart;
 import org.ironrhino.core.chart.openflashchart.elements.LineChart;
 import org.ironrhino.core.chart.openflashchart.elements.Point;
+import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.service.BaseManager;
@@ -44,6 +45,7 @@ import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.SaleType;
 import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.Stuffflow;
+import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.BrandManager;
 import com.ironrhino.biz.service.CategoryManager;
 import com.ironrhino.biz.service.OrderManager;
@@ -53,6 +55,7 @@ import com.ironrhino.biz.service.StuffManager;
 import freemarker.template.TemplateException;
 
 @AutoConfig
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
 public class ChartAction extends BaseAction {
 
 	private static final long serialVersionUID = -7256690227585867617L;

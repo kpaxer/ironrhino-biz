@@ -20,6 +20,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
+import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
@@ -32,6 +33,7 @@ import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.SaleType;
 import com.ironrhino.biz.model.Stuffflow;
+import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.EmployeeManager;
 import com.ironrhino.biz.service.OrderManager;
@@ -39,6 +41,7 @@ import com.ironrhino.biz.service.ProductManager;
 import com.ironrhino.biz.service.RewardManager;
 import com.ironrhino.biz.service.StuffManager;
 
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
 public class ReportAction extends BaseAction {
 
 	private static final long serialVersionUID = -7256690227585867617L;

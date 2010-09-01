@@ -35,7 +35,7 @@
 	<li><a href="<@url value="/report"/>">报表</a></li>
 	<li><a href="<@url value="/chart"/>">图表</a></li>
 	<li><a href="<@url value="/user/password"/>">修改密码</a></li>
-	<li><a href="<@url value="/logout"/>">注销</a></li>
+	<li><a href="<@url value="${ssoServerBase!}${ssoServerBase!}/logout"/>">注销</a></li>
 </ul>
 </@authorize>
 <@authorize ifNotGranted="ROLE_BUILTIN_USER">
