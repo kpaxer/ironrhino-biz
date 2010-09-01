@@ -16,7 +16,7 @@ swfobject.embedSWF("<@url value='/assets/components/ammap/ammap.swf'/>","chart",
 </script>
 </head>
 <body>
-<form id="daterange" action="${getUrl('/chart/ammap')}" method="get" class="ajax view line" replacement="c"  style="margin-left:10px;">
+<form id="daterange" action="chart/ammap" method="get" class="ajax view line" replacement="c"  style="margin-left:10px;">
 	<#if id??>
 	<#list id as var>
 	<input type="hidden" name="id" value="${var}" />
@@ -31,7 +31,7 @@ swfobject.embedSWF("<@url value='/assets/components/ammap/ammap.swf'/>","chart",
 	<div class="field"><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
 	<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 </form>
-<#assign data_file='/chart/ammapdata'/>
+<#assign data_file="${getUrl('/biz/chart/ammapdata')}"/>
 <#if request.queryString??>
 <#assign data_file=data_file+'?'+request.queryString>
 </#if>

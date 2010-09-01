@@ -1,8 +1,8 @@
 <#macro renderTR region>
 <tr id="node-${region.id}"<#if region.parent??&&region.parent.id gt 0> class="child-of-node-${region.parent.id}"</#if>>
         <td>${region.name}</td>
-        <td><#if !region.leaf><a href="<@url value="/chart/view?type=region&location=${region.id}"/>" target="_blank">查看该地区销量</a></#if></td>
-        <td><a href="<@url value="/customer?regionId=${region.id}"/>" target="_blank">查看该地区客户</a></td>
+        <td><#if !region.leaf><a href="chart/view?type=region&location=${region.id}" target="_blank">查看该地区销量</a></#if></td>
+        <td><a href="customer?regionId=${region.id}" target="_blank">查看该地区客户</a></td>
 </tr>
 <#if region.leaf>
 	<#return>

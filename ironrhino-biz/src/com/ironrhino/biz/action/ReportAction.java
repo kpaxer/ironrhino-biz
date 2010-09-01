@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +75,7 @@ public class ReportAction extends BaseAction {
 	private List<Employee> employeeList;
 
 	private List<Employee> salesmanList;
-	
+
 	private List<Employee> deliverymanList;
 
 	@Inject
@@ -163,7 +165,6 @@ public class ReportAction extends BaseAction {
 		return salesmanList;
 	}
 
-	
 	public List<Employee> getDeliverymanList() {
 		return deliverymanList;
 	}
@@ -224,15 +225,49 @@ public class ReportAction extends BaseAction {
 		dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 		employeeList = employeeManager.findListByCriteria(dc);
 		dc = employeeManager.detachedCriteria();
-		dc.add(Restrictions.eq("type", EmployeeType.SALESMAN));
+		// dc.add(Restrictions.eq("type", EmployeeType.SALESMAN));
 		dc.add(Restrictions.eq("dimission", false));
-		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
+		// dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 		salesmanList = employeeManager.findListByCriteria(dc);
+		Collections.sort(salesmanList, new Comparator<Employee>() {
+			@Override
+			public int compare(Employee o1, Employee o2) {
+				if (o1.getType() == o2.getType())
+					return o1.getName().compareTo(o2.getName());
+				else {
+					if (o1.getType() == EmployeeType.SALESMAN
+							&& o2.getType() != EmployeeType.SALESMAN)
+						return -1;
+					else if (o1.getType() != EmployeeType.SALESMAN
+							&& o2.getType() == EmployeeType.SALESMAN)
+						return 1;
+					else
+						return o1.getName().compareTo(o2.getName());
+				}
+			}
+		});
 		dc = employeeManager.detachedCriteria();
-		dc.add(Restrictions.eq("type", EmployeeType.DELIVERYMAN));
+		// dc.add(Restrictions.eq("type", EmployeeType.DELIVERYMAN));
 		dc.add(Restrictions.eq("dimission", false));
-		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
+		// dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 		deliverymanList = employeeManager.findListByCriteria(dc);
+		Collections.sort(deliverymanList, new Comparator<Employee>() {
+			@Override
+			public int compare(Employee o1, Employee o2) {
+				if (o1.getType() == o2.getType())
+					return o1.getName().compareTo(o2.getName());
+				else {
+					if (o1.getType() == EmployeeType.DELIVERYMAN
+							&& o2.getType() != EmployeeType.DELIVERYMAN)
+						return -1;
+					else if (o1.getType() != EmployeeType.DELIVERYMAN
+							&& o2.getType() == EmployeeType.DELIVERYMAN)
+						return 1;
+					else
+						return o1.getName().compareTo(o2.getName());
+				}
+			}
+		});
 		return SUCCESS;
 	}
 
@@ -451,10 +486,11 @@ public class ReportAction extends BaseAction {
 			if (employee != null)
 				title = employee.getName() + title;
 			dc.add(Restrictions.eq("salesman", employee));
-			dc.createAlias("customer", "c").addOrder(org.hibernate.criterion.Order.asc("c.id"));
+			dc.createAlias("customer", "c").addOrder(
+					org.hibernate.criterion.Order.asc("c.id"));
 		}
 		String deliveryman = ServletActionContext.getRequest().getParameter(
-		"deliveryman");
+				"deliveryman");
 		if (StringUtils.isNotBlank(deliveryman)) {
 			Employee employee;
 			if (StringUtils.isNumeric(deliveryman))

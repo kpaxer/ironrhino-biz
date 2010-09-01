@@ -14,8 +14,8 @@ text-decoration:none;
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'view\')}' view='view'/>
 <@button text='${action.getText(\'edit\')}' view='input'/>
-<@button text='${action.getText(\'order\')}' type='link' href='${getUrl(\'/order?customer.id=\'+entity.id)}'/>
-<@button text='${action.getText(\'create\')+action.getText(\'order\')}' type='link' href='${getUrl(\'/order/input?customer.id=\'+entity.id)}' rel='richtable' windowoptions='{\'width\':\'900px\',\'reloadonclose\':false}'/>
+<@button text='${action.getText(\'order\')}' type='link' href='order?customer.id=${entity.id}'/>
+<@button text='${action.getText(\'create\')+action.getText(\'order\')}' type='link' href='order/input?customer.id=${entity.id}' rel='richtable' windowoptions='{\'width\':\'900px\',\'reloadonclose\':false}'/>
 ">
 <#assign bottomButtons=r"
 <@button text='${action.getText(\'create\')}' view='input'/>
@@ -24,10 +24,10 @@ text-decoration:none;
 <@button text='${action.getText(\'reload\')}' action='reload'/>
 <@button text='${action.getText(\'merge\')}' onclick='$(\'#merge\').toggle()'/>
 ">
-<#assign searchButtons=r"<@button text='按区域检索' type='link' href='${getUrl(\'/chart/geo\')}'/>"/>
+<#assign searchButtons=r"<@button text='按区域检索' type='link' href='chart/geo'/>"/>
 <@richtable entityName="customer" columns=columns actionColumnWidth="200px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true searchButtons=searchButtons/>
 
-<form id="merge" action="<@url value="/customer/merge"/>" method="post" class="ajax reset" style="display:none;" onsuccess="Richtable.reload()">
+<form id="merge" action="customer/merge" method="post" class="ajax reset" style="display:none;" onsuccess="Richtable.reload()">
 <div>
 	<span style="margin:3px;">将</span><input type="text" name="id" class="required"/>
 	<span style="margin:3px;">合并到</span><input type="text" name="id" class="required"/>

@@ -251,15 +251,49 @@ public class OrderAction extends BaseAction {
 		productList = productManager.findAll(org.hibernate.criterion.Order
 				.asc("displayOrder"));
 		DetachedCriteria dc = employeeManager.detachedCriteria();
-		dc.add(Restrictions.eq("type", EmployeeType.SALESMAN));
+		// dc.add(Restrictions.eq("type", EmployeeType.SALESMAN));
 		dc.add(Restrictions.eq("dimission", false));
-		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
+		// dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 		salesmanList = employeeManager.findListByCriteria(dc);
+		Collections.sort(salesmanList, new Comparator<Employee>() {
+			@Override
+			public int compare(Employee o1, Employee o2) {
+				if (o1.getType() == o2.getType())
+					return o1.getName().compareTo(o2.getName());
+				else {
+					if (o1.getType() == EmployeeType.SALESMAN
+							&& o2.getType() != EmployeeType.SALESMAN)
+						return -1;
+					else if (o1.getType() != EmployeeType.SALESMAN
+							&& o2.getType() == EmployeeType.SALESMAN)
+						return 1;
+					else
+						return o1.getName().compareTo(o2.getName());
+				}
+			}
+		});
 		dc = employeeManager.detachedCriteria();
-		dc.add(Restrictions.eq("type", EmployeeType.DELIVERYMAN));
+		// dc.add(Restrictions.eq("type", EmployeeType.DELIVERYMAN));
 		dc.add(Restrictions.eq("dimission", false));
-		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
+		// dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 		deliverymanList = employeeManager.findListByCriteria(dc);
+		Collections.sort(deliverymanList, new Comparator<Employee>() {
+			@Override
+			public int compare(Employee o1, Employee o2) {
+				if (o1.getType() == o2.getType())
+					return o1.getName().compareTo(o2.getName());
+				else {
+					if (o1.getType() == EmployeeType.DELIVERYMAN
+							&& o2.getType() != EmployeeType.DELIVERYMAN)
+						return -1;
+					else if (o1.getType() != EmployeeType.DELIVERYMAN
+							&& o2.getType() == EmployeeType.DELIVERYMAN)
+						return 1;
+					else
+						return o1.getName().compareTo(o2.getName());
+				}
+			}
+		});
 		stationList = stationManager.findAll(org.hibernate.criterion.Order
 				.asc("id"));
 		return INPUT;

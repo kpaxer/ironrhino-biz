@@ -19,12 +19,12 @@
 			<tbody>
 			<#list unpaidOrders as var>
 				<tr>
-					<td><a target="_blank" href="<@url value="/order/view/${var.id}"/>">${var.code}</a></td>
-					<td><a target="_blank" href="<@url value="/order?customer.id=${var.customer.id}"/>">${var.customer!}</a></td>
+					<td><a target="_blank" href="order/view/${var.id}">${var.code}</a></td>
+					<td><a target="_blank" href="order?customer.id=${var.customer.id}">${var.customer!}</a></td>
 					<td>${var.orderDate?string("yyyy年MM月dd日")}</td>
 					<td>${var.grandTotal}</td>
-					<td><#if var.station??><a target="_blank" href="<@url value="/order?stationId=${var.station.id}"/>" <#if var.cashable> title="今天可结账" style="color:red;"</#if>>${var.station!}</a></#if></td>
-					<td><@button text="${action.getText('pay')}" type="link" href="${getUrl('/order/pay/'+var.id)}" class="ajax" onsuccess="$(this).closest('tr').remove()"/></td>
+					<td><#if var.station??><a target="_blank" href="order?stationId=${var.station.id}" <#if var.cashable> title="今天可结账" style="color:red;"</#if>>${var.station!}</a></#if></td>
+					<td><@button text="${action.getText('pay')}" type="link" href="order/pay/${var.id}" class="ajax" onsuccess="$(this).closest('tr').remove()"/></td>
 				</tr>
 			</#list>
 			</tbody>

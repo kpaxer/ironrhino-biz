@@ -7,17 +7,17 @@
 <#assign columns={"name":{"cellEdit":"click"},"weight":{"cellEdit":"click"},"stock":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'edit\')}' view='input'/>
-<@button text='${action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='${getUrl(\'/chart/view?type=stuff&id=\'+entity.id)}' rel='richtable' windowoptions='{\'width\':\'1200px\',\'reloadonclose\':false}'/>
-<@button text='${action.getText(\'stuffflow\')+action.getText(\'record\')}' type='link' href='${getUrl(\'/stuffflow?stuff.id=\'+entity.id)}'/>
-<@button text='入库' type='link' href='${getUrl(\'/stuffflow/input?stuff.id=\'+entity.id)}' rel='richtable'/>
-<@button text='出库' type='link' href='${getUrl(\'/stuffflow/input?out=true&stuff.id=\'+entity.id)}' rel='richtable'/>
+<@button text='${action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='chart/view?type=stuff&id=${entity.id}' rel='richtable' windowoptions='{\'width\':\'1200px\',\'reloadonclose\':false}'/>
+<@button text='${action.getText(\'stuffflow\')+action.getText(\'record\')}' type='link' href='stuffflow?stuff.id=${entity.id}'/>
+<@button text='入库' type='link' href='stuffflow/input?stuff.id=${entity.id}' rel='richtable'/>
+<@button text='出库' type='link' href='stuffflow/input?out=true&stuff.id=${entity.id}' rel='richtable'/>
 ">
 <#assign bottomButtons=r"
 <@button text='${action.getText(\'create\')}' view='input'/>
 <@button text='${action.getText(\'save\')}' action='save'/>
 <@button text='${action.getText(\'delete\')}' action='delete'/>
 <@button text='${action.getText(\'reload\')}' action='reload'/>
-<@button text='${action.getText(\'compare\')+action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='${getUrl(\'/chart/view?type=stuff\')}' rel='richtable' windowoptions='{\'width\':\'1200px\',\'reloadonclose\':false}'/>
+<@button text='${action.getText(\'compare\')+action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='chart/view?type=stuff' rel='richtable' windowoptions='{\'width\':\'1200px\',\'reloadonclose\':false}'/>
 ">
 <@richtable entityName="stuff" columns=columns actionColumnWidth="270px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true/>
 </body>

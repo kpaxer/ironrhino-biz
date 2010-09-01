@@ -11,7 +11,7 @@
 			var ele = $(event.target);
 			var val = ele.val();
 			if (val) {
-				var url = CONTEXT_PATH + '/customer/json/' + val;
+				var url = CONTEXT_PATH + '/biz/customer/json/' + val;
 				$.ajax({
 					url : url,
 					dataType : 'json',
@@ -51,7 +51,7 @@
 			}
 		});
 		$('.customerName').autocomplete(
-				CONTEXT_PATH + "/customer/suggest?decorator=none", {
+				CONTEXT_PATH + "/biz/customer/suggest?decorator=none", {
 					max : 1000,
 					minChars : 2,
 					delay : 500
@@ -61,7 +61,7 @@
 					var price = $('input.price:eq(0)', ele.closest('tr'));
 					var val = ele.val();
 					if (val && !price.val()) {
-						var url = CONTEXT_PATH + '/product/json/' + val;
+						var url = CONTEXT_PATH + '/biz/product/json/' + val;
 						$.ajax({
 									url : url,
 									dataType : 'json',
@@ -87,7 +87,7 @@
 			var ele = $('select.fetchprice', $(event.target).closest('tr'));
 			var val = ele.val();
 			if (val && !ele.siblings('span.info').text()) {
-				var url = CONTEXT_PATH + '/product/json/' + val;
+				var url = CONTEXT_PATH + '/biz/product/json/' + val;
 				$.ajax({
 							url : url,
 							dataType : 'json',
