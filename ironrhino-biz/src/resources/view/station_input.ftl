@@ -29,7 +29,7 @@
 				<#list 0..station.cashCondition?size-1 as index>
 				<tr>
 					<td width="80%">
-						<@s.select theme="simple" name="station.cashCondition[${index}]" cssClass="required" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue="请选择"/>
+						<@s.select theme="simple" name="station.cashCondition[${index}]" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue="请选择"/>
 					</td>
 					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
 				</tr>
@@ -37,7 +37,7 @@
 			<#else>
 				<tr>
 					<td width="80%">
-						<@s.select theme="simple" name="station.cashCondition[0]" cssClass="required" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue="请选择"/>
+						<@s.select theme="simple" name="station.cashCondition[0]" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue="请选择"/>
 					</td>
 					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
 				</tr>
