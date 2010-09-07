@@ -24,6 +24,13 @@
 
 	<div class="portal-column">
 		<div id="unpaid" class="portlet">
+			<div class="portlet-header">未输单的日期</div>
+			<div class="portlet-content">
+				<div class="ajaxpanel" url="order/uninputed" style="float:left;width:150px;"></div>
+				<div class="ajaxpanel" url="reward/uninputed" style="float:left;width:150px;"></div>
+			</div>
+		</div>
+		<div id="unpaid" class="portlet">
 			<div class="portlet-header">未付款的订单</div>
 			<div class="portlet-content">
 				<div class="ajaxpanel" url="order/unpaid"></div>

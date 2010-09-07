@@ -2,6 +2,7 @@ package com.ironrhino.biz.action;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,6 +19,7 @@ import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
+import org.ironrhino.core.util.DateUtils;
 
 import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.Reward;
@@ -42,6 +44,10 @@ public class RewardAction extends BaseAction {
 	private Employee employee;
 
 	private List<Employee> employeeList;
+	
+	private int threshold = 7;
+	
+	private List<Date> uninputedDates;
 
 	@Inject
 	private transient RewardManager rewardManager;
@@ -95,6 +101,18 @@ public class RewardAction extends BaseAction {
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
+	}
+	
+	public int getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(int threshold) {
+		this.threshold = threshold;
+	}
+
+	public List<Date> getUninputedDates() {
+		return uninputedDates;
 	}
 
 	@Override
@@ -228,5 +246,19 @@ public class RewardAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
+	
+	public String uninputed() {
+		uninputedDates = new ArrayList<Date>();
+		Date today = new Date();
+		for (int i = 0; i < threshold; i++) {
+			Date rewardDate = DateUtils.beginOfDay(DateUtils.addDays(today, -i));
+			DetachedCriteria dc = rewardManager.detachedCriteria();
+			dc.add(Restrictions.eq("rewardDate", rewardDate));
+			if (rewardManager.countByCriteria(dc) == 0)
+				uninputedDates.add(rewardDate);
+		}
+		return "uninputed";
+	}
+
 
 }

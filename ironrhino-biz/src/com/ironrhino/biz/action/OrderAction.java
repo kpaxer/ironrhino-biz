@@ -3,6 +3,7 @@ package com.ironrhino.biz.action;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,6 +18,7 @@ import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
+import org.ironrhino.core.util.DateUtils;
 
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
@@ -51,6 +53,8 @@ public class OrderAction extends BaseAction {
 
 	private Long stationId;
 
+	private int threshold = 7;
+
 	private List<Station> stationList;
 
 	private List<Product> productList;
@@ -62,6 +66,8 @@ public class OrderAction extends BaseAction {
 	private List<Order> unpaidOrders;
 
 	private List<Order> unshippedOrders;
+
+	private List<Date> uninputedDates;
 
 	@Inject
 	private transient OrderManager orderManager;
@@ -159,6 +165,18 @@ public class OrderAction extends BaseAction {
 
 	public void setDeliveryman(Employee deliveryman) {
 		this.deliveryman = deliveryman;
+	}
+
+	public int getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(int threshold) {
+		this.threshold = threshold;
+	}
+
+	public List<Date> getUninputedDates() {
+		return uninputedDates;
 	}
 
 	@Override
@@ -474,6 +492,19 @@ public class OrderAction extends BaseAction {
 		dc.add(Restrictions.eq("shipped", false));
 		unshippedOrders = orderManager.findListByCriteria(dc);
 		return "unshipped";
+	}
+
+	public String uninputed() {
+		uninputedDates = new ArrayList<Date>();
+		Date today = new Date();
+		for (int i = 0; i < threshold; i++) {
+			Date orderDate = DateUtils.beginOfDay(DateUtils.addDays(today, -i));
+			DetachedCriteria dc = orderManager.detachedCriteria();
+			dc.add(Restrictions.eq("orderDate", orderDate));
+			if (orderManager.countByCriteria(dc) == 0)
+				uninputedDates.add(orderDate);
+		}
+		return "uninputed";
 	}
 
 }
