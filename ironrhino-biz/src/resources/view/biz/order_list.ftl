@@ -20,7 +20,6 @@
 ">
 <#assign bottomButtons=r"
 <@button text='${action.getText(\'create\')}' view='input' windowoptions='{\'width\':\'900px\'}'/>
-<@button text='${action.getText(\'save\')}' action='save'/>
 <@button text='${action.getText(\'delete\')}' action='delete'/>
 <@button text='${action.getText(\'pay\')}' action='pay'/>
 <@button text='${action.getText(\'ship\')}' action='ship'/>
