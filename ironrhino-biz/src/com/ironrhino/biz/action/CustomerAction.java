@@ -19,6 +19,7 @@ import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
+import org.ironrhino.core.model.LabelValue;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
@@ -44,7 +45,7 @@ public class CustomerAction extends BaseAction {
 
 	private ResultPage<Customer> resultPage;
 
-	private List<String> suggestions;
+	private List<LabelValue> suggestions;
 
 	private Long regionId;
 
@@ -94,7 +95,7 @@ public class CustomerAction extends BaseAction {
 		this.regionId = regionId;
 	}
 
-	public List<String> getSuggestions() {
+	public List<LabelValue> getSuggestions() {
 		return suggestions;
 	}
 
@@ -291,19 +292,30 @@ public class CustomerAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	@JsonConfig(root = "suggestions")
 	public String suggest() {
+		keyword = ServletActionContext.getRequest().getParameter("term");
+		if (StringUtils.isBlank(keyword))
+			return NONE;
 		CompassCriteria cc = new CompassCriteria();
 		cc.setPageSize(1000);
-		cc.setQuery(ServletActionContext.getRequest().getParameter("q"));
+		cc.setQuery(keyword);
 		cc.setAliases(new String[] { "customer" });
 		CompassSearchResults searchResults = compassSearchService.search(cc);
 		if (searchResults.getTotalHits() > 0) {
-			suggestions = new ArrayList<String>();
-			for (CompassHit ch : searchResults.getHits())
-				suggestions.add(((Customer) ch.getData()).getName());
-			return "suggest";
+			suggestions = new ArrayList<LabelValue>();
+			for (CompassHit ch : searchResults.getHits()) {
+				Customer c = (Customer) ch.getData();
+				if (c.getRegion() != null)
+					c.setRegion(regionTreeControl.getRegionTree()
+							.getDescendantOrSelfById(c.getRegion().getId()));
+				LabelValue lv = new LabelValue();
+				lv.setValue(c.getName());
+				lv.setLabel(new StringBuilder(c.getName()).append("(").append(c.getFullAddress()).append(")").toString() );
+				suggestions.add(lv);
+			}
 		}
-		return NONE;
+		return JSON;
 	}
 
 	@JsonConfig(root = "customer")

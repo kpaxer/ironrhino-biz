@@ -44,18 +44,35 @@
 										.removeAttr('selected');
 							$('option:selected', station)
 									.removeAttr('selected');
-//							ele.siblings('span.info').html('将自动保存为新客户');
+							ele.siblings('span.info').html('将自动保存为新客户');
 						}
 					}
 				});
 			}
 		});
-		$('.customerName').autocomplete(
-				CONTEXT_PATH + "/biz/customer/suggest?decorator=none", {
-					max : 1000,
-					minChars : 2,
-					delay : 500
+		var cache = {};
+		$( ".customerName" ).autocomplete({
+			minLength: 2,
+			source: function(request, response) {
+				if ( request.term in cache ) {
+					response( cache[ request.term ] );
+					return;
+				}
+				$.ajax({
+					url: CONTEXT_PATH + '/biz/customer/suggest',
+					dataType: "json",
+					data: request,
+					success: function( data ) {
+						cache[ request.term ] = data;
+						response( data );
+					}
 				});
+			},
+			select: function(event, ui) {
+				$(event.target).siblings('span.info').html('');
+			}
+		});
+
 		$('select.fetchprice').change(function(event) {
 					var ele = $(event.target);
 					var price = $('input.price:eq(0)', ele.closest('tr'));

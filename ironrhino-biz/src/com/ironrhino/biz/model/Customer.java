@@ -182,6 +182,13 @@ public class Customer extends Entity<Long> {
 		this.region = region;
 	}
 
+	public String getFullAddress() {
+		if (region == null)
+			return address;
+		else
+			return region.getFullname() + ((address != null) ? address : "");
+	}
+
 	@Override
 	public String toString() {
 		return this.name;
