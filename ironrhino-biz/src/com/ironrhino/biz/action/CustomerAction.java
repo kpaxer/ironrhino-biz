@@ -303,7 +303,8 @@ public class CustomerAction extends BaseAction {
 		cc.setAliases(new String[] { "customer" });
 		CompassSearchResults searchResults = compassSearchService.search(cc);
 		if (searchResults.getTotalHits() > 0) {
-			suggestions = new ArrayList<LabelValue>(searchResults.getTotalHits());
+			suggestions = new ArrayList<LabelValue>(searchResults
+					.getTotalHits());
 			for (CompassHit ch : searchResults.getHits()) {
 				Customer c = (Customer) ch.getData();
 				if (c.getRegion() != null)
@@ -311,7 +312,12 @@ public class CustomerAction extends BaseAction {
 							.getDescendantOrSelfById(c.getRegion().getId()));
 				LabelValue lv = new LabelValue();
 				lv.setValue(c.getName());
-				lv.setLabel(new StringBuilder(c.getName()).append("(").append(c.getFullAddress()).append(")").toString() );
+				String address = c.getFullAddress();
+				if (StringUtils.isNotBlank(address))
+					lv.setLabel(new StringBuilder(c.getName()).append("(")
+							.append(c.getFullAddress()).append(")").toString());
+				else
+					lv.setLabel(c.getName());
 				suggestions.add(lv);
 			}
 		}
