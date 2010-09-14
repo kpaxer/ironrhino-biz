@@ -303,7 +303,7 @@ public class CustomerAction extends BaseAction {
 		cc.setAliases(new String[] { "customer" });
 		CompassSearchResults searchResults = compassSearchService.search(cc);
 		if (searchResults.getTotalHits() > 0) {
-			suggestions = new ArrayList<LabelValue>();
+			suggestions = new ArrayList<LabelValue>(searchResults.getTotalHits());
 			for (CompassHit ch : searchResults.getHits()) {
 				Customer c = (Customer) ch.getData();
 				if (c.getRegion() != null)
