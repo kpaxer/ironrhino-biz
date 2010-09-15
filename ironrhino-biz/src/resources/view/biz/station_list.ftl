@@ -20,7 +20,7 @@ text-decoration:none;
 ">
 <@richtable entityName="station" columns=columns bottomButtons=bottomButtons searchable=true/>
 
-<form id="merge" action="station/merge" method="post" class="ajax reset" style="display:none;" onsuccess="Richtable.reload()">
+<form id="merge" action="station/merge" method="post" class="ajax reset" style="display:none;" onsuccess="Richtable.reload($('#station_form'))">
 <div>
 	<span style="margin:3px;">将</span><input type="text" name="id" class="required"/>
 	<span style="margin:3px;">合并到</span><input type="text" name="id" class="required"/>
