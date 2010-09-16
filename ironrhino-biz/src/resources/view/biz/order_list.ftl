@@ -26,5 +26,11 @@
 <@button text='${action.getText(\'reload\')}' action='reload'/>
 ">
 <@richtable entityName="order" columns=columns actionColumnWidth="230px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deleteable=false searchable=true/>
+<div>
+<a href="http://www.gicp.net/biz/customer" class="ajax view">www</a>
+<a href="http://nouhou.gicp.net/biz/customer" class="ajax view">nouhou</a>
+<a href="http://www.gicp.net/assets/styles/ironrhino.css" class="ajax view">www</a>
+<a href="http://nouhou.gicp.net/assets/styles/ironrhino.css" class="ajax view">nouhou</a>
+</div>
 </body>
 </html></#escape>
