@@ -4,14 +4,18 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.util.LocalizedTextUtil;
 
 public enum EmployeeType {
-	PACKER, DELIVERYMAN, WAREHOUSEMAN , SALESMAN, MANAGER, SERVANT;
+	PACKER, DELIVERYMAN, WAREHOUSEMAN, SALESMAN, MANAGER, SERVANT;
 	public String getName() {
 		return name();
 	}
 
 	public String getDisplayName() {
-		return LocalizedTextUtil.findText(getClass(), name(), ActionContext
-				.getContext().getLocale(), name(), null);
+		try {
+			return LocalizedTextUtil.findText(getClass(), name(), ActionContext
+					.getContext().getLocale(), name(), null);
+		} catch (Exception e) {
+			return name();
+		}
 	}
 
 	public static EmployeeType parse(String name) {
