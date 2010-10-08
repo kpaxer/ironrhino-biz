@@ -5,6 +5,7 @@
 		<pattern>/assets/*</pattern>
 	</excludes>
 	<decorator name="none" />
+	<decorator name="website" page="website.ftl" />
 	<decorator name="simple" page="simple.ftl" />
 	<decorator name="main" page="main.ftl">
 		<pattern>/*</pattern>

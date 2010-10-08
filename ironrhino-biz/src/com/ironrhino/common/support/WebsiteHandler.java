@@ -40,8 +40,10 @@ public class WebsiteHandler implements AccessHandler {
 			if (!(host.equalsIgnoreCase(websiteDomain) | host
 					.equalsIgnoreCase("www." + websiteDomain)))
 				website = false;
-			if (website)
+			if (website) {
 				request.setAttribute(REQUEST_ATTR_NAME_WEBSITE, website);
+				request.setAttribute("decorator", REQUEST_ATTR_NAME_WEBSITE);
+			}
 		} catch (MalformedURLException e) {
 		}
 		return false;
