@@ -17,7 +17,7 @@ import org.ironrhino.core.servlet.AccessHandler;
 @Singleton
 public class WebsiteHandler implements AccessHandler {
 
-	public static final String REQUEST_ATTR_NAME_WEBSITE = "_website_";
+	public static final String REQUEST_ATTR_NAME_WEBSITE = "website";
 
 	@Inject
 	private SettingControl settingControl;
@@ -40,7 +40,8 @@ public class WebsiteHandler implements AccessHandler {
 			if (!(host.equalsIgnoreCase(websiteDomain) | host
 					.equalsIgnoreCase("www." + websiteDomain)))
 				website = false;
-			request.setAttribute(REQUEST_ATTR_NAME_WEBSITE, website);
+			if (website)
+				request.setAttribute(REQUEST_ATTR_NAME_WEBSITE, website);
 		} catch (MalformedURLException e) {
 		}
 		return false;

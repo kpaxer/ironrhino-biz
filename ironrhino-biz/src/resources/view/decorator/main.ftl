@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<#assign website=true/><@authorize ifAnyGranted="ROLE_ADMINISTRATOR"><#assign website=false/></@authorize><#assign website=website&&request.requestURI!='/login'/>
+<#assign website=request.getAttribute('website')??/>
 <#compress><#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title><#noescape>${title}</#noescape><#if website>-<@printSetting key="company.name"/></#if></title>
