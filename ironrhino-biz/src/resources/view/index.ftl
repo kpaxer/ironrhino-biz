@@ -4,6 +4,6 @@
 <title>${action.getText('index')}</title>
 </head>
 <body>
-<@includePage path="/index/banner"/>
+<@includePage path="/index"/>
 </body>
 </html></#escape>
