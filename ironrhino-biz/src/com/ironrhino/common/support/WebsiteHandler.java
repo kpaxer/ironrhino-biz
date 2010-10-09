@@ -31,15 +31,19 @@ public class WebsiteHandler implements AccessHandler {
 	public boolean handle(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			boolean website = true;
+			boolean website = false;
 			URL url = null;
 			url = new URL(request.getRequestURL().toString());
 			String host = url.getHost();
-			String websiteDomain = settingControl.getStringValue(
-					"website.domain", "");
-			if (!(host.equalsIgnoreCase(websiteDomain) | host
-					.equalsIgnoreCase("www." + websiteDomain)))
-				website = false;
+			String[] websiteDomain = settingControl
+					.getStringArray("website.domain");
+			for (String domain : websiteDomain) {
+				if ((host.equalsIgnoreCase(domain) || host
+						.equalsIgnoreCase("www." + domain))) {
+					website = true;
+					break;
+				}
+			}
 			if (website) {
 				request.setAttribute(REQUEST_ATTR_NAME_WEBSITE, website);
 				request.setAttribute("decorator", REQUEST_ATTR_NAME_WEBSITE);

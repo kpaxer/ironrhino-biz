@@ -39,9 +39,9 @@
 					</#list>
 				</ul>
 				<div class="search">
-					<@s.form theme="simple" action="search" method="get">
-						<@s.textfield theme="simple" name="q" size="20"/><@button type="submit" text="${action.getText('search')}"/>
-					</@s.form>
+					<form action="search" method="get">
+						<input type="text" name="q" value="${q!}" size="20"/><@button type="submit" text="${action.getText('search')}"/>
+					</form>
 				</div>
 				<div class="text">
 					<@includePage path="/sidebarbottom"/>
