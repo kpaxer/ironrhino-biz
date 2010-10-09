@@ -5,10 +5,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="context_path" content="${request.contextPath}" />
 <link rel="shortcut icon" href="<@url value="/assets/images/website/favicon.ico"/>" />
-<link href="<@url value="/assets/styles/ironrhino-min.css"/>" media="all" rel="stylesheet" type="text/css"/>
+<link href="<@url value="/assets/styles/ironrhino-lite-min.css"/>" media="all" rel="stylesheet" type="text/css"/>
 <link href="<@url value="/assets/styles/website.css"/>" rel="stylesheet" type="text/css"/>
-<script src="<@url value="/assets/scripts/ironrhino-min.js"/>" type="text/javascript"></script>
-<script src="<@url value="/assets/scripts/website.js"/>" type="text/javascript"></script>
 <#noescape>${head}</#noescape>
 </head>
 <body>
@@ -35,8 +33,10 @@
 				<ul>
 					<li><a href="/">${action.getText('index')}</a></li>
 					<li><a href="/product">${action.getText('product')}</a></li>
-					<li><a href="/aboutus">${action.getText('aboutus')}</a></li>
-					<li><a href="/contact">${action.getText('contact')}</a></li>
+					<#assign pages=statics['org.ironrhino.core.util.ApplicationContextUtils'].getBean('pageManager').findListByTag('INDEX_MENU')>
+					<#list pages as page>
+					<li><a href="<@url value="${'/p'+page.path}"/>">${page.title}</a></li>
+					</#list>
 				</ul>
 				<div class="search">
 					<@s.form theme="simple" action="search" method="get">
@@ -62,5 +62,7 @@
 			<div class="copyright">&copy;<@printSetting key="company.name" default="XXX Company LTD."/><@printSetting key="copyright.reserved" default=".2010.All rights reserved."/></div>
 		</div>
 	</div>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+	<script src="<@url value="/assets/scripts/ironrhino-lite-njq-min.js"/>" type="text/javascript"></script>
 </body>
 </html></#escape></#compress>
