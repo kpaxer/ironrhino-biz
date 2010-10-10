@@ -12,8 +12,7 @@ body {
 #header .left{
 	float: left;
 	width: 202px;
-	margin-top:15px;
-	margin-left:20px;
+	padding:15px 0px 0px 20px;
 	border-bottom: 3px solid #007236;
 }
 #logo{
@@ -24,21 +23,20 @@ body {
 }
 #header .right{
 	float: left;
-	margin-top:8px;
+	padding-top:8px;
 	text-align:left;
 }
 #header .right .pic{
 	float: left;
 	width:500px;
-	margin-left: 30px;
+	padding-left: 30px;
 }
 #header .right .pic img{
-	margin-top: 5px;
-	margin-left: 20px;
+	padding: 5px 0px 0px 20px;
 }
 #header .right .text{
 	float: left;
-	margin-top:8px;
+	padding-top:8px;
 	line-height: 20px;
 	text-align: right;
 }
@@ -50,19 +48,13 @@ body {
 #sidebar{
 	float: left;
 	width: 225px;
-	margin-left:15px;
+	padding-left:15px;
 }
-#sidebar ul{
-	width: 200px;
-	margin:0px;
-	padding:0px;
-}
+
 #sidebar ul li{
 	text-align: right;
-	margin-left:8px;
+	padding: 5px 50px 0px 0px;
 	line-height:24px;
-	margin-top:5px;
-	width: 175px;
 	list-style-type: none;
 	font-size: 14px;
 	font-weight: bold;
@@ -76,16 +68,12 @@ body {
 	text-decoration: none;
 }
 
-#sidebar .search{
-	width: 225px;
-	margin:10px 0px 0px 20px;
-}
-#sidebar .text{
-	width: 225px;
-	margin:10px 0px 0px 20px;
+#sidebar .search,#sidebar .text{
+	padding:10px 0px 0px 20px;
 }
 
 #content{
+	width: 720px;
 	float: left;
 }
 
@@ -99,20 +87,20 @@ body {
 	background-image: url(../images/website/logo1.jpg);
 	background-repeat: no-repeat;
 	height: 37px;
-	width: 116px;
-	margin:28px 0px 0px 50px;
+	width: 120px;
+	margin:20px 0px 0px 50px;
 }
 #footer .contact{
 	float: left;
-	width: 500px;
+	width: 540px;
 	text-align: center;
-	padding-left: 20px;
-	margin-top: 38px;
+	padding-top: 30px;
 }
 #footer .copyright{
 	float: left;
+	width: 250px;
 	text-align: right;
-	margin-top: 38px;
+	padding-top: 30px;
 }
 
 .series .catalog,.column .catalog{
