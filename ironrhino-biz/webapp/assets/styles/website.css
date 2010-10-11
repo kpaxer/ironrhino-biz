@@ -11,15 +11,13 @@ body {
 
 #header .left{
 	float: left;
-	width: 202px;
+	width: 200px;
 	padding:15px 0px 0px 20px;
 	border-bottom: 3px solid #007236;
 }
-#logo{
-	background-image: url(../images/website/logo.jpg);
-	background-repeat: no-repeat;
-	height: 109px;
-	width: 202px;
+#logo img{
+	height: 100px;
+	width: 200px;
 }
 #header .right{
 	float: left;
@@ -28,7 +26,7 @@ body {
 }
 #header .right .pic{
 	float: left;
-	width:500px;
+	width:550px;
 	padding-left: 30px;
 }
 #header .right .pic img{
@@ -63,11 +61,9 @@ body {
 	color: #005427;
 	text-decoration: none;
 }
-#sidebar ul li a:hover{
-	color: #007035;
-	text-decoration: none;
+#sidebar ul li.selected a,#sidebar ul li a:hover{
+	color: #d0ba35;
 }
-
 #sidebar .search,#sidebar .text{
 	padding:10px 0px 0px 20px;
 }
@@ -84,11 +80,11 @@ body {
 
 #footer .logo{
 	float: left;
-	background-image: url(../images/website/logo1.jpg);
-	background-repeat: no-repeat;
-	height: 37px;
-	width: 120px;
-	margin:20px 0px 0px 50px;
+	padding:20px 0px 0px 50px;
+}
+#footer .logo img{
+	height: 50px;
+	width: 100px;
 }
 #footer .contact{
 	float: left;

@@ -14,7 +14,7 @@
 	
 		<div id="header" class="clearfix">
 			<div class="left">
-				<div id="logo"></div>
+				<div id="logo"><a href="<@url value="/"/>"><img src="<@url value="/assets/images/website/logo.jpg"/>" alt="${action.getText('index')}"/></a></div>
 			</div>
 			<div class="right">
 				<div class="pic">
@@ -30,12 +30,13 @@
 	
 		<div id="main" class="clearfix">
 			<div id="sidebar">
+				<#assign href=request.requestURI/>
 				<ul>
-					<li><a href="/">${action.getText('index')}</a></li>
-					<li><a href="/product">${action.getText('product')}</a></li>
+					<li<#if href=='/'||href=='/index'> class="selected"</#if>><a href="<@url value="/"/>">${action.getText('index')}</a></li>
+					<li<#if href=='/product'||href?starts_with('/product/')> class="selected"</#if>><a href="<@url value="/"/>"><a href="<@url value="/product"/>">${action.getText('product')}</a></li>
 					<#assign pages=statics['org.ironrhino.core.util.ApplicationContextUtils'].getBean('pageManager').findListByTag('INDEX_MENU')>
 					<#list pages as page>
-					<li><a href="<@url value="${'/p'+page.path}"/>">${page.title}</a></li>
+					<li<#if href=='/p'+page.path> class="selected"</#if>><a href="<@url value="${'/p'+page.path}"/>">${page.title}</a></li>
 					</#list>
 				</ul>
 				<div class="search">
@@ -57,7 +58,7 @@
 		</div>
 	
 		<div id="footer" class="clearfix">
-			<div class="logo"></div>
+			<div class="logo"><a href="<@url value="/"/>"><img src="<@url value="/assets/images/website/logo.jpg"/>" alt="${action.getText('index')}"/></a></div>
 			<div class="contact"><@printSetting key="company.contact" default="1350000000"/></div>
 			<div class="copyright">&copy;<@printSetting key="company.name" default="XXX Company LTD."/><@printSetting key="copyright.reserved" default=".2010.All rights reserved."/></div>
 		</div>
