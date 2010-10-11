@@ -40,7 +40,7 @@
 				</ul>
 				<div class="search">
 					<form action="search" method="get">
-						<input type="text" name="q" value="${q!}" size="20"/><@button type="submit" text="${action.getText('search')}"/>
+						<input type="search" name="q" value="${q!}" size="20"/><@button type="submit" text="${action.getText('search')}"/>
 					</form>
 				</div>
 				<div class="text">

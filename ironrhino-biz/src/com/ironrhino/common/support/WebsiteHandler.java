@@ -1,6 +1,5 @@
 package com.ironrhino.common.support;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.inject.Inject;
@@ -47,8 +46,14 @@ public class WebsiteHandler implements AccessHandler {
 			if (website) {
 				request.setAttribute(REQUEST_ATTR_NAME_WEBSITE, website);
 				request.setAttribute("decorator", REQUEST_ATTR_NAME_WEBSITE);
+				String uri = request.getRequestURI();
+				uri = uri.substring(request.getContextPath().length());
+				if (uri.startsWith("/biz/")) {
+					response.sendError(HttpServletResponse.SC_NOT_FOUND);
+					return true;
+				}
 			}
-		} catch (MalformedURLException e) {
+		} catch (Exception e) {
 		}
 		return false;
 	}
