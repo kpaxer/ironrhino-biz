@@ -4,7 +4,7 @@
 <title><#noescape>${title}</#noescape>-<@printSetting key="company.name" /></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="context_path" content="${request.contextPath}" />
-<link rel="shortcut icon" href="<@url value="/assets/images/website/favicon.ico"/>" />
+<link rel="shortcut icon" href="<@url value="/assets/upload/website/favicon.ico"/>" />
 <link href="<@url value="/assets/styles/ironrhino-lite-min.css"/>" media="all" rel="stylesheet" type="text/css"/>
 <link href="<@url value="/assets/styles/website.css"/>" rel="stylesheet" type="text/css"/>
 <#noescape>${head}</#noescape>
@@ -14,13 +14,13 @@
 	
 		<div id="header" class="clearfix">
 			<div class="left">
-				<div id="logo"><a href="<@url value="/"/>"><img src="<@url value="/assets/images/website/logo.jpg"/>" alt="${action.getText('index')}"/></a></div>
+				<div id="logo"><a href="<@url value="/"/>"><img src="<@url value="/assets/upload/website/logo.jpg"/>" alt="${action.getText('index')}"/></a></div>
 			</div>
 			<div class="right">
 				<div class="pic">
-					<img src="<@url value="/assets/images/website/pic1.gif"/>"/>
-					<img src="<@url value="/assets/images/website/pic2.gif"/>"/>
-					<img src="<@url value="/assets/images/website/pic3.gif"/>"/>
+					<img src="<@url value="/assets/upload/website/pic1.gif"/>"/>
+					<img src="<@url value="/assets/upload/website/pic2.gif"/>"/>
+					<img src="<@url value="/assets/upload/website/pic3.gif"/>"/>
 				</div>
 				<div class="text">
 					<@includePage path="/topright"/>
@@ -58,7 +58,7 @@
 		</div>
 	
 		<div id="footer" class="clearfix">
-			<div class="logo"><a href="<@url value="/"/>"><img src="<@url value="/assets/images/website/logo.jpg"/>" alt="${action.getText('index')}"/></a></div>
+			<div class="logo"><a href="<@url value="/"/>"><img src="<@url value="/assets/upload/website/logo.jpg"/>" alt="${action.getText('index')}"/></a></div>
 			<div class="contact"><@printSetting key="company.contact" default="1350000000"/></div>
 			<div class="copyright">&copy;<@printSetting key="company.name" default="XXX Company LTD."/><@printSetting key="copyright.reserved" default=".2010.All rights reserved."/></div>
 		</div>
