@@ -3,6 +3,8 @@
 <head>
 <title><#noescape>${title}</#noescape>-<@printSetting key="company.name" /></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<#assign metaKeywords=getSetting('meta.keywords')/><#if metaKeywords!=''><meta name="keywords" content="${metaKeywords}"/></#if>
+<#assign metaDescription=getSetting('meta.description')/><#if metaDescription!=''><meta name="description" content="${metaDescription}"/></#if>
 <meta name="context_path" content="${request.contextPath}" />
 <link rel="shortcut icon" href="<@url value="/assets/upload/website/favicon.ico"/>" />
 <link href="<@url value="/assets/styles/ironrhino-lite-min.css"/>" media="all" rel="stylesheet" type="text/css"/>
