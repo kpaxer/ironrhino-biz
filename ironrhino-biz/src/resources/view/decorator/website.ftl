@@ -42,7 +42,7 @@
 					</#list>
 				</ul>
 				<div class="search">
-					<form action="search" method="get">
+					<form action="<@url value="/search"/>" method="get">
 						<input type="search" name="q" value="${q!}" size="20"/><@button type="submit" text="${action.getText('search')}"/>
 					</form>
 				</div>

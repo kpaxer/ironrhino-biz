@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
-<title>${action.getText(name)}</title>
+<title>${action.getText('search')}</title>
 </head>
 <body>
 <@includePage path="/index/banner"/>
@@ -9,30 +9,14 @@
 	<div class="crumbs"> 
 	${action.getText('current.location')}:
 	<a href="<@url value="/"/>">${action.getText('index')}</a><span>&gt;</span>
-	<#if !column??>
-		${action.getText(name)}
-	<#else>
-		<a href="<@url value="/${name}"/>">${action.getText(name)}</a><span>&gt;</span>
-		${column!}
-	</#if>
+		${action.getText('search')}
 	</div>
 </div>
-<div class="clearfix column ${name}">
-<ul class="catalog">
-<#list columns as var>
-<#assign selected=column?? && column==var/>
-<li<#if selected> class="selected"</#if>><#if selected><span><#else><a href="<@url value="/${name}/list/${var}"/>"></#if>${var}<#if selected></span><#else></a></#if></li>
-</#list>
-</ul>
-<#if column??>
+<div class="clearfix column search">
 <div id="_list" class="list">
 <dl>
 	<#list resultPage.result as page>
-	<#if column??>
-	<#assign pageurl="/${name}/p${page.path}?column=${column}"/>
-	<#else>
-	<#assign pageurl="/${name}/p${page.path}"/>
-	</#if>
+	<#assign pageurl="/product/p${page.path}"/>
 	<dd>
 		<div style="float:left;width:192px;">
 			<div style="padding:10px;">
@@ -49,7 +33,6 @@
 </dl>
 <@pagination class="ajax view" replacement="_list" cache="true"/>
 </div>
-</#if>
 </div>
 </body>
 </html></#escape>
