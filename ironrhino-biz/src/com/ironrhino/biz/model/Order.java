@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.compass.annotations.Index;
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableComponent;
@@ -273,6 +274,8 @@ public class Order extends BaseEntity implements Recordable<User> {
 				return false;
 			Calendar cal = Calendar.getInstance();
 			for (String line : list) {
+				if (StringUtils.isBlank(line))
+					continue;
 				String[] arr = line.split(",");
 				int type = Integer.parseInt(arr[0]);
 				int value = Integer.parseInt(arr[1]);
