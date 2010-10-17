@@ -16,11 +16,11 @@
 <script src="<@url value="/assets/scripts/app-min.js"/>" type="text/javascript"></script>
 <#noescape>${head}</#noescape>
 </head>
-
+<#assign requestURI=request.requestURI?substring(request.contextPath?length)/>
 <body>
 <div id="wrapper">
 <div id="header">
-<#if request.requestURI=='/login'>
+<#if requestURI=='/login'>
 		<div class="menu rounded" corner="top 8px" style="text-align:center;font-size:1.2em;font-weight:bold;">
 		${title}
 		</div>

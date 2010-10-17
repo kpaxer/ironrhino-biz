@@ -32,7 +32,7 @@
 	
 		<div id="main" class="clearfix">
 			<div id="sidebar">
-				<#assign href=request.requestURI/>
+				<#assign href=request.requestURI?substring(request.contextPath?length)/>
 				<ul>
 					<li<#if href=='/'||href=='/index'> class="selected"</#if>><a href="<@url value="/"/>">${action.getText('index')}</a></li>
 					<li<#if href=='/product'||href?starts_with('/product/')> class="selected"</#if>><a href="<@url value="/"/>"><a href="<@url value="/product"/>">${action.getText('product')}</a></li>
