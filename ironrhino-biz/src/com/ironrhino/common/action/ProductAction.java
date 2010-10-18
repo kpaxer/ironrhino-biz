@@ -23,7 +23,7 @@ public class ProductAction extends ColumnPageAction {
 			resultPage = new ResultPage<Page>();
 		resultPage.setPageSize(9);
 		String result = super.list();
-		if (!result.equals("column"))
+		if (result.equals("columnpage"))
 			return result;
 		Collection<Page> _list = resultPage.getResult();
 		List<Page> list = new ArrayList<Page>();
@@ -40,6 +40,6 @@ public class ProductAction extends ColumnPageAction {
 			}
 		}
 		resultPage.setResult(list);
-		return "column";
+		return result;
 	}
 }

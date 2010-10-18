@@ -24,7 +24,6 @@
 <li<#if selected> class="selected"</#if>><#if selected><span><#else><a href="<@url value="/${name}/list/${var}"/>"></#if>${var}<#if selected></span><#else></a></#if></li>
 </#list>
 </ul>
-<#if column??>
 <div id="_list" class="list">
 <dl>
 	<#list resultPage.result as page>
@@ -49,7 +48,6 @@
 </dl>
 <@pagination class="ajax view" replacement="_list" cache="true"/>
 </div>
-</#if>
 </div>
 </body>
 </html></#escape>
