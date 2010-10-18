@@ -65,7 +65,7 @@
 			<div class="copyright">&copy;<@printSetting key="company.name" default="XXX Company LTD."/><@printSetting key="copyright.reserved" default=".2010.All rights reserved."/></div>
 		</div>
 	</div>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js" type="text/javascript"></script>
 	<script src="<@url value="/assets/scripts/ironrhino-lite-njq-min.js"/>" type="text/javascript"></script>
 </body>
 </html></#escape></#compress>
