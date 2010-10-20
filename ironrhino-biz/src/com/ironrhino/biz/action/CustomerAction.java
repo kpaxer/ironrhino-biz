@@ -284,8 +284,26 @@ public class CustomerAction extends BaseAction {
 	public String merge() {
 		String[] id = getId();
 		if (id != null && id.length == 2) {
-			Customer source = customerManager.findByNaturalId(id[0].trim());
-			Customer target = customerManager.findByNaturalId(id[1].trim());
+			Customer source ;
+			if(StringUtils.isNumeric(id[0])){
+				source = customerManager.get(Long.valueOf(id[0]));
+			}else{
+				source = customerManager.findByNaturalId(id[0].trim());		
+			}
+			if(source == null){
+				addActionError("被合并的客户不能为空");
+				return SUCCESS;
+			}
+			Customer target;
+			if(StringUtils.isNumeric(id[1])){
+				target = customerManager.get(Long.valueOf(id[1]));
+			}else{
+				target = customerManager.findByNaturalId(id[1].trim());		
+			}
+			if(target == null){
+				addActionError("客户不能为空");
+				return SUCCESS;
+			}
 			customerManager.merge(source, target);
 			addActionMessage(getText("operate.success"));
 		}
