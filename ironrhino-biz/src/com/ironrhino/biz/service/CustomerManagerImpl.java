@@ -32,6 +32,8 @@ public class CustomerManagerImpl extends BaseManagerImpl<Customer> implements
 
 	@Transactional
 	public void merge(Customer source, Customer target) {
+		if(source == null || target == null)
+			throw new IllegalArgumentException("source or target is null");
 		DetachedCriteria dc = orderManager.detachedCriteria();
 		dc.createAlias("customer", "c").add(
 				Restrictions.eq("c.id", source.getId()));
