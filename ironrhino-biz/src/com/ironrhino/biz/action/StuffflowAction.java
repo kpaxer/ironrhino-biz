@@ -7,8 +7,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.compass.core.CompassHit;
 import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
@@ -30,8 +28,6 @@ import com.ironrhino.biz.service.StuffManager;
 public class StuffflowAction extends BaseAction {
 
 	private static final long serialVersionUID = 3919769173051324935L;
-
-	protected static final Log log = LogFactory.getLog(StuffflowAction.class);
 
 	private boolean out;
 
