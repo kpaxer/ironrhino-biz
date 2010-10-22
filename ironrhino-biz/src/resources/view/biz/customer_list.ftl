@@ -27,8 +27,8 @@ text-decoration:none;
 <#assign searchButtons=r"<@button text='按区域检索' type='link' href='chart/geo'/>"/>
 <@richtable entityName="customer" columns=columns actionColumnWidth="200px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true searchButtons=searchButtons/>
 
-<form id="merge" action="customer/merge" method="post" class="ajax reset" style="display:none;" onsuccess="Richtable.reload($('#customer_form'))">
-<div>
+<form id="merge" action="customer/merge" method="post" class="ajax reset" style="display:none;" onprepare="return confirm('此操作不能恢复,确定要合并?');" onsuccess="Richtable.reload($('#customer_form'))">
+<div style="padding-top:10px;text-align:center;">
 	<span style="margin:3px;">将</span><input type="text" name="id" class="required"/>
 	<span style="margin:3px;">合并到</span><input type="text" name="id" class="required"/>
 	<@s.submit theme="simple" value="%{getText('confirm')}" />
