@@ -2,6 +2,7 @@
 	xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" p:url="${jdbc.url}" p:username="${jdbc.username}"
 		p:password="${jdbc.password}" p:driverClassName="${jdbc.driverClassName}"
@@ -9,4 +10,16 @@
 		p:initialSize="${dataSource.initialSize}" p:maxActive="${dataSource.maxActive}"
 		p:maxIdle="${dataSource.maxIdle}" p:minIdle="${dataSource.minIdle}"
 		p:maxWait="${dataSource.maxWait}" />
+ 	-->
+	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxConnectionsPerPartition" value="${dataSource.maxActive}" />
+		<property name="minConnectionsPerPartition" value="${dataSource.initialSize}" />
+		<property name="statementsCacheSize" value="100" />
+		<property name="releaseHelperThreads" value="3" />
+	</bean>
 </beans>
