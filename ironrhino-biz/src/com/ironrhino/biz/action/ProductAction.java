@@ -150,7 +150,7 @@ public class ProductAction extends BaseAction {
 		categoryList = categoryManager.findAll(Order.asc("displayOrder"));
 		brandList = brandManager.findAll(Order.asc("displayOrder"));
 		String id = getUid();
-		if (StringUtils.isNumeric(id))
+		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
 			product = productManager.get(Long.valueOf(id));
 		if (product != null) {
 			if (product.getCategory() != null)
@@ -256,7 +256,7 @@ public class ProductAction extends BaseAction {
 	@JsonConfig(root = "product")
 	public String json() {
 		String id = getUid();
-		if (StringUtils.isNumeric(id)) {
+		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id)) {
 			product = productManager.get(Long.valueOf(id));
 		}
 		return JSON;

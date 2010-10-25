@@ -387,7 +387,7 @@ public class ReportAction extends BaseAction {
 		title = "工资详单";
 		Employee employee = null;
 		String id = getUid();
-		if (StringUtils.isNumeric(id))
+		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
 			employee = employeeManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
 			employee = employeeManager.findByNaturalId(id);
@@ -467,7 +467,7 @@ public class ReportAction extends BaseAction {
 				"customer");
 		if (StringUtils.isNotBlank(customer)) {
 			Customer cust;
-			if (StringUtils.isNumeric(customer))
+			if (org.ironrhino.core.util.StringUtils.isNumericOnly(customer))
 				cust = customerManager.get(Long.valueOf(customer));
 			else
 				cust = customerManager.findByNaturalId(customer);
@@ -479,7 +479,7 @@ public class ReportAction extends BaseAction {
 				"salesman");
 		if (StringUtils.isNotBlank(salesman)) {
 			Employee employee;
-			if (StringUtils.isNumeric(salesman))
+			if (org.ironrhino.core.util.StringUtils.isNumericOnly(salesman))
 				employee = employeeManager.get(Long.valueOf(salesman));
 			else
 				employee = employeeManager.findByNaturalId(salesman);
@@ -493,7 +493,7 @@ public class ReportAction extends BaseAction {
 				"deliveryman");
 		if (StringUtils.isNotBlank(deliveryman)) {
 			Employee employee;
-			if (StringUtils.isNumeric(deliveryman))
+			if (org.ironrhino.core.util.StringUtils.isNumericOnly(deliveryman))
 				employee = employeeManager.get(Long.valueOf(deliveryman));
 			else
 				employee = employeeManager.findByNaturalId(deliveryman);

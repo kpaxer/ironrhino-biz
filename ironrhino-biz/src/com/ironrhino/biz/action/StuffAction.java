@@ -109,7 +109,7 @@ public class StuffAction extends BaseAction {
 	@Override
 	public String input() {
 		String id = getUid();
-		if (StringUtils.isNumeric(id))
+		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
 			stuff = stuffManager.get(Long.valueOf(id));
 		if (stuff == null) {
 			stuff = new Stuff();

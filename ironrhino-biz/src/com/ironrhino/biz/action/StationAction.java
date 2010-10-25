@@ -154,7 +154,7 @@ public class StationAction extends BaseAction {
 	@Override
 	public String input() {
 		String id = getUid();
-		if (StringUtils.isNumeric(id))
+		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
 			station = stationManager.get(Long.valueOf(id));
 		if (station == null)
 			station = new Station();
@@ -221,7 +221,7 @@ public class StationAction extends BaseAction {
 	@Override
 	public String view() {
 		String id = getUid();
-		if (StringUtils.isNumeric(id)) {
+		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id)) {
 			station = stationManager.get(Long.valueOf(id));
 			if (station.getRegion() != null)
 				station.setRegion(regionTreeControl.getRegionTree()
@@ -281,7 +281,7 @@ public class StationAction extends BaseAction {
 	@JsonConfig(root = "station")
 	public String json() {
 		String id = getUid();
-		if (StringUtils.isNumeric(id)) {
+		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id)) {
 			station = stationManager.get(Long.valueOf(id));
 		} else if (StringUtils.isNotBlank(id)) {
 			id = id.trim();
