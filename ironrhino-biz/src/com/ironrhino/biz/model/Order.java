@@ -86,6 +86,9 @@ public class Order extends BaseEntity implements Recordable<User> {
 
 	@CreateIfNull
 	private List<OrderItem> items = new ArrayList<OrderItem>(0);
+	
+	@NotInCopy
+	protected int version;
 
 	public BigDecimal getAmount() {
 		BigDecimal amount = new BigDecimal(0.0);

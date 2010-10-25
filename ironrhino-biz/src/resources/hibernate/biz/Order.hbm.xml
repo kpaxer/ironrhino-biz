@@ -12,6 +12,7 @@
 		<natural-id>
 			<property name="code" not-null="true" />
 		</natural-id>
+		<version name="version" column="version" access="field"/> 
 		<property name="discount" />
 		<property name="freight" />
 		<property name="grandTotal" />
