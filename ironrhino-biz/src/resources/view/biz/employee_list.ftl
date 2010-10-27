@@ -13,7 +13,7 @@ text-decoration:none;
 <#assign columns={"id":{},"name":{"cellEdit":"click"},"type":{"cellEdit":"click,rt_select_template_type"},"phone":{"cellEdit":"click"},"dimission":{"cellEdit":"click,rt_select_template_boolean"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'edit\')}' view='input'/>
-<@button text='${action.getText(\'reward\')}' type='link' href='reward?employee.id=${entity.id}'/>
+<@button text='${action.getText(\'reward\')}' type='link' href='reward?employee.id=${entity.id}' class='ajax view'/>
 <@button text='支工资' type='link' href='reward/input?negative=true&employee.id=${entity.id}' rel='richtable' windowoptions='{\'reloadonclose\':false}'/>
 <@button text='发工资' type='link' href='reward/input?employee.id=${entity.id}' rel='richtable' windowoptions='{\'reloadonclose\':false}'/>
 <#if entity.type??&&entity.type.name()=='SALESMAN'>

@@ -26,20 +26,20 @@
 		</div>
 <#else>
 		<ul class="menu rounded" corner="top 8px">
-			<li><a href="<@url value="/biz/index"/>">${action.getText('index')}</a></li>
-			<li><a href="<@url value="/biz/customer"/>">${action.getText('customer')}</a></li>
-			<li><a href="<@url value="/biz/order"/>">${action.getText('order')}</a></li>
-			<li><a href="<@url value="/biz/plan"/>">${action.getText('plan')}</a></li>
-			<li><a href="<@url value="/biz/stuff"/>">${action.getText('stuff')}</a></li>
-			<li><a href="<@url value="/biz/reward"/>">${action.getText('reward')}</a></li>
-			<li><a href="<@url value="/biz/product"/>">${action.getText('product')}</a></li>
-			<li><a href="<@url value="/biz/employee"/>">${action.getText('employee')}</a></li>
-			<li><a href="<@url value="/biz/brand"/>">${action.getText('brand')}</a></li>
-			<li><a href="<@url value="/biz/category"/>">${action.getText('category')}</a></li>
-			<li><a href="<@url value="/biz/station"/>">${action.getText('station')}</a></li>
+			<li><a class="ajax view" href="<@url value="/biz/index"/>">${action.getText('index')}</a></li>
+			<li><a class="ajax view" href="<@url value="/biz/customer"/>">${action.getText('customer')}</a></li>
+			<li><a class="ajax view" href="<@url value="/biz/order"/>">${action.getText('order')}</a></li>
+			<li><a class="ajax view" href="<@url value="/biz/plan"/>">${action.getText('plan')}</a></li>
+			<li><a class="ajax view" href="<@url value="/biz/stuff"/>">${action.getText('stuff')}</a></li>
+			<li><a class="ajax view" href="<@url value="/biz/reward"/>">${action.getText('reward')}</a></li>
+			<li><a class="ajax view" href="<@url value="/biz/product"/>">${action.getText('product')}</a></li>
+			<li><a class="ajax view" href="<@url value="/biz/employee"/>">${action.getText('employee')}</a></li>
+			<li><a class="ajax view" href="<@url value="/biz/brand"/>">${action.getText('brand')}</a></li>
+			<li><a class="ajax view" href="<@url value="/biz/category"/>">${action.getText('category')}</a></li>
+			<li><a class="ajax view" href="<@url value="/biz/station"/>">${action.getText('station')}</a></li>
 			<li><a href="<@url value="/biz/report"/>">${action.getText('report')}</a></li>
 			<li><a href="<@url value="/biz/chart"/>">${action.getText('chart')}</a></li>
-			<li><a href="<@url value="${ssoServerBase!}/user/password"/>">${action.getText('change')}${action.getText('password')}</a></li>
+			<li><a class="ajax view" href="<@url value="${ssoServerBase!}/user/password"/>">${action.getText('change')}${action.getText('password')}</a></li>
 			<li><a href="<@url value="${ssoServerBase!}/logout"/>">${action.getText('logout')}</a></li>
 		</ul>
 </#if>

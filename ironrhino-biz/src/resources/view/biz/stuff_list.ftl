@@ -8,7 +8,7 @@
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='chart/view?type=stuff&id=${entity.id}' rel='richtable' windowoptions='{\'width\':\'1200px\',\'reloadonclose\':false}'/>
-<@button text='${action.getText(\'stuffflow\')+action.getText(\'record\')}' type='link' href='stuffflow?stuff.id=${entity.id}'/>
+<@button text='${action.getText(\'stuffflow\')+action.getText(\'record\')}' type='link' href='stuffflow?stuff.id=${entity.id}' class='ajax view'/>
 <@button text='入库' type='link' href='stuffflow/input?stuff.id=${entity.id}' rel='richtable'/>
 <@button text='出库' type='link' href='stuffflow/input?out=true&stuff.id=${entity.id}' rel='richtable'/>
 ">

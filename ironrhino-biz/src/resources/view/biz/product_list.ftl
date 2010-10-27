@@ -8,7 +8,7 @@
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'price\')+action.getText(\'trend\')}' type='link' href='chart/view?type=product&id=${entity.id}' rel='richtable' windowoptions='{\'width\':\'1200px\',\'reloadonclose\':false}'/>
-<@button text='${action.getText(\'plan\')}' type='link' href='plan?product.id=${entity.id}'/>
+<@button text='${action.getText(\'plan\')}' type='link' href='plan?product.id=${entity.id}' class='ajax view'/>
 <@button text='${action.getText(\'create\')+action.getText(\'plan\')}' type='link' href='plan/input?product.id=${entity.id}' rel='richtable'/>
 ">
 <#assign bottomButtons=r"
