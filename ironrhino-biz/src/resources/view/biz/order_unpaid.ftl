@@ -5,7 +5,7 @@
 </head>
 <body>
 <#if unpaidOrders.size() gt 0>
-<table border="0" width="95%" style="margin: 10px;">
+<table border="0" width="95%" style="margin: 10px;" class="highlightrow">
 			<thead>
 				<tr>
 					<td>${action.getText('code')}</td>

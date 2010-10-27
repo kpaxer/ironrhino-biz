@@ -5,7 +5,7 @@
 </head>
 <body>
 <#if uncompletedPlans.size() gt 0>
-<table border="0" width="88%">
+<table border="0" width="88%" class="highlightrow">
 	<thead>
 		<tr>
 			<td>${action.getText('product')}</td>
