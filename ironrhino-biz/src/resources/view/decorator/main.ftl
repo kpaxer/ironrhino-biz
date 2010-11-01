@@ -1,7 +1,8 @@
 <#assign ua = request.getAttribute('userAgent')/>
 <#if ua?? && (ua.name!='msie' || ua.majorVersion gt 8)>
 <!DOCTYPE html>
-<html>
+<#assign requestURI=request.requestURI?substring(request.contextPath?length)/>
+<html<#if requestURI='/login'> manifest="<@url value="/manifest"/>"</#if>>
 <#else>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
@@ -14,7 +15,7 @@
 <meta name="context_path" content="${request.contextPath}" />
 <link rel="shortcut icon" href="<@url value="/assets/images/favicon.ico"/>" />
 <link href="<@url value="/assets/styles/ironrhino-min.css"/>" media="screen" rel="stylesheet" type="text/css" />
-<link href="<@url value="/assets/styles/app.css"/>" media="screen" rel="stylesheet" type="text/css" />
+<link href="<@url value="/assets/styles/app-min.css"/>" media="screen" rel="stylesheet" type="text/css" />
 <#if ua?? && ua.name=='msie' && ua.majorVersion lt 9>
 <link href="<@url value="/assets/styles/ie.css"/>" media="all" rel="stylesheet" type="text/css" />
 </#if>

@@ -15,7 +15,7 @@
 <meta name="context_path" content="${request.contextPath}" />
 <link rel="shortcut icon" href="<@url value="/assets/upload/website/favicon.ico"/>" />
 <link href="<@url value="/assets/styles/ironrhino-lite-min.css"/>" media="all" rel="stylesheet" type="text/css"/>
-<link href="<@url value="/assets/styles/website.css"/>" rel="stylesheet" type="text/css"/>
+<link href="<@url value="/assets/styles/website-min.css"/>" rel="stylesheet" type="text/css"/>
 <#noescape>${head}</#noescape>
 </head>
 <body>
