@@ -10,7 +10,7 @@ text-decoration:none;
 </style>
 </head>
 <body>
-<#assign columns={"id":{},"name":{"cellEdit":"click"},"type":{"cellEdit":"click,rt_select_template_type"},"phone":{"cellEdit":"click"},"dimission":{"cellEdit":"click,,boolean"}}>
+<#assign columns={"id":{},"name":{"cellEdit":"click"},"type":{"cellEdit":"click,select,rt_select_template_type"},"phone":{"cellEdit":"click"},"dimission":{"cellEdit":"click,boolean"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'reward\')}' type='link' href='reward?employee.id=${entity.id}' class='ajax view'/>
