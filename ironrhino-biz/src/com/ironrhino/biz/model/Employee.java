@@ -31,6 +31,8 @@ public class Employee extends Entity<Long> {
 
 	private String phone;
 
+	private String address;
+
 	private String memo;
 
 	@NotInCopy
@@ -82,6 +84,14 @@ public class Employee extends Entity<Long> {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public EmployeeType getType() {

@@ -21,6 +21,7 @@
 		</property>
 		<property name="dimission" />
 		<property name="phone" />
+		<property name="address" />
 		<property name="memo" length="2500" />
 		<property name="createDate" />
 	</class>
