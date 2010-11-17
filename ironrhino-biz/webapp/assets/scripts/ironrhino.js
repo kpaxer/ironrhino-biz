@@ -23762,7 +23762,7 @@ Captcha = {
 						setInterval(function() {
 									ajaxpanel(t);
 								}, parseInt(t.attr('interval')));
-					} else if (!t.attr('manual'))
+					} else if (!t.hasClass('manual'))
 						ajaxpanel(t);
 				});
 		return this;
@@ -23846,7 +23846,7 @@ Observation.ajaxpanel = function(container) {
 					var boxes = $('input[type=checkbox][name]', this.form);
 					var start = -1, end = -1, checked = false;
 					for (var i = 0; i < boxes.length; i++) {
-						if ($(boxes[i]).attr('lastClicked')) {
+						if ($(boxes[i]).hasClass('lastClicked')) {
 							checked = boxes[i].checked;
 							start = i;
 						}
@@ -23870,10 +23870,8 @@ Observation.ajaxpanel = function(container) {
 						}
 					}
 				}
-				$('input[type=checkbox]', this.form).each(function() {
-							this.removeAttribute('lastClicked')
-						});
-				$(this).attr('lastClicked', 'true');
+				$('input[type=checkbox]', this.form).removeClass('lastClicked');
+				$(this).addClass('lastClicked');
 			}
 		});
 		return this;
@@ -23913,12 +23911,12 @@ Observation.checkbox = function(container) {
 		this.each(function() {
 					var marquee = $(this);
 					marquee.mouseenter(function() {
-								$(this).attr('stop', 'true');
+								$(this).addClass('stop');
 							}).mouseleave(function() {
-								$(this).removeAttr('stop');
+								$(this).removeClass('stop');
 							});
 					setInterval(function() {
-								if (!marquee.attr('stop'))
+								if (!marquee.hasClass('stop'))
 									$(
 											$(':first-child', marquee)
 													.attr('tagName')
@@ -24620,15 +24618,14 @@ Observation.filterselect = function(container) {
 								function() {
 									var portlets = layout[i];
 									for (var j = 0; j < portlets.length; j++) {
-										$('#' + portlets[j]).attr('sorted',
-												true).appendTo(this).show();
+										$('#' + portlets[j]).addClass('sorted').appendTo(this).show();
 									}
 								});
 					}
 					$('.portlet', this).each(function() {
 								var t = $(this);
-								if (t.attr('sorted'))
-									t.removeAttr('sorted');
+								if (t.hasClass('sorted'))
+									t.removeClass('sorted');
 								else
 									t.hide();
 							});
@@ -25281,8 +25278,7 @@ Observation.richtable = function(container) {
 					return false;
 				});
 
-		var resizable = $('table.richtable', container).attr('resizable');
-		if (resizable) {
+		if ($('table.richtable', container).hasClass('resizable')) {
 			$(document).mousemove(ECSideUtil.DoResize);
 			$(document).mouseup(ECSideUtil.EndResize);
 			$(document.body).bind('drag', function() {
