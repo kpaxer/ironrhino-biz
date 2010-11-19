@@ -12,6 +12,8 @@ import org.apache.struts2.ServletActionContext;
 import org.ironrhino.common.support.SettingControl;
 import org.ironrhino.core.servlet.AccessHandler;
 
+import com.ironrhino.Constants;
+
 @Named
 @Singleton
 public class WebsiteHandler implements AccessHandler {
@@ -35,7 +37,7 @@ public class WebsiteHandler implements AccessHandler {
 			url = new URL(request.getRequestURL().toString());
 			String host = url.getHost();
 			String[] websiteDomain = settingControl
-					.getStringArray("website.domain");
+					.getStringArray(Constants.SETTING_KEY_WEBSITE_DOMAIN);
 			for (String domain : websiteDomain) {
 				if ((host.equalsIgnoreCase(domain) || host
 						.equalsIgnoreCase("www." + domain))) {
