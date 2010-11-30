@@ -212,7 +212,7 @@ $(function(){
 				<form action="report/jasper" method="post" class="report line clearfix">
 					<input type="hidden" name="type" value="customer"/>
 					<input id="regionId" type="hidden" name="id"/>
-					<div class="field" style="margin-right:5px;"><span id="region" class="selectregion" regionname="region" full="true" regionid="regionId">请点击选择地区</span></div>
+					<div class="field" style="margin-right:5px;"><span id="region" class="treeselect" treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId'}">请点击选择地区</span></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
 			</div>

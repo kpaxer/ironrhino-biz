@@ -104,7 +104,7 @@
 				<div>所有品种</div>
 				<form action="chart/view" method="get" class="line clearfix ajax view" replacement="c">
 					<input type="hidden" name="type" value="region"/>
-					<div class="field" style="margin-right:5px;"><input id="location" type="hidden" name="location"/><span id="region" class="selectregion" regionname="region" full="true" regionid="location">请点击选择地区</span></div>
+					<div class="field" style="margin-right:5px;"><input id="location" type="hidden" name="location"/><span id="region" class="treeselect" treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'location'}">请点击选择地区</span></div>
 					<div class="field"><@s.textfield theme="simple" id="date13" name="from" cssClass="date required"/></div>
 					<div class="field"><@s.textfield theme="simple" id="date14" name="to" cssClass="date required"/></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
@@ -112,7 +112,7 @@
 				<div style="clear:left;">指定品种</div>
 				<form action="chart/view" method="get" class="line clearfix ajax view" replacement="c">
 					<input type="hidden" name="type" value="region"/>
-					<div class="field" style="margin-right:5px;"><input id="location2" type="hidden" name="location"/><span id="region2" class="selectregion" regionname="region2" full="true" regionid="location2">请点击选择地区</span></div>
+					<div class="field" style="margin-right:5px;"><input id="location2" type="hidden" name="location"/><span id="region2" class="treeselect"  treeoptions="{'url':'<@url value="/region/children"/>','name':'region2','id':'location2'}">请点击选择地区</span></div>
 					<div class="field"><@s.select theme="simple" cssClass="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
 					<div class="field"><@s.textfield theme="simple" id="date15" name="from" cssClass="date required"/></div>
 					<div class="field"><@s.textfield theme="simple" id="date16" name="to" cssClass="date required"/></div>
