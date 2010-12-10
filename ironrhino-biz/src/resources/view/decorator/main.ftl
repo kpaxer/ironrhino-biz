@@ -44,9 +44,18 @@
 			<li><a class="ajax view" href="<@url value="/biz/brand"/>">${action.getText('brand')}</a></li>
 			<li><a class="ajax view" href="<@url value="/biz/category"/>">${action.getText('category')}</a></li>
 			<li><a class="ajax view" href="<@url value="/biz/station"/>">${action.getText('station')}</a></li>
-			<li><a href="<@url value="/biz/report"/>">${action.getText('report')}</a></li>
-			<li><a href="<@url value="/biz/chart"/>">${action.getText('chart')}</a></li>
-			<li><a class="ajax view" href="<@url value="${ssoServerBase!}/user/password"/>">${action.getText('change')}${action.getText('password')}</a></li>
+			<li>
+				<a href="<@url value="/biz/report"/>">${action.getText('report')}</a>
+				<ul>
+					<li><a href="<@url value="/biz/chart"/>">${action.getText('chart')}</a></li>
+				</ul>
+			</li>
+			<li>
+				<a class="ajax view" href="<@url value="${ssoServerBase!}/user/password"/>">${action.getText('change')}${action.getText('password')}</a>
+				<ul>
+					<li><a class="ajax view" href="<@url value="${ssoServerBase!}/user/profile"/>">${action.getText('profile')}</a></li>
+				</ul>
+			</li>
 			<li><a href="<@url value="${ssoServerBase!}/logout"/>">${action.getText('logout')}</a></li>
 		</ul>
 </#if>
