@@ -19869,6 +19869,7 @@ $.fn.bgIframe = $.fn.bgiframe = function(s) {
             obj.animate({ opacity: '0' }, 600, function() {
                 obj.parent().animate({ height: '0px' }, 300,
                       function() {
+                      	  var wrapper = obj.closest('.notify-wrapper');
                           obj.parent().remove();
                           // IEsucks
                           if (navigator.userAgent.match(/MSIE (\d+\.\d+);/)) {
@@ -19876,6 +19877,8 @@ $.fn.bgIframe = $.fn.bgiframe = function(s) {
                               obj.parent().parent().removeClass('IEsucks');
                           }
                           // -------
+            			  if(!$('.jnotify-item-wrapper', wrapper).length)
+            				  wrapper.remove();
                       });
             });
         }
@@ -25487,8 +25490,20 @@ Observation.richtable = function(container) {
 					}
 					if (nametarget.is(':input'))
 						nametarget.val(name);
-					else
-						nametarget.text(name);
+					else {
+						nametarget.text(name).after('<a>x</a>').next().css({
+									'cursor' : 'pointer',
+									'color' : '#black',
+									'margin-left' : '5px',
+									'padding' : '0 5px',
+									'border' : 'solid 1px #FFC000'
+								}).click(function() {
+									nametarget
+											.text(MessageBundle.get('select'));
+									$('#' + treeoptions.id).val('');
+									$(this).remove();
+								});
+					}
 				}
 				if (treeoptions.id) {
 					var idtarget = $('#' + treeoptions.id);
@@ -25535,8 +25550,21 @@ Observation.richtable = function(container) {
 									: treenode.name;
 							if (nametarget.is(':input'))
 								nametarget.val(name);
-							else
-								nametarget.text(name);
+							else {
+								nametarget.text(name).after('<a>x</a>').next()
+										.css({
+													'cursor' : 'pointer',
+													'color' : '#black',
+													'margin-left' : '5px',
+													'padding' : '0 5px',
+													'border' : 'solid 1px #FFC000'
+												}).click(function() {
+											nametarget.text(MessageBundle
+													.get('select'));
+											$('#' + treeoptions.id).val('');
+											$(this).remove();
+										});
+							}
 						}
 						if (treeoptions.id) {
 							var idtarget = $('#' + treeoptions.id);
