@@ -44,9 +44,9 @@ public class RewardAction extends BaseAction {
 	private Employee employee;
 
 	private List<Employee> employeeList;
-	
+
 	private int threshold = 7;
-	
+
 	private List<Date> uninputedDates;
 
 	@Inject
@@ -102,7 +102,7 @@ public class RewardAction extends BaseAction {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
-	
+
 	public int getThreshold() {
 		return threshold;
 	}
@@ -122,8 +122,7 @@ public class RewardAction extends BaseAction {
 			if (employee != null && employee.getId() != null)
 				dc.createAlias("employee", "c").add(
 						Restrictions.eq("c.id", employee.getId()));
-			dc.addOrder(org.hibernate.criterion.Order
-					.desc("rewardDate"));
+			dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
 			dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Reward>();
@@ -232,7 +231,9 @@ public class RewardAction extends BaseAction {
 			List<Reward> list;
 			if (id.length == 1) {
 				list = new ArrayList<Reward>(1);
-				list.add(rewardManager.get(id[0]));
+				reward = rewardManager.get(id[0]);
+				if (reward != null)
+					list.add(reward);
 			} else {
 				DetachedCriteria dc = rewardManager.detachedCriteria();
 				dc.add(Restrictions.in("id", id));
@@ -246,12 +247,13 @@ public class RewardAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
-	
+
 	public String uninputed() {
 		uninputedDates = new ArrayList<Date>();
 		Date today = new Date();
 		for (int i = 0; i < threshold; i++) {
-			Date rewardDate = DateUtils.beginOfDay(DateUtils.addDays(today, -i));
+			Date rewardDate = DateUtils
+					.beginOfDay(DateUtils.addDays(today, -i));
 			DetachedCriteria dc = rewardManager.detachedCriteria();
 			dc.add(Restrictions.eq("rewardDate", rewardDate));
 			if (rewardManager.countByCriteria(dc) == 0)
@@ -259,6 +261,5 @@ public class RewardAction extends BaseAction {
 		}
 		return "uninputed";
 	}
-
 
 }

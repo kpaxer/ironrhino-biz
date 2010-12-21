@@ -284,23 +284,23 @@ public class CustomerAction extends BaseAction {
 	public String merge() {
 		String[] id = getId();
 		if (id != null && id.length == 2) {
-			Customer source ;
-			if(org.ironrhino.core.util.StringUtils.isNumericOnly(id[0])){
+			Customer source;
+			if (org.ironrhino.core.util.StringUtils.isNumericOnly(id[0])) {
 				source = customerManager.get(Long.valueOf(id[0]));
-			}else{
-				source = customerManager.findByNaturalId(id[0].trim());		
+			} else {
+				source = customerManager.findByNaturalId(id[0].trim());
 			}
-			if(source == null){
+			if (source == null) {
 				addActionError("被合并的客户不能为空");
 				return SUCCESS;
 			}
 			Customer target;
-			if(org.ironrhino.core.util.StringUtils.isNumericOnly(id[1])){
+			if (org.ironrhino.core.util.StringUtils.isNumericOnly(id[1])) {
 				target = customerManager.get(Long.valueOf(id[1]));
-			}else{
-				target = customerManager.findByNaturalId(id[1].trim());		
+			} else {
+				target = customerManager.findByNaturalId(id[1].trim());
 			}
-			if(target == null){
+			if (target == null) {
 				addActionError("客户不能为空");
 				return SUCCESS;
 			}
@@ -344,7 +344,9 @@ public class CustomerAction extends BaseAction {
 
 	@JsonConfig(root = "customer")
 	public String json() {
-		String id = getUid().trim();
+		String id = getUid();
+		if (id != null)
+			id = id.trim();
 		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
 			customer = customerManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
