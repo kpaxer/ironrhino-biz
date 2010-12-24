@@ -1,0 +1,93 @@
+body {
+background:url(images/bg.jpg) repeat-x top #e8dec4;
+margin:0px;
+padding:0px;
+font: 12px  verdana, arial, helvetica;
+color:#000;
+}
+#wrapper{
+width:960px;
+height:auto;
+margin:auto;
+background:url(images/header_bg.jpg) no-repeat top center;
+}
+#header{
+height:200px;
+margin:auto;
+}
+#logo{
+padding:17px 0 0 5px;
+float:left;
+}
+#menu{
+float:right;
+padding-top:15px;
+}
+#menu ul li{
+float:left;
+font-size:1.2em;
+font-weight:bold; 
+}
+#menu ul li a{
+float:left;
+padding:0 10px;
+color:#fff;
+}
+#menu ul li a:hover{
+color: #fff;
+text-decoration:underline;
+}
+#menu ul li.selected a{
+font-size: 1.2em;
+}
+#search{
+padding: 15px 100px 0 0;
+float:right;
+}
+#search input{
+border-radius: 4px;
+height: 20px;
+line-height: 20px;
+border: 0px;
+padding-left:3px;
+}
+/*-----------------main----------------------------*/
+#main{
+height:auto;
+margin:auto;
+padding:10px 0 30px 0;
+background-color:#FFFFFF;
+border-radius: 10px;
+}
+#content{
+padding:10px;
+}
+#message{
+padding:0 0 10px 0;
+}
+/*-----------------------------footer------------------*/
+#footer{
+clear:both;
+width: auto;
+height:50px;
+color: #2a1c11;
+}
+#footer .copyright{
+float:right;
+padding:10px 0 0 10px;
+}
+#footer .contact{
+float:right;
+padding:10px 160px 0 10px;
+}
+#footer .links{
+float:left;
+padding:10px 0 0px 0px;
+}
+#footer a{
+color: #2a1c11;
+padding-left:10px;
+}
+#footer a:hover{
+text-decoration:underline;
+}

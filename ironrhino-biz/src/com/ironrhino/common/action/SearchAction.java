@@ -52,7 +52,7 @@ public class SearchAction extends BaseAction {
 	@Override
 	public String execute() {
 		if (StringUtils.isBlank(q))
-			return null;
+			return REDIRECT;
 		String query = q.trim();
 		CompassCriteria cc = new CompassCriteria();
 		cc.setQuery(query + " AND tags:product");
@@ -74,7 +74,7 @@ public class SearchAction extends BaseAction {
 			resultPage.setResult(Collections.EMPTY_LIST);
 		}
 		resultPage.setTotalRecord(totalHits);
-		
+
 		Collection<Page> _list = resultPage.getResult();
 		List<Page> list = new ArrayList<Page>();
 		for (Page p : _list) {
@@ -90,7 +90,7 @@ public class SearchAction extends BaseAction {
 			}
 		}
 		resultPage.setResult(list);
-		
+
 		return SUCCESS;
 	}
 
