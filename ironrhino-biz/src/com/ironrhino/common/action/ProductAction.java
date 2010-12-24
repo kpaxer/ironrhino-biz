@@ -21,7 +21,7 @@ public class ProductAction extends ColumnPageAction {
 	public String list() {
 		if (resultPage == null)
 			resultPage = new ResultPage<Page>();
-		resultPage.setPageSize(9);
+		resultPage.setPageSize(12);
 		String result = super.list();
 		if (result.equals("columnpage"))
 			return result;

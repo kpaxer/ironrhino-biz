@@ -21,11 +21,11 @@
 <ul class="catalog">
 <#list columns as var>
 <#assign selected=column?? && column==var/>
-<li<#if selected> class="selected"</#if>><#if selected><span><#else><a href="<@url value="/${name}/list/${var}"/>"></#if>${var}<#if selected></span><#else></a></#if></li>
+<li<#if selected> class="selected"</#if>><#if selected><span><#else><a href="<@url value="/${name}/list/${var}"/>" class="ajax view"></#if>${var}<#if selected></span><#else></a></#if></li>
 </#list>
 </ul>
-<div id="_list" class="list">
-<dl>
+<div class="list">
+<dl class="clearfix">
 	<#list resultPage.result as page>
 	<#if column??>
 	<#assign pageurl="/${name}/p${page.path}?column=${column}"/>
@@ -33,20 +33,18 @@
 	<#assign pageurl="/${name}/p${page.path}"/>
 	</#if>
 	<dd>
-		<div style="float:left;width:192px;">
-			<div style="padding:10px;">
-				<a href="<@url value="${pageurl}"/>">
-					<img src="${page.content}" alt="${page.title!}" width="172" height="150" />
-				</a>
-			</div>
-			<div style="text-align:center;">
-				<a href="<@url value="${pageurl}"/>">${page.title!}</a>
-			</div>
+		<div class="pic">
+			<a href="<@url value="${pageurl}"/>" class="ajax view">
+				<img src="${page.content}" alt="${page.title!}" width="172" height="150" />
+			</a>	
+		</div>
+		<div class="title">
+			<a href="<@url value="${pageurl}"/>" class="ajax view">${page.title!}</a>
 		</div>
 	</dd>
 	</#list>
 </dl>
-<@pagination class="ajax view" replacement="_list" cache="true"/>
+<@pagination class="ajax view" cache="true"/>
 </div>
 </div>
 </body>

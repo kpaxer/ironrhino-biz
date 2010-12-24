@@ -2,7 +2,7 @@ body {
 background:url(images/bg.jpg) repeat-x top #e8dec4;
 margin:0px;
 padding:0px;
-font: 12px  verdana, arial, helvetica;
+font: 13px  arial, sans-serif;
 color:#000;
 }
 #wrapper{
@@ -21,11 +21,11 @@ float:left;
 }
 #menu{
 float:right;
-padding-top:15px;
+padding-top:20px;
 }
 #menu ul li{
 float:left;
-font-size:1.2em;
+font-size:1.1em;
 font-weight:bold; 
 }
 #menu ul li a{
@@ -33,23 +33,36 @@ float:left;
 padding:0 10px;
 color:#fff;
 }
-#menu ul li a:hover{
-color: #fff;
-text-decoration:underline;
-}
-#menu ul li.selected a{
-font-size: 1.2em;
+#menu ul li a:hover,#menu ul li.selected a{
+color:#ddd;
 }
 #search{
-padding: 15px 100px 0 0;
+padding: 20px 120px 0 0;
 float:right;
 }
-#search input{
+#search input.text{
 border-radius: 4px;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
 height: 20px;
 line-height: 20px;
 border: 0px;
 padding-left:3px;
+}
+#search input.button{
+border-radius: 4px;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+height: 20px;
+line-height: 20px;
+border: 0px;
+padding:0 3px;
+cursor: pointer;
+font-weight:bold;
+color:#666;
+}
+#search input.button:hover{
+color:#444;
 }
 /*-----------------main----------------------------*/
 #main{
@@ -58,6 +71,8 @@ margin:auto;
 padding:10px 0 30px 0;
 background-color:#FFFFFF;
 border-radius: 10px;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
 }
 #content{
 padding:10px;
@@ -90,4 +105,55 @@ padding-left:10px;
 }
 #footer a:hover{
 text-decoration:underline;
+}
+/*--------------------product------------------*/
+div.crumbs{
+border-radius: 4px;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+padding:5px;
+margin:0 0 10px 0;
+background-color: #E8DEC3;
+}
+div.product ul.catalog{
+background-color: #B9945D;
+width: 100px;
+border-radius: 8px;
+-webkit-border-radius: 8px;
+-moz-border-radius: 8px;
+}
+div.product ul.catalog li{
+font-weight: bold;
+padding:5px;
+background-color: #E8DEC3;
+border-radius: 4px;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+}
+div.product ul.catalog li.selected{
+background-color: #fff;
+}
+div.product ul.catalog li a{
+color: #2a1c11;
+}
+div.product dd img{
+border-radius: 5px;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+}
+div.product dd{
+float:left;
+width:182px;
+}
+div.product div.pic{
+padding:10px;
+}
+div.product div.title{
+text-align:center;
+}
+div.product dd a:hover{
+text-decoration:underline;
+}
+div.product div.content img{
+max-width: 750px;
 }
