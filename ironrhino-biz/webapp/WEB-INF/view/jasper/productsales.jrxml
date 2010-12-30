@@ -3,7 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="16"/>
 	<property name="ireport.y" value="0"/>
-	<style name="Crosstab Data Text" isDefault="false" hAlign="Center"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="title" class="java.lang.String">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
@@ -102,11 +102,12 @@
 	</pageFooter>
 	<summary>
 		<band height="70">
-			<crosstab>
+			<crosstab isRepeatColumnHeaders="false">
 				<reportElement x="0" y="20" width="823" height="50"/>
 				<rowGroup name="prouct.fullname" width="74" totalPosition="End">
-					<bucket>
+					<bucket order="Descending">
 						<bucketExpression class="java.lang.String"><![CDATA[$F{product.fullname}]]></bucketExpression>
+						<orderByExpression class="java.lang.Comparable"><![CDATA[$V{quantityMeasure}]]></orderByExpression>
 					</bucket>
 					<crosstabRowHeader>
 						<cellContents backcolor="#F0FFFF" mode="Opaque">
@@ -147,7 +148,7 @@
 								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 							</box>
 							<textField>
-								<reportElement style="Crosstab Data Text" x="0" y="0" width="58" height="20"/>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="55" height="20"/>
 								<textElement verticalAlignment="Middle">
 									<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
 								</textElement>
@@ -176,13 +177,13 @@
 				<measure name="subtotalMeasure" class="java.math.BigDecimal" calculation="Sum">
 					<measureExpression><![CDATA[$F{subtotal}]]></measureExpression>
 				</measure>
-				<crosstabCell width="58" height="40">
+				<crosstabCell width="55" height="40">
 					<cellContents>
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="58" height="20">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="55" height="20">
 								<printWhenExpression><![CDATA[new Boolean($V{quantityMeasure}!=null&&$V{quantityMeasure}.intValue()>0)]]></printWhenExpression>
 							</reportElement>
 							<box rightPadding="5"/>
@@ -192,7 +193,7 @@
 							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{quantityMeasure}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement style="Crosstab Data Text" x="0" y="20" width="58" height="20">
+							<reportElement style="Crosstab Data Text" x="0" y="20" width="55" height="20">
 								<printWhenExpression><![CDATA[new Boolean($V{subtotalMeasure}!=null&&$V{subtotalMeasure}.doubleValue()>0)]]></printWhenExpression>
 							</reportElement>
 							<box rightPadding="5"/>
@@ -203,13 +204,13 @@
 						</textField>
 					</cellContents>
 				</crosstabCell>
-				<crosstabCell width="58" height="40" rowTotalGroup="prouct.fullname">
+				<crosstabCell width="55" height="40" rowTotalGroup="prouct.fullname">
 					<cellContents backcolor="#BFFFFF" mode="Opaque">
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
 						<textField>
-							<reportElement style="Crosstab Data Text" x="0" y="0" width="58" height="20"/>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="55" height="20"/>
 							<box rightPadding="5"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
@@ -217,7 +218,7 @@
 							<textFieldExpression class="java.lang.Integer"><![CDATA[$V{quantityMeasure_prouct.fullname_ALL}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement style="Crosstab Data Text" x="0" y="20" width="58" height="20"/>
+							<reportElement style="Crosstab Data Text" x="0" y="20" width="55" height="20"/>
 							<box rightPadding="5"/>
 							<textElement textAlignment="Right" verticalAlignment="Middle">
 								<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
