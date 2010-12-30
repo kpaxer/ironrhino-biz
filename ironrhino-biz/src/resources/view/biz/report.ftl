@@ -150,8 +150,8 @@ $(function(){
 				<form action="report/jasper" method="post" class="report line clearfix">
 					<input type="hidden" name="type" value="privatereward"/>
 					<div class="field"><@s.select theme="simple" cssClass="required" cssStyle="width:80px;" name="id" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
-					<div class="field"><input type="text" name="from" class="date required"/></div>
-					<div class="field"><input type="text" name="to" class="date required"/></div>
+					<div class="field"><input type="text" name="from" class="date required" style="width:80px;"/></div>
+					<div class="field"><input type="text" name="to" class="date required" style="width:80px;"/></div>
 					<div class="field"><span>包括支出</span><input type="checkbox" name="includePaid" value="true"/></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
