@@ -13,14 +13,17 @@ text-decoration:none;
 <#assign columns={"id":{"width":"70px"},"name":{"width":"120px","cellEdit":"click"},"type":{"width":"80px","cellEdit":"click,select,rt_select_template_type"},"phone":{"width":"200px","cellEdit":"click"},"address":{"cellEdit":"click"},"dimission":{"width":"80px","cellEdit":"click,boolean"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'edit\')}' view='input'/>
-<@button text='${action.getText(\'reward\')}' type='link' href='reward?employee.id=${entity.id}' class='ajax view'/>
-<@button text='支工资' type='link' href='reward/input?negative=true&employee.id=${entity.id}' rel='richtable' windowoptions='{\'reloadonclose\':false}'/>
-<@button text='发工资' type='link' href='reward/input?employee.id=${entity.id}' rel='richtable' windowoptions='{\'reloadonclose\':false}'/>
+<@button text='${action.getText(\'reward\')}' type='link' href=getUrl('/biz/reward/tabs?employee.id='+entity.id) class='ajax view'/>
+<@button text='支工资' type='link' href=getUrl('/biz/reward/input?negative=true&employee.id='+entity.id) rel='richtable' windowoptions='{\'reloadonclose\':false}'/>
+<@button text='发工资' type='link' href=getUrl('/biz/reward/input?employee.id='+entity.id) rel='richtable' windowoptions='{\'reloadonclose\':false}'/>
 <#if entity.type??&&entity.type.name()=='SALESMAN'>
-<@button text='${action.getText(\'order\')}' type='link' href='order?employee.id=${entity.id}'/>
+<@button text='${action.getText(\'salesman\')}${action.getText(\'order\')}' type='link' href=getUrl('/biz/order?salesman.id='+entity.id) class='ajax view'/>
+</#if>
+<#if entity.type??&&entity.type.name()=='DELIVERYMAN'>
+<@button text='${action.getText(\'deliveryman\')}${action.getText(\'order\')}' type='link' href=getUrl('/biz/order?deliveryman.id='+entity.id) class='ajax view'/>
 </#if>
 ">
-<@richtable entityName="employee" columns=columns actionColumnWidth="230px" actionColumnButtons=actionColumnButtons searchable=true/>
+<@richtable entityName="employee" columns=columns actionColumnWidth="270px" actionColumnButtons=actionColumnButtons searchable=true/>
 <div style="display: none;">
 <textarea id="rt_select_template_type">
 <@s.select theme="simple" cssStyle="width: 100%;" onblur="Richtable.updateCell(this)" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>

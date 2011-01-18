@@ -1,5 +1,6 @@
 package com.ironrhino.biz.action;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -33,7 +34,7 @@ public class RewardAction extends BaseAction {
 
 	private static final long serialVersionUID = 4331302727890834065L;
 
-	private boolean negative;
+	private Boolean negative;
 
 	private Reward reward;
 
@@ -71,11 +72,11 @@ public class RewardAction extends BaseAction {
 		return resultPage;
 	}
 
-	public boolean isNegative() {
+	public Boolean isNegative() {
 		return negative;
 	}
 
-	public void setNegative(boolean negative) {
+	public void setNegative(Boolean negative) {
 		this.negative = negative;
 	}
 
@@ -122,6 +123,11 @@ public class RewardAction extends BaseAction {
 			if (employee != null && employee.getId() != null)
 				dc.createAlias("employee", "c").add(
 						Restrictions.eq("c.id", employee.getId()));
+			if (negative != null)
+				if (negative)
+					dc.add(Restrictions.lt("amount", new BigDecimal(0)));
+				else
+					dc.add(Restrictions.gt("amount", new BigDecimal(0)));
 			dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
 			dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 			if (resultPage == null)
@@ -207,7 +213,7 @@ public class RewardAction extends BaseAction {
 		} else {
 			if (reward == null)
 				return INPUT;
-			if (negative)
+			if (negative != null && negative)
 				reward.setAmount(reward.getAmount().negate());
 			if (reward.isNew()) {
 				if (employee == null)
@@ -246,6 +252,10 @@ public class RewardAction extends BaseAction {
 			}
 		}
 		return SUCCESS;
+	}
+
+	public String tabs() {
+		return "tabs";
 	}
 
 	public String uninputed() {
