@@ -143,7 +143,7 @@ $(function(){
 					<input type="hidden" name="type" value="privatereward"/>
 					<div class="field"><input type="text" name="from" class="date required"/></div>
 					<div class="field"><input type="text" name="to" class="date required"/></div>
-					<div class="field"><span>包括支出</span><input type="checkbox" name="includePaid" value="true"/></div>
+					<div class="field"><select name="negative" style="width:80px;"><option value="">全部</option><option value="false">收入</option><option value="true">支出</option></select></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
 				<h3 style="clear:left;">个人工资详单</h3>
@@ -152,7 +152,7 @@ $(function(){
 					<div class="field"><@s.select theme="simple" cssClass="required" cssStyle="width:80px;" name="id" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
 					<div class="field"><input type="text" name="from" class="date required" style="width:80px;"/></div>
 					<div class="field"><input type="text" name="to" class="date required" style="width:80px;"/></div>
-					<div class="field"><span>包括支出</span><input type="checkbox" name="includePaid" value="true"/></div>
+					<div class="field"><select name="negative" style="width:60px;"><option value="">全部</option><option value="false">收入</option><option value="true">支出</option></select></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
 				<h3 style="clear:left;">工资清单</h3>
@@ -174,7 +174,7 @@ $(function(){
 					<input type="hidden" name="type" value="aggregationreward"/>
 					<div class="field"><input type="text" name="from" class="date required"/></div>
 					<div class="field"><input type="text" name="to" class="date required"/></div>
-					<div class="field"><span>包括支出</span><input type="checkbox" name="includePaid" value="true"/></div>
+					<div class="field"><select name="negative" style="width:60px;"><option value="">全部</option><option value="false">收入</option><option value="true">支出</option></select></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
 			</div>

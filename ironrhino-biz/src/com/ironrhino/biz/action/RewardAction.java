@@ -124,10 +124,10 @@ public class RewardAction extends BaseAction {
 				dc.createAlias("employee", "c").add(
 						Restrictions.eq("c.id", employee.getId()));
 			if (negative != null)
-				if (negative)
-					dc.add(Restrictions.lt("amount", new BigDecimal(0)));
-				else
+				if (!negative)
 					dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+				else
+					dc.add(Restrictions.lt("amount", new BigDecimal(0)));
 			dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
 			dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 			if (resultPage == null)

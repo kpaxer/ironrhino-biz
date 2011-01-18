@@ -388,10 +388,14 @@ public class OrderAction extends BaseAction {
 		String id = getUid();
 		if (StringUtils.isNotBlank(id)) {
 			order = orderManager.get(id);
-		} else {
-			return ACCESSDENIED;
+			if(order == null)
+				order = orderManager.findByNaturalId(id);
+		
 		}
-		return VIEW;
+		if (order == null)
+			return ACCESSDENIED;
+		else
+			return VIEW;
 	}
 
 	@Override

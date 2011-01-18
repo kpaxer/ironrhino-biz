@@ -60,8 +60,6 @@ public class ReportAction extends BaseAction {
 
 	private Date to;
 
-	private boolean includePaid;
-
 	private boolean negative;
 
 	private String format = "PDF";
@@ -102,7 +100,7 @@ public class ReportAction extends BaseAction {
 	@Inject
 	private transient RegionTreeControl regionTreeControl;
 
-	public void setNegative(boolean negative) {
+	public void setNegative(Boolean negative) {
 		this.negative = negative;
 	}
 
@@ -118,10 +116,6 @@ public class ReportAction extends BaseAction {
 		if (date == null)
 			date = new Date();
 		return date;
-	}
-
-	public void setIncludePaid(boolean includePaid) {
-		this.includePaid = includePaid;
 	}
 
 	public void setFrom(Date from) {
@@ -373,10 +367,15 @@ public class ReportAction extends BaseAction {
 		DetachedCriteria dc = rewardManager.detachedCriteria();
 		dc.add(Restrictions.between("rewardDate", DateUtils
 				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
-		if (!includePaid)
-			dc.add(Restrictions.gt("amount", new BigDecimal(0)));
-		else
-			title += "(包括支出)";
+		if (StringUtils.isNotBlank(ServletActionContext.getRequest()
+				.getParameter("negative")))
+			if (!negative) {
+				dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+				title += "(收入)";
+			} else {
+				dc.add(Restrictions.lt("amount", new BigDecimal(0)));
+				title += "(支出)";
+			}
 		dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
 		dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 		dc.addOrder(org.hibernate.criterion.Order.desc("amount"));
@@ -399,10 +398,15 @@ public class ReportAction extends BaseAction {
 		}
 		dc.add(Restrictions.between("rewardDate", DateUtils
 				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
-		if (!includePaid)
-			dc.add(Restrictions.gt("amount", new BigDecimal(0)));
-		else
-			title += "(包括支出)";
+		if (StringUtils.isNotBlank(ServletActionContext.getRequest()
+				.getParameter("negative")))
+			if (!negative) {
+				dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+				title += "(收入)";
+			} else {
+				dc.add(Restrictions.lt("amount", new BigDecimal(0)));
+				title += "(支出)";
+			}
 		dc.addOrder(org.hibernate.criterion.Order.asc("e.id"));
 		dc.addOrder(org.hibernate.criterion.Order.asc("rewardDate"));
 		dc.addOrder(org.hibernate.criterion.Order.asc("type"));
@@ -414,10 +418,15 @@ public class ReportAction extends BaseAction {
 		DetachedCriteria dc = rewardManager.detachedCriteria();
 		dc.add(Restrictions.between("rewardDate", DateUtils
 				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
-		if (!includePaid)
-			dc.add(Restrictions.gt("amount", new BigDecimal(0)));
-		else
-			title += "(包括支出)";
+		if (StringUtils.isNotBlank(ServletActionContext.getRequest()
+				.getParameter("negative")))
+			if (!negative) {
+				dc.add(Restrictions.gt("amount", new BigDecimal(0)));
+				title += "(收入)";
+			} else {
+				dc.add(Restrictions.lt("amount", new BigDecimal(0)));
+				title += "(支出)";
+			}
 		dc.createAlias("employee", "e").addOrder(
 				org.hibernate.criterion.Order.asc("e.name"));
 		list = rewardManager.findListByCriteria(dc);
