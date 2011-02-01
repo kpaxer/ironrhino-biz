@@ -2,16 +2,11 @@
 <#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title>${action.getText('chart')}</title>
-<style>
-.portal-column { 
-	width: 50%;
-	}
-</style>
 </head>
 <body>
 <div id="c" style="margin-bottom:10px;"></div>
 <div class="portal">
-	<div class="portal-column">
+	<div class="portal-column half">
 		<div class="portlet">
 			<div class="portlet-header">按商标统计</div>
 			<div class="portlet-content">
@@ -58,13 +53,13 @@
 			<div class="portlet-header">全国销量分布图</div>
 			<div class="portlet-content">
 				<div>所有品种</div>
-				<form action="chart/ammap" method="get" class="line clearfix" replacement="c">
+				<form action="chart/ammap" method="get" class="line clearfix" target="_blank" replacement="c">
 					<div class="field"><@s.textfield theme="simple" id="date17" name="from" cssClass="date required"/></div>
 					<div class="field"><@s.textfield theme="simple" id="date18" name="to" cssClass="date required"/></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
 				<div style="clear:left;">指定品种</div>
-				<form action="chart/ammap" method="get" class="line clearfix" replacement="c">
+				<form action="chart/ammap" method="get" class="line clearfix" target="_blank" replacement="c">
 					<div class="field"><@s.select theme="simple" cssClass="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
 					<div class="field"><@s.textfield theme="simple" id="date19" name="from" cssClass="date required"/></div>
 					<div class="field"><@s.textfield theme="simple" id="date20" name="to" cssClass="date required"/></div>
@@ -76,7 +71,7 @@
 	</div>
 	
 	
-	<div class="portal-column">
+	<div class="portal-column half">
 		<div class="portlet">
 			<div class="portlet-header">按品种统计</div>
 			<div class="portlet-content">

@@ -2,12 +2,6 @@
 <#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title>${action.getText('employee')}${action.getText('list')}</title>
-<style>
-a.region:link,a.region:hover,a.region:visited,a.region:active {
-color:#000;
-text-decoration:none;
-}
-</style>
 </head>
 <body>
 <#assign columns={"id":{"width":"70px"},"name":{"width":"120px","cellEdit":"click"},"type":{"width":"80px","cellEdit":"click,select,rt_select_template_type"},"phone":{"width":"200px","cellEdit":"click"},"address":{"cellEdit":"click"},"dimission":{"width":"80px","cellEdit":"click,boolean"}}>

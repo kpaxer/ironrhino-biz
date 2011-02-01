@@ -77,3 +77,8 @@ form.search button {
 	top: 10px;
 	right: 10px;
 }
+
+a.region:link,a.region:hover,a.region:visited,a.region:active {
+color:#000;
+text-decoration:none;
+}

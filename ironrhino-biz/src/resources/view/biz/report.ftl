@@ -2,37 +2,6 @@
 <#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title>${action.getText('report')}</title>
-<script>
-function toggleFormat(btn,format){
-		if(format=='xls'){
-			$(btn).html('<span><span>当前是EXCEL,点击切换到PDF</span></span>');
-		}else if(format=='pdf'){
-			$(btn).html('<span><span>当前是PDF,点击切换到EXCEL</span></span>');
-		}
-		$('a.report').attr('href',function(i,href){
-			var i = href.indexOf('format=');
-			if(i>0)
-				href = href.substring(0,i-1);
-			return href+='&format='+format;
-		});
-		$('form.report').each(function(){
-			var hidden = $('input[name="format"]',this);
-			if(hidden.length){
-				hidden.val(format);
-			}else{
-				$(this).prepend('<input type="hidden" name="format" value="'+format+'"/>');
-			}
-		});
-}
-$(function(){
-	$('.report').attr('target','_blank');
-	$('#format').toggle(function(){
-		toggleFormat(this,'xls');
-	},function(){
-		toggleFormat(this,'pdf');
-	});
-});
-</script>
 </head>
 <body>
 <div style="text-align:center;margin-bottom:10px;">

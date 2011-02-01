@@ -16,7 +16,7 @@ swfobject.embedSWF("<@url value='/assets/components/ammap/ammap.swf'/>","chart",
 </script>
 </head>
 <body>
-<form id="daterange" action="chart/ammap" method="get" class="ajax view line" replacement="c"  style="margin-left:10px;">
+<form id="daterange" action="<@url value='/biz/chart/ammap'/>" method="get" class="ajax view line" replacement="c"  style="margin-left:10px;">
 	<#if id??>
 	<#list id as var>
 	<input type="hidden" name="id" value="${var}" />

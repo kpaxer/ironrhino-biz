@@ -2,18 +2,12 @@
 <#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title>首页</title>
-<style>
-.portal-column { 
-	width: 50%;
-	}
-</style>
 </head>
 <body>
 
-
 <div class="portal savable">
 
-	<div class="portal-column" style="width:100%;">
+	<div class="portal-column full">
 		<div id="inputorder" class="portlet">
 			<div class="portlet-header">输入订单</div>
 			<div class="portlet-content">
@@ -22,7 +16,7 @@
 		</div>
 	</div>
 
-	<div class="portal-column">
+	<div class="portal-column half">
 		<div id="unpaid" class="portlet">
 			<div class="portlet-header">未输单的日期</div>
 			<div class="portlet-content">
@@ -38,7 +32,7 @@
 		</div>
 	</div>
 	
-	<div class="portal-column">
+	<div class="portal-column half">
 		<div id="inputreward" class="portlet">
 			<div class="portlet-header">录入工资</div>
 			<div class="portlet-content">

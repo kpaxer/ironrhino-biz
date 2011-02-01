@@ -54,9 +54,9 @@
 			<li><a class="ajax view" href="<@url value="/biz/category"/>">${action.getText('category')}</a></li>
 			<li><a class="ajax view" href="<@url value="/biz/station"/>">${action.getText('station')}</a></li>
 			<li>
-				<a href="<@url value="/biz/report"/>">${action.getText('report')}</a>
+				<a class="ajax view" href="<@url value="/biz/report"/>">${action.getText('report')}</a>
 				<ul>
-					<li><a href="<@url value="/biz/chart"/>">${action.getText('chart')}</a></li>
+					<li><a class="ajax view" href="<@url value="/biz/chart"/>">${action.getText('chart')}</a></li>
 				</ul>
 			</li>
 			<li>
