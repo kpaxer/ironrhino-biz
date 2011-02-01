@@ -4,7 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.util.LocalizedTextUtil;
 
 public enum RewardType {
-	SALARY, BONUS, PACKING, DELIVERY, PORTAGE;
+	SALARY, BONUS, PACKING, DELIVERY, PORTAGE, TRIP, PETROL, MOBILE, DINNER;
 	public String getName() {
 		return name();
 	}

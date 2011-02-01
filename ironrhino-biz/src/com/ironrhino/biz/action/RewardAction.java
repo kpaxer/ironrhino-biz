@@ -207,6 +207,8 @@ public class RewardAction extends BaseAction {
 					continue;
 				r.setEmployee(employee);
 				r.setRewardDate(reward.getRewardDate());
+				if(negative!=null && negative)
+					r.setAmount(r.getAmount().negate());
 				rewardManager.save(r);
 			}
 			addActionMessage(getText("save.success"));

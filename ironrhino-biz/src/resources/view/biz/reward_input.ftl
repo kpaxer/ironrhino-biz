@@ -9,9 +9,11 @@
 	<@s.textfield label="%{getText('rewardDate')}" name="reward.rewardDate" cssClass="required date"/>
 	<#if !reward.new>
 		<@s.hidden name="reward.id" />
+		<@s.textfield label="%{(negative?'支':'发')+getText('amount')}" name="reward.amount" cssClass="required double positive"/>
+		<@s.select label="%{getText('type')}" name="reward.type" list="@com.ironrhino.biz.model.RewardType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
+		<@s.textarea label="%{getText('memo')}" name="reward.memo" cols="50" rows="10"/>
 	<#else>
 		<@s.select label="%{getText('employee')}" name="employee.id" cssClass="required" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
-		<#if !negative??||!negative>
 		<table border="0" width="100%" class="datagrid">
 		<thead>
 			<tr>
@@ -37,14 +39,6 @@
 			</tr>
 		</tbody>
 		</table>
-		</#if>
-	</#if>
-	<#if (negative??&&negative)||!reward.new>
-	<@s.textfield label="%{(negative?'支':'发')+getText('amount')}" name="reward.amount" cssClass="required double positive"/>
-	<#if !negative>
-		<@s.select label="%{getText('type')}" name="reward.type" list="@com.ironrhino.biz.model.RewardType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
-	</#if>
-	<@s.textarea label="%{getText('memo')}" name="reward.memo" cols="50" rows="10"/>
 	</#if>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
