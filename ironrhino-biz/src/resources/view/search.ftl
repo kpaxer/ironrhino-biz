@@ -13,7 +13,7 @@
 	</div>
 </div>
 <div class="clearfix column search">
-<div id="_list" class="list">
+<div class="list">
 <dl>
 	<#list resultPage.result as page>
 	<#assign pageurl="/product/p${page.path}"/>
@@ -31,7 +31,7 @@
 	</dd>
 	</#list>
 </dl>
-<@pagination class="ajax view" replacement="_list" cache="true"/>
+<@pagination class="ajax view"/>
 </div>
 </div>
 </body>
