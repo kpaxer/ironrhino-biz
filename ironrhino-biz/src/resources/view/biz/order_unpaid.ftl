@@ -10,7 +10,7 @@
 				<tr>
 					<td>${action.getText('code')}</td>
 					<td>${action.getText('customer')}</td>
-					<td>${action.getText('orderDate')}</td>
+					<td width="22%">${action.getText('orderDate')}</td>
 					<td>${action.getText('grandTotal')}</td>
 					<td width="20%">${action.getText('station')}</td>
 					<td width="10%"></td>
