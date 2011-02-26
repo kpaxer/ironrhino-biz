@@ -6,7 +6,7 @@
 <#if html5>
 <!DOCTYPE html>
 <#assign requestURI=request.requestURI?substring(request.contextPath?length)/>
-<html<#if requestURI='/biz/index'> manifest="<@url value="/manifest"/>"</#if>>
+<html>
 <#else>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
