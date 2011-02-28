@@ -15,6 +15,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.fill.JRAbstractLRUVirtualizer;
+import net.sf.jasperreports.engine.fill.JRGzipVirtualizer;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
@@ -197,6 +201,8 @@ public class ReportAction extends BaseAction {
 			reportParameters.put("date", "");
 		reportParameters.put("SUBREPORT_DIR", ServletActionContext
 				.getServletContext().getRealPath("/WEB-INF/view/jasper/"));
+		JRAbstractLRUVirtualizer virtualizer = new JRGzipVirtualizer(2);
+		reportParameters.put(JRParameter.REPORT_VIRTUALIZER, virtualizer);
 		return reportParameters;
 	}
 
