@@ -13,6 +13,16 @@
 	<property name="test.results.dir" location="${basedir}/test/results" />
 	<property name="jar.name" value="${ant.project.name}-${version}.jar" />
 	<property name="war.name" value="ROOT.war" />
+	<property name="server.home" value="/tomcat" />
+	<property name="webapp.deploy.dir" value="${server.home}/webapps/ROOT" />
+	<condition property="cmd.suffix" value="bat">
+		<os family="windows" />
+	</condition>
+	<condition property="cmd.suffix" value="sh">
+		<os family="unix" />
+	</condition>
+	<property name="server.startup" value="${server.home}/bin/startup.${cmd.suffix}" />
+	<property name="server.shutdown" value="${server.home}/bin/shutdown.${cmd.suffix}" />
 
 	<path id="lib.classpath">
 		<fileset dir="${lib.dir}">
@@ -41,8 +51,6 @@
 			</fileset>
 		</copy>
 	</target>
-
-
 
 	<target name="test" depends="compile">
 		<mkdir dir="${test.classes.dir}" />
@@ -109,6 +117,63 @@
 		<delete dir="${classes.dir}" />
 		<delete dir="${test.classes.dir}" />
 		<delete dir="${target.dir}" />
+	</target>
+
+	<target name="checkwebappdeployed">
+		<available property="webapp.deployed" file="${webapp.deploy.dir}/WEB-INF/web.xml" />
+	</target>
+
+	<target name="backup" if="webapp.deployed" depends="checkwebappdeployed">
+		<war warfile="${target.dir}/${war.name}.bak" basedir="${webapp.deploy.dir}" webxml="${webapp.deploy.dir}/WEB-INF/web.xml" />
+	</target>
+
+	<target name="checkserverstarted">
+		<condition property="server.started">
+			<socket server="localhost" port="8005" />
+		</condition>
+	</target>
+
+	<target name="shutdown" if="server.started" depends="checkserverstarted">
+		<exec executable="${server.shutdown}" dir="${server.home}" />
+		<waitfor checkevery="2" checkeveryunit="second" maxwait="60" maxwaitunit="second">
+			<not>
+				<socket server="localhost" port="8005" />
+			</not>
+		</waitfor>
+		<sleep seconds="3" />
+	</target>
+
+	<target name="deploy">
+		<exec executable="svn" dir="${basedir}">
+			<arg value="update" />
+		</exec>
+		<antcall target="compile" />
+		<antcall target="war" />
+		<antcall target="backup" />
+		<antcall target="shutdown" />
+		<delete dir="${webapp.deploy.dir}" />
+		<unzip dest="${webapp.deploy.dir}" src="${target.dir}/${war.name}" />
+		<exec executable="${server.startup}" dir="${server.home}" spawn="true" />
+	</target>
+
+	<target name="rollback">
+		<antcall target="shutdown" />
+		<delete dir="${webapp.deploy.dir}" />
+		<unzip dest="${webapp.deploy.dir}" src="${target.dir}/${war.name}.bak" />
+		<exec executable="${server.startup}" dir="${server.home}" spawn="true" />
+	</target>
+
+	<target name="update">
+		<exec executable="svn" dir="${basedir}">
+			<arg value="update" />
+		</exec>
+		<copy todir="${webapp.deploy.dir}">
+			<fileset dir="${webapp.dir}">
+				<exclude name="**/*.class" />
+				<exclude name="**/*.jar" />
+				<exclude name="**/.*" />
+			</fileset>
+		</copy>
 	</target>
 
 </project>
