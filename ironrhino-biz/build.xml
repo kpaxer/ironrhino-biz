@@ -21,8 +21,8 @@
 	<condition property="cmd.suffix" value="sh">
 		<os family="unix" />
 	</condition>
-	<property name="server.startup" value="${server.home}/bin/startup.${cmd.suffix}" />
-	<property name="server.shutdown" value="${server.home}/bin/shutdown.${cmd.suffix}" />
+	<property name="server.startup.cmd" value="${server.home}/bin/startup.${cmd.suffix}" />
+	<property name="server.shutdown.cmd" value="${server.home}/bin/shutdown.${cmd.suffix}" />
 
 	<path id="lib.classpath">
 		<fileset dir="${lib.dir}">
@@ -134,7 +134,7 @@
 	</target>
 
 	<target name="shutdown" if="server.started" depends="checkserverstarted">
-		<exec executable="${server.shutdown}" dir="${server.home}" />
+		<exec executable="${server.shutdown.cmd}" dir="${server.home}" />
 		<waitfor checkevery="2" checkeveryunit="second" maxwait="60" maxwaitunit="second">
 			<not>
 				<socket server="localhost" port="8005" />
@@ -144,7 +144,7 @@
 	</target>
 	
 	<target name="startup" depends="shutdown">
-		<exec executable="${server.startup}" dir="${server.home}" spawn="true" />
+		<exec executable="${server.startup.cmd}" dir="${server.home}" spawn="true" />
 	</target>
 
 	<target name="deploy">
