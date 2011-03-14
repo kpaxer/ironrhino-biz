@@ -142,6 +142,10 @@
 		</waitfor>
 		<sleep seconds="3" />
 	</target>
+	
+	<target name="startup" depends="shutdown">
+		<exec executable="${server.startup}" dir="${server.home}" spawn="true" />
+	</target>
 
 	<target name="deploy">
 		<exec executable="svn" dir="${basedir}">
@@ -153,14 +157,14 @@
 		<antcall target="shutdown" />
 		<delete dir="${webapp.deploy.dir}" />
 		<unzip dest="${webapp.deploy.dir}" src="${target.dir}/${war.name}" />
-		<exec executable="${server.startup}" dir="${server.home}" spawn="true" />
+		<antcall target="startup" />
 	</target>
 
 	<target name="rollback">
 		<antcall target="shutdown" />
 		<delete dir="${webapp.deploy.dir}" />
 		<unzip dest="${webapp.deploy.dir}" src="${target.dir}/${war.name}.bak" />
-		<exec executable="${server.startup}" dir="${server.home}" spawn="true" />
+		<antcall target="startup" />
 	</target>
 
 	<target name="update">
