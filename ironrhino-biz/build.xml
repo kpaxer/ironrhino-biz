@@ -14,6 +14,7 @@
 	<property name="jar.name" value="${ant.project.name}-${version}.jar" />
 	<property name="war.name" value="ROOT.war" />
 	<property name="server.home" value="/tomcat" />
+	<property name="server.check.port" value="8005" />
 	<property name="webapp.deploy.dir" value="${server.home}/webapps/ROOT" />
 	<condition property="cmd.suffix" value="bat">
 		<os family="windows" />
@@ -129,7 +130,7 @@
 
 	<target name="checkserverstarted">
 		<condition property="server.started">
-			<socket server="localhost" port="8005" />
+			<socket server="localhost" port="${server.check.port}" />
 		</condition>
 	</target>
 
@@ -139,19 +140,16 @@
 		</exec>
 		<echo message="${svn.update.output}" />
 		<condition property="svn.updated">
-			<not>
-				<matches pattern="^[^\n]+$" string="${svn.update.output}" multiline="true" singleline="singleline"/>
-			</not>
+			<matches pattern="^.*\n.*$" string="${svn.update.output}" multiline="true" />
 		</condition>
-		<echo message="${svn.updated}"/>
-		<echo message="${svn.updated}"/>
+		<echo message="${svn.updated}" />
 	</target>
 
 	<target name="shutdown" if="server.started" depends="checkserverstarted">
 		<exec executable="${server.shutdown.cmd}" dir="${server.home}" />
 		<waitfor checkevery="2" checkeveryunit="second" maxwait="60" maxwaitunit="second">
 			<not>
-				<socket server="localhost" port="8005" />
+				<socket server="localhost" port="${server.check.port}" />
 			</not>
 		</waitfor>
 		<sleep seconds="3" />
