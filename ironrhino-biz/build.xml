@@ -178,7 +178,7 @@
 		<antcall target="startup" />
 	</target>
 
-	<target name="update" if="svn.updated">
+	<target name="update" if="svn.updated" depends="checksvnupdated">
 		<antcall target="compile" />
 		<copy todir="${webapp.deploy.dir}">
 			<fileset dir="${webapp.dir}">
