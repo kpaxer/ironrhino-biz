@@ -140,9 +140,10 @@
 		<echo message="${svn.update.output}" />
 		<condition property="svn.updated">
 			<not>
-				<matches pattern="^[^\n]+$" string="${svn.update.output}" multiline="true" />
+				<matches pattern="^[^\n]+$" string="${svn.update.output}" multiline="true" singleline="singleline"/>
 			</not>
 		</condition>
+		<echo message="${svn.updated}"/>
 	</target>
 
 	<target name="shutdown" if="server.started" depends="checkserverstarted">
