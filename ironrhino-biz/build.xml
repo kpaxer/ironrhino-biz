@@ -144,6 +144,7 @@
 			</not>
 		</condition>
 		<echo message="${svn.updated}"/>
+		<echo message="${svn.updated}"/>
 	</target>
 
 	<target name="shutdown" if="server.started" depends="checkserverstarted">
