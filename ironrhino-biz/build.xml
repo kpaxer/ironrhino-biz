@@ -124,10 +124,6 @@
 		<available property="webapp.deployed" file="${webapp.deploy.dir}/WEB-INF/web.xml" />
 	</target>
 
-	<target name="backup" if="webapp.deployed" depends="checkwebappdeployed">
-		<war warfile="${target.dir}/${war.name}.bak" basedir="${webapp.deploy.dir}" webxml="${webapp.deploy.dir}/WEB-INF/web.xml" />
-	</target>
-
 	<target name="checkserverstarted">
 		<condition property="server.started">
 			<socket server="localhost" port="${server.check.port}" />
@@ -142,6 +138,21 @@
 		<condition property="svn.updated">
 			<matches pattern="^.*\n.*$" string="${svn.update.output}" multiline="true" />
 		</condition>
+	</target>
+
+	<target name="backup" if="webapp.deployed" depends="checkwebappdeployed">
+		<war warfile="${target.dir}/${war.name}.bak" basedir="${webapp.deploy.dir}" webxml="${webapp.deploy.dir}/WEB-INF/web.xml" />
+	</target>
+
+	<target name="update" if="svn.updated" depends="checksvnupdated">
+		<antcall target="compile" />
+		<copy todir="${webapp.deploy.dir}">
+			<fileset dir="${webapp.dir}">
+				<exclude name="**/*.class" />
+				<exclude name="**/*.jar" />
+				<exclude name="**/.*" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="shutdown" if="server.started" depends="checkserverstarted">
@@ -178,15 +189,5 @@
 		<antcall target="startup" />
 	</target>
 
-	<target name="update" if="svn.updated" depends="checksvnupdated">
-		<antcall target="compile" />
-		<copy todir="${webapp.deploy.dir}">
-			<fileset dir="${webapp.dir}">
-				<exclude name="**/*.class" />
-				<exclude name="**/*.jar" />
-				<exclude name="**/.*" />
-			</fileset>
-		</copy>
-	</target>
 
 </project>
