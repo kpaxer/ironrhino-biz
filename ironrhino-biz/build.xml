@@ -140,7 +140,7 @@
 		<echo message="${svn.update.output}" />
 		<condition property="svn.updated">
 			<not>
-				<matches pattern="^[^\\n]+$" string="${svn.update.output}" />
+				<matches pattern="^[^\n]+$" string="${svn.update.output}" multiline="true" />
 			</not>
 		</condition>
 	</target>
