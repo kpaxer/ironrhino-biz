@@ -171,6 +171,7 @@
 		<exec executable="svn" dir="${basedir}">
 			<arg value="update" />
 		</exec>
+		<antcall target="compile" />
 		<copy todir="${webapp.deploy.dir}">
 			<fileset dir="${webapp.dir}">
 				<exclude name="**/*.class" />
