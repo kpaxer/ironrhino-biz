@@ -133,6 +133,18 @@
 		</condition>
 	</target>
 
+	<target name="checksvnupdated">
+		<exec executable="svn" dir="${basedir}" outputproperty="svn.update.output">
+			<arg value="update" />
+		</exec>
+		<echo message="${svn.update.output}" />
+		<condition property="svn.updated">
+			<not>
+				<matches pattern="^[^\\n]+$" string="${svn.update.output}" />
+			</not>
+		</condition>
+	</target>
+
 	<target name="shutdown" if="server.started" depends="checkserverstarted">
 		<exec executable="${server.shutdown.cmd}" dir="${server.home}" />
 		<waitfor checkevery="2" checkeveryunit="second" maxwait="60" maxwaitunit="second">
@@ -142,7 +154,7 @@
 		</waitfor>
 		<sleep seconds="3" />
 	</target>
-	
+
 	<target name="startup" depends="shutdown">
 		<exec executable="${server.startup.cmd}" dir="${server.home}" spawn="true" />
 	</target>
@@ -167,10 +179,7 @@
 		<antcall target="startup" />
 	</target>
 
-	<target name="update">
-		<exec executable="svn" dir="${basedir}">
-			<arg value="update" />
-		</exec>
+	<target name="update" if="svn.updated">
 		<antcall target="compile" />
 		<copy todir="${webapp.deploy.dir}">
 			<fileset dir="${webapp.dir}">
