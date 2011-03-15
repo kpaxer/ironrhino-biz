@@ -146,13 +146,14 @@
 
 	<target name="update" if="svn.updated" depends="checksvnupdated">
 		<antcall target="compile" />
-		<copy todir="${webapp.deploy.dir}">
-			<fileset dir="${webapp.dir}">
-				<exclude name="**/*.class" />
-				<exclude name="**/*.jar" />
-				<exclude name="**/.*" />
-			</fileset>
-		</copy>
+		<sync todir="${webapp.deploy.dir}">
+			<fileset dir="${webapp.dir}" />
+			<preserveintarget>
+				<include name="**/.*/**" />
+				<include name="**/.class" />
+				<include name="**/.jar" />
+			</preserveintarget>
+		</sync>
 	</target>
 
 	<target name="shutdown" if="server.started" depends="checkserverstarted">
