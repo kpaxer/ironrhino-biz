@@ -23,13 +23,13 @@
 <meta name="context_path" content="${request.contextPath}" />
 </#if>
 <link rel="shortcut icon" href="<@url value="/assets/images/favicon.ico"/>" />
-<link href="<@url value="/assets/styles/ironrhino-min.css"/>" media="screen" rel="stylesheet" type="text/css" />
-<link href="<@url value="/assets/styles/app-min.css"/>" media="screen" rel="stylesheet" type="text/css" />
-<#if ua?? && ua.name=='msie' && ua.majorVersion lt 9>
+<link href="<@url value="/assets/styles/ironrhino${html5?string('-min','')}.css"/>" media="screen" rel="stylesheet" type="text/css" />
+<link href="<@url value="/assets/styles/app${html5?string('-min','')}.css"/>" media="screen" rel="stylesheet" type="text/css" />
+<#if !html5>
 <link href="<@url value="/assets/styles/ie.css"/>" media="all" rel="stylesheet" type="text/css" />
 </#if>
-<script src="<@url value="/assets/scripts/ironrhino-min.js"/>" type="text/javascript"></script>
-<script src="<@url value="/assets/scripts/app-min.js"/>" type="text/javascript"></script>
+<script src="<@url value="/assets/scripts/ironrhino${html5?string('-min','')}.js"/>" type="text/javascript"></script>
+<script src="<@url value="/assets/scripts/app${html5?string('-min','')}.js"/>" type="text/javascript"></script>
 <#noescape>${head}</#noescape>
 </head>
 <#assign requestURI=request.requestURI?substring(request.contextPath?length)/>
