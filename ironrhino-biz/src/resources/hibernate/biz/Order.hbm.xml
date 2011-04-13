@@ -37,7 +37,7 @@
 		<many-to-one name="deliveryman" column="deliverymanId" not-null="false" lazy="proxy" />
 		<many-to-one name="createUser" class="org.ironrhino.security.model.User" column="createUser" not-null="false" lazy="proxy" />
 		<many-to-one name="modifyUser" class="org.ironrhino.security.model.User" column="modifyUser" not-null="false" lazy="proxy" />
-		<list name="items" table="orderItem" cascade="all" lazy="true"
+		<list name="items" table="orderitem" cascade="all" lazy="true"
 			fetch="subselect">
 			<key column="orderId" />
 			<list-index column="lineNumber" />
