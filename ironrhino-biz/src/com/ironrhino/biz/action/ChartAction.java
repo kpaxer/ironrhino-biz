@@ -19,14 +19,14 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.common.util.RegionUtils;
+import org.ironrhino.core.chart.ChartUtils;
 import org.ironrhino.core.chart.ammap.DataFile;
 import org.ironrhino.core.chart.openflashchart.Chart;
-import org.ironrhino.core.chart.ChartUtils;
 import org.ironrhino.core.chart.openflashchart.Text;
+import org.ironrhino.core.chart.openflashchart.axis.Label.Rotate;
 import org.ironrhino.core.chart.openflashchart.axis.XAxis;
 import org.ironrhino.core.chart.openflashchart.axis.XAxisLabels;
 import org.ironrhino.core.chart.openflashchart.axis.YAxis;
-import org.ironrhino.core.chart.openflashchart.axis.Label.Rotate;
 import org.ironrhino.core.chart.openflashchart.elements.BarChart;
 import org.ironrhino.core.chart.openflashchart.elements.LineChart;
 import org.ironrhino.core.chart.openflashchart.elements.Point;
@@ -189,8 +189,10 @@ public class ChartAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		categoryList = categoryManager.findAll(org.hibernate.criterion.Order.asc("displayOrder"));
-		brandList = brandManager.findAll(org.hibernate.criterion.Order.asc("displayOrder"));
+		categoryList = categoryManager.findAll(org.hibernate.criterion.Order
+				.asc("displayOrder"));
+		brandList = brandManager.findAll(org.hibernate.criterion.Order
+				.asc("displayOrder"));
 		return SUCCESS;
 	}
 
@@ -219,8 +221,8 @@ public class ChartAction extends BaseAction {
 			category = categoryManager.findByNaturalId(id);
 		title = (category != null ? category.getName() : "") + title;
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate",
+				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		orders = orderManager.findListByCriteria(dc);
 		for (Order order : orders) {
 			Region r = order.getCustomer().getRegion();
@@ -230,8 +232,8 @@ public class ChartAction extends BaseAction {
 					.getDescendantOrSelfById(r.getId()).getAncestorName(1);
 			for (OrderItem item : order.getItems()) {
 				if (category != null
-						&& !item.getProduct().getCategory().getId().equals(
-								category.getId()))
+						&& !item.getProduct().getCategory().getId()
+								.equals(category.getId()))
 					continue;
 				BigDecimal total = data.get(regionName);
 				if (total == null) {
@@ -241,16 +243,16 @@ public class ChartAction extends BaseAction {
 				}
 			}
 		}
-		double max = 0;
+		BigDecimal max = new BigDecimal(0);
 		for (Map.Entry<String, BigDecimal> entry : data.entrySet()) {
 			BigDecimal total = entry.getValue();
-			if (max < total.doubleValue())
-				max = total.doubleValue();
+			if (max.compareTo(total) < 0)
+				max = total;
 		}
 
 		for (Map.Entry<String, BigDecimal> entry : data.entrySet())
-			df.put(entry.getKey(), entry.getValue().toString(), ChartUtils
-					.caculateStepColor(max, entry.getValue().doubleValue()));
+			df.put(entry.getKey(), entry.getValue().toString(),
+					ChartUtils.caculateStepColor(max, entry.getValue()));
 		df.setLabel(title);
 		df.render(ServletActionContext.getResponse().getWriter());
 		return NONE;
@@ -288,8 +290,8 @@ public class ChartAction extends BaseAction {
 			category = categoryManager.findByNaturalId(id);
 		title = (category != null ? category.getName() : "") + "销量根据商标统计";
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate",
+				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		orders = orderManager.findListByCriteria(dc);
 
 		chart = new Chart(title + "(" + getDateRange() + ")",
@@ -319,15 +321,15 @@ public class ChartAction extends BaseAction {
 				if (total == null || total.doubleValue() == 0)
 					it.remove();
 			}
-			Double[] values = new Double[labels.size()];
-			double max = 0;
+			BigDecimal[] values = new BigDecimal[labels.size()];
+			BigDecimal max = new BigDecimal(0);
 			for (int i = 0; i < labels.size(); i++) {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max < total.doubleValue())
-					max = total.doubleValue();
-				values[i] = total.doubleValue();
+				if (max.compareTo(total) < 0)
+					max = total;
+				values[i] = total;
 			}
 
 			XAxis x = new XAxis();
@@ -377,15 +379,15 @@ public class ChartAction extends BaseAction {
 				if (total == null || total.doubleValue() == 0)
 					it.remove();
 			}
-			Double[] values = new Double[labels.size()];
-			double max = 0;
+			BigDecimal[] values = new BigDecimal[labels.size()];
+			BigDecimal max = new BigDecimal(0);
 			for (int i = 0; i < labels.size(); i++) {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max < total.doubleValue())
-					max = total.doubleValue();
-				values[i] = total.doubleValue();
+				if (max.compareTo(total) < 0)
+					max = total;
+				values[i] = total;
 			}
 
 			XAxis x = new XAxis();
@@ -407,12 +409,12 @@ public class ChartAction extends BaseAction {
 				Map<String, BigDecimal> map = salesByCate.get(cate.getName());
 				if (map == null)
 					continue;
-				values = new Double[labels.size()];
+				values = new BigDecimal[labels.size()];
 				for (int i = 0; i < labels.size(); i++) {
 					BigDecimal total = map.get(labels.get(i));
 					if (total == null)
 						total = new BigDecimal(0.00);
-					values[i] = total.doubleValue();
+					values[i] = total;
 				}
 				element = new BarChart();
 				element.setColour(ChartUtils.caculateColor(colorSeed++));
@@ -442,8 +444,8 @@ public class ChartAction extends BaseAction {
 			brand = brandManager.findByNaturalId(id);
 		title = (brand != null ? brand.getName() : "") + "销量根据品种统计";
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate",
+				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		orders = orderManager.findListByCriteria(dc);
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
@@ -472,15 +474,15 @@ public class ChartAction extends BaseAction {
 				if (total == null || total.doubleValue() == 0)
 					it.remove();
 			}
-			Double[] values = new Double[labels.size()];
-			double max = 0;
+			BigDecimal[] values = new BigDecimal[labels.size()];
+			BigDecimal max = new BigDecimal(0);
 			for (int i = 0; i < labels.size(); i++) {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max < total.doubleValue())
-					max = total.doubleValue();
-				values[i] = total.doubleValue();
+				if (max.compareTo(total) < 0)
+					max = total;
+				values[i] = total;
 			}
 
 			XAxis x = new XAxis();
@@ -530,15 +532,15 @@ public class ChartAction extends BaseAction {
 				if (total == null || total.doubleValue() == 0)
 					it.remove();
 			}
-			Double[] values = new Double[labels.size()];
-			double max = 0;
+			BigDecimal[] values = new BigDecimal[labels.size()];
+			BigDecimal max = new BigDecimal(0);
 			for (int i = 0; i < labels.size(); i++) {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max < total.doubleValue())
-					max = total.doubleValue();
-				values[i] = total.doubleValue();
+				if (max.compareTo(total) < 0)
+					max = total;
+				values[i] = total;
 			}
 
 			XAxis x = new XAxis();
@@ -560,12 +562,12 @@ public class ChartAction extends BaseAction {
 				Map<String, BigDecimal> map = salesByBrand.get(b.getName());
 				if (map == null)
 					continue;
-				values = new Double[labels.size()];
+				values = new BigDecimal[labels.size()];
 				for (int i = 0; i < labels.size(); i++) {
 					BigDecimal total = map.get(labels.get(i));
 					if (total == null)
 						total = new BigDecimal(0.00);
-					values[i] = total.doubleValue();
+					values[i] = total;
 				}
 				element = new BarChart();
 				element.setColour(ChartUtils.caculateColor(colorSeed++));
@@ -593,15 +595,13 @@ public class ChartAction extends BaseAction {
 			category = categoryManager.findByNaturalId(id);
 		title = (category != null ? category.getName() : "") + "销量根据销售方式统计";
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate",
+				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		orders = orderManager.findListByCriteria(dc);
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
 		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
-		chart
-				.setX_legend(new Text("销售方式",
-						"{font-size: 12px; color: #778877}"));
+		chart.setX_legend(new Text("销售方式", "{font-size: 12px; color: #778877}"));
 
 		if (category != null) {
 			Map<String, BigDecimal> sales = new HashMap<String, BigDecimal>();
@@ -625,15 +625,15 @@ public class ChartAction extends BaseAction {
 				if (total == null || total.doubleValue() == 0)
 					it.remove();
 			}
-			Double[] values = new Double[labels.size()];
-			double max = 0;
+			BigDecimal[] values = new BigDecimal[labels.size()];
+			BigDecimal max = new BigDecimal(0);
 			for (int i = 0; i < labels.size(); i++) {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max < total.doubleValue())
-					max = total.doubleValue();
-				values[i] = total.doubleValue();
+				if (max.compareTo(total) < 0)
+					max = total;
+				values[i] = total;
 			}
 
 			XAxis x = new XAxis();
@@ -682,15 +682,15 @@ public class ChartAction extends BaseAction {
 				if (total == null || total.doubleValue() == 0)
 					it.remove();
 			}
-			Double[] values = new Double[labels.size()];
-			double max = 0;
+			BigDecimal[] values = new BigDecimal[labels.size()];
+			BigDecimal max = new BigDecimal(0);
 			for (int i = 0; i < labels.size(); i++) {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max < total.doubleValue())
-					max = total.doubleValue();
-				values[i] = total.doubleValue();
+				if (max.compareTo(total) < 0)
+					max = total;
+				values[i] = total;
 			}
 
 			XAxis x = new XAxis();
@@ -712,12 +712,12 @@ public class ChartAction extends BaseAction {
 				Map<String, BigDecimal> map = salesByCate.get(cate.getName());
 				if (map == null)
 					continue;
-				values = new Double[labels.size()];
+				values = new BigDecimal[labels.size()];
 				for (int i = 0; i < labels.size(); i++) {
 					BigDecimal total = map.get(labels.get(i));
 					if (total == null)
 						total = new BigDecimal(0.00);
-					values[i] = total.doubleValue();
+					values[i] = total;
 				}
 				element = new BarChart();
 				element.setColour(ChartUtils.caculateColor(colorSeed++));
@@ -759,8 +759,8 @@ public class ChartAction extends BaseAction {
 		title = (category != null ? category.getName() : "")
 				+ region.getFullname() + "销量统计";
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate",
+				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		orders = orderManager.findListByCriteria(dc);
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
@@ -802,15 +802,15 @@ public class ChartAction extends BaseAction {
 				if (total == null || total.doubleValue() == 0)
 					it.remove();
 			}
-			Double[] values = new Double[labels.size()];
-			double max = 0;
+			BigDecimal[] values = new BigDecimal[labels.size()];
+			BigDecimal max = new BigDecimal(0);
 			for (int i = 0; i < labels.size(); i++) {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max < total.doubleValue())
-					max = total.doubleValue();
-				values[i] = total.doubleValue();
+				if (max.compareTo(total) < 0)
+					max = total;
+				values[i] = total;
 			}
 
 			XAxis x = new XAxis();
@@ -874,15 +874,15 @@ public class ChartAction extends BaseAction {
 				if (total == null || total.doubleValue() == 0)
 					it.remove();
 			}
-			Double[] values = new Double[labels.size()];
-			double max = 0;
+			BigDecimal[] values = new BigDecimal[labels.size()];
+			BigDecimal max = new BigDecimal(0);
 			for (int i = 0; i < labels.size(); i++) {
 				BigDecimal total = sales.get(labels.get(i));
 				if (total == null)
 					total = new BigDecimal(0.00);
-				if (max < total.doubleValue())
-					max = total.doubleValue();
-				values[i] = total.doubleValue();
+				if (max.compareTo(total) < 0)
+					max = total;
+				values[i] = total;
 			}
 
 			XAxis x = new XAxis();
@@ -907,12 +907,12 @@ public class ChartAction extends BaseAction {
 				Map<String, BigDecimal> map = salesByCate.get(cate.getName());
 				if (map == null)
 					continue;
-				values = new Double[labels.size()];
+				values = new BigDecimal[labels.size()];
 				for (int i = 0; i < labels.size(); i++) {
 					BigDecimal total = map.get(labels.get(i));
 					if (total == null)
 						total = new BigDecimal(0.00);
-					values[i] = total.doubleValue();
+					values[i] = total;
 				}
 				element = new BarChart();
 				element.setColour(ChartUtils.caculateColor(colorSeed++));
@@ -927,8 +927,8 @@ public class ChartAction extends BaseAction {
 
 	public void product() {
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate",
+				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		dc.addOrder(org.hibernate.criterion.Order.asc("orderDate"));
 		List<Order> orders = orderManager.findListByCriteria(dc);
 		title = "产品价格走势图";
@@ -948,7 +948,7 @@ public class ChartAction extends BaseAction {
 		x.setRange((long) (DateUtils.beginOfDay(getFrom()).getTime() / 1000),
 				(long) (DateUtils.endOfDay(getTo()).getTime() / 1000));
 		chart.setX_axis(x);
-		Double max = 0.0;
+		BigDecimal max = new BigDecimal(0);
 
 		String[] ids = getId();
 		for (int index = 0; index < ids.length; index++) {
@@ -978,8 +978,8 @@ public class ChartAction extends BaseAction {
 							BigDecimal price = amount.divide(new BigDecimal(
 									(double) quantity),
 									BigDecimal.ROUND_CEILING);
-							if (max < price.doubleValue())
-								max = price.doubleValue();
+							if (max.compareTo(price) < 0)
+								max = price;
 							points.add(new Point(
 									(long) (date.getTime() / 1000), price));
 							date = item.getOrder().getOrderDate();
@@ -991,8 +991,8 @@ public class ChartAction extends BaseAction {
 						quantity += item.getQuantity();
 						BigDecimal price = amount.divide(new BigDecimal(
 								(double) quantity), BigDecimal.ROUND_CEILING);
-						if (max < price.doubleValue())
-							max = price.doubleValue();
+						if (max.compareTo(price) < 0)
+							max = price;
 						points.add(new Point((long) (item.getOrder()
 								.getOrderDate().getTime() / 1000), price));
 					} else {
@@ -1001,8 +1001,8 @@ public class ChartAction extends BaseAction {
 							BigDecimal price = amount.divide(new BigDecimal(
 									(double) quantity),
 									BigDecimal.ROUND_CEILING);
-							if (max < price.doubleValue())
-								max = price.doubleValue();
+							if (max.compareTo(price) < 0)
+								max = price;
 							points.add(new Point(
 									(long) (date.getTime() / 1000), price));
 							date = item.getOrder().getOrderDate();
@@ -1058,7 +1058,7 @@ public class ChartAction extends BaseAction {
 		x.setRange((long) (DateUtils.beginOfDay(getFrom()).getTime() / 1000),
 				(long) (DateUtils.endOfDay(getTo()).getTime() / 1000));
 		chart.setX_axis(x);
-		Double max = 0.0;
+		BigDecimal max = new BigDecimal(0);
 		String[] ids = getId();
 		for (int index = 0; index < ids.length; index++) {
 			Long id = Long.valueOf(ids[index]);
@@ -1086,8 +1086,8 @@ public class ChartAction extends BaseAction {
 							BigDecimal price = amount.divide(new BigDecimal(
 									(double) quantity),
 									BigDecimal.ROUND_CEILING);
-							if (max < price.doubleValue())
-								max = price.doubleValue();
+							if (max.compareTo(price) < 0)
+								max = price;
 							points.add(new Point(
 									(long) (date.getTime() / 1000), price));
 							date = sf.getDate();
@@ -1099,8 +1099,8 @@ public class ChartAction extends BaseAction {
 						quantity += sf.getQuantity();
 						BigDecimal price = amount.divide(new BigDecimal(
 								(double) quantity), BigDecimal.ROUND_CEILING);
-						if (max < price.doubleValue())
-							max = price.doubleValue();
+						if (max.compareTo(price) < 0)
+							max = price;
 						points.add(new Point(
 								(long) (sf.getDate().getTime() / 1000), price));
 					} else {
@@ -1109,8 +1109,8 @@ public class ChartAction extends BaseAction {
 							BigDecimal price = amount.divide(new BigDecimal(
 									(double) quantity),
 									BigDecimal.ROUND_CEILING);
-							if (max < price.doubleValue())
-								max = price.doubleValue();
+							if (max.compareTo(price) < 0)
+								max = price;
 							points.add(new Point(
 									(long) (date.getTime() / 1000), price));
 							date = sf.getDate();
@@ -1140,4 +1140,5 @@ public class ChartAction extends BaseAction {
 		y.setMax(max);
 		chart.setY_axis(y);
 	}
+
 }
