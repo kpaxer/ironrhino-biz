@@ -3,14 +3,14 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<!-- 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close" p:url="${jdbc.url}" p:username="${jdbc.username}"
-		p:password="${jdbc.password}" p:driverClassName="${jdbc.driverClassName}"
-		p:poolPreparedStatements="true" p:removeAbandoned="true"
-		p:initialSize="${dataSource.initialSize}" p:maxActive="${dataSource.maxActive}"
-		p:maxIdle="${dataSource.maxIdle}" p:minIdle="${dataSource.minIdle}"
-		p:maxWait="${dataSource.maxWait}" />
- 	-->
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+			destroy-method="close" p:url="${jdbc.url}" p:username="${jdbc.username}"
+			p:password="${jdbc.password}" p:driverClassName="${jdbc.driverClassName}"
+			p:poolPreparedStatements="true" p:removeAbandoned="true"
+			p:initialSize="${dataSource.initialSize}" p:maxActive="${dataSource.maxActive}"
+			p:maxIdle="${dataSource.maxIdle}" p:minIdle="${dataSource.minIdle}"
+			p:maxWait="${dataSource.maxWait}" />
+		 -->
 	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="${jdbc.driverClassName}" />
@@ -22,8 +22,8 @@
 		<property name="statementsCacheSize" value="50" />
 		<property name="releaseHelperThreads" value="0" />
 		<property name="statementReleaseHelperThreads" value="0" />
-		<property name="idleConnectionTestPeriod" value="1" />
-		<property name="idleMaxAge" value="60" />
+		<property name="idleConnectionTestPeriodInMinutes" value="1" />
+		<property name="idleMaxAgeInMinutes" value="60" />
 		<property name="connectionTestStatement" value="${jdbc.connectionTestStatement}" />
 	</bean>
 </beans>
