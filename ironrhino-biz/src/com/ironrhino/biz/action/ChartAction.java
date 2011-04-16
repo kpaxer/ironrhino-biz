@@ -221,8 +221,8 @@ public class ChartAction extends BaseAction {
 			category = categoryManager.findByNaturalId(id);
 		title = (category != null ? category.getName() : "") + title;
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate",
-				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		orders = orderManager.findListByCriteria(dc);
 		for (Order order : orders) {
 			Region r = order.getCustomer().getRegion();
@@ -232,8 +232,8 @@ public class ChartAction extends BaseAction {
 					.getDescendantOrSelfById(r.getId()).getAncestorName(1);
 			for (OrderItem item : order.getItems()) {
 				if (category != null
-						&& !item.getProduct().getCategory().getId()
-								.equals(category.getId()))
+						&& !item.getProduct().getCategory().getId().equals(
+								category.getId()))
 					continue;
 				BigDecimal total = data.get(regionName);
 				if (total == null) {
@@ -251,8 +251,8 @@ public class ChartAction extends BaseAction {
 		}
 
 		for (Map.Entry<String, BigDecimal> entry : data.entrySet())
-			df.put(entry.getKey(), entry.getValue().toString(),
-					ChartUtils.caculateStepColor(max, entry.getValue()));
+			df.put(entry.getKey(), entry.getValue().toString(), ChartUtils
+					.caculateStepColor(max, entry.getValue()));
 		df.setLabel(title);
 		df.render(ServletActionContext.getResponse().getWriter());
 		return NONE;
@@ -290,8 +290,8 @@ public class ChartAction extends BaseAction {
 			category = categoryManager.findByNaturalId(id);
 		title = (category != null ? category.getName() : "") + "销量根据商标统计";
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate",
-				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		orders = orderManager.findListByCriteria(dc);
 
 		chart = new Chart(title + "(" + getDateRange() + ")",
@@ -444,8 +444,8 @@ public class ChartAction extends BaseAction {
 			brand = brandManager.findByNaturalId(id);
 		title = (brand != null ? brand.getName() : "") + "销量根据品种统计";
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate",
-				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		orders = orderManager.findListByCriteria(dc);
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
@@ -595,13 +595,15 @@ public class ChartAction extends BaseAction {
 			category = categoryManager.findByNaturalId(id);
 		title = (category != null ? category.getName() : "") + "销量根据销售方式统计";
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate",
-				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		orders = orderManager.findListByCriteria(dc);
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
 		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
-		chart.setX_legend(new Text("销售方式", "{font-size: 12px; color: #778877}"));
+		chart
+				.setX_legend(new Text("销售方式",
+						"{font-size: 12px; color: #778877}"));
 
 		if (category != null) {
 			Map<String, BigDecimal> sales = new HashMap<String, BigDecimal>();
@@ -759,8 +761,8 @@ public class ChartAction extends BaseAction {
 		title = (category != null ? category.getName() : "")
 				+ region.getFullname() + "销量统计";
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate",
-				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		orders = orderManager.findListByCriteria(dc);
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
@@ -927,8 +929,8 @@ public class ChartAction extends BaseAction {
 
 	public void product() {
 		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.add(Restrictions.between("orderDate",
-				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate", DateUtils
+				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		dc.addOrder(org.hibernate.criterion.Order.asc("orderDate"));
 		List<Order> orders = orderManager.findListByCriteria(dc);
 		title = "产品价格走势图";
@@ -957,7 +959,8 @@ public class ChartAction extends BaseAction {
 			List<OrderItem> list = new ArrayList<OrderItem>();
 			for (Order o : orders)
 				for (OrderItem oi : o.getItems())
-					if (oi.getProduct().getId().equals(id)) {
+					if (oi.getProduct().getId().equals(id)
+							&& oi.getPrice().doubleValue() > 0) {
 						list.add(oi);
 						continue;
 					}
