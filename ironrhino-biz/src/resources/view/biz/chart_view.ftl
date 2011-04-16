@@ -4,7 +4,7 @@
 <title>${title!'chart'}</title>
 </head>
 <body>
-<form id="daterange" action="<@url value="/biz/chart"/>" method="get" class="ajax view line nodirty" replacement="c"  style="margin-left:10px;">
+<form id="daterange" action="<@url value="/biz/chart/view"/>" method="get" class="ajax view line nodirty" replacement="c"  style="margin-left:10px;">
 	<#if id??>
 	<#list id as var>
 	<input type="hidden" name="id" value="${var}" />
