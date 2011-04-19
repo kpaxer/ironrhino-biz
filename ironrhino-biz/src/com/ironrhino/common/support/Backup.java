@@ -31,6 +31,9 @@ public class Backup {
 
 	@Value("${backup.path:}")
 	private String path;
+	
+	@Value("${backup.email:}")
+	private String email;
 
 	@Scheduled(cron = "0 36 10 * * ?")
 	public void send() {
@@ -47,8 +50,8 @@ public class Backup {
 						throws MessagingException {
 					MimeMessageHelper message = new MimeMessageHelper(
 							mimeMessage, true, "UTF-8");
-					message.setFrom("zhouyanming@gmail.com");
-					message.setTo("zhouyanming+k@gmail.com");
+					message.setFrom(email);
+					message.setTo(email);
 					message.setSubject("backup");
 					message.setText("", true);
 					message.addAttachment(attachment.getName(), attachment);
