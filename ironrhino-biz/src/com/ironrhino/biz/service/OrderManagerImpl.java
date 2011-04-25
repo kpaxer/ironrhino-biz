@@ -48,11 +48,23 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 			throw new IllegalArgumentException("must have item");
 		Date orderDate = order.getOrderDate();
 		Customer customer = order.getCustomer();
+		boolean customerModified = false;
+		for (OrderItem oi : order.getItems()) {
+			String categoryName = oi.getProduct().getCategory().getName();
+			if (categoryName.equals("促销品"))
+				continue;
+			if (!customer.getTags().contains(categoryName)) {
+				customer.getTags().add(categoryName);
+				customerModified = true;
+			}
+		}
 		if (customer.getActiveDate() == null
 				|| customer.getActiveDate().before(orderDate)) {
 			customer.setActiveDate(orderDate);
-			customerManager.save(customer);
+			customerModified = true;
 		}
+		if (customerModified)
+			customerManager.save(customer);
 		if (order.isNew())
 			place(order);
 		else
@@ -78,8 +90,8 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 			for (int i = 0; i < oldItems.size(); i++) {
 				OrderItem oldItem = oldItems.get(i);
 				OrderItem newItem = newItems.get(i);
-				if (!oldItem.getProduct().getId().equals(
-						newItem.getProduct().getId())
+				if (!oldItem.getProduct().getId()
+						.equals(newItem.getProduct().getId())
 						|| oldItem.getQuantity() != newItem.getQuantity()) {
 					onlyModifyPrice = false;
 					break;
