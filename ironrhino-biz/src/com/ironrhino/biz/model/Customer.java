@@ -1,7 +1,11 @@
 package com.ironrhino.biz.model;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
+import org.compass.annotations.Index;
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableComponent;
 import org.compass.annotations.SearchableId;
@@ -63,6 +67,11 @@ public class Customer extends Entity<Long> {
 	@NotInJson
 	@SearchableComponent
 	private Region region;
+
+	@NotInCopy
+	@NotInJson
+	@SearchableProperty(index = Index.NOT_ANALYZED)
+	private Set<String> tags = new LinkedHashSet<String>(0);
 
 	public Customer() {
 	}
@@ -180,6 +189,28 @@ public class Customer extends Entity<Long> {
 
 	public void setRegion(Region region) {
 		this.region = region;
+	}
+
+	public Set<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<String> tags) {
+		this.tags = tags;
+	}
+
+	public String getTagsAsString() {
+		if (tags.size() > 0)
+			return org.apache.commons.lang.StringUtils.join(tags.iterator(),
+					',');
+		return null;
+	}
+
+	public void setTagsAsString(String tagsAsString) {
+		tags.clear();
+		if (org.apache.commons.lang.StringUtils.isNotBlank(tagsAsString))
+			tags.addAll(Arrays.asList(org.ironrhino.core.util.StringUtils
+					.trimTail(tagsAsString, ",").split(",")));
 	}
 
 	public String getFullAddress() {

@@ -28,6 +28,7 @@ import org.ironrhino.core.util.BeanUtils;
 import org.ironrhino.core.util.DateUtils;
 import org.ironrhino.core.util.JsonUtils;
 
+import com.ironrhino.biz.model.Category;
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.Order;
@@ -111,8 +112,8 @@ public class CustomerAction extends BaseAction {
 					if (region.isLeaf()) {
 						dc.add(Restrictions.eq("region", region));
 					} else {
-						dc.add(Restrictions.in("region", region
-								.getDescendantsAndSelf()));
+						dc.add(Restrictions.in("region",
+								region.getDescendantsAndSelf()));
 					}
 				}
 			}
@@ -321,8 +322,8 @@ public class CustomerAction extends BaseAction {
 		cc.setAliases(new String[] { "customer" });
 		CompassSearchResults searchResults = compassSearchService.search(cc);
 		if (searchResults.getTotalHits() > 0) {
-			suggestions = new ArrayList<LabelValue>(searchResults
-					.getTotalHits());
+			suggestions = new ArrayList<LabelValue>(
+					searchResults.getTotalHits());
 			for (CompassHit ch : searchResults.getHits()) {
 				Customer c = (Customer) ch.getData();
 				if (c.getRegion() != null)
@@ -367,6 +368,29 @@ public class CustomerAction extends BaseAction {
 					map.put("station", String.valueOf(station.getId()));
 				if (!map.isEmpty())
 					customer.setMemo(JsonUtils.toJson(map));
+			}
+		}
+		return JSON;
+	}
+
+	@JsonConfig(root = "suggestions")
+	public String tag() {
+		keyword = ServletActionContext.getRequest().getParameter("term");
+		CompassCriteria cc = new CompassCriteria();
+		if (StringUtils.isNotBlank(keyword))
+			cc.setQuery("*" + keyword + "*");
+		else
+			cc.setQuery("*");
+		cc.setAliases(new String[] { "category" });
+		CompassSearchResults searchResults = compassSearchService.search(cc);
+		if (searchResults != null && searchResults.getTotalHits() > 0) {
+			suggestions = new ArrayList<LabelValue>(
+					searchResults.getTotalHits());
+			for (CompassHit hit : searchResults.getHits()) {
+				Category cat = (Category) hit.getData();
+				LabelValue lv = new LabelValue();
+				lv.setValue(cat.getName());
+				suggestions.add(lv);
 			}
 		}
 		return JSON;

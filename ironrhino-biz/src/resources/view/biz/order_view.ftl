@@ -10,6 +10,9 @@
 <span style="margin-left:5px;">${action.getText('customer')}:</span><span>${order.customer}</span>
 <span style="margin-left:5px;">${action.getText('phone')}:</span><span>${order.customer.phone!}&nbsp;${order.customer.mobile!}</span>
 <span style="margin-left:5px;">${action.getText('address')}:</span><span>${order.customer.fullAddress!}</span>
+<#if order.customer.tags?size gt 0>
+<span style="margin-left:5px;">${action.getText('tag')}:</span><span>${order.customer.tagsAsString!}</span>
+</#if>
 </div>
 <div>
 <span style="margin-left:5px;">${action.getText('orderDate')}:</span><span>${order.orderDate?string('yyyy年MM月dd日')}</span>
