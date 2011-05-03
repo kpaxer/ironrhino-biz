@@ -12,7 +12,6 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.service.BaseManagerImpl;
 import org.ironrhino.core.util.DateUtils;
-import org.ironrhino.core.util.NumberUtils;
 import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -176,10 +175,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 	}
 
 	private String nextCode() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(DateUtils.formatDate8(new Date()));
-		sb.append(NumberUtils.format(orderCodeSequence.nextIntValue(), 4));
-		return sb.toString();
+		return orderCodeSequence.nextStringValue();
 	}
 
 }
