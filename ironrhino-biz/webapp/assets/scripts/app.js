@@ -34,7 +34,7 @@
 				
 		$('#shipped,#paid').click(function() {
 					var span = $(this).nextAll('span:eq(0)');
-					if ($(this).attr('checked'))
+					if ($(this).is(':checked'))
 						span.show();
 					else
 						span.hide();
