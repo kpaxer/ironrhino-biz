@@ -4,7 +4,8 @@
 <title>${action.getText('plan')}${action.getText('list')}</title>
 </head>
 <body>
-<#assign columns={"product":{},"quantity":{},"planDate":{"template":r"${value?string('yyyy年MM月dd日')}"},"completeDate":{"template":r"<#if entity.completeDate??>${value?string('yyyy年MM月dd日')}</#if>"}}>
+
+<#assign columns={"product":{},"quantity":{},"planDate":{"template":r"${(entity.planDate?string('yyyy年MM月dd日'))!}"},"completeDate":{"template":r"${(entity.completeDate?string('yyyy年MM月dd日'))!}"}}>
 <#assign actionColumnButtons=r"
 <#if !entity.completed>
 <@button text='${action.getText(\'edit\')}' view='input'/>
