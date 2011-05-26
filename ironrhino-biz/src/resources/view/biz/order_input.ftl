@@ -53,10 +53,10 @@
 						<@s.select theme="simple" name="productId" value="${(productId[index])!}" cssClass="required fetchprice" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
 						<span class="info" style="font-style:italic;margin-left:5px;"></span>
 					</td>
-					<td width="15%"><@s.textfield name="order.items[${index}].quantity" cssClass="required integer positive quantity"/></td>
-					<td width="15%"><@s.textfield name="order.items[${index}].price" cssClass="required double positive price"/></td>
-					<td width="14%" align="right"><span class="info">${(order.items[index].subtotal)!}</span></td>
-					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
+					<td width="13%"><@s.textfield name="order.items[${index}].quantity" cssClass="required integer positive quantity"/></td>
+					<td width="13%"><@s.textfield name="order.items[${index}].price" cssClass="required double positive price"/></td>
+					<td width="15%" align="right"><span class="info">${(order.items[index].subtotal)!}</span></td>
+					<td><@button text="+" class="add"/><@button text="-" class="remove"/><@button text="↑" class="moveup"/><@button text="↓" class="movedown"/></td>
 				</tr>
 			</#list>
 			</tbody>
