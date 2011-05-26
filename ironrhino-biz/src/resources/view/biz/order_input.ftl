@@ -30,7 +30,7 @@
 			<tfoot align="right">
 				<tr>
 					<td colspan="3">${action.getText('amount')}</td>
-					<td id="amount"></td>
+					<td id="amount">${order.amount!}</td>
 				</tr>
 				<tr>
 					<td colspan="3">${action.getText('discount')}</td>
