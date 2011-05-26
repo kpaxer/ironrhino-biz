@@ -42,33 +42,23 @@
 				</tr>
 			</tfoot>
 			<tbody>
-			<#if !order.new>
-				<#list 0..productId?size-1 as index>
+			<#assign size = 0>
+			<#if productId?? && productId?size gt 0>
+				<#assign size = productId?size-1>
+			</#if>
+			<#list 0..size as index>
 				<tr>
 					<td width="47%">
 						<input type="text" size="5" class="filterselect" style="margin-right:3px;"/>
-						<@s.select theme="simple" name="productId" value="${productId[index]}" cssClass="required fetchprice" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
+						<@s.select theme="simple" name="productId" value="${(productId[index])!}" cssClass="required fetchprice" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
 						<span class="info" style="font-style:italic;margin-left:5px;"></span>
 					</td>
 					<td width="15%"><@s.textfield name="order.items[${index}].quantity" cssClass="required integer positive quantity"/></td>
 					<td width="15%"><@s.textfield name="order.items[${index}].price" cssClass="required double positive price"/></td>
-					<td width="14%" align="right"><span class="info">${order.items[index].subtotal}</span></td>
+					<td width="14%" align="right"><span class="info">${(order.items[index].subtotal)!}</span></td>
 					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
 				</tr>
-				</#list>
-			<#else>
-				<tr>
-					<td width="47%">
-						<input type="text" size="5" class="filterselect" style="margin-right:3px;"/>
-						<@s.select theme="simple" name="productId" cssClass="required fetchprice" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
-						<span class="info" style="font-style:italic;margin-left:5px;"></span>
-					</td>
-					<td width="15%"><input type="text" name="order.items[0].quantity" class="required integer positive quantity"/></td>
-					<td width="15%"><input type="text" name="order.items[0].price" class="required double positive price"/></td>
-					<td width="14%" align="right"><span class="info"></span></td>
-					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
-				</tr>
-			</#if>
+			</#list>
 			</tbody>
 		</table>
 		</div>
