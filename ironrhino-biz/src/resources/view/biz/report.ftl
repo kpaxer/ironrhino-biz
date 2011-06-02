@@ -4,8 +4,9 @@
 <title>${action.getText('report')}</title>
 </head>
 <body>
-<div style="text-align:center;margin-bottom:10px;">
-<@button id="format" text="当前是PDF,点击切换到EXCEL"/>
+<div id="report_format" class="switch" style="text-align:center;margin-bottom:10px;">
+	<@button class="selected" text="PDF" format="PDF" />
+	<@button text="EXCEL" format="XLS"/>
 </div>
 
 <div class="portal">

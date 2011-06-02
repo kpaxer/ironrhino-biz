@@ -1,37 +1,27 @@
 (function() {
 
-	function toggleReportFormat(btn, format) {
-		if (format == 'xls') {
-			$(btn).html('<span><span>当前是EXCEL,点击切换到PDF</span></span>');
-		} else if (format == 'pdf') {
-			$(btn).html('<span><span>当前是PDF,点击切换到EXCEL</span></span>');
-		}
-		$('a.report').attr('href', function(i, href) {
-					var i = href.indexOf('format=');
-					if (i > 0)
-						href = href.substring(0, i - 1);
-					return href += '&format=' + format;
-				});
-		$('form.report').each(function() {
-			var hidden = $('input[name="format"]', this);
-			if (hidden.length) {
-				hidden.val(format);
-			} else {
-				$(this).prepend('<input type="hidden" name="format" value="'
-						+ format + '"/>');
-			}
-		});
-	}
-
 	Observation.app = function() {
-		
 		$('form.report').attr('target', '_blank');
-		$('#format').toggle(function() {
-					toggleReportFormat(this, 'xls');
-				}, function() {
-					toggleReportFormat(this, 'pdf');
-				});
-				
+		$('#report_format').children().click(function() {
+			var format = $(this).attr('format');
+			$('a.report').attr('href', function(i, href) {
+						var i = href.indexOf('format=');
+						if (i > 0)
+							href = href.substring(0, i - 1);
+						return href += '&format=' + format;
+					});
+			$('form.report').each(function() {
+				var hidden = $('input[name="format"]', this);
+				if (hidden.length) {
+					hidden.val(format);
+				} else {
+					$(this)
+							.prepend('<input type="hidden" name="format" value="'
+									+ format + '"/>');
+				}
+			});
+		});
+
 		$('#shipped,#paid').click(function() {
 					var span = $(this).nextAll('span:eq(0)');
 					if ($(this).is(':checked'))
