@@ -10,7 +10,7 @@ import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
-import org.ironrhino.core.metadata.RecordAware;
+import org.ironrhino.core.aop.RecordAware;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
 
