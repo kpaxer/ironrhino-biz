@@ -5,7 +5,7 @@
 </head>
 <body>
 <#if unpaidOrders.size() gt 0>
-<table border="0" width="95%" style="margin: 10px;" class="highlightrow">
+<table border="0" width="95%" style="margin: 10px;" class="highlightrow unpaid_order">
 			<thead>
 				<tr>
 					<td>${action.getText('code')}</td>
@@ -17,17 +17,29 @@
 				</tr>
 			</thead>
 			<tbody>
+			<#assign grandTotal=0>
 			<#list unpaidOrders as var>
+				<#assign grandTotal=grandTotal+var.grandTotal>
 				<tr>
 					<td><a target="_blank" href="order/view/${var.id}">${var.code}</a></td>
 					<td><a target="_blank" href="order?customer.id=${var.customer.id}">${var.customer!}</a></td>
 					<td>${var.orderDate?string("yyyy年MM月dd日")}</td>
 					<td>${var.grandTotal}</td>
 					<td><#if var.station??><a target="_blank" href="order?stationId=${var.station.id}" <#if var.cashable> title="今天可结账" style="color:red;"</#if>>${var.station!}</a></#if></td>
-					<td><@button text="${action.getText('pay')}" type="link" href="order/pay/${var.id}" class="ajax" onsuccess="$(this).closest('tr').remove()"/></td>
+					<td><@button text="${action.getText('pay')}" type="link" href="order/pay/${var.id}" class="ajax pay"/></td>
 				</tr>
 			</#list>
 			</tbody>
+			<tfoot>
+			<tr>
+					<td></td>
+					<td></td>
+					<td width="22%">合计</td>
+					<td>${grandTotal}</td>
+					<td width="20%"></td>
+					<td width="10%"></td>
+				</tr>
+			</tfoot>
 		</table>
 </#if>
 </body>

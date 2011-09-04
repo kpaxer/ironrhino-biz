@@ -147,6 +147,13 @@
 		$('#orderItems table').datagridTable({
 					onremove : calculate
 				});
+
+		$('table.unpaid_order a.pay').each(function() {
+					this.onsuccess = function() {
+						$(this).closest('tr').remove();
+						calculateUnpaidOrder();
+					}
+				});
 	};
 
 	var calculate = function(row) {
@@ -176,6 +183,19 @@
 					? grandTotal
 					: '<span style="color:red;">负数</span>');
 		}
+	}
+
+	var calculateUnpaidOrder = function() {
+		var table = $('table.unpaid_order');
+		var total = 0;
+		$('tbody tr', table).each(function() {
+					$('td:eq(3)', this).each(function() {
+								total += parseFloat($(this).text());
+							});
+				});
+
+		$('tfoot td:eq(3)', table).text(total);
+		return total;
 	}
 
 })();
