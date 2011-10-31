@@ -78,7 +78,6 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/struts2-spring-plugin-2.3.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/xwork-core-2.3.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-common-cms-1.0.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-common-dictionary-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-common-region-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-common-setting-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-common-upload-1.0.jar"/>
