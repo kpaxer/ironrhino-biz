@@ -4,9 +4,9 @@
 <title>${title!}</title>
 <script>
 Observation.ammap = function(container){
-swfobject.embedSWF("<@url value='/assets/components/ammap/ammap.swf'/>","chart","1000px","700px","9.0.0","<@url value='/assets/images/expressInstall.swf'/>",{
+swfobject.embedSWF("<@url value='/assets/components/ammap/ammap.swf'/>","chart_ammap","1000px","700px","9.0.0","<@url value='/assets/images/expressInstall.swf'/>",{
 		'path' : '<@url value='/assets/components/ammap/'/>',
-		'data_file' : $('#chart').attr('data_file'),
+		'data_file' : $('#chart_ammap').attr('data_file'),
 		'settings_file' : '<@url value='/assets/components/ammap/ammap_settings.xml'/>',
 		'preloader_color' : '#999999'
 		},{
@@ -16,7 +16,7 @@ swfobject.embedSWF("<@url value='/assets/components/ammap/ammap.swf'/>","chart",
 </script>
 </head>
 <body>
-<form id="daterange" action="<@url value='/biz/chart/ammap'/>" method="get" class="ajax view line" replacement="c"  style="margin-left:10px;">
+<form id="daterange" action="<@url value='/biz/chart/ammap'/>" method="get" class="ajax view line" replacement="c" style="margin-left:10px;">
 	<#if id??>
 	<#list id as var>
 	<input type="hidden" name="id" value="${var}" />
@@ -36,7 +36,7 @@ swfobject.embedSWF("<@url value='/assets/components/ammap/ammap.swf'/>","chart",
 <#assign data_file=data_file+'?'+request.queryString>
 </#if>
 <div id="c" style="clear: both;">
-	<div id="chart" data_file="${data_file}">
+	<div id="chart_ammap" data_file="${data_file}">
 	</div>
 </div>
 </body>
