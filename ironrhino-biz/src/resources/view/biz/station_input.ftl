@@ -12,7 +12,7 @@
 	<div class="treeselect" treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId'}">
 	<@s.hidden id="regionId" name="regionId" />
 	<label class="field" for="region"><span style="cursor:pointer;">请选择地区</span></label>
-	<div id="region"><#if station.region??>${station.region.fullname}<#else>...</#if></div>
+	<span id="region"><#if station.region??>${station.region.fullname}<#else>...</#if></span>
 	</div>
 	<@s.textfield label="%{getText('address')}" name="station.address"/>
 	<@s.textfield label="%{getText('destination')}" name="station.destination"/>
