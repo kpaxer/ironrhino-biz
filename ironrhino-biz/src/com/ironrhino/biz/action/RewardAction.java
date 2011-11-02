@@ -12,8 +12,10 @@ import org.apache.commons.lang.StringUtils;
 import org.compass.core.CompassHit;
 import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.CompassCriteria;
@@ -21,6 +23,7 @@ import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 import org.ironrhino.core.util.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.Reward;
@@ -56,7 +59,7 @@ public class RewardAction extends BaseAction {
 	@Inject
 	private transient EmployeeManager employeeManager;
 
-	@Inject
+	@Autowired(required = false)
 	private transient CompassSearchService compassSearchService;
 
 	@CreateIfNull
@@ -118,8 +121,10 @@ public class RewardAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword)) {
+		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
 			DetachedCriteria dc = rewardManager.detachedCriteria();
+			if (StringUtils.isNotBlank(keyword))
+				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "memo"));
 			if (employee != null && employee.getId() != null)
 				dc.createAlias("employee", "c").add(
 						Restrictions.eq("c.id", employee.getId()));
@@ -207,7 +212,7 @@ public class RewardAction extends BaseAction {
 					continue;
 				r.setEmployee(employee);
 				r.setRewardDate(reward.getRewardDate());
-				if(negative!=null && negative)
+				if (negative != null && negative)
 					r.setAmount(r.getAmount().negate());
 				rewardManager.save(r);
 			}

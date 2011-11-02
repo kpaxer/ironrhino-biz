@@ -10,14 +10,17 @@ import org.apache.commons.lang.StringUtils;
 import org.compass.core.CompassHit;
 import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.Stuffflow;
@@ -44,7 +47,7 @@ public class StuffflowAction extends BaseAction {
 	@Inject
 	private transient StuffManager stuffManager;
 
-	@Inject
+	@Autowired(required = false)
 	private transient CompassSearchService compassSearchService;
 
 	public boolean isOut() {
@@ -90,9 +93,11 @@ public class StuffflowAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword)) {
+		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
 			baseManager.setEntityClass(Stuffflow.class);
 			DetachedCriteria dc = baseManager.detachedCriteria();
+			if (StringUtils.isNotBlank(keyword))
+				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "memo"));
 			if (stuff != null && stuff.getId() != null)
 				dc.createAlias("stuff", "s").add(
 						Restrictions.eq("s.id", stuff.getId()));

@@ -13,9 +13,11 @@ import org.apache.commons.lang.StringUtils;
 import org.compass.core.CompassHit;
 import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
+import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
@@ -23,6 +25,7 @@ import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.model.Station;
 import com.ironrhino.biz.model.UserRole;
@@ -45,7 +48,7 @@ public class StationAction extends BaseAction {
 	@Inject
 	private transient RegionTreeControl regionTreeControl;
 
-	@Inject
+	@Autowired(required = false)
 	private transient CompassSearchService compassSearchService;
 
 	public ResultPage<Station> getResultPage() {
@@ -90,8 +93,11 @@ public class StationAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword)) {
+		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
 			DetachedCriteria dc = stationManager.detachedCriteria();
+			if (StringUtils.isNotBlank(keyword))
+				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "name",
+						"phone", "mobile", "address", "destination"));
 			Region region = null;
 			if (regionId != null) {
 				region = regionTreeControl.getRegionTree()
@@ -100,8 +106,8 @@ public class StationAction extends BaseAction {
 					if (region.isLeaf()) {
 						dc.add(Restrictions.eq("region", region));
 					} else {
-						dc.add(Restrictions.in("region", region
-								.getDescendantsAndSelf()));
+						dc.add(Restrictions.in("region",
+								region.getDescendantsAndSelf()));
 					}
 				}
 			}

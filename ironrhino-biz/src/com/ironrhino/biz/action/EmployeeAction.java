@@ -10,7 +10,9 @@ import org.apache.commons.lang.StringUtils;
 import org.compass.core.CompassHit;
 import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
@@ -18,6 +20,7 @@ import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.UserRole;
@@ -35,7 +38,7 @@ public class EmployeeAction extends BaseAction {
 	@Inject
 	private transient EmployeeManager employeeManager;
 
-	@Inject
+	@Autowired(required = false)
 	private transient CompassSearchService compassSearchService;
 
 	public ResultPage<Employee> getResultPage() {
@@ -56,8 +59,11 @@ public class EmployeeAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword)) {
+		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
 			DetachedCriteria dc = employeeManager.detachedCriteria();
+			if (StringUtils.isNotBlank(keyword))
+				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "name",
+						"phone", "address"));
 			dc.addOrder(org.hibernate.criterion.Order.asc("dimission"));
 			dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 			if (resultPage == null)

@@ -10,13 +10,16 @@ import org.apache.commons.lang.StringUtils;
 import org.compass.core.CompassHit;
 import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.model.Plan;
 import com.ironrhino.biz.model.Product;
@@ -45,7 +48,7 @@ public class PlanAction extends BaseAction {
 	@Inject
 	private transient ProductManager productManager;
 
-	@Inject
+	@Autowired(required = false)
 	private transient CompassSearchService compassSearchService;
 
 	public ResultPage<Plan> getResultPage() {
@@ -82,8 +85,10 @@ public class PlanAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword)) {
+		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
 			DetachedCriteria dc = planManager.detachedCriteria();
+			if (StringUtils.isNotBlank(keyword))
+				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "memo"));
 			if (product != null && product.getId() != null)
 				dc.createAlias("product", "c").add(
 						Restrictions.eq("c.id", product.getId()));

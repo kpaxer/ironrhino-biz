@@ -12,13 +12,16 @@ import org.apache.commons.lang.StringUtils;
 import org.compass.core.CompassHit;
 import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
@@ -84,7 +87,7 @@ public class OrderAction extends BaseAction {
 	@Inject
 	private transient StationManager stationManager;
 
-	@Inject
+	@Autowired(required = false)
 	private transient CompassSearchService compassSearchService;
 
 	public ResultPage<Order> getResultPage() {
@@ -181,8 +184,11 @@ public class OrderAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword)) {
+		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
 			DetachedCriteria dc = orderManager.detachedCriteria();
+			if (StringUtils.isNotBlank(keyword))
+				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "code",
+						"memo"));
 			if (customer != null && customer.getId() != null)
 				dc.createAlias("customer", "c").add(
 						Restrictions.eq("c.id", customer.getId()));
@@ -388,9 +394,9 @@ public class OrderAction extends BaseAction {
 		String id = getUid();
 		if (StringUtils.isNotBlank(id)) {
 			order = orderManager.get(id);
-			if(order == null)
+			if (order == null)
 				order = orderManager.findByNaturalId(id);
-		
+
 		}
 		if (order == null)
 			return ACCESSDENIED;
@@ -482,8 +488,8 @@ public class OrderAction extends BaseAction {
 				int value = Boolean.valueOf(o2.isCashable()).compareTo(
 						Boolean.valueOf(o1.isCashable()));
 				if (o1.isCashable() && value == 0)
-					return o2.getStation().getName().compareTo(
-							o1.getStation().getName());
+					return o2.getStation().getName()
+							.compareTo(o1.getStation().getName());
 				else
 					return value;
 			}

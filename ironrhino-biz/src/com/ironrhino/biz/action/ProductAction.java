@@ -10,8 +10,10 @@ import org.apache.commons.lang.StringUtils;
 import org.compass.core.CompassHit;
 import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
@@ -19,6 +21,7 @@ import org.ironrhino.core.search.CompassCriteria;
 import org.ironrhino.core.search.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
@@ -54,7 +57,7 @@ public class ProductAction extends BaseAction {
 	@Inject
 	private transient ProductManager productManager;
 
-	@Inject
+	@Autowired(required = false)
 	private transient CompassSearchService compassSearchService;
 
 	public ResultPage<Product> getResultPage() {
@@ -99,8 +102,10 @@ public class ProductAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword)) {
+		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
 			DetachedCriteria dc = productManager.detachedCriteria();
+			if (StringUtils.isNotBlank(keyword))
+				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "name"));
 			if (categoryId != null)
 				dc.createAlias("category", "c").add(
 						Restrictions.eq("c.id", categoryId));
@@ -178,8 +183,8 @@ public class ProductAction extends BaseAction {
 			Brand brand = brandManager.get(brandId);
 			product.setBrand(brand);
 			if (productManager.findByNaturalId("name", product.getName(),
-					"brand", product.getBrand(), "category", product
-							.getCategory()) != null) {
+					"brand", product.getBrand(), "category",
+					product.getCategory()) != null) {
 				addFieldError("product.name",
 						getText("validation.already.exists"));
 				return INPUT;
@@ -192,8 +197,8 @@ public class ProductAction extends BaseAction {
 					|| categoryId != null
 					&& !product.getCategory().getId().equals(categoryId)) {
 				if (productManager.findByNaturalId("name", temp.getName(),
-						"brand", temp.getBrand(), "category", product
-								.getCategory()) != null) {
+						"brand", temp.getBrand(), "category",
+						product.getCategory()) != null) {
 					addFieldError("product.name",
 							getText("validation.already.exists"));
 					return INPUT;
