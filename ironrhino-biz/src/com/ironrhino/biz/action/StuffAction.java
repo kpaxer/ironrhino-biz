@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import org.compass.core.CompassHit;
 import org.compass.core.support.search.CompassSearchResults;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -75,6 +76,9 @@ public class StuffAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
 			DetachedCriteria dc = stuffManager.detachedCriteria();
+			Criterion filtering = CriterionUtils.filter(stuff, "id", "name");
+			if (filtering != null)
+				dc.add(filtering);
 			if (StringUtils.isNotBlank(keyword))
 				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "name"));
 			dc.addOrder(Order.asc("displayOrder"));
