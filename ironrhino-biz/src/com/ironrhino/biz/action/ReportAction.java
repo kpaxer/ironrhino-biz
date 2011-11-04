@@ -68,8 +68,6 @@ public class ReportAction extends BaseAction {
 
 	private String format = "PDF";
 
-	private String dataSource;
-
 	private Map<String, Object> reportParameters = new HashMap<String, Object>();
 
 	private List<? extends Serializable> list;
@@ -151,10 +149,6 @@ public class ReportAction extends BaseAction {
 		this.format = format;
 	}
 
-	public String getDataSource() {
-		return dataSource;
-	}
-
 	public List<Employee> getEmployeeList() {
 		return employeeList;
 	}
@@ -175,8 +169,8 @@ public class ReportAction extends BaseAction {
 				sb.append(DateUtils.formatDate8(date));
 			else if (from != null && to != null)
 				if (!DateUtils.isSameDay(from, to))
-					sb.append(DateUtils.formatDate8(from)).append('-').append(
-							DateUtils.formatDate8(to));
+					sb.append(DateUtils.formatDate8(from)).append('-')
+							.append(DateUtils.formatDate8(to));
 				else
 					sb.append(DateUtils.formatDate8(from));
 			return sb.toString();
@@ -191,12 +185,13 @@ public class ReportAction extends BaseAction {
 			reportParameters.put("date", DateUtils.format(date, datePattern));
 		else if (from != null && to != null)
 			if (!DateUtils.isSameDay(from, to))
-				reportParameters.put("date", DateUtils
-						.format(from, datePattern)
-						+ "-" + DateUtils.format(to, datePattern));
+				reportParameters.put(
+						"date",
+						DateUtils.format(from, datePattern) + "-"
+								+ DateUtils.format(to, datePattern));
 			else
-				reportParameters.put("date", DateUtils
-						.format(from, datePattern));
+				reportParameters.put("date",
+						DateUtils.format(from, datePattern));
 		else
 			reportParameters.put("date", "");
 		reportParameters.put("SUBREPORT_DIR", ServletActionContext
@@ -345,13 +340,15 @@ public class ReportAction extends BaseAction {
 						Restrictions.eq("r.id", r.getId()));
 			} else {
 				dc.createAlias("region", "r").add(
-						Restrictions.or(Restrictions.eq("r.id", r.getId()),
+						Restrictions.or(
+								Restrictions.eq("r.id", r.getId()),
 								Restrictions.like("r.fullId", r.getFullId()
 										+ ".", MatchMode.START)));
 			}
 		} else {
-			dc.add(Restrictions.between("createDate", DateUtils
-					.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+			dc.add(Restrictions.between("createDate",
+					DateUtils.beginOfDay(getFrom()),
+					DateUtils.endOfDay(getTo())));
 		}
 		dc.addOrder(org.hibernate.criterion.Order.asc("name"));
 		List<Customer> cl = customerManager.findListByCriteria(dc);
@@ -371,8 +368,8 @@ public class ReportAction extends BaseAction {
 	public void reward() {
 		title = "日工资结单";
 		DetachedCriteria dc = rewardManager.detachedCriteria();
-		dc.add(Restrictions.between("rewardDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("rewardDate",
+				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		if (StringUtils.isNotBlank(ServletActionContext.getRequest()
 				.getParameter("negative")))
 			if (!negative) {
@@ -402,8 +399,8 @@ public class ReportAction extends BaseAction {
 			title = employee.getName() + title;
 			dc.add(Restrictions.eq("e.id", employee.getId()));
 		}
-		dc.add(Restrictions.between("rewardDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("rewardDate",
+				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		if (StringUtils.isNotBlank(ServletActionContext.getRequest()
 				.getParameter("negative")))
 			if (!negative) {
@@ -422,8 +419,8 @@ public class ReportAction extends BaseAction {
 	public void aggregationreward() {
 		title = "工资汇总单";
 		DetachedCriteria dc = rewardManager.detachedCriteria();
-		dc.add(Restrictions.between("rewardDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("rewardDate",
+				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		if (StringUtils.isNotBlank(ServletActionContext.getRequest()
 				.getParameter("negative")))
 			if (!negative) {
@@ -501,7 +498,7 @@ public class ReportAction extends BaseAction {
 			if (employee != null)
 				title = employee.getName() + title;
 			dc.add(Restrictions.eq("salesman", employee));
-			
+
 		}
 		String deliveryman = ServletActionContext.getRequest().getParameter(
 				"deliveryman");
@@ -523,8 +520,8 @@ public class ReportAction extends BaseAction {
 				title = st.getDisplayName() + title;
 			dc.add(Restrictions.eq("saleType", st));
 		}
-		dc.add(Restrictions.between("orderDate", DateUtils
-				.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
+		dc.add(Restrictions.between("orderDate",
+				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
 		return dc;
 	}
 }
