@@ -5,7 +5,7 @@
 	<package name="biz" namespace="/biz" extends="ironrhino-default">
 		<action name="report" class="com.ironrhino.biz.action.ReportAction">
 			<result type="autoconfig" />
-			<result name="jasper" type="jasper">
+			<result name="jasper" type="jasperreports">
 				<param name="reportParameters">reportParameters</param>
 				<param name="contentDisposition">inline</param>
 				<param name="dataSource">list</param>
