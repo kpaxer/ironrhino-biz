@@ -1,9 +1,9 @@
-<#assign html5 = false/>
+<#assign modernBrowser = false/>
 <#assign ua = request.getAttribute('userAgent')/>
 <#if ua?? && (ua.name!='msie' || ua.majorVersion gt 8)>
-<#assign html5 = true/>
+<#assign modernBrowser = true/>
 </#if>
-<#if html5>
+<#if modernBrowser>
 <!DOCTYPE html>
 <#assign requestURI=request.requestURI?substring(request.contextPath?length)/>
 <html>
@@ -14,7 +14,7 @@
 <#compress><#escape x as x?html>
 <head>
 <title><#noescape>${title}</#noescape></title>
-<#if html5>
+<#if modernBrowser>
 <meta charset="utf-8">
 <#else>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -23,16 +23,13 @@
 <meta name="context_path" content="${request.contextPath}" />
 </#if>
 <link rel="shortcut icon" href="<@url value="/assets/images/favicon.ico"/>" />
-<link href="<@url value="/assets/styles/ironrhino${html5?string('-min','')}.css"/>" media="screen" rel="stylesheet" type="text/css" />
-<link href="<@url value="/assets/styles/app${html5?string('-min','')}.css"/>" media="screen" rel="stylesheet" type="text/css" />
-<#if !html5>
-<link href="<@url value="/assets/styles/ie.css"/>" media="all" rel="stylesheet" type="text/css" />
-</#if>
-<script src="<@url value="/assets/scripts/ironrhino${html5?string('-min','')}.js"/>" type="text/javascript"></script>
-<script src="<@url value="/assets/scripts/app${html5?string('-min','')}.js"/>" type="text/javascript"></script>
+<link href="<@url value="/assets/styles/ironrhino${modernBrowser?string('-min','')}.css"/>" media="screen" rel="stylesheet" type="text/css" />
+<#if !modernBrowser><link href="<@url value="/assets/styles/ie.css"/>" media="all" rel="stylesheet" type="text/css" /></#if>
+<link href="<@url value="/assets/styles/app${modernBrowser?string('-min','')}.css"/>" media="screen" rel="stylesheet" type="text/css" />
+<script src="<@url value="/assets/scripts/ironrhino${modernBrowser?string('-min','')}.js"/>" type="text/javascript"></script>
+<script src="<@url value="/assets/scripts/app${modernBrowser?string('-min','')}.js"/>" type="text/javascript"></script>
 <#noescape>${head}</#noescape>
 </head>
-<#assign requestURI=request.requestURI?substring(request.contextPath?length)/>
 <body>
 <div id="wrapper">
 <div id="header">
