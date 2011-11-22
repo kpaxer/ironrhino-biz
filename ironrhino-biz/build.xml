@@ -93,18 +93,18 @@
 			<arg line=" --charset utf-8 --type css -o ./webapp/assets/website/style-min.css ./webapp/assets/website/style.css" />
 		</java>
 	</target>
-
+	
 	<target name="jar">
 		<mkdir dir="${target.dir}" />
 		<delete file="${target.dir}/${jar.name}" />
-		<jar jarfile="${target.dir}/${jar.name}" basedir="${classes.dir}" excludes="log4j.xml,struts.xml,resources/struts/**,resources/spring/**" />
+		<jar jarfile="${target.dir}/${jar.name}" basedir="${classes.dir}" />
 	</target>
 
 	<target name="war" depends="compress,jar">
 		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" />
 		<mkdir dir="${target.dir}/classes" />
 		<move todir="${target.dir}/classes">
-			<fileset dir="${webapp.dir}/WEB-INF/classes" excludes="log4j.xml,struts.xml,resources/struts/**,resources/spring/**" />
+			<fileset dir="${webapp.dir}/WEB-INF/classes" />
 		</move>
 		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}" webxml="${webapp.dir}/WEB-INF/web.xml" />
 		<move file="${webapp.dir}/WEB-INF/lib/${jar.name}" todir="${target.dir}" />
