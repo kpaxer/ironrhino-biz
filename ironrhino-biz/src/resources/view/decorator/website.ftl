@@ -74,7 +74,7 @@
 	    </div>
     
 	</div>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 	<script src="<@url value="/assets/scripts/ironrhino-lite-njq-min.js"/>" type="text/javascript"></script>
 </body>
 </html></#escape></#compress>
