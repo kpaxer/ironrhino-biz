@@ -135,7 +135,7 @@ public class CustomerAction extends BaseAction {
 			dc.addOrder(org.hibernate.criterion.Order.asc("id"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Customer>();
-			resultPage.setDetachedCriteria(dc);
+			resultPage.setCriteria(dc);
 			resultPage = customerManager.findByResultPage(resultPage);
 			for (Customer c : resultPage.getResult())
 				if (c.getRegion() != null)

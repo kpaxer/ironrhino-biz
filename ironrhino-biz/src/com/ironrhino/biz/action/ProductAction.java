@@ -119,7 +119,7 @@ public class ProductAction extends BaseAction {
 			dc.addOrder(Order.asc("displayOrder"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Product>();
-			resultPage.setDetachedCriteria(dc);
+			resultPage.setCriteria(dc);
 			resultPage = productManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

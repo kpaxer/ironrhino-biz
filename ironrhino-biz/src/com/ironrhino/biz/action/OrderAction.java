@@ -209,7 +209,7 @@ public class OrderAction extends BaseAction {
 			dc.addOrder(org.hibernate.criterion.Order.desc("code"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Order>();
-			resultPage.setDetachedCriteria(dc);
+			resultPage.setCriteria(dc);
 			resultPage = orderManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

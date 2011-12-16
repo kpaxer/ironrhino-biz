@@ -109,7 +109,7 @@ public class StuffflowAction extends BaseAction {
 			dc.addOrder(Order.desc("date"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuffflow>();
-			resultPage.setDetachedCriteria(dc);
+			resultPage.setCriteria(dc);
 			resultPage = baseManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

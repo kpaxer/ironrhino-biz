@@ -73,7 +73,7 @@ public class EmployeeAction extends BaseAction {
 			dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Employee>();
-			resultPage.setDetachedCriteria(dc);
+			resultPage.setCriteria(dc);
 			resultPage = employeeManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

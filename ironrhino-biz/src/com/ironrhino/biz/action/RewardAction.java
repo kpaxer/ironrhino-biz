@@ -142,7 +142,7 @@ public class RewardAction extends BaseAction {
 			dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Reward>();
-			resultPage.setDetachedCriteria(dc);
+			resultPage.setCriteria(dc);
 			resultPage = rewardManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

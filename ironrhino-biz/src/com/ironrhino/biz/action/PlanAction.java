@@ -100,7 +100,7 @@ public class PlanAction extends BaseAction {
 			dc.addOrder(org.hibernate.criterion.Order.desc("planDate"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Plan>();
-			resultPage.setDetachedCriteria(dc);
+			resultPage.setCriteria(dc);
 			resultPage = planManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

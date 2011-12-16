@@ -84,7 +84,7 @@ public class StuffAction extends BaseAction {
 			dc.addOrder(Order.asc("displayOrder"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuff>();
-			resultPage.setDetachedCriteria(dc);
+			resultPage.setCriteria(dc);
 			resultPage = stuffManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
