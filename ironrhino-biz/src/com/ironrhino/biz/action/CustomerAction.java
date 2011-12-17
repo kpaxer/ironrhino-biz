@@ -1,7 +1,6 @@
 package com.ironrhino.biz.action;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +10,6 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
-import org.compass.core.CompassHit;
-import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -24,8 +21,8 @@ import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.LabelValue;
 import org.ironrhino.core.model.ResultPage;
-import org.ironrhino.core.search.CompassCriteria;
-import org.ironrhino.core.search.CompassSearchService;
+import org.ironrhino.core.search.compass.CompassSearchCriteria;
+import org.ironrhino.core.search.compass.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 import org.ironrhino.core.util.DateUtils;
@@ -143,37 +140,19 @@ public class CustomerAction extends BaseAction {
 							.getDescendantOrSelfById(c.getRegion().getId()));
 		} else {
 			String query = keyword.trim();
-			CompassCriteria cc = new CompassCriteria();
-			cc.setQuery(query);
-			cc.setAliases(new String[] { "customer" });
+			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			criteria.setQuery(query);
+			criteria.setAliases(new String[] { "customer" });
 			if (resultPage == null)
 				resultPage = new ResultPage<Customer>();
-			cc.setPageNo(resultPage.getPageNo());
-			cc.setPageSize(resultPage.getPageSize());
-			CompassSearchResults searchResults = compassSearchService
-					.search(cc);
-			int totalHits = searchResults.getTotalHits();
-			CompassHit[] hits = searchResults.getHits();
-			if (hits != null) {
-				List<Customer> list = new ArrayList<Customer>(hits.length);
-				for (CompassHit ch : searchResults.getHits()) {
-					Customer c = (Customer) ch.getData();
-					c = customerManager.get(c.getId());
-					if (c != null) {
-						if (c.getRegion() != null)
-							c.setRegion(regionTreeControl.getRegionTree()
-									.getDescendantOrSelfById(
-											c.getRegion().getId()));
-						list.add(c);
-					} else {
-						totalHits--;
-					}
-				}
-				resultPage.setResult(list);
-			} else {
-				resultPage.setResult(Collections.EMPTY_LIST);
+			resultPage.setCriteria(criteria);
+			resultPage = compassSearchService.search(resultPage);
+			for (Customer c : resultPage.getResult()) {
+				c = customerManager.get(c.getId());
+				if (c != null && c.getRegion() != null)
+					c.setRegion(regionTreeControl.getRegionTree()
+							.getDescendantOrSelfById(c.getRegion().getId()));
 			}
-			resultPage.setTotalRecord(totalHits);
 		}
 		return LIST;
 	}
@@ -326,16 +305,13 @@ public class CustomerAction extends BaseAction {
 		keyword = ServletActionContext.getRequest().getParameter("term");
 		if (StringUtils.isBlank(keyword))
 			return NONE;
-		CompassCriteria cc = new CompassCriteria();
-		cc.setPageSize(1000);
+		CompassSearchCriteria cc = new CompassSearchCriteria();
 		cc.setQuery(keyword);
 		cc.setAliases(new String[] { "customer" });
-		CompassSearchResults searchResults = compassSearchService.search(cc);
-		if (searchResults.getTotalHits() > 0) {
-			suggestions = new ArrayList<LabelValue>(
-					searchResults.getTotalHits());
-			for (CompassHit ch : searchResults.getHits()) {
-				Customer c = (Customer) ch.getData();
+		List<Customer> list = compassSearchService.search(cc);
+		if (list.size() > 0) {
+			suggestions = new ArrayList<LabelValue>(list.size());
+			for (Customer c : list) {
 				if (c.getRegion() != null)
 					c.setRegion(regionTreeControl.getRegionTree()
 							.getDescendantOrSelfById(c.getRegion().getId()));
@@ -386,18 +362,16 @@ public class CustomerAction extends BaseAction {
 	@JsonConfig(root = "suggestions")
 	public String tag() {
 		keyword = ServletActionContext.getRequest().getParameter("term");
-		CompassCriteria cc = new CompassCriteria();
+		CompassSearchCriteria criteria = new CompassSearchCriteria();
 		if (StringUtils.isNotBlank(keyword))
-			cc.setQuery("*" + keyword + "*");
+			criteria.setQuery("*" + keyword + "*");
 		else
-			cc.setQuery("*");
-		cc.setAliases(new String[] { "category" });
-		CompassSearchResults searchResults = compassSearchService.search(cc);
-		if (searchResults != null && searchResults.getTotalHits() > 0) {
-			suggestions = new ArrayList<LabelValue>(
-					searchResults.getTotalHits());
-			for (CompassHit hit : searchResults.getHits()) {
-				Category cat = (Category) hit.getData();
+			criteria.setQuery("*");
+		criteria.setAliases(new String[] { "category" });
+		List<Category> list = compassSearchService.search(criteria);
+		if (list.size() > 0) {
+			suggestions = new ArrayList<LabelValue>(list.size());
+			for (Category cat : list) {
 				LabelValue lv = new LabelValue();
 				lv.setValue(cat.getName());
 				suggestions.add(lv);

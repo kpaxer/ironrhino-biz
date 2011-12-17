@@ -1,14 +1,10 @@
 package com.ironrhino.biz.action;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.compass.core.CompassHit;
-import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -17,8 +13,8 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
-import org.ironrhino.core.search.CompassCriteria;
-import org.ironrhino.core.search.CompassSearchService;
+import org.ironrhino.core.search.compass.CompassSearchCriteria;
+import org.ironrhino.core.search.compass.CompassSearchService;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,27 +121,14 @@ public class StuffflowAction extends BaseAction {
 				sb.append(query.substring(8, 10));
 				query = sb.toString();
 			}
-			CompassCriteria cc = new CompassCriteria();
-			cc.setQuery(query);
-			cc.setAliases(new String[] { "stuffflow" });
-			cc.addSort("date", null, true);
+			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			criteria.setQuery(query);
+			criteria.setAliases(new String[] { "stuffflow" });
+			criteria.addSort("date", true);
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuffflow>();
-			cc.setPageNo(resultPage.getPageNo());
-			cc.setPageSize(resultPage.getPageSize());
-			CompassSearchResults searchResults = compassSearchService
-					.search(cc);
-			int totalHits = searchResults.getTotalHits();
-			CompassHit[] hits = searchResults.getHits();
-			if (hits != null) {
-				List<Stuffflow> list = new ArrayList<Stuffflow>(hits.length);
-				for (CompassHit ch : searchResults.getHits())
-					list.add((Stuffflow) ch.data());
-				resultPage.setResult(list);
-			} else {
-				resultPage.setResult(Collections.EMPTY_LIST);
-			}
-			resultPage.setTotalRecord(totalHits);
+			resultPage.setCriteria(criteria);
+			resultPage = compassSearchService.search(resultPage);
 		}
 		return LIST;
 	}

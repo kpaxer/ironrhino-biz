@@ -9,8 +9,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.compass.core.CompassHit;
-import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -18,8 +16,8 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
-import org.ironrhino.core.search.CompassCriteria;
-import org.ironrhino.core.search.CompassSearchService;
+import org.ironrhino.core.search.compass.CompassSearchCriteria;
+import org.ironrhino.core.search.compass.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -225,30 +223,14 @@ public class OrderAction extends BaseAction {
 				sb.append(query.substring(8, 10));
 				query = sb.toString();
 			}
-			CompassCriteria cc = new CompassCriteria();
-			cc.addSort("orderDate", null, true);
-			cc.setQuery(query);
-			cc.setAliases(new String[] { "order" });
+			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			criteria.addSort("orderDate", true);
+			criteria.setQuery(query);
+			criteria.setAliases(new String[] { "order" });
 			if (resultPage == null)
 				resultPage = new ResultPage<Order>();
-			cc.setPageNo(resultPage.getPageNo());
-			cc.setPageSize(resultPage.getPageSize());
-			CompassSearchResults searchResults = compassSearchService
-					.search(cc);
-			resultPage.setTotalRecord(searchResults.getTotalHits());
-			CompassHit[] hits = searchResults.getHits();
-			if (hits != null) {
-				List<Order> list = new ArrayList<Order>(hits.length);
-				for (CompassHit ch : searchResults.getHits()) {
-					Order c = (Order) ch.getData();
-					c = orderManager.get(c.getId());
-					list.add(c);
-				}
-				resultPage.setResult(list);
-			} else {
-				resultPage.setResult(Collections.EMPTY_LIST);
-			}
-
+			resultPage.setCriteria(criteria);
+			resultPage = compassSearchService.search(resultPage);
 		}
 		return LIST;
 	}

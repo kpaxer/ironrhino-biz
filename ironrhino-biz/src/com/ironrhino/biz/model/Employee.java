@@ -29,10 +29,13 @@ public class Employee extends Entity<Long> {
 
 	private boolean dimission;
 
+	@SearchableProperty(boost = 2)
 	private String phone;
 
+	@SearchableProperty(boost = 2)
 	private String address;
 
+	@SearchableProperty(boost = 1)
 	private String memo;
 
 	@NotInCopy

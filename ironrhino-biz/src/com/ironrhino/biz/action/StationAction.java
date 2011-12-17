@@ -2,7 +2,6 @@ package com.ironrhino.biz.action;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +9,6 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.compass.core.CompassHit;
-import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -22,8 +19,8 @@ import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
-import org.ironrhino.core.search.CompassCriteria;
-import org.ironrhino.core.search.CompassSearchService;
+import org.ironrhino.core.search.compass.CompassSearchCriteria;
+import org.ironrhino.core.search.compass.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,37 +123,19 @@ public class StationAction extends BaseAction {
 							.getDescendantOrSelfById(c.getRegion().getId()));
 		} else {
 			String query = keyword.trim();
-			CompassCriteria cc = new CompassCriteria();
-			cc.setQuery(query);
-			cc.setAliases(new String[] { "station" });
+			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			criteria.setQuery(query);
+			criteria.setAliases(new String[] { "station" });
 			if (resultPage == null)
 				resultPage = new ResultPage<Station>();
-			cc.setPageNo(resultPage.getPageNo());
-			cc.setPageSize(resultPage.getPageSize());
-			CompassSearchResults searchResults = compassSearchService
-					.search(cc);
-			int totalHits = searchResults.getTotalHits();
-			CompassHit[] hits = searchResults.getHits();
-			if (hits != null) {
-				List<Station> list = new ArrayList<Station>(hits.length);
-				for (CompassHit ch : searchResults.getHits()) {
-					Station c = (Station) ch.getData();
-					c = stationManager.get(c.getId());
-					if (c != null) {
-						if (c.getRegion() != null)
-							c.setRegion(regionTreeControl.getRegionTree()
-									.getDescendantOrSelfById(
-											c.getRegion().getId()));
-						list.add(c);
-					} else {
-						totalHits--;
-					}
-				}
-				resultPage.setResult(list);
-			} else {
-				resultPage.setResult(Collections.EMPTY_LIST);
+			resultPage.setCriteria(criteria);
+			resultPage = compassSearchService.search(resultPage);
+			for (Station s : resultPage.getResult()) {
+				s = stationManager.get(s.getId());
+				if (s != null && s.getRegion() != null)
+					s.setRegion(regionTreeControl.getRegionTree()
+							.getDescendantOrSelfById(s.getRegion().getId()));
 			}
-			resultPage.setTotalRecord(totalHits);
 		}
 		return LIST;
 	}
@@ -297,21 +276,16 @@ public class StationAction extends BaseAction {
 			id = id.trim();
 			station = stationManager.findByNaturalId(id);
 			if (station == null) {
-				CompassCriteria cc = new CompassCriteria();
-				cc.setQuery(id);
-				cc.setAliases(new String[] { "station" });
-				cc.setPageNo(1);
-				cc.setPageSize(10);
-				CompassSearchResults searchResults = compassSearchService
-						.search(cc);
-				int hits = searchResults.getTotalHits();
-				if (hits == 1) {
-					station = (Station) searchResults.getHits()[0].getData();
-				} else if (hits > 1) {
+				CompassSearchCriteria criteria = new CompassSearchCriteria();
+				criteria.setQuery(id);
+				criteria.setAliases(new String[] { "station" });
+				List<Station> list = compassSearchService.search(criteria);
+				if (list.size() == 1) {
+					station = list.get(1);
+				} else {
 					StringBuilder sb = new StringBuilder();
-					for (CompassHit ch : searchResults.getHits())
-						sb.append(((Station) ch.getData()).getName()).append(
-								",");
+					for (Station s : list)
+						sb.append(s.getName()).append(",");
 					sb.deleteCharAt(sb.length() - 1);
 					station = new Station();
 					station.setName(sb.toString());

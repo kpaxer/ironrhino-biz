@@ -1,14 +1,11 @@
 package com.ironrhino.biz.action;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.compass.core.CompassHit;
-import org.compass.core.support.search.CompassSearchResults;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -17,8 +14,8 @@ import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
-import org.ironrhino.core.search.CompassCriteria;
-import org.ironrhino.core.search.CompassSearchService;
+import org.ironrhino.core.search.compass.CompassSearchCriteria;
+import org.ironrhino.core.search.compass.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,29 +74,13 @@ public class EmployeeAction extends BaseAction {
 			resultPage = employeeManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
-			CompassCriteria cc = new CompassCriteria();
-			cc.setQuery(query);
-			cc.setAliases(new String[] { "employee" });
+			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			criteria.setQuery(query);
+			criteria.setAliases(new String[] { "employee" });
 			if (resultPage == null)
 				resultPage = new ResultPage<Employee>();
-			cc.setPageNo(resultPage.getPageNo());
-			cc.setPageSize(resultPage.getPageSize());
-			CompassSearchResults searchResults = compassSearchService
-					.search(cc);
-			int totalHits = searchResults.getTotalHits();
-			CompassHit[] hits = searchResults.getHits();
-			if (hits != null) {
-				List<Employee> list = new ArrayList<Employee>(hits.length);
-				for (CompassHit ch : searchResults.getHits()) {
-					Employee e = (Employee) ch.getData();
-					e = employeeManager.get(e.getId());
-					list.add(e);
-				}
-				resultPage.setResult(list);
-			} else {
-				resultPage.setResult(Collections.EMPTY_LIST);
-			}
-			resultPage.setTotalRecord(totalHits);
+			resultPage.setCriteria(criteria);
+			resultPage = compassSearchService.search(resultPage);
 		}
 		return LIST;
 	}

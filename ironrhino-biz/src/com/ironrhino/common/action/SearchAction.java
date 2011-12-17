@@ -2,19 +2,16 @@ package com.ironrhino.common.action;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.compass.core.CompassHit;
-import org.compass.core.support.search.CompassSearchResults;
 import org.ironrhino.common.model.Page;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.model.ResultPage;
-import org.ironrhino.core.search.CompassCriteria;
-import org.ironrhino.core.search.CompassSearchService;
+import org.ironrhino.core.search.compass.CompassSearchCriteria;
+import org.ironrhino.core.search.compass.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -54,27 +51,13 @@ public class SearchAction extends BaseAction {
 		if (StringUtils.isBlank(q))
 			return REDIRECT;
 		String query = q.trim();
-		CompassCriteria cc = new CompassCriteria();
-		cc.setQuery(query + " AND tags:product");
-		cc.setAliases(new String[] { "page" });
+		CompassSearchCriteria criteria = new CompassSearchCriteria();
+		criteria.setQuery(query + " AND tags:product");
+		criteria.setAliases(new String[] { "page" });
 		if (resultPage == null)
 			resultPage = new ResultPage();
-		cc.setPageNo(resultPage.getPageNo());
-		cc.setPageSize(resultPage.getPageSize());
-		CompassSearchResults searchResults = compassSearchService.search(cc);
-		int totalHits = searchResults.getTotalHits();
-		CompassHit[] hits = searchResults.getHits();
-		if (hits != null) {
-			List list = new ArrayList(hits.length);
-			for (CompassHit ch : searchResults.getHits()) {
-				list.add(ch.getData());
-			}
-			resultPage.setResult(list);
-		} else {
-			resultPage.setResult(Collections.EMPTY_LIST);
-		}
-		resultPage.setTotalRecord(totalHits);
-
+		resultPage.setCriteria(criteria);
+		resultPage = compassSearchService.search(resultPage);
 		Collection<Page> _list = resultPage.getResult();
 		List<Page> list = new ArrayList<Page>();
 		for (Page p : _list) {
