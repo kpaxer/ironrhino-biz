@@ -13,6 +13,7 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
+import org.ironrhino.core.search.SearchService.Mapper;
 import org.ironrhino.core.search.compass.CompassSearchCriteria;
 import org.ironrhino.core.search.compass.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
@@ -120,9 +121,13 @@ public class PlanAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Plan>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage);
-			for (Plan p : resultPage.getResult())
-				p.setProduct(productManager.get(p.getProduct().getId()));
+			resultPage = compassSearchService.search(resultPage, new Mapper() {
+				public Object map(Object source) {
+					Plan p = (Plan) source;
+					p.setProduct(productManager.get(p.getProduct().getId()));
+					return p;
+				}
+			});
 		}
 		return LIST;
 	}

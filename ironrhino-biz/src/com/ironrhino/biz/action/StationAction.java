@@ -19,6 +19,7 @@ import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
+import org.ironrhino.core.search.SearchService.Mapper;
 import org.ironrhino.core.search.compass.CompassSearchCriteria;
 import org.ironrhino.core.search.compass.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
@@ -129,13 +130,15 @@ public class StationAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Station>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage);
-			for (Station s : resultPage.getResult()) {
-				s = stationManager.get(s.getId());
-				if (s != null && s.getRegion() != null)
-					s.setRegion(regionTreeControl.getRegionTree()
-							.getDescendantOrSelfById(s.getRegion().getId()));
-			}
+			resultPage = compassSearchService.search(resultPage, new Mapper() {
+				public Object map(Object source) {
+					Station s = (Station) source;
+					if (s.getRegion() != null)
+						s.setRegion(regionTreeControl.getRegionTree()
+								.getDescendantOrSelfById(s.getRegion().getId()));
+					return s;
+				}
+			});
 		}
 		return LIST;
 	}

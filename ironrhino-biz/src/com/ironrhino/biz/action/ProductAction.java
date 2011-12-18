@@ -15,6 +15,7 @@ import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
+import org.ironrhino.core.search.SearchService.Mapper;
 import org.ironrhino.core.search.compass.CompassSearchCriteria;
 import org.ironrhino.core.search.compass.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
@@ -127,15 +128,11 @@ public class ProductAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Product>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage);
-			List<Product> list = new ArrayList<Product>(resultPage.getResult()
-					.size());
-			for (Product p : resultPage.getResult()) {
-				p = productManager.get(p.getId());
-				if (p != null)
-					list.add(p);
-			}
-			resultPage.setResult(list);
+			resultPage = compassSearchService.search(resultPage, new Mapper() {
+				public Object map(Object source) {
+					return productManager.get(((Product) source).getId());
+				}
+			});
 		}
 		return LIST;
 	}

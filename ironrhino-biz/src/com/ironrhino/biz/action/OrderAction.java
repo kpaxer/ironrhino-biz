@@ -16,6 +16,7 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
+import org.ironrhino.core.search.SearchService.Mapper;
 import org.ironrhino.core.search.compass.CompassSearchCriteria;
 import org.ironrhino.core.search.compass.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
@@ -230,7 +231,11 @@ public class OrderAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Order>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage);
+			resultPage = compassSearchService.search(resultPage, new Mapper() {
+				public Object map(Object source) {
+					return orderManager.get(((Order) source).getId());
+				}
+			});
 		}
 		return LIST;
 	}

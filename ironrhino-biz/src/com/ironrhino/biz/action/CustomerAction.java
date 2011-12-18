@@ -21,6 +21,7 @@ import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.LabelValue;
 import org.ironrhino.core.model.ResultPage;
+import org.ironrhino.core.search.SearchService.Mapper;
 import org.ironrhino.core.search.compass.CompassSearchCriteria;
 import org.ironrhino.core.search.compass.CompassSearchService;
 import org.ironrhino.core.struts.BaseAction;
@@ -146,13 +147,15 @@ public class CustomerAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Customer>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage);
-			for (Customer c : resultPage.getResult()) {
-				c = customerManager.get(c.getId());
-				if (c != null && c.getRegion() != null)
-					c.setRegion(regionTreeControl.getRegionTree()
-							.getDescendantOrSelfById(c.getRegion().getId()));
-			}
+			resultPage = compassSearchService.search(resultPage, new Mapper() {
+				public Object map(Object source) {
+					Customer c = (Customer)source;
+					if (c.getRegion() != null)
+						c.setRegion(regionTreeControl.getRegionTree()
+								.getDescendantOrSelfById(c.getRegion().getId()));
+					return c;
+				}
+			});
 		}
 		return LIST;
 	}
