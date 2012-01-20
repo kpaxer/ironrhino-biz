@@ -35,7 +35,7 @@ public class Backup {
 	@Value("${backup.email:}")
 	private String email;
 
-	@Scheduled(cron = "0 0 23 * * ?")
+	@Scheduled(cron = "0 0 22 * * ?")
 	public void send() {
 		if (StringUtils.isBlank(path))
 			return;
