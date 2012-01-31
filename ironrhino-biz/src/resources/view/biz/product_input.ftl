@@ -16,7 +16,10 @@
 	<@s.textfield label="%{getText('weight')}" name="product.weight" cssClass="double positive"/>
 	<@s.textfield label="%{getText('price')}" name="product.price" cssClass="double positive"/>
 	<@s.textfield label="%{getText('displayOrder')}" name="product.displayOrder" cssClass="integer"/>
-	<@editAttributes schemaName='category:'+product.category.id attributes=product.attributes parameterNamePrefix='product.'/>
+	<#if product.category??>
+		<#assign schemaName='category:'+product.category.id>
+	</#if>
+	<@editAttributes schemaName=schemaName! attributes=product.attributes parameterNamePrefix='product.'/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>
