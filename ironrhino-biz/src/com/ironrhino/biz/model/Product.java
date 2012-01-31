@@ -1,7 +1,13 @@
 package com.ironrhino.biz.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.type.TypeReference;
 import org.compass.annotations.Index;
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableComponent;
@@ -10,8 +16,10 @@ import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
+import org.ironrhino.core.model.Attribute;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
+import org.ironrhino.core.util.JsonUtils;
 
 @AutoConfig(searchable = true)
 @Searchable(alias = "product")
@@ -44,6 +52,9 @@ public class Product extends Entity<Long> implements Ordered {
 	@NotInJson
 	@SearchableComponent
 	private Brand brand;
+
+	@SearchableComponent
+	private List<Attribute> attributes = new ArrayList<Attribute>();
 
 	public Long getId() {
 		return id;
@@ -124,6 +135,42 @@ public class Product extends Entity<Long> implements Ordered {
 			sb.append(category.getName());
 		sb.append(name);
 		return sb.toString();
+	}
+
+	public List<Attribute> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(List<Attribute> attributes) {
+		this.attributes = attributes;
+	}
+
+	@NotInCopy
+	public String getAttributesAsString() {
+		if (attributes == null || attributes.isEmpty())
+			return null;
+		Map<String, String> map = new LinkedHashMap<String, String>();
+		for (Attribute attr : attributes)
+			if (StringUtils.isNotBlank(attr.getName()))
+				map.put(attr.getName(), attr.getValue());
+		if (map.isEmpty())
+			return null;
+		return JsonUtils.toJson(map);
+	}
+
+	public void setAttributesAsString(String str) {
+		if (StringUtils.isNotBlank(str))
+			try {
+				Map<String, String> map = JsonUtils.fromJson(str,
+						new TypeReference<Map<String, String>>() {
+						});
+				attributes = new ArrayList<Attribute>(map.size());
+				for (Map.Entry<String, String> entry : map.entrySet())
+					attributes.add(new Attribute(entry.getKey(), entry
+							.getValue()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	}
 
 	public int getDisplayOrder() {

@@ -18,6 +18,7 @@
 		<property name="shopStock" />
 		<property name="weight" />
 		<property name="price" />
+		<property name="attributesAsString" column="attributes" length="1024"/>
 		<property name="displayOrder" />
 	</class>
 </hibernate-mapping>
