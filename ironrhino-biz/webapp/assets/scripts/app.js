@@ -29,6 +29,22 @@
 					else
 						span.hide();
 				});
+		$(':input["name=categoryId"].changeEditAttributes')
+				.removeClass('changeEditAttributes').change(function() {
+					var categoryId = $(this).val();
+					var productId = $(':input[name=product.id]',
+							$(this).closest('form')).val();
+					if (categoryId) {
+						var url = $(this).closest('form').attr('action');
+						url = url.substring(0, url.lastIndexOf('/'))
+								+ '/input?categoryId=' + categoryId
+								+ (productId ? '&id=' + productId : '');
+						ajax({
+									url : url,
+									replacement : 'editAttributes'
+								});
+					};
+				});
 		$('#customerName').blur(function(event) {
 			var ele = $(event.target);
 			var val = ele.val();
