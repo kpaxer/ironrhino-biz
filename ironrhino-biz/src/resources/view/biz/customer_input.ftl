@@ -14,11 +14,11 @@
 	<label class="field" for="region"><span style="cursor:pointer;">请选择地区</span></label>
 	<span id="region"><#if customer.region??>${customer.region.fullname}<#else>...</#if></span>
 	</div>
-	<@s.textfield label="%{getText('address')}" name="customer.address"/>
-	<@s.textfield label="%{getText('linkman')}" name="customer.linkman" />
-	<@s.textfield label="%{getText('phone')}" name="customer.phone" />
-	<@s.textfield label="%{getText('mobile')}" name="customer.mobile" />
-	<@s.textfield label="%{getText('fax')}" name="customer.fax" />
+	<@s.textfield label="%{getText('address')}" name="customer.address" size="50"/>
+	<@s.textfield label="%{getText('linkman')}" name="customer.linkman" size="50" />
+	<@s.textfield label="%{getText('phone')}" name="customer.phone" size="50" />
+	<@s.textfield label="%{getText('mobile')}" name="customer.mobile" size="50" />
+	<@s.textfield label="%{getText('fax')}" name="customer.fax" size="50" />
 	<@s.textfield label="%{getText('tag')}" name="customer.tagsAsString" size="50" cssClass="tagbox multiautocomplete" source="${getUrl('/biz/customer/tag')}"/>
 	<@s.textarea label="%{getText('memo')}" name="customer.memo" cols="50" rows="10"/>
 	<@s.submit value="%{getText('save')}" />
