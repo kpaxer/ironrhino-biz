@@ -19,7 +19,7 @@
 	<@s.textfield label="%{getText('phone')}" name="customer.phone" />
 	<@s.textfield label="%{getText('mobile')}" name="customer.mobile" />
 	<@s.textfield label="%{getText('fax')}" name="customer.fax" />
-	<@s.textfield label="%{getText('tag')}" name="customer.tagsAsString" size="50" cssClass="multiautocomplete" source="${getUrl('/biz/customer/tag')}"/>
+	<@s.textfield label="%{getText('tag')}" name="customer.tagsAsString" size="50" cssClass="tagbox multiautocomplete" source="${getUrl('/biz/customer/tag')}"/>
 	<@s.textarea label="%{getText('memo')}" name="customer.memo" cols="50" rows="10"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
