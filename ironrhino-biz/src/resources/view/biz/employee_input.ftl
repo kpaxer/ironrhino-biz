@@ -5,9 +5,9 @@
 </head>
 <body>
 <@s.form action="save" method="post" cssClass="ajax">
-	<@s.if test="%{!employee.isNew()}">
+	<#if employee.new>
 		<@s.hidden name="employee.id" />
-	</@s.if>
+	</#if>
 	<@s.textfield label="%{getText('name')}" name="employee.name" cssClass="required"/>
 	<@s.select label="%{getText('type')}" name="employee.type" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
 	<@s.textfield label="%{getText('phone')}" name="employee.phone" />

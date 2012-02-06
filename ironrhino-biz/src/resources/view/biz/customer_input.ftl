@@ -5,9 +5,9 @@
 </head>
 <body>
 <@s.form action="save" method="post" cssClass="ajax">
-	<@s.if test="%{!customer.isNew()}">
+	<#if customer.new>
 		<@s.hidden name="customer.id" />
-	</@s.if>
+	</#if>
 	<@s.textfield label="%{getText('name')}" name="customer.name" cssClass="required"/>
 	<div class="treeselect" treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId','cache':false}">
 	<@s.hidden id="regionId" name="regionId" />
