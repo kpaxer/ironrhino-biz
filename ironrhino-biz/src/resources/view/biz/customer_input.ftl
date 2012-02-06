@@ -5,7 +5,7 @@
 </head>
 <body>
 <@s.form action="save" method="post" cssClass="ajax">
-	<#if customer.new>
+	<#if !customer.new>
 		<@s.hidden name="customer.id" />
 	</#if>
 	<@s.textfield label="%{getText('name')}" name="customer.name" cssClass="required"/>
