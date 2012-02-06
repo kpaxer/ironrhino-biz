@@ -32,12 +32,6 @@ public class Customer extends Entity<Long> {
 	private String name;
 
 	@SearchableProperty(boost = 3)
-	private String nameAsPinyin;
-
-	@SearchableProperty(boost = 3)
-	private String nameAsPinyinAbbr;
-
-	@SearchableProperty(boost = 3)
 	private String address;
 
 	@SearchableProperty
@@ -165,22 +159,14 @@ public class Customer extends Entity<Long> {
 		this.name = name;
 	}
 
+	@SearchableProperty(boost = 3)
 	public String getNameAsPinyin() {
-		nameAsPinyin = StringUtils.pinyin(name);
-		return nameAsPinyin;
+		return StringUtils.pinyin(name);
 	}
 
-	public void setNameAsPinyin(String nameAsPinyin) {
-		this.nameAsPinyin = nameAsPinyin;
-	}
-
+	@SearchableProperty(boost = 3)
 	public String getNameAsPinyinAbbr() {
-		nameAsPinyinAbbr = StringUtils.pinyinAbbr(name);
-		return nameAsPinyinAbbr;
-	}
-
-	public void setNameAsPinyinAbbr(String nameAsPinyinAbbr) {
-		this.nameAsPinyinAbbr = nameAsPinyinAbbr;
+		return StringUtils.pinyinAbbr(name);
 	}
 
 	public void setPhone(String phone) {
