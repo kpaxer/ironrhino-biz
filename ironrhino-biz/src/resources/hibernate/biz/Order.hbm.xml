@@ -12,7 +12,7 @@
 		<natural-id>
 			<property name="code" not-null="true" />
 		</natural-id>
-		<version name="version" column="version" access="field"/> 
+		<version name="version" column="version" access="field" />
 		<property name="discount" />
 		<property name="freight" />
 		<property name="grandTotal" />
@@ -31,12 +31,14 @@
 		<property name="createDate" />
 		<property name="modifyDate" />
 		<property name="memo" length="2500" />
-		<many-to-one name="customer" column="customerId" not-null="true" lazy="false" fetch="join" />
-		<many-to-one name="station" column="stationId" not-null="false" lazy="proxy" />
-		<many-to-one name="salesman" column="salesmanId" not-null="false" lazy="proxy" />
-		<many-to-one name="deliveryman" column="deliverymanId" not-null="false" lazy="proxy" />
-		<many-to-one name="createUser" class="org.ironrhino.security.model.User" column="createUser" not-null="false" lazy="proxy" />
-		<many-to-one name="modifyUser" class="org.ironrhino.security.model.User" column="modifyUser" not-null="false" lazy="proxy" />
+		<many-to-one name="customer" column="customerId" not-null="true"
+			lazy="false" fetch="join" />
+		<many-to-one name="station" column="stationId" lazy="proxy" />
+		<many-to-one name="salesman" column="salesmanId" lazy="proxy" />
+		<many-to-one name="deliveryman" column="deliverymanId"
+			lazy="proxy" />
+		<many-to-one name="createUser" lazy="proxy" />
+		<many-to-one name="modifyUser" lazy="proxy" />
 		<list name="items" table="orderitem" cascade="all" lazy="true"
 			fetch="subselect">
 			<key column="orderId" />
