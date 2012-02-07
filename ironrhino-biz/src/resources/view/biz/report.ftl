@@ -31,7 +31,8 @@
 				<div style="clear:left;">按客户和区间</div>
 				<form action="report/jasper" method="post" class="report line clearfix">
 					<input type="hidden" name="type" value="order"/>
-					<div class="field"><input type="text" name="customer" class="required customerName" style="width:120px;"/></div>
+					<input id="customerId" type="hidden" name="customer"/>
+					<div class="field"><span id="customer" class="listpick" pickoptions="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'customer','id':'customerId'}">请点击选择客户</span></div>
 					<div class="field"><@s.textfield id="" name="from" cssClass="date required" theme="simple"/></div>
 					<div class="field"><@s.textfield id="" name="to" cssClass="date required" theme="simple"/></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
@@ -71,7 +72,8 @@
 				<div style="clear:left;">按客户和区间</div>
 				<form action="report/jasper" method="post" class="report line clearfix">
 					<input type="hidden" name="type" value="productsales"/>
-					<div class="field"><input type="text" name="customer" class="required customerName" style="width:120px;"/></div>
+					<input id="customerId2" type="hidden" name="customer"/>
+					<div class="field"><span id="customer2" class="listpick" pickoptions="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'customer2','id':'customerId2'}">请点击选择客户</span></div>
 					<div class="field"><@s.textfield id="" name="from" cssClass="date required" theme="simple"/></div>
 					<div class="field"><@s.textfield id="" name="to" cssClass="date required" theme="simple"/></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
@@ -119,7 +121,8 @@
 				<h3 style="clear:left;">个人工资详单</h3>
 				<form action="report/jasper" method="post" class="report line clearfix">
 					<input type="hidden" name="type" value="privatereward"/>
-					<div class="field"><@s.select theme="simple" cssClass="required" cssStyle="width:80px;" name="id" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/></div>
+					<input id="employeeId" type="hidden" name="id"/>
+					<div class="field"><span id="employee" class="listpick" pickoptions="{'url':'<@url value="/biz/employee/pick?columns=name"/>','name':'employee','id':'employeeId'}">请点击选择员工</span></div>
 					<div class="field"><@s.textfield id="" name="from" cssClass="date required" theme="simple" cssStyle="width:80px;"/></div>
 					<div class="field"><@s.textfield id="" name="to" cssClass="date required" theme="simple" cssStyle="width:80px;"/></div>
 					<div class="field"><select name="negative" style="width:60px;"><option value="">全部</option><option value="false">收入</option><option value="true">支出</option></select></div>

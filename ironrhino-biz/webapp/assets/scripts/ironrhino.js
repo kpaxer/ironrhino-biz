@@ -26980,6 +26980,7 @@ MessageBundle = {
 		'no.selection' : 'no selection',
 		'no.modification' : 'no modification',
 		'select' : 'please select',
+		'select.one' : 'please select one record',
 		'confirm.delete' : 'are sure to delete?',
 		'confirm.save' : 'are sure to save?',
 		'confirm.exit' : 'you have unsaved modification,are sure to exit?'
@@ -27001,6 +27002,7 @@ MessageBundle = {
 		'remove' : '删除',
 		'browse' : '浏览文件',
 		'select' : '请选择',
+		'select.one' : '请选择一条',
 		'save' : '保存',
 		'restore' : '还原',
 		'cancel' : '取消',
@@ -27420,6 +27422,8 @@ Ajax = {
 			return;
 		var hasError = false;
 		var target = options.target;
+		if (target && $(target).parents('div.ui-dialog').length)
+			options.quiet = true;
 		if ((typeof data == 'string')
 				&& (data.indexOf('{') == 0 || data.indexOf('[') == 0))
 			data = $.parseJSON(data);
@@ -27686,15 +27690,16 @@ if (HISTORY_ENABLED) {
 }
 
 Observation.common = function(container) {
-	$('div.action_error,div.action_message,ul.action_error li,ul.action_message li')
-			.each(function() {
-				var t = $(this);
-				if (!$('div.close', t).length)
-					t
-							.prepend('<div class="close" onclick="$(this.parentNode).remove()"></div>');
-			});
+	$(
+			'div.action_error,div.action_message,ul.action_error li,ul.action_message li',
+			container).each(function() {
+		var t = $(this);
+		if (!$('div.close', t).length)
+			t
+					.prepend('<div class="close" onclick="$(this.parentNode).remove()"></div>');
+	});
 
-	$('div.field_error').each(function() {
+	$('div.field_error', container).each(function() {
 				var text = $(this).text();
 				var field = $(':input', $(this).parent());
 				$(this).remove();
@@ -27735,13 +27740,13 @@ Observation.common = function(container) {
 						$(this).attr('maxlength', '255');
 				}
 			});
-	$('.highlightrow tbody tr').hover(function() {
+	$('.highlightrow tbody tr', container).hover(function() {
 				$(this).addClass('highlight');
 			}, function() {
 				$(this).removeClass('highlight');
 			});
 	if (!$.browser.msie && typeof $.fn.elastic != 'undefined')
-		$('textarea').elastic();
+		$('textarea', container).elastic();
 	if (typeof $.fn.tabs != 'undefined')
 		$('div.tabs', container).each(function() {
 					$(this).tabs({
@@ -27817,7 +27822,7 @@ Observation.common = function(container) {
 				});
 	}
 	if (typeof $.fn.tagBox != 'undefined') {
-		$(':input.tagbox').each(function() {
+		$(':input.tagbox', container).each(function() {
 					var t = $(this);
 					var width = t.width();
 					t.tagBox();
@@ -29163,6 +29168,8 @@ Richtable = {
 	},
 	reload : function(form, pushstate) {
 		form = form || $('form.richtable');
+		if (form.parents('div.ui-dialog').length)
+			pushstate = false;
 		if (pushstate && typeof history.pushState != 'undefined') {
 			var url = form.attr('action');
 			var params = form.serializeArray();
@@ -29425,6 +29432,8 @@ Richtable = {
 							Message.showMessage('no.selection');
 							return false;
 						}
+						if (!url)
+							return true;
 						url += (url.indexOf('?') > 0 ? '&' : '?') + idparams;
 					}
 				}
@@ -29834,9 +29843,12 @@ Observation.richtable = function(container) {
 			var name = treeoptions.full || false
 					? treenode.fullname
 					: treenode.name;
-			if (nametarget.is(':input'))
+			if (nametarget.is(':input')) {
 				nametarget.val(name);
-			else {
+				var form = nametarget.closest('form');
+				if (!form.hasClass('nodirty'))
+					form.addClass('dirty');
+			} else {
 				nametarget.text(name);
 				if (!nametarget.next('a.close').length)
 					nametarget.after('<a class="close">x</a>').next().css({
@@ -29856,9 +29868,12 @@ Observation.richtable = function(container) {
 		if (treeoptions.id) {
 			var idtarget = $('#' + treeoptions.id);
 			var id = treenode.id;
-			if (idtarget.is(':input'))
+			if (idtarget.is(':input')) {
 				idtarget.val(id);
-			else
+				var form = idtarget.closest('form');
+				if (!form.hasClass('nodirty'))
+					form.addClass('dirty');
+			} else
 				idtarget.text(id);
 		}
 		$('#_tree_window').dialog('close');
@@ -29870,6 +29885,127 @@ Observation.richtable = function(container) {
 
 Observation.treeselect = function(container) {
 	$('.treeselect', container).treeselect();
+};
+(function($) {
+	var current;
+	$.fn.listpick = function() {
+		$(this).each(function() {
+			current = $(this);
+			var pickoptions = {
+				separator : ',',
+				nameindex : 1,
+				multiple : false
+			}
+			$.extend(pickoptions, (new Function("return "
+							+ (current.attr('pickoptions') || '{}')))());
+			var nametarget = null;
+			if (pickoptions.name) {
+				nametarget = $('#' + pickoptions.name);
+				var close = nametarget.next('a.close');
+				if (close.length)
+					close.css({
+								'cursor' : 'pointer',
+								'color' : '#black',
+								'margin-left' : '5px',
+								'padding' : '0 5px',
+								'border' : 'solid 1px #FFC000'
+							}).click(function(event) {
+								nametarget.text(MessageBundle.get('select'));
+								$('#' + pickoptions.id).val('');
+								$(this).remove();
+								event.stopPropagation();
+							});
+			}
+			current.css('cursor', 'pointer').click(function() {
+				$('#_pick_window').remove();
+				var win = $('<div id="_pick_window" title="'
+						+ MessageBundle.get('select') + '"></div>')
+						.appendTo(document.body).dialog({
+									width : 650,
+									minHeight : 500
+								});
+				if (win.html() && typeof $.fn.mask != 'undefined')
+					win.mask(MessageBundle.get('ajax.loading'));
+				else
+					win.html('<div style="text-align:center;">'
+							+ MessageBundle.get('ajax.loading') + '</div>');
+				var target = win.get(0);
+				target.onsuccess = function() {
+					if (typeof $.fn.mask != 'undefined')
+						win.unmask();
+					Dialog.adapt(win);
+					$('button.confirm', target).live('click', function() {
+						var checkbox = $('tbody :checked', target);
+						var length = checkbox.length;
+						if (!pickoptions.multiple && length > 1) {
+							Message.showMessage('select.one');
+							return false;
+						}
+						var ids = [], names = [];
+						checkbox.each(function() {
+							ids.push($(this).val());
+							names
+									.push($($(this).closest('tr')[0].cells[pickoptions.nameindex])
+											.text());
+						});
+						if (pickoptions.name) {
+							var nametarget = $('#' + pickoptions.name);
+							var name = names.join(pickoptions.separator);
+							if (nametarget.is(':input')) {
+								nametarget.val(name);
+								var form = nametarget.closest('form');
+								if (!form.hasClass('nodirty'))
+									form.addClass('dirty');
+							} else {
+								nametarget.text(name);
+								if (!nametarget.next('a.close').length)
+									nametarget.after('<a class="close">x</a>')
+											.next().css({
+														'cursor' : 'pointer',
+														'color' : '#black',
+														'margin-left' : '5px',
+														'padding' : '0 5px',
+														'border' : 'solid 1px #FFC000'
+													}).click(function(event) {
+												nametarget.text(MessageBundle
+														.get('select'));
+												$('#' + pickoptions.id).val('');
+												$(this).remove();
+												event.stopPropagation();
+											});
+							}
+						}
+						if (pickoptions.id) {
+							var idtarget = $('#' + pickoptions.id);
+							var id = ids.join(pickoptions.separator);;
+							if (idtarget.is(':input')) {
+								idtarget.val(id);
+								var form = idtarget.closest('form');
+								if (!form.hasClass('nodirty'))
+									form.addClass('dirty');
+							} else
+								idtarget.text(id);
+						}
+						win.dialog('destroy');
+						return false;
+					});
+				};
+				ajax({
+							url : pickoptions.url,
+							cache : false,
+							target : target,
+							replacement : '_pick_window:content',
+							quiet : true
+						});
+			});
+		});
+		return this;
+	};
+
+})(jQuery);
+
+Observation.listpick = function(container) {
+	$('.listpick', container).listpick();
 };
 ( function($) {
 	SearchHighlighter = {

@@ -9,7 +9,7 @@
 		<@s.hidden name="customer.id" />
 	</#if>
 	<@s.textfield label="%{getText('name')}" name="customer.name" cssClass="required"/>
-	<div class="treeselect" treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId','cache':false}">
+	<div class="field treeselect" treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId','cache':false}">
 	<@s.hidden id="regionId" name="regionId" />
 	<label class="field" for="region"><span style="cursor:pointer;">请选择地区</span></label>
 	<#if customer.region??><span id="region">${customer.region.fullname}</span><a class="close">x</a><#else><span id="region">...</span></#if>
