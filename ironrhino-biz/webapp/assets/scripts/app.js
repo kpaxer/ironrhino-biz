@@ -152,6 +152,8 @@
 										.val(data.price || '');
 								if (data.stock < quantity)
 									ele.siblings('span.info').html('库存不够');
+								else
+									ele.siblings('span.info').html('');
 							}
 						});
 			}
