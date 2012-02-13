@@ -55,7 +55,8 @@
 
 	<target name="test" depends="compile">
 		<mkdir dir="${test.classes.dir}" />
-		<javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" encoding="utf-8">
+		<javac srcdir="${test.src.dir}" destdir="${test.classes.dir}"
+			encoding="utf-8">
 			<classpath>
 				<path refid="lib.classpath" />
 				<pathelement location="${classes.dir}" />
@@ -82,31 +83,70 @@
 		</junit>
 	</target>
 
+	<target name="sync">
+		<copy todir="${basedir}/webapp/assets">
+			<fileset dir="${basedir}/../ironrhino/webapp/assets"
+				includes="scripts/ironrhino*" />
+			<fileset dir="${basedir}/../ironrhino/webapp/assets"
+				includes="styles/ironrhino*,styles/images/*" />
+			<fileset dir="${basedir}/../ironrhino/webapp/assets"
+				includes="images/*,components/*" />
+		</copy>
+		<loadfile property="classpath" srcFile="${basedir}/.classpath"
+			encoding="utf-8" />
+		<script language="javascript">
+			<![CDATA[
+			importPackage(java.io);
+			var lines = classpath.split('\n');
+			for(var i=0;i<lines.length;i++){
+				var line = lines[i];
+				if(line.indexOf('kind="lib"') < 0)
+					continue;
+				var arr = line.split('"');
+				var path = arr[arr.length-2];
+				echo = project.createTask("copy");
+				var arr2 = path.split('/');
+				if(path.indexOf('ironrhino')>0)
+        			echo.setFile(new File(basedir+'/../ironrhino/target',arr2[arr2.length-1]));
+        		else
+        			echo.setFile(new File(basedir+'/../ironrhino/'+path));	
+        		echo.setTofile(new File(basedir,path));
+        		echo.perform();
+			}
+				
+			]]>
+		</script>
+	</target>
+
 	<target name="compress">
 		<java jar="${lib.dir}/closure-compiler.jar" fork="true">
-			<arg line=" --js=./webapp/assets/scripts/app.js --js_output_file=./webapp/assets/scripts/app-min.js" />
+			<arg
+				line=" --js=./webapp/assets/scripts/app.js --js_output_file=./webapp/assets/scripts/app-min.js" />
 		</java>
 		<java jar="${lib.dir}/yuicompressor.jar" fork="true">
-			<arg line=" --charset utf-8 --type css -o ./webapp/assets/styles/app-min.css ./webapp/assets/styles/app.css" />
+			<arg
+				line=" --charset utf-8 --type css -o ./webapp/assets/styles/app-min.css ./webapp/assets/styles/app.css" />
 		</java>
 		<java jar="${lib.dir}/yuicompressor.jar" fork="true">
-			<arg line=" --charset utf-8 --type css -o ./webapp/assets/website/style-min.css ./webapp/assets/website/style.css" />
+			<arg
+				line=" --charset utf-8 --type css -o ./webapp/assets/website/style-min.css ./webapp/assets/website/style.css" />
 		</java>
 	</target>
-	
+
 	<target name="jar">
 		<mkdir dir="${target.dir}" />
 		<delete file="${target.dir}/${jar.name}" />
 		<jar jarfile="${target.dir}/${jar.name}" basedir="${classes.dir}" />
 	</target>
 
-	<target name="war" depends="compress,jar">
+	<target name="war" depends="sync,compress,jar">
 		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" />
 		<mkdir dir="${target.dir}/classes" />
 		<move todir="${target.dir}/classes">
 			<fileset dir="${webapp.dir}/WEB-INF/classes" />
 		</move>
-		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}" webxml="${webapp.dir}/WEB-INF/web.xml" />
+		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}"
+			webxml="${webapp.dir}/WEB-INF/web.xml" />
 		<move file="${webapp.dir}/WEB-INF/lib/${jar.name}" todir="${target.dir}" />
 		<move todir="${webapp.dir}/WEB-INF/classes">
 			<fileset dir="${target.dir}/classes" />
@@ -119,6 +159,7 @@
 		<delete dir="${test.classes.dir}" />
 		<delete dir="${target.dir}" />
 	</target>
+
 
 	<target name="checkwebappdeployed">
 		<available property="webapp.deployed" file="${webapp.deploy.dir}/WEB-INF/web.xml" />
@@ -136,12 +177,14 @@
 		</exec>
 		<echo message="${svn.update.output}" />
 		<condition property="svn.updated">
-			<matches pattern="^.*\n.*$" string="${svn.update.output}" multiline="true" />
+			<matches pattern="^.*\n.*$" string="${svn.update.output}"
+				multiline="true" />
 		</condition>
 	</target>
 
 	<target name="backup" if="webapp.deployed" depends="checkwebappdeployed">
-		<war warfile="${target.dir}/${war.name}.bak" basedir="${webapp.deploy.dir}" webxml="${webapp.deploy.dir}/WEB-INF/web.xml" />
+		<war warfile="${target.dir}/${war.name}.bak" basedir="${webapp.deploy.dir}"
+			webxml="${webapp.deploy.dir}/WEB-INF/web.xml" />
 	</target>
 
 	<target name="update" if="svn.updated" depends="checksvnupdated">
@@ -158,7 +201,8 @@
 
 	<target name="shutdown" if="server.started" depends="checkserverstarted">
 		<exec executable="${server.shutdown.cmd}" dir="${server.home}" />
-		<waitfor checkevery="2" checkeveryunit="second" maxwait="60" maxwaitunit="second">
+		<waitfor checkevery="2" checkeveryunit="second" maxwait="60"
+			maxwaitunit="second">
 			<not>
 				<socket server="localhost" port="${server.check.port}" />
 			</not>
@@ -167,7 +211,8 @@
 	</target>
 
 	<target name="startup" depends="shutdown">
-		<exec executable="${server.startup.cmd}" dir="${server.home}" spawn="true" />
+		<exec executable="${server.startup.cmd}" dir="${server.home}"
+			spawn="true" />
 	</target>
 
 	<target name="deploy">

@@ -82,5 +82,7 @@
 	<classpathentry kind="lib" path="lib/servlet-api-3.0.jar"/>
 	<classpathentry kind="lib" path="lib/spring-test-3.1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-common-schema-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/closure-compiler.jar"/>
+	<classpathentry kind="lib" path="lib/yuicompressor.jar"/>
 	<classpathentry kind="output" path="webapp/WEB-INF/classes"/>
 </classpath>
