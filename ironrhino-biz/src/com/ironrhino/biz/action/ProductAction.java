@@ -145,9 +145,9 @@ public class ProductAction extends BaseAction {
 		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
 			product = productManager.get(Long.valueOf(id));
 		if (product != null) {
-			if (product.getCategory() != null)
+			if (product.getCategory() != null && categoryId == null)
 				categoryId = product.getCategory().getId();
-			if (product.getBrand() != null)
+			if (product.getBrand() != null && brandId == null)
 				brandId = product.getBrand().getId();
 		} else {
 			product = new Product();

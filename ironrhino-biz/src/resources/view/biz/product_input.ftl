@@ -16,13 +16,8 @@
 	<@s.textfield label="%{getText('weight')}" name="product.weight" cssClass="double positive"/>
 	<@s.textfield label="%{getText('price')}" name="product.price" cssClass="double positive"/>
 	<@s.textfield label="%{getText('displayOrder')}" name="product.displayOrder" cssClass="integer"/>
-	<#if Parameters.categoryId??>
-		<#assign schemaName='category:'+Parameters.categoryId>
-	<#elseif product.category??>
-		<#assign schemaName='category:'+product.category.id>
-	</#if>
 	<div id="editAttributes">
-	<@editAttributes schemaName=schemaName! attributes=product.attributes parameterNamePrefix='product.'/>
+	<@editAttributes schemaName='category:'+categoryId! attributes=product.attributes parameterNamePrefix='product.'/>
 	</div>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
