@@ -16,6 +16,7 @@ import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
+import org.ironrhino.core.model.Attributable;
 import org.ironrhino.core.model.Attribute;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
@@ -23,7 +24,7 @@ import org.ironrhino.core.util.JsonUtils;
 
 @AutoConfig(searchable = true)
 @Searchable(alias = "product")
-public class Product extends Entity<Long> implements Ordered {
+public class Product extends Entity<Long> implements Ordered, Attributable {
 
 	private static final long serialVersionUID = 1876365527076787416L;
 
