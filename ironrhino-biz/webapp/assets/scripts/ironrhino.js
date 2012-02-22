@@ -28073,7 +28073,8 @@ Observation.common = function(container) {
 				else
 					url = 'input';
 				var data = {};
-				data['id'] = hid.val();
+				if (hid.val())
+					data['id'] = hid.val();
 				data[t.attr('name')] = t.val();
 				ajax({
 							global : false,
