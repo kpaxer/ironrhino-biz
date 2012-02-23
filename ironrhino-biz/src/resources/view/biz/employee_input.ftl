@@ -4,7 +4,7 @@
 <title><#if employee.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('employee')}</title>
 </head>
 <body>
-<@s.form action="save" method="post" cssClass="ajax">
+<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax">
 	<#if !employee.new>
 		<@s.hidden name="employee.id" />
 	</#if>

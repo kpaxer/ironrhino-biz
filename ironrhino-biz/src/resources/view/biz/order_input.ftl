@@ -4,7 +4,7 @@
 <title><#if order.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('order')}</title>
 </head>
 <body>
-<@s.form action="${getUrl('/biz/order/save')}" method="post" cssClass="ajax reset">
+<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax reset">
 	<#if !order.new>
 		<@s.hidden name="order.id" />
 	</#if>
