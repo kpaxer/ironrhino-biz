@@ -149,7 +149,7 @@ public class CustomerAction extends BaseAction {
 			resultPage.setCriteria(criteria);
 			resultPage = compassSearchService.search(resultPage, new Mapper() {
 				public Object map(Object source) {
-					Customer c = (Customer)source;
+					Customer c = (Customer) source;
 					if (c.getRegion() != null)
 						c.setRegion(regionTreeControl.getRegionTree()
 								.getDescendantOrSelfById(c.getRegion().getId()));
@@ -163,8 +163,11 @@ public class CustomerAction extends BaseAction {
 	@Override
 	public String input() {
 		String id = getUid();
-		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
-			customer = customerManager.get(Long.valueOf(id));
+		if (StringUtils.isNotBlank(id))
+			if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
+				customer = customerManager.get(Long.valueOf(id));
+			else
+				customer = customerManager.findByNaturalId(id);
 		if (customer == null)
 			customer = new Customer();
 		else {

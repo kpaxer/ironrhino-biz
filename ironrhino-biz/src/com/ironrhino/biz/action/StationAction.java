@@ -146,8 +146,11 @@ public class StationAction extends BaseAction {
 	@Override
 	public String input() {
 		String id = getUid();
+		if(StringUtils.isNotBlank(id))
 		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
 			station = stationManager.get(Long.valueOf(id));
+		else
+			station = stationManager.findByNaturalId(id);
 		if (station == null)
 			station = new Station();
 		else {

@@ -88,8 +88,11 @@ public class EmployeeAction extends BaseAction {
 	@Override
 	public String input() {
 		String id = getUid();
-		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
-			employee = employeeManager.get(Long.valueOf(id));
+		if (StringUtils.isNotBlank(id))
+			if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
+				employee = employeeManager.get(Long.valueOf(id));
+			else
+				employee = employeeManager.findByNaturalId(id);
 		if (employee == null)
 			employee = new Employee();
 		return INPUT;
