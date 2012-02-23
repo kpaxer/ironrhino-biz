@@ -104,14 +104,14 @@
 					continue;
 				var arr = line.split('"');
 				var path = arr[arr.length-2];
-				echo = project.createTask("copy");
+				copy = project.createTask("copy");
 				var arr2 = path.split('/');
 				if(path.indexOf('ironrhino')>0)
-        			echo.setFile(new File(basedir+'/../ironrhino/target',arr2[arr2.length-1]));
+        			copy.setFile(new File(basedir+'/../ironrhino/target',arr2[arr2.length-1]));
         		else
-        			echo.setFile(new File(basedir+'/../ironrhino/'+path));	
-        		echo.setTofile(new File(basedir,path));
-        		echo.perform();
+        			copy.setFile(new File(basedir+'/../ironrhino/'+path));	
+        		copy.setTofile(new File(basedir,path));
+        		copy.perform();
 			}
 				
 			]]>
@@ -133,10 +133,74 @@
 		</java>
 	</target>
 
+
+	<target name="check-svn-present">
+		<available file="${webapp.dir}/assets/scripts/.svn/all-wcprops"
+			property="svn.present" />
+	</target>
+	<target name="append-svn-revision-for-assets" depends="check-svn-present"
+		if="svn.present">
+		<loadfile property="wcprops.for.scripts"
+			srcFile="${webapp.dir}/assets/scripts/.svn/all-wcprops" encoding="utf-8" />
+		<loadfile property="wcprops.for.styles"
+			srcFile="${webapp.dir}/assets/styles/.svn/all-wcprops" encoding="utf-8" />
+		<mkdir dir="${target.dir}/decorator" />
+		<copy todir="${target.dir}/decorator">
+			<fileset dir="${src.dir}/resources/view/decorator" />
+		</copy>
+		<script language="javascript">
+			<![CDATA[
+			importPackage(java.io);
+			var types = 'scripts,styles'.split(',');
+			for(var n=0;n<types.length;n++){
+				var type = types[n];
+				var wcprops = project.getProperty('wcprops.for.'+type).split('\n');
+				var files = new File(project.getProperty('webapp.dir')+'/assets/'+type).listFiles();
+				for(var i=0;i<files.length;i++){
+					var file = files[i];
+					if(file.isDirectory())
+						continue;
+					var name = file.getName();
+					for(var j=0;j<wcprops.length;j++){
+						var line = wcprops[j];
+						if(!line.startsWith(name) && line.endsWith(name)){
+							var revision = line.split('/')[4];
+							var replaceregexp = project.createTask('replaceregexp');
+							replaceregexp.setEncoding('utf-8');
+							replaceregexp.setPreserveLastModified(true);
+							var fs = project.createDataType("fileset");
+	      					fs.setDir(new File(project.getProperty('webapp.dir')+'/WEB-INF/classes/resources/view/decorator'));
+	      					fs.setIncludes('**/*.ftl');
+	      					replaceregexp.addFileset(fs);
+	      					var namearr = name.split('\\.');
+	      					var match = namearr[0]+'(.*)\\.'+namearr[1];
+	      					var replace = namearr[0]+'\\1\\.'+namearr[1]+'?'+revision;
+	        				replaceregexp.setMatch(match);
+	        				replaceregexp.setReplace(replace);
+	        				replaceregexp.perform();
+							break;
+						}
+					}	
+				}
+			}
+			]]>
+		</script>
+	</target>
+	<target name="reset-append-svn-revision-for-assets" depends="check-svn-present"
+		if="svn.present">
+		<copy todir="${webapp.dir}/WEB-INF/classes/resources/view/decorator" overwrite="true">
+			<fileset dir="${src.dir}/resources/view/decorator">
+				<include name="**/*.ftl" />
+			</fileset>
+		</copy>
+	</target>
+	
 	<target name="jar">
 		<mkdir dir="${target.dir}" />
 		<delete file="${target.dir}/${jar.name}" />
+		<antcall target="append-svn-revision-for-assets" />
 		<jar jarfile="${target.dir}/${jar.name}" basedir="${classes.dir}" />
+		<antcall target="reset-append-svn-revision-for-assets" />
 	</target>
 
 	<target name="war" depends="sync,compress,jar">

@@ -1,9 +1,9 @@
-<#assign html5 = false/>
+<#assign modernBrowser = false/>
 <#assign ua = request.getAttribute('userAgent')/>
 <#if ua?? && (ua.name!='msie' || ua.majorVersion gt 8)>
-<#assign html5 = true/>
+<#assign modernBrowser = true/>
 </#if>
-<#if html5>
+<#if modernBrowser>
 <!DOCTYPE html>
 <html>
 <#else>
@@ -13,7 +13,7 @@
 <#compress><#escape x as x?html>
 <head>
 <title><#noescape>${title}</#noescape>-<@printSetting key="company.name" /></title>
-<#if html5>
+<#if modernBrowser>
 <meta charset="utf-8">
 <#else>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -24,8 +24,8 @@
 <meta name="context_path" content="${request.contextPath}" />
 </#if>
 <link rel="shortcut icon" href="<@url value="/assets/website/images/favicon.ico"/>" />
-<link href="<@url value="/assets/styles/ironrhino-lite-min.css"/>" media="all" rel="stylesheet" type="text/css"/>
-<link href="<@url value="/assets/website/style-min.css"/>" rel="stylesheet" type="text/css"/>
+<link href="<@url value="/assets/styles/ironrhino-lite${modernBrowser?string('-min','')}.css"/>" media="all" rel="stylesheet" type="text/css"/>
+<link href="<@url value="/assets/website/style${modernBrowser?string('-min','')}.css"/>" rel="stylesheet" type="text/css"/>
 <#noescape>${head}</#noescape>
 </head>
 <body>
@@ -75,6 +75,6 @@
     
 	</div>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-	<script src="<@url value="/assets/scripts/ironrhino-lite-njq-min.js"/>" type="text/javascript"></script>
+	<script src="<@url value="/assets/scripts/ironrhino-lite-njq${modernBrowser?string('-min','')}.js"/>" type="text/javascript"></script>
 </body>
 </html></#escape></#compress>
