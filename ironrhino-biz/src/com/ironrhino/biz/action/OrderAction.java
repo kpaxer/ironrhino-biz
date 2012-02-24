@@ -243,10 +243,11 @@ public class OrderAction extends BaseAction {
 	@Override
 	public String input() {
 		String id = getUid();
-		if (StringUtils.isNotBlank(id))
+		if (StringUtils.isNotBlank(id)) {
 			order = orderManager.get(id);
-		if (order == null)
-			order = orderManager.findByNaturalId(id);
+			if (order == null)
+				order = orderManager.findByNaturalId(id);
+		}
 		if (order == null) {
 			order = new Order();
 			if (customer != null && customer.getId() != null)
