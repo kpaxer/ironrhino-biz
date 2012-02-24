@@ -92,14 +92,13 @@
 			<fileset dir="${basedir}/../ironrhino/webapp/assets"
 				includes="images/*,components/*" />
 		</copy>
-		<loadfile property="classpath" srcFile="${basedir}/.classpath"
-			encoding="utf-8" />
 		<script language="javascript">
 			<![CDATA[
 			importPackage(java.io);
-			var lines = classpath.split('\n');
-			for(var i=0;i<lines.length;i++){
-				var line = lines[i];
+			var is = new FileInputStream(project.getProperty('basedir')+'/.classpath');
+			var br = new BufferedReader(new InputStreamReader(is,'utf-8'));
+			var line;
+			while(line=br.readLine()){
 				if(line.indexOf('kind="lib"') < 0)
 					continue;
 				var arr = line.split('"');
@@ -113,7 +112,8 @@
         		copy.setTofile(new File(basedir,path));
         		copy.perform();
 			}
-				
+			br.close();
+			is.close();
 			]]>
 		</script>
 	</target>
@@ -133,61 +133,60 @@
 		</java>
 	</target>
 
-
-	<target name="check-svn-present">
-		<available file="${webapp.dir}/assets/scripts/.svn/all-wcprops"
-			property="svn.present" />
-	</target>
-	<target name="append-svn-revision-for-assets" depends="check-svn-present"
-		if="svn.present">
-		<loadfile property="wcprops.for.scripts"
-			srcFile="${webapp.dir}/assets/scripts/.svn/all-wcprops" encoding="utf-8" />
-		<loadfile property="wcprops.for.styles"
-			srcFile="${webapp.dir}/assets/styles/.svn/all-wcprops" encoding="utf-8" />
-		<mkdir dir="${target.dir}/decorator" />
-		<copy todir="${target.dir}/decorator">
-			<fileset dir="${src.dir}/resources/view/decorator" />
-		</copy>
+	<target name="append-svn-revision-for-assets">
 		<script language="javascript">
 			<![CDATA[
 			importPackage(java.io);
-			var types = 'scripts,styles'.split(',');
-			for(var n=0;n<types.length;n++){
-				var type = types[n];
-				var wcprops = project.getProperty('wcprops.for.'+type).split('\n');
-				var files = new File(project.getProperty('webapp.dir')+'/assets/'+type).listFiles();
+			var dirs = 'scripts,styles,website'.split(',');
+			for(var n=0;n<dirs.length;n++){
+				var dir = new File(project.getProperty('webapp.dir')+'/assets/'+dirs[n]);
+				if(!dir.exists()||!dir.isDirectory())
+					continue;
+				var wcpropsfile = new File(project.getProperty('webapp.dir')+'/assets/'+dirs[n]+'/.svn/all-wcprops');
+				var wcprops = [];
+				if(wcpropsfile.exists()){
+					var is = new FileInputStream(wcpropsfile);
+					var br = new BufferedReader(new InputStreamReader(is,'utf-8'));
+					var line;
+					while(line=br.readLine())
+						wcprops.push(line);
+					br.close();
+					is.close();
+				}
+				var files = new File(project.getProperty('webapp.dir')+'/assets/'+dirs[n]).listFiles();
 				for(var i=0;i<files.length;i++){
 					var file = files[i];
 					if(file.isDirectory())
 						continue;
 					var name = file.getName();
+					var revision = null;
 					for(var j=0;j<wcprops.length;j++){
 						var line = wcprops[j];
 						if(!line.startsWith(name) && line.endsWith(name)){
 							var revision = line.split('/')[4];
-							var replaceregexp = project.createTask('replaceregexp');
-							replaceregexp.setEncoding('utf-8');
-							replaceregexp.setPreserveLastModified(true);
-							var fs = project.createDataType("fileset");
-	      					fs.setDir(new File(project.getProperty('webapp.dir')+'/WEB-INF/classes/resources/view/decorator'));
-	      					fs.setIncludes('**/*.ftl');
-	      					replaceregexp.addFileset(fs);
-	      					var namearr = name.split('\\.');
-	      					var match = namearr[0]+'(.*)\\.'+namearr[1];
-	      					var replace = namearr[0]+'\\1\\.'+namearr[1]+'?'+revision;
-	        				replaceregexp.setMatch(match);
-	        				replaceregexp.setReplace(replace);
-	        				replaceregexp.perform();
 							break;
 						}
-					}	
+					}
+					revision = revision || file.lastModified();
+					var replaceregexp = project.createTask('replaceregexp');
+					replaceregexp.setEncoding('utf-8');
+					replaceregexp.setPreserveLastModified(true);
+					var fs = project.createDataType("fileset");
+	      			fs.setDir(new File(project.getProperty('webapp.dir')+'/WEB-INF/classes/resources/view/decorator'));
+	      			fs.setIncludes('**/*.ftl');
+	      			replaceregexp.addFileset(fs);
+	      			var namearr = name.split('\\.');
+	      			var match = '/'+dirs[n]+'/'+namearr[0]+'(.*)\\.'+namearr[1];
+	      			var replace = '/'+dirs[n]+'/'+namearr[0]+'\\1\\.'+namearr[1]+'?'+revision;
+	        		replaceregexp.setMatch(match);
+	        		replaceregexp.setReplace(replace);
+	        		replaceregexp.perform();
 				}
 			}
 			]]>
 		</script>
 	</target>
-	<target name="reset-append-svn-revision-for-assets" depends="check-svn-present"
-		if="svn.present">
+	<target name="reset-append-svn-revision-for-assets">
 		<copy todir="${webapp.dir}/WEB-INF/classes/resources/view/decorator" overwrite="true">
 			<fileset dir="${src.dir}/resources/view/decorator">
 				<include name="**/*.ftl" />
