@@ -187,14 +187,14 @@ public class Customer extends Entity<Long> {
 
 	public String getTagsAsString() {
 		if (tags.size() > 0)
-			return org.apache.commons.lang.StringUtils.join(tags.iterator(),
+			return org.apache.commons.lang3.StringUtils.join(tags.iterator(),
 					',');
 		return null;
 	}
 
 	public void setTagsAsString(String tagsAsString) {
 		tags.clear();
-		if (org.apache.commons.lang.StringUtils.isNotBlank(tagsAsString))
+		if (org.apache.commons.lang3.StringUtils.isNotBlank(tagsAsString))
 			tags.addAll(Arrays.asList(org.ironrhino.core.util.StringUtils
 					.trimTail(tagsAsString, ",").split(",")));
 	}
