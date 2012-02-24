@@ -40,7 +40,48 @@
 		<mkdir dir="${test.classes.dir}" />
 	</target>
 
-	<target name="compile">
+
+
+	<target name="sync">
+		<copy todir="${basedir}/webapp/assets">
+			<fileset dir="${basedir}/../ironrhino/webapp/assets"
+				includes="**/scripts/ironrhino*.js,**/styles/ironrhino*.css,**/styles/images/*,**/images/*" />
+			<fileset dir="${basedir}/../ironrhino/webapp/assets"
+				includes="**/components/*.zip" />
+		</copy>
+		<unzip dest="${basedir}/webapp/assets/components">
+			<fileset dir="${basedir}/webapp/assets/components" includes="**/*.zip" />
+		</unzip>
+		<delete>
+			<fileset dir="${basedir}/webapp/assets/components" includes="**/*.zip" />
+		</delete>
+		<script language="javascript">
+			<![CDATA[
+			importPackage(java.io);
+			var is = new FileInputStream(project.getProperty('basedir')+'/.classpath');
+			var br = new BufferedReader(new InputStreamReader(is,'utf-8'));
+			var line;
+			while(line=br.readLine()){
+				if(line.indexOf('kind="lib"') < 0)
+					continue;
+				var arr = line.split('"');
+				var path = arr[arr.length-2];
+				copy = project.createTask("copy");
+				var arr2 = path.split('/');
+				if(path.indexOf('ironrhino')>0)
+        			copy.setFile(new File(basedir+'/../ironrhino/target',arr2[arr2.length-1]));
+        		else
+        			copy.setFile(new File(basedir+'/../ironrhino/'+path));	
+        		copy.setTofile(new File(basedir,path));
+        		copy.perform();
+			}
+			br.close();
+			is.close();
+			]]>
+		</script>
+	</target>
+
+	<target name="compile" depends="sync">
 		<antcall target="clean" />
 		<antcall target="init" />
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" encoding="UTF-8">
@@ -81,41 +122,6 @@
 				<fileset dir="${test.classes.dir}" includes="**/*Test.class" />
 			</batchtest>
 		</junit>
-	</target>
-
-	<target name="sync">
-		<copy todir="${basedir}/webapp/assets">
-			<fileset dir="${basedir}/../ironrhino/webapp/assets"
-				includes="scripts/ironrhino*" />
-			<fileset dir="${basedir}/../ironrhino/webapp/assets"
-				includes="styles/ironrhino*,styles/images/*" />
-			<fileset dir="${basedir}/../ironrhino/webapp/assets"
-				includes="images/*,components/*" />
-		</copy>
-		<script language="javascript">
-			<![CDATA[
-			importPackage(java.io);
-			var is = new FileInputStream(project.getProperty('basedir')+'/.classpath');
-			var br = new BufferedReader(new InputStreamReader(is,'utf-8'));
-			var line;
-			while(line=br.readLine()){
-				if(line.indexOf('kind="lib"') < 0)
-					continue;
-				var arr = line.split('"');
-				var path = arr[arr.length-2];
-				copy = project.createTask("copy");
-				var arr2 = path.split('/');
-				if(path.indexOf('ironrhino')>0)
-        			copy.setFile(new File(basedir+'/../ironrhino/target',arr2[arr2.length-1]));
-        		else
-        			copy.setFile(new File(basedir+'/../ironrhino/'+path));	
-        		copy.setTofile(new File(basedir,path));
-        		copy.perform();
-			}
-			br.close();
-			is.close();
-			]]>
-		</script>
 	</target>
 
 	<target name="compress">
@@ -187,13 +193,14 @@
 		</script>
 	</target>
 	<target name="reset-append-svn-revision-for-assets">
-		<copy todir="${webapp.dir}/WEB-INF/classes/resources/view/decorator" overwrite="true">
+		<copy todir="${webapp.dir}/WEB-INF/classes/resources/view/decorator"
+			overwrite="true">
 			<fileset dir="${src.dir}/resources/view/decorator">
 				<include name="**/*.ftl" />
 			</fileset>
 		</copy>
 	</target>
-	
+
 	<target name="jar">
 		<mkdir dir="${target.dir}" />
 		<delete file="${target.dir}/${jar.name}" />
