@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -11,6 +12,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.StringUtils;
+import org.ironrhino.core.coordination.Membership;
 import org.ironrhino.core.mail.MailSender;
 import org.ironrhino.core.util.FileUtils;
 import org.slf4j.Logger;
@@ -29,14 +31,24 @@ public class Backup {
 	@Inject
 	private MailSender mailSender;
 
+	@Inject
+	private Membership membership;
+
 	@Value("${backup.path:}")
 	private String path;
-	
+
 	@Value("${backup.email:}")
 	private String email;
 
+	@PostConstruct
+	public void init() {
+		membership.join(getClass().getName());
+	}
+
 	@Scheduled(cron = "0 0 22 * * ?")
 	public void send() {
+		if (!membership.isLeader(getClass().getName()))
+			return;
 		if (StringUtils.isBlank(path))
 			return;
 		String realpath = eval(path);
