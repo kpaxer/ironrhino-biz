@@ -23,7 +23,7 @@
 	<div class="field clearfix">
 		<label class="field" for="cashCondition">${action.getText('cashCondition')}</label>
 		<div id="cashCondition" style="float:right;">
-		<table border="0" width="600px;" class="datagrid">
+		<table border="0" width="600px;" class="datagrid nullable">
 			<tbody>
 			<#if !station.new&&station.cashCondition?size gt 0>
 				<#list 0..station.cashCondition?size-1 as index>

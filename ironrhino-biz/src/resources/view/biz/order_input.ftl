@@ -18,7 +18,7 @@
 	<div class="field">
 		<label class="field" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems">
-		<table border="0" width="90%">
+		<table border="0" width="90%" class="atleastone">
 			<thead>
 				<tr>
 					<td>${action.getText('product')}</td>
