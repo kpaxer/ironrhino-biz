@@ -40,11 +40,17 @@
 		<mkdir dir="${test.classes.dir}" />
 	</target>
 
-	<target name="syncAssets">
-		<delete dir="${basedir}/webapp/assets/components" />
+
+	<target name="syncIronrhinoAssets">
 		<copy todir="${basedir}/webapp/assets">
 			<fileset dir="${basedir}/../ironrhino/webapp/assets"
 				includes="**/scripts/ironrhino*.js,**/styles/ironrhino*.css,**/styles/images/*,**/images/*" />
+		</copy>
+	</target>
+
+	<target name="syncComponents">
+		<delete dir="${basedir}/webapp/assets/components" />
+		<copy todir="${basedir}/webapp/assets">
 			<fileset dir="${basedir}/../ironrhino/webapp/assets"
 				includes="**/components/*.zip" />
 		</copy>
@@ -56,6 +62,10 @@
 		</delete>
 	</target>
 
+	<target name="syncAssets">
+		<antcall target="syncIronrhinoAssets" />
+		<antcall target="syncComponents" />
+	</target>
 
 	<target name="syncJars">
 		<script language="javascript">

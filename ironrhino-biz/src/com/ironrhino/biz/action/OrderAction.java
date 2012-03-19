@@ -266,8 +266,7 @@ public class OrderAction extends BaseAction {
 			for (int i = 0; i < productId.length; i++)
 				productId[i] = order.getItems().get(i).getProduct().getId();
 		}
-		productList = productManager.findAll(org.hibernate.criterion.Order
-				.asc("displayOrder"));
+		productList = productManager.findAll();
 		DetachedCriteria dc = employeeManager.detachedCriteria();
 		// dc.add(Restrictions.eq("type", EmployeeType.SALESMAN));
 		dc.add(Restrictions.eq("dimission", false));

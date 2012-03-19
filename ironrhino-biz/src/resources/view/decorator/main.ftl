@@ -41,7 +41,11 @@
 		<ul class="menu rounded" corner="top 8px">
 			<li><a class="ajax view" href="<@url value="/biz/index"/>">${action.getText('index')}</a></li>
 			<li><a class="ajax view" href="<@url value="/biz/customer"/>">${action.getText('customer')}</a></li>
-			<li><a class="ajax view" href="<@url value="/biz/order"/>">${action.getText('order')}</a></li>
+			<li><a class="ajax view" href="<@url value="/biz/order"/>">${action.getText('order')}</a>
+				<ul>
+					<li><a class="ajax view" href="<@url value="/biz/returning"/>">${action.getText('returning')}</a></li>
+				</ul>
+			</li>
 			<li><a class="ajax view" href="<@url value="/biz/plan"/>">${action.getText('plan')}</a></li>
 			<li><a class="ajax view" href="<@url value="/biz/stuff"/>">${action.getText('stuff')}</a></li>
 			<li><a class="ajax view" href="<@url value="/biz/reward"/>">${action.getText('reward')}</a></li>

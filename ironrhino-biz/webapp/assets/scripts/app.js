@@ -176,10 +176,13 @@
 				$('#amount').text(grandTotal);
 			var discount = $('#discount').val();
 			if (discount)
-				grandTotal -= discount;
-			var freight = $('#freight').val();
-			if (freight)
-				grandTotal -= freight;
+				grandTotal -= parseFloat(discount);
+			var freight = $('#freight');
+			if (freight.val())
+				if (freight.hasClass('add'))
+					grandTotal += parseFloat(freight.val());
+				else
+					grandTotal -= parseFloat(freight.val());
 			$('#grandTotal').html(grandTotal >= 0
 					? grandTotal
 					: '<span style="color:red;">负数</span>');

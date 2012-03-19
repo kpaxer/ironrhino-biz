@@ -145,8 +145,7 @@ public class PlanAction extends BaseAction {
 		} else {
 			product = plan.getProduct();
 		}
-		productList = productManager.findAll(org.hibernate.criterion.Order
-				.asc("displayOrder"));
+		productList = productManager.findAll();
 		return INPUT;
 	}
 

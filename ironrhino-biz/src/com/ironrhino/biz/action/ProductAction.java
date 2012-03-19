@@ -139,8 +139,8 @@ public class ProductAction extends BaseAction {
 
 	@Override
 	public String input() {
-		categoryList = categoryManager.findAll(Order.asc("displayOrder"));
-		brandList = brandManager.findAll(Order.asc("displayOrder"));
+		categoryList = categoryManager.findAll();
+		brandList = brandManager.findAll();
 		String id = getUid();
 		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
 			product = productManager.get(Long.valueOf(id));
