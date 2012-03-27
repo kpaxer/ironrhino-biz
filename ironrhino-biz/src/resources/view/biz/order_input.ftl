@@ -25,6 +25,7 @@
 					<td>${action.getText('quantity')}</td>
 					<td>${action.getText('price')}</td>
 					<td>${action.getText('subtotal')}</td>
+					<td><@button text="+" class="add"/></td>
 				</tr>
 			</thead>
 			<tfoot align="right">

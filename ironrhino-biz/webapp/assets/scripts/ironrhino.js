@@ -28181,12 +28181,23 @@ Observation.common = function(container) {
 			}, function() {
 				$(this).removeClass('highlight');
 			});
-	$(':input.linkage_switch', container).change(function() {
-				var c = $(this).closest('.linkage');
-				var type = this.value;
-				$('.linkage_component', c).show();
-				$('.linkage_component.' + type, c).hide();
-			});
+	$('.linkage', container).each(function() {
+		var c = $(this);
+		c.data('originalclass', c.attr('class'));
+		var sw = $('.linkage_switch', c);
+		$('.linkage_component', c).show();
+		$('.linkage_component', c).not('.' + sw.val()).hide().filter(':input')
+				.val('');
+		c.attr('class', c.data('originalclass') + ' ' + sw.val());
+		sw.change(function() {
+					var c = $(this).closest('.linkage');
+					var sw = $(this);
+					$('.linkage_component', c).show();
+					$('.linkage_component', c).not('.' + sw.val()).hide()
+							.filter(':input').val('');
+					c.attr('class', c.data('originalclass') + ' ' + sw.val());
+				});
+	});
 	$(':input.conjunct', container).change(function() {
 				var t = $(this);
 				var f = $(this).closest('form');
@@ -29266,43 +29277,48 @@ Observation.sortableTable = function(container) {
 	$.fn.datagridTable = function(options) {
 		options = options || {};
 		$(this).each(function() {
-					if ($(this).hasClass('datagrided'))
-						return;
-					$(this).addClass('datagrided');
-					if ($(this).parents('.datagrided').length)
-						return;
-					$('tbody tr input:last', this).keydown(function(event) {
-								if (event.keyCode == 13) {
-									event.preventDefault();
-									addRow(event, options);
-								}
-							});
-					$('tbody tr input:first', this).keydown(function(event) {
-								if (event.keyCode == 8
-										&& !$(event.target).val()) {
-									event.preventDefault();
-									removeRow(event, options);
-								}
-							});
-					$('tbody tr .add', this).click(function(event) {
-								addRow(event, options)
-							});
-					$('tbody tr .remove', this).click(function(event) {
-								removeRow(event, options)
-							});
-					$('tbody tr .moveup', this).click(function(event) {
-								moveupRow(event, options)
-							});
-					$('tbody tr .movedown', this).click(function(event) {
-								movedownRow(event, options)
-							});
-				})
+			if ($(this).hasClass('datagrided'))
+				return;
+			$(this).addClass('datagrided');
+			if ($(this).parents('.datagrided').length)
+				return;
+			$('tbody input:last', this).keydown(function(event) {
+						if (event.keyCode == 13) {
+							event.preventDefault();
+							addRow(event, options);
+						}
+					});
+			$('tbody input:first', this).keydown(function(event) {
+						if (event.keyCode == 8 && !$(event.target).val()) {
+							event.preventDefault();
+							removeRow(event, options);
+						}
+					});
+			$('thead .add', this).click(function(event) {
+				var rows = $(event.target).closest('table.datagrided')
+						.children('tbody').children().not('.nontemplate');
+				if (rows.length > 0)
+					addRow(event, options, rows.eq(0), true);
+			});
+			$('tbody .add', this).click(function(event) {
+						addRow(event, options)
+					});
+			$('tbody .remove', this).click(function(event) {
+						removeRow(event, options)
+					});
+			$('tbody .moveup', this).click(function(event) {
+						moveupRow(event, options)
+					});
+			$('tbody .movedown', this).click(function(event) {
+						movedownRow(event, options)
+					});
+		})
 
 		return this;
 	};
 
-	var addRow = function(event, options) {
-		var row = $(event.target).closest('tr');
+	var addRow = function(event, options, row, first) {
+		var row = row || $(event.target).closest('tr');
 		var r = row.clone(true);
 		$('*', r).removeAttr('id');
 		$('span.info', r).html('');
@@ -29316,7 +29332,10 @@ Observation.sortableTable = function(container) {
 					if (i > 0)
 						$(this).remove();
 				});
-		row.after(r);
+		if (first)
+			row.parent().prepend(r);
+		else
+			row.after(r);
 		rename(row.closest('tbody'));
 		$('select.textonadd', r).each(function() {
 			$(this).replaceWith('<input type="text" name="'
@@ -29839,8 +29858,8 @@ Richtable = {
 					+ Math.random();
 			var iframe = $('#_window_ > iframe')[0];
 			iframe.src = url;
-			iframe.onload = function(){
-				Dialog.adapt(win,iframe);
+			iframe.onload = function() {
+				Dialog.adapt(win, iframe);
 			}
 		}
 		if (!useiframe)
@@ -30318,7 +30337,8 @@ Observation.richtable = function(container) {
 								event.stopPropagation();
 							});
 			}
-			current.css('cursor', 'pointer').click(function() {
+			var func = function() {
+
 				if (!treeoptions.cache)
 					$('#_tree_window').remove();
 				if (!$('#_tree_window').length) {
@@ -30362,7 +30382,14 @@ Observation.richtable = function(container) {
 					$('#_tree_window').dialog('open');
 				}
 
-			});
+			};
+			current.css('cursor', 'pointer').click(func).keydown(
+					function(event) {
+						if (event.keyCode == 13) {
+							func();
+							return false;
+						}
+					});
 		});
 		return this;
 	};
@@ -30408,7 +30435,7 @@ Observation.richtable = function(container) {
 })(jQuery);
 
 Observation.treeselect = function(container) {
-	$('.treeselect', container).treeselect();
+	$('.treeselect', container).attr('tabindex', '0').treeselect();
 };
 (function($) {
 	var current;
@@ -30434,7 +30461,8 @@ Observation.treeselect = function(container) {
 								event.stopPropagation();
 							});
 			}
-			current.css('cursor', 'pointer').click(function() {
+			var func = function() {
+
 				$('#_pick_window').remove();
 				var win = $('<div id="_pick_window" title="'
 						+ MessageBundle.get('select') + '"></div>')
@@ -30578,7 +30606,15 @@ Observation.treeselect = function(container) {
 							replacement : '_pick_window:content',
 							quiet : true
 						});
-			});
+
+			};
+			current.css('cursor', 'pointer').click(func).keydown(
+					function(event) {
+						if (event.keyCode == 13) {
+							func();
+							return false;
+						}
+					});
 		});
 		return this;
 	};
@@ -30586,7 +30622,7 @@ Observation.treeselect = function(container) {
 })(jQuery);
 
 Observation.listpick = function(container) {
-	$('.listpick', container).listpick();
+	$('.listpick', container).attr('tabindex', '0').listpick();
 };
 ( function($) {
 	SearchHighlighter = {

@@ -26,6 +26,9 @@
 				<td>
 				${action.getText('memo')}
 				</td>
+				<td>
+				<@button text="+" class="add"/>
+				</td>
 			</tr>
 		</thead>
 		<tbody>
