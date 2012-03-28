@@ -367,7 +367,6 @@ public class CustomerAction extends BaseAction {
 
 	@JsonConfig(root = "suggestions")
 	public String tag() {
-		keyword = ServletActionContext.getRequest().getParameter("term");
 		CompassSearchCriteria criteria = new CompassSearchCriteria();
 		if (StringUtils.isNotBlank(keyword))
 			criteria.setQuery("*" + keyword + "*");
