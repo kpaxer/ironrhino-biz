@@ -2,9 +2,7 @@ package com.ironrhino.biz.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.type.TypeReference;
@@ -150,25 +148,15 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 	public String getAttributesAsString() {
 		if (attributes == null || attributes.isEmpty())
 			return null;
-		Map<String, String> map = new LinkedHashMap<String, String>();
-		for (Attribute attr : attributes)
-			if (StringUtils.isNotBlank(attr.getName()))
-				map.put(attr.getName(), attr.getValue());
-		if (map.isEmpty())
-			return null;
-		return JsonUtils.toJson(map);
+		return JsonUtils.toJson(attributes);
 	}
 
 	public void setAttributesAsString(String str) {
 		if (StringUtils.isNotBlank(str))
 			try {
-				Map<String, String> map = JsonUtils.fromJson(str,
-						new TypeReference<Map<String, String>>() {
+				attributes = JsonUtils.fromJson(str,
+						new TypeReference<List<Attribute>>() {
 						});
-				attributes = new ArrayList<Attribute>(map.size());
-				for (Map.Entry<String, String> entry : map.entrySet())
-					attributes.add(new Attribute(entry.getKey(), entry
-							.getValue()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
