@@ -23,25 +23,20 @@
 	<div class="field clearfix">
 		<label class="field" for="cashCondition">${action.getText('cashCondition')}</label>
 		<div id="cashCondition" style="float:right;">
-		<table border="0" width="600px;" class="datagrid nullable">
+		<table border="0" width="600px;" class="datagrid highlightrow nullable">
 			<tbody>
-			<#if !station.new&&station.cashCondition?size gt 0>
-				<#list 0..station.cashCondition?size-1 as index>
-				<tr>
-					<td width="80%">
-						<@s.select theme="simple" name="station.cashCondition[${index}]" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue="请选择"/>
-					</td>
-					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
-				</tr>
-				</#list>
-			<#else>
-				<tr>
-					<td width="80%">
-						<@s.select theme="simple" name="station.cashCondition[0]" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue="请选择"/>
-					</td>
-					<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
-				</tr>
+			<#assign size = 0>
+			<#if station.cashCondition?? && station.cashCondition?size gt 0>
+				<#assign size = station.cashCondition?size-1>
 			</#if>
+			<#list 0..size as index>
+			<tr>
+				<td width="80%">
+					<@s.select theme="simple" name="station.cashCondition[${index}]" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue="请选择"/>
+				</td>
+				<td class="manipulate"><@button text="+" class="add"/><@button text="-" class="remove"/></td>
+			</tr>
+			</#list>
 			</tbody>
 		</table>
 		</div>

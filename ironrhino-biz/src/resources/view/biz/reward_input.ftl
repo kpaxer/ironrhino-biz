@@ -14,7 +14,7 @@
 		<@s.textarea label="%{getText('memo')}" name="reward.memo" cols="50" rows="10"/>
 	<#else>
 		<@s.select label="%{getText('employee')}" name="employee.id" cssClass="required" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
-		<table border="0" width="100%" class="datagrid">
+		<table border="0" width="100%" class="datagrid highlightrow">
 		<thead>
 			<tr>
 				<td>
@@ -26,7 +26,7 @@
 				<td>
 				${action.getText('memo')}
 				</td>
-				<td>
+				<td class="manipulate">
 				<@button text="+" class="add"/>
 				</td>
 			</tr>
@@ -38,7 +38,7 @@
 					<@s.select theme="simple" name="rewardList[0].type" list="@com.ironrhino.biz.model.RewardType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
 				</td>
 				<td><input type="text" name="rewardList[0].memo"/></td>
-				<td><@button text="+" class="add"/><@button text="-" class="remove"/></td>
+				<td class="manipulate"><@button text="+" class="add"/><@button text="-" class="remove"/></td>
 			</tr>
 		</tbody>
 		</table>

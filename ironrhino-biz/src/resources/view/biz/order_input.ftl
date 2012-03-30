@@ -18,28 +18,31 @@
 	<div class="field">
 		<label class="field" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems">
-		<table border="0" width="90%" class="atleastone">
+		<table border="0" width="90%" class="highlightrow">
 			<thead>
 				<tr>
 					<td>${action.getText('product')}</td>
 					<td>${action.getText('quantity')}</td>
 					<td>${action.getText('price')}</td>
 					<td>${action.getText('subtotal')}</td>
-					<td><@button text="+" class="add"/></td>
+					<td class="manipulate"><@button text="+" class="add"/></td>
 				</tr>
 			</thead>
 			<tfoot align="right">
 				<tr>
 					<td colspan="3">${action.getText('amount')}</td>
 					<td id="amount">${order.amount!}</td>
+					<td></td>
 				</tr>
 				<tr>
 					<td colspan="3">${action.getText('discount')}</td>
 					<td>－<@s.textfield id="discount" name="order.discount" theme="simple" cssClass="double positive" cssStyle="text-align:right;width:60px;" tabindex="10"/></td>
+					<td></td>
 				</tr>
 				<tr>
 					<td colspan="3">${action.getText('grandTotal')}</td>
 					<td id="grandTotal" style="font-weight:bold;">${order.grandTotal!}</td>
+					<td></td>
 				</tr>
 			</tfoot>
 			<tbody>
@@ -57,7 +60,7 @@
 					<td width="13%"><@s.textfield name="order.items[${index}].quantity" cssClass="required integer positive quantity"/></td>
 					<td width="13%"><@s.textfield name="order.items[${index}].price" cssClass="required double positive price"/></td>
 					<td width="15%" align="right"><span class="info">${(order.items[index].subtotal)!}</span></td>
-					<td><@button text="+" class="add"/><@button text="-" class="remove"/><@button text="↑" class="moveup"/><@button text="↓" class="movedown"/></td>
+					<td class="manipulate"><@button text="+" class="add"/><@button text="-" class="remove"/><@button text="↑" class="moveup"/><@button text="↓" class="movedown"/></td>
 				</tr>
 			</#list>
 			</tbody>
