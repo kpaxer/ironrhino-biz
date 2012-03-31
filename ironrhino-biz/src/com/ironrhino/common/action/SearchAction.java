@@ -21,17 +21,17 @@ public class SearchAction extends BaseAction {
 	private static final long serialVersionUID = 3969977471985368095L;
 
 	@Inject
-	private transient CompassSearchService compassSearchService;
+	private transient CompassSearchService<Page> compassSearchService;
 
-	private ResultPage resultPage;
+	private ResultPage<Page> resultPage;
 
 	private String q;
 
-	public ResultPage getResultPage() {
+	public ResultPage<Page> getResultPage() {
 		return resultPage;
 	}
 
-	public void setResultPage(ResultPage resultPage) {
+	public void setResultPage(ResultPage<Page> resultPage) {
 		this.resultPage = resultPage;
 	}
 
@@ -52,10 +52,10 @@ public class SearchAction extends BaseAction {
 		criteria.setQuery(query + " AND tags:product");
 		criteria.setAliases(new String[] { "page" });
 		if (resultPage == null)
-			resultPage = new ResultPage();
+			resultPage = new ResultPage<Page>();
 		resultPage.setCriteria(criteria);
-		resultPage = compassSearchService.search(resultPage, new Mapper() {
-			public Object map(Object source) {
+		resultPage = compassSearchService.search(resultPage, new Mapper<Page>() {
+			public Page map(Page source) {
 				Page p = (Page) source;
 				Document doc = Jsoup.parse(p.getContent());
 				Elements elements = doc.select("img");

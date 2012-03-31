@@ -57,7 +57,7 @@ public class ProductAction extends BaseAction {
 	private transient ProductManager productManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService compassSearchService;
+	private transient CompassSearchService<Product> compassSearchService;
 
 	public ResultPage<Product> getResultPage() {
 		return resultPage;
@@ -128,9 +128,9 @@ public class ProductAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Product>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage, new Mapper() {
-				public Object map(Object source) {
-					return productManager.get(((Product) source).getId());
+			resultPage = compassSearchService.search(resultPage, new Mapper<Product>() {
+				public Product map(Product source) {
+					return productManager.get(source.getId());
 				}
 			});
 		}

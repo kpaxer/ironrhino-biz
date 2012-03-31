@@ -88,7 +88,7 @@ public class OrderAction extends BaseAction {
 	private transient StationManager stationManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService compassSearchService;
+	private transient CompassSearchService<Order> compassSearchService;
 
 	public ResultPage<Order> getResultPage() {
 		return resultPage;
@@ -231,11 +231,12 @@ public class OrderAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Order>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage, new Mapper() {
-				public Object map(Object source) {
-					return orderManager.get(((Order) source).getId());
-				}
-			});
+			resultPage = compassSearchService.search(resultPage,
+					new Mapper< Order>() {
+						public Order map(Order source) {
+							return orderManager.get(source.getId());
+						}
+					});
 		}
 		return LIST;
 	}

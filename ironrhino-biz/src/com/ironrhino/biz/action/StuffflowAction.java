@@ -39,13 +39,13 @@ public class StuffflowAction extends BaseAction {
 
 	private ResultPage<Stuffflow> resultPage;
 
-	private transient BaseManager baseManager;
+	private transient BaseManager<Stuffflow> baseManager;
 
 	@Inject
 	private transient StuffManager stuffManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService compassSearchService;
+	private transient CompassSearchService<Stuffflow> compassSearchService;
 
 	public boolean isOut() {
 		return out;
@@ -83,7 +83,7 @@ public class StuffflowAction extends BaseAction {
 		this.resultPage = resultPage;
 	}
 
-	public void setBaseManager(BaseManager baseManager) {
+	public void setBaseManager(BaseManager<Stuffflow> baseManager) {
 		this.baseManager = baseManager;
 
 	}

@@ -314,6 +314,7 @@ public class ReportAction extends BaseAction {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public void stuffflow() {
 		title = "出入库统计";
 		baseManager.setEntityClass(Stuffflow.class);

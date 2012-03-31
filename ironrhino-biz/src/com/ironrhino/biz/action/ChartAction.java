@@ -33,6 +33,7 @@ import org.ironrhino.core.chart.openflashchart.elements.Point;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.JsonConfig;
+import org.ironrhino.core.model.Persistable;
 import org.ironrhino.core.service.BaseManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
@@ -96,7 +97,7 @@ public class ChartAction extends BaseAction {
 	private transient StuffManager stuffManager;
 
 	@Inject
-	private transient BaseManager baseManager;
+	private transient BaseManager<Persistable> baseManager;
 
 	@Inject
 	private transient RegionTreeControl regionTreeControl;
@@ -954,7 +955,7 @@ public class ChartAction extends BaseAction {
 						list.add(oi);
 						continue;
 					}
-			List<Point> points = new ArrayList<Point>();
+			List<Object> points = new ArrayList<Object>();
 			if (list.size() == 1) {
 				OrderItem item = list.get(0);
 				points.add(new Point((long) (item.getOrder().getOrderDate()
@@ -1032,7 +1033,7 @@ public class ChartAction extends BaseAction {
 		dc.add(Restrictions.between("date", DateUtils.beginOfDay(getFrom()),
 				DateUtils.endOfDay(getTo())));
 		dc.addOrder(org.hibernate.criterion.Order.asc("date"));
-		List<Stuffflow> stuffflows = baseManager.findListByCriteria(dc);
+		List<Persistable> stuffflows = baseManager.findListByCriteria(dc);
 
 		title = "原料价格走势图";
 		chart = new Chart(title + "(" + getDateRange() + ")",
@@ -1057,12 +1058,14 @@ public class ChartAction extends BaseAction {
 			Long id = Long.valueOf(ids[index]);
 			Stuff stuff = stuffManager.get(id);
 			List<Stuffflow> list = new ArrayList<Stuffflow>();
-			for (Stuffflow sf : stuffflows)
+			for (Persistable obj : stuffflows){
+				Stuffflow sf = (Stuffflow)obj;
 				if (sf.getStuff().getId().equals(id) && sf.getAmount() != null
 						&& sf.getAmount().doubleValue() > 0)
 					list.add(sf);
+			}
 
-			List<Point> points = new ArrayList<Point>();
+			List<Object> points = new ArrayList<Object>();
 			if (list.size() == 1) {
 				Stuffflow sf = list.get(0);
 				points.add(new Point((long) (sf.getDate().getTime() / 1000), sf

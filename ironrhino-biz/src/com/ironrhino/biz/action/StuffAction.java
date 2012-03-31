@@ -43,7 +43,7 @@ public class StuffAction extends BaseAction {
 	private transient StuffManager stuffManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService compassSearchService;
+	private transient CompassSearchService<Stuff> compassSearchService;
 
 	public String getVendorId() {
 		return vendorId;

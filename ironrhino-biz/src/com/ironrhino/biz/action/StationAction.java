@@ -48,7 +48,7 @@ public class StationAction extends BaseAction {
 	private transient RegionTreeControl regionTreeControl;
 
 	@Autowired(required = false)
-	private transient CompassSearchService compassSearchService;
+	private transient CompassSearchService<Station> compassSearchService;
 
 	public ResultPage<Station> getResultPage() {
 		return resultPage;
@@ -130,8 +130,8 @@ public class StationAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Station>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage, new Mapper() {
-				public Object map(Object source) {
+			resultPage = compassSearchService.search(resultPage, new Mapper<Station>() {
+				public Station map(Station source) {
 					Station s = (Station) source;
 					if (s.getRegion() != null)
 						s.setRegion(regionTreeControl.getRegionTree()

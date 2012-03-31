@@ -58,7 +58,7 @@ public class RewardAction extends BaseAction {
 	private transient EmployeeManager employeeManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService compassSearchService;
+	private transient CompassSearchService<Reward> compassSearchService;
 
 	@CreateIfNull
 	public List<Reward> getRewardList() {

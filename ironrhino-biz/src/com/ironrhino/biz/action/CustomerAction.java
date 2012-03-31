@@ -39,6 +39,7 @@ import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.OrderManager;
 
+@SuppressWarnings("unchecked")
 @Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
 public class CustomerAction extends BaseAction {
 
@@ -147,8 +148,8 @@ public class CustomerAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Customer>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage, new Mapper() {
-				public Object map(Object source) {
+			resultPage = compassSearchService.search(resultPage, new Mapper<Customer>() {
+				public Customer map(Customer source) {
 					Customer c = (Customer) source;
 					if (c.getRegion() != null)
 						c.setRegion(regionTreeControl.getRegionTree()

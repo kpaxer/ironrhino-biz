@@ -73,7 +73,7 @@ public class ReturningAction extends BaseAction {
 	private transient StationManager stationManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService compassSearchService;
+	private transient CompassSearchService<Returning> compassSearchService;
 
 	public ResultPage<Returning> getResultPage() {
 		return resultPage;
@@ -185,9 +185,9 @@ public class ReturningAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Returning>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage, new Mapper() {
-				public Object map(Object source) {
-					return baseManager.get(((Returning) source).getId());
+			resultPage = compassSearchService.search(resultPage, new Mapper<Returning>() {
+				public Returning map(Returning source) {
+					return baseManager.get( source.getId());
 				}
 			});
 		}

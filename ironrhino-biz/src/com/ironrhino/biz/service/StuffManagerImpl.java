@@ -18,7 +18,7 @@ import com.ironrhino.biz.model.Stuffflow;
 public class StuffManagerImpl extends BaseManagerImpl<Stuff> implements
 		StuffManager {
 	@Inject
-	private transient BaseManager baseManager;
+	private transient BaseManager<Stuffflow> baseManager;
 
 	@Override
 	@Transactional(readOnly = true)

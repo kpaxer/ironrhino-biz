@@ -37,7 +37,7 @@ public class EmployeeAction extends BaseAction {
 	private transient EmployeeManager employeeManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService compassSearchService;
+	private transient CompassSearchService<Employee> compassSearchService;
 
 	public ResultPage<Employee> getResultPage() {
 		return resultPage;
