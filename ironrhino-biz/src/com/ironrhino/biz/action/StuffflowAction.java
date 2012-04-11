@@ -1,7 +1,5 @@
 package com.ironrhino.biz.action;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +31,6 @@ public class StuffflowAction extends BaseAction {
 
 	private Stuff stuff;
 
-	private List<Stuff> stuffList;
-
 	private Stuffflow stuffflow;
 
 	private ResultPage<Stuffflow> resultPage;
@@ -61,10 +57,6 @@ public class StuffflowAction extends BaseAction {
 
 	public void setStuff(Stuff stuff) {
 		this.stuff = stuff;
-	}
-
-	public List<Stuff> getStuffList() {
-		return stuffList;
 	}
 
 	public Stuffflow getStuffflow() {
