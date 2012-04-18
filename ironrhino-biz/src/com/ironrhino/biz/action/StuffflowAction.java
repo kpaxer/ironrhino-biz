@@ -13,7 +13,7 @@ import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.compass.CompassSearchCriteria;
 import org.ironrhino.core.search.compass.CompassSearchService;
-import org.ironrhino.core.service.BaseManager;
+import org.ironrhino.core.service.EntityManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,7 +35,7 @@ public class StuffflowAction extends BaseAction {
 
 	private ResultPage<Stuffflow> resultPage;
 
-	private transient BaseManager<Stuffflow> baseManager;
+	private transient EntityManager<Stuffflow> entityManager;
 
 	@Inject
 	private transient StuffManager stuffManager;
@@ -75,16 +75,16 @@ public class StuffflowAction extends BaseAction {
 		this.resultPage = resultPage;
 	}
 
-	public void setBaseManager(BaseManager<Stuffflow> baseManager) {
-		this.baseManager = baseManager;
+	public void setEntityManager(EntityManager<Stuffflow> entityManager) {
+		this.entityManager = entityManager;
 
 	}
 
 	@Override
 	public String execute() {
 		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
-			baseManager.setEntityClass(Stuffflow.class);
-			DetachedCriteria dc = baseManager.detachedCriteria();
+			entityManager.setEntityClass(Stuffflow.class);
+			DetachedCriteria dc = entityManager.detachedCriteria();
 			Criterion filtering = CriterionUtils.filter(stuffflow, "id",
 					"createDate");
 			if (filtering != null)
@@ -98,7 +98,7 @@ public class StuffflowAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuffflow>();
 			resultPage.setCriteria(dc);
-			resultPage = baseManager.findByResultPage(resultPage);
+			resultPage = entityManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
 			if (query.matches("^\\d{4}-\\d{2}-\\d{2}$"))
@@ -143,7 +143,7 @@ public class StuffflowAction extends BaseAction {
 			addFieldError("stuffflow.quantity", "库存不够");
 		}
 		stuffManager.save(stuff);
-		baseManager.save(stuffflow);
+		entityManager.save(stuffflow);
 		addActionMessage(getText("save.success"));
 		return SUCCESS;
 	}

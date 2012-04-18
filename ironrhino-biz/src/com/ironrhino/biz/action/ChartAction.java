@@ -34,7 +34,7 @@ import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.Persistable;
-import org.ironrhino.core.service.BaseManager;
+import org.ironrhino.core.service.EntityManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
 
@@ -97,7 +97,7 @@ public class ChartAction extends BaseAction {
 	private transient StuffManager stuffManager;
 
 	@Inject
-	private transient BaseManager<Persistable> baseManager;
+	private transient EntityManager entityManager;
 
 	@Inject
 	private transient RegionTreeControl regionTreeControl;
@@ -1026,14 +1026,15 @@ public class ChartAction extends BaseAction {
 		chart.setY_axis(y);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void stuff() {
-		baseManager.setEntityClass(Stuffflow.class);
-		DetachedCriteria dc = baseManager.detachedCriteria();
+		entityManager.setEntityClass(Stuffflow.class);
+		DetachedCriteria dc = entityManager.detachedCriteria();
 		dc.add(Restrictions.isNotNull("amount"));
 		dc.add(Restrictions.between("date", DateUtils.beginOfDay(getFrom()),
 				DateUtils.endOfDay(getTo())));
 		dc.addOrder(org.hibernate.criterion.Order.asc("date"));
-		List<Persistable> stuffflows = baseManager.findListByCriteria(dc);
+		List<Persistable> stuffflows = entityManager.findListByCriteria(dc);
 
 		title = "原料价格走势图";
 		chart = new Chart(title + "(" + getDateRange() + ")",
@@ -1058,8 +1059,8 @@ public class ChartAction extends BaseAction {
 			Long id = Long.valueOf(ids[index]);
 			Stuff stuff = stuffManager.get(id);
 			List<Stuffflow> list = new ArrayList<Stuffflow>();
-			for (Persistable obj : stuffflows){
-				Stuffflow sf = (Stuffflow)obj;
+			for (Persistable obj : stuffflows) {
+				Stuffflow sf = (Stuffflow) obj;
 				if (sf.getStuff().getId().equals(id) && sf.getAmount() != null
 						&& sf.getAmount().doubleValue() > 0)
 					list.add(sf);

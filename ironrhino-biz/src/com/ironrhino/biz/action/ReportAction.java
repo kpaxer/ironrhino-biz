@@ -27,7 +27,7 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.core.metadata.Authorize;
-import org.ironrhino.core.service.BaseManager;
+import org.ironrhino.core.service.EntityManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
 
@@ -97,7 +97,7 @@ public class ReportAction extends BaseAction {
 	private transient ProductManager productManager;
 
 	@Inject
-	private transient BaseManager baseManager;
+	private transient EntityManager entityManager;
 
 	@Inject
 	private transient RegionTreeControl regionTreeControl;
@@ -317,8 +317,8 @@ public class ReportAction extends BaseAction {
 	@SuppressWarnings("unchecked")
 	public void stuffflow() {
 		title = "出入库统计";
-		baseManager.setEntityClass(Stuffflow.class);
-		DetachedCriteria dc = baseManager.detachedCriteria();
+		entityManager.setEntityClass(Stuffflow.class);
+		DetachedCriteria dc = entityManager.detachedCriteria();
 		dc.add(Restrictions.between("date", DateUtils.beginOfDay(getFrom()),
 				DateUtils.endOfDay(getTo())));
 		dc.createAlias("stuff", "s").addOrder(

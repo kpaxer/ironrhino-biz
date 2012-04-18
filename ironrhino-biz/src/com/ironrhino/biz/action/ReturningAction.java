@@ -18,7 +18,7 @@ import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.SearchService.Mapper;
 import org.ironrhino.core.search.compass.CompassSearchCriteria;
 import org.ironrhino.core.search.compass.CompassSearchService;
-import org.ironrhino.core.service.BaseManager;
+import org.ironrhino.core.service.EntityManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -58,7 +58,7 @@ public class ReturningAction extends BaseAction {
 
 	private List<Employee> salesmanList;
 
-	private transient BaseManager<Returning> baseManager;
+	private transient EntityManager<Returning> entityManager;
 
 	@Inject
 	private transient CustomerManager customerManager;
@@ -83,9 +83,9 @@ public class ReturningAction extends BaseAction {
 		this.resultPage = resultPage;
 	}
 
-	public void setBaseManager(BaseManager<Returning> baseManager) {
-		baseManager.setEntityClass(Returning.class);
-		this.baseManager = baseManager;
+	public void setEntityManager(EntityManager<Returning> entityManager) {
+		entityManager.setEntityClass(Returning.class);
+		this.entityManager = entityManager;
 	}
 
 	public List<Employee> getSalesmanList() {
@@ -143,7 +143,7 @@ public class ReturningAction extends BaseAction {
 	@Override
 	public String execute() {
 		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
-			DetachedCriteria dc = baseManager.detachedCriteria();
+			DetachedCriteria dc = entityManager.detachedCriteria();
 			Criterion filtering = CriterionUtils.filter(returning, "id",
 					"returnDate");
 			if (filtering != null)
@@ -163,7 +163,7 @@ public class ReturningAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Returning>();
 			resultPage.setCriteria(dc);
-			resultPage = baseManager.findByResultPage(resultPage);
+			resultPage = entityManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
 			if (query.matches("^\\d{4}-\\d{2}-\\d{2}$"))
@@ -187,7 +187,7 @@ public class ReturningAction extends BaseAction {
 			resultPage.setCriteria(criteria);
 			resultPage = compassSearchService.search(resultPage, new Mapper<Returning>() {
 				public Returning map(Returning source) {
-					return baseManager.get( source.getId());
+					return entityManager.get( source.getId());
 				}
 			});
 		}
@@ -198,9 +198,9 @@ public class ReturningAction extends BaseAction {
 	public String input() {
 		String id = getUid();
 		if (StringUtils.isNotBlank(id)) {
-			returning = baseManager.get(id);
+			returning = entityManager.get(id);
 			if (returning == null)
-				returning = baseManager.findByNaturalId(id);
+				returning = entityManager.findByNaturalId(id);
 		}
 		if (returning == null) {
 			returning = new Returning();
@@ -251,7 +251,7 @@ public class ReturningAction extends BaseAction {
 			return INPUT;
 		Returning temp = returning;
 		if (!returning.isNew()) {
-			returning = baseManager.get(temp.getId());
+			returning = entityManager.get(temp.getId());
 			returning.setCustomer(customer);
 			returning.setReturnDate(temp.getReturnDate());
 			returning.setFreight(temp.getFreight());
@@ -295,7 +295,7 @@ public class ReturningAction extends BaseAction {
 			addActionError("没有订单项");
 			return INPUT;
 		}
-		baseManager.save(returning);
+		entityManager.save(returning);
 		addActionMessage(getText("save.success"));
 		return SUCCESS;
 	}
@@ -304,9 +304,9 @@ public class ReturningAction extends BaseAction {
 	public String view() {
 		String id = getUid();
 		if (StringUtils.isNotBlank(id)) {
-			returning = baseManager.get(id);
+			returning = entityManager.get(id);
 			if (returning == null)
-				returning = baseManager.findByNaturalId(id);
+				returning = entityManager.findByNaturalId(id);
 		}
 		if (returning == null)
 			return ACCESSDENIED;
@@ -321,16 +321,16 @@ public class ReturningAction extends BaseAction {
 			List<Returning> list;
 			if (id.length == 1) {
 				list = new ArrayList<Returning>(1);
-				list.add(baseManager.get(id[0]));
+				list.add(entityManager.get(id[0]));
 			} else {
-				DetachedCriteria dc = baseManager.detachedCriteria();
+				DetachedCriteria dc = entityManager.detachedCriteria();
 				dc.add(Restrictions.in("id", id));
-				list = baseManager.findListByCriteria(dc);
+				list = entityManager.findListByCriteria(dc);
 			}
 			if (list.size() > 0) {
 				boolean deletable = true;
 				for (Returning temp : list) {
-					if (!baseManager.canDelete(temp)) {
+					if (!entityManager.canDelete(temp)) {
 						addActionError("不能删除");
 						deletable = false;
 						break;
@@ -338,7 +338,7 @@ public class ReturningAction extends BaseAction {
 				}
 				if (deletable) {
 					for (Returning temp : list)
-						baseManager.delete(temp);
+						entityManager.delete(temp);
 					addActionMessage(getText("delete.success"));
 				}
 			}

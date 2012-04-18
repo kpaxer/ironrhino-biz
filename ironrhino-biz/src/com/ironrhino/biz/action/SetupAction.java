@@ -1,7 +1,9 @@
 package com.ironrhino.biz.action;
 
+import javax.inject.Inject;
+
 import org.ironrhino.core.metadata.AutoConfig;
-import org.ironrhino.core.service.BaseManager;
+import org.ironrhino.core.service.EntityManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.security.model.User;
 
@@ -13,7 +15,8 @@ public class SetupAction extends BaseAction {
 
 	private static final long serialVersionUID = 7038201018786069091L;
 
-	private transient BaseManager baseManager;
+	@Inject
+	private transient EntityManager entityManager;
 
 	boolean region;
 
@@ -21,14 +24,10 @@ public class SetupAction extends BaseAction {
 		this.region = region;
 	}
 
-	public void setBaseManager(BaseManager baseManager) {
-		this.baseManager = baseManager;
-	}
-
 	@Override
 	public String execute() {
-		baseManager.setEntityClass(User.class);
-		long cnt = baseManager.countAll();
+		entityManager.setEntityClass(User.class);
+		long cnt = entityManager.countAll();
 		if (cnt == 0) {
 			initUser();
 		}
@@ -44,7 +43,7 @@ public class SetupAction extends BaseAction {
 		admin.setLegiblePassword("password");
 		admin.setName("管理员");
 		admin.getRoles().add(UserRole.ROLE_ADMINISTRATOR);
-		baseManager.save(admin);
+		entityManager.save(admin);
 	}
 
 }
