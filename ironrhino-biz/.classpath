@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" output="test/classes" path="test/src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/aopalliance-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/aspectjrt-1.6.12.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/aspectjweaver-1.6.12.jar"/>
@@ -81,5 +80,6 @@
 	<classpathentry kind="lib" path="lib/yuicompressor.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/antlr-runtime-3.4.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/jasperreports-4.5.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="webapp/WEB-INF/classes"/>
 </classpath>
