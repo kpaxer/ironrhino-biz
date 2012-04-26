@@ -48,6 +48,7 @@ import com.ironrhino.biz.service.RewardManager;
 import com.ironrhino.biz.service.StuffManager;
 
 @Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
+@SuppressWarnings("rawtypes")
 public class ReportAction extends BaseAction {
 
 	private static final long serialVersionUID = -7256690227585867617L;

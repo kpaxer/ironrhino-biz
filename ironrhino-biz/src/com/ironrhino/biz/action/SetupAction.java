@@ -10,7 +10,7 @@ import org.ironrhino.security.model.User;
 import com.ironrhino.biz.model.UserRole;
 
 @AutoConfig
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class SetupAction extends BaseAction {
 
 	private static final long serialVersionUID = 7038201018786069091L;

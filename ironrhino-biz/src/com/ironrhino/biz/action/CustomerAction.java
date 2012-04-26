@@ -39,7 +39,7 @@ import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.OrderManager;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "rawtypes" })
 @Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
 public class CustomerAction extends BaseAction {
 

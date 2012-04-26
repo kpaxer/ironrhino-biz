@@ -57,6 +57,7 @@ import freemarker.template.TemplateException;
 
 @AutoConfig
 @Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
+@SuppressWarnings("rawtypes")
 public class ChartAction extends BaseAction {
 
 	private static final long serialVersionUID = -7256690227585867617L;
