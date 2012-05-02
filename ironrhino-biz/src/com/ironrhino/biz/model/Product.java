@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.type.TypeReference;
 import org.compass.annotations.Index;
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableComponent;
@@ -19,6 +18,8 @@ import org.ironrhino.core.model.Attribute;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
 import org.ironrhino.core.util.JsonUtils;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @AutoConfig(searchable = true)
 @Searchable(alias = "product")

@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.type.TypeReference;
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableComponent;
 import org.compass.annotations.SearchableId;
@@ -17,6 +16,8 @@ import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.util.JsonUtils;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @Searchable(alias = "station")
 @AutoConfig
