@@ -1,7 +1,7 @@
 (function() {
 
 	Observation.app = function() {
-		$('form.report').attr('target', '_blank');
+		$('form.report,a.report').attr('target', '_blank');
 		$('#report_format').children().click(function() {
 			var format = $(this).attr('format');
 			$('a.report').attr('href', function(i, href) {
