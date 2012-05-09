@@ -8,14 +8,14 @@
 	<#if !order.new>
 		<@s.hidden name="order.id" />
 	</#if>
-	<div class="field">
+	<div class="field clearfix">
 		<label class="field" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
 		<div>
 			<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required customerName"/>
 			<span class="info" style="font-style:italic;margin-left:20px;"></span>
 		</div>
 	</div>
-	<div class="field">
+	<div class="field clearfix">
 		<label class="field" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems">
 		<table border="0" width="90%" class="highlightrow">

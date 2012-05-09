@@ -9,7 +9,7 @@
 		<@s.hidden name="plan.id" />
 	</#if>
 	<#if !plan.completed>
-		<div>
+		<div class="field clearfix">
 		<label class="field" for="filterproduct">${action.getText('product')}</label>
 		<input id="filterproduct" type="text" size="5" class="filterselect" style="margin-right:3px;"/><@s.select theme="simple" name="product.id" cssClass="required" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
 		</div>
