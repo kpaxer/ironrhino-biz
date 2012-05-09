@@ -7,10 +7,10 @@
 <#assign columns={"customer":{"template":r"<span class='tiped' tipurl='${getUrl('/biz/customer/view/'+value.id+'?type=tip')}'>${value?string}</span>"},"grandTotal":{"width":"80px"},"returnDate":{"template":r"${(entity.returnDate?string('yyyy年MM月dd日'))!}","width":"120px"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'view\')}' view='view'/>
-<@button text='${action.getText(\'edit\')}' view='input' windowoptions='{\'width\':\'900px\'}'/>
+<@button text='${action.getText(\'edit\')}' view='input' windowoptions='{\'width\':\'950px\'}'/>
 ">
 <#assign bottomButtons=r"
-<@button text='${action.getText(\'create\')}' view='input' windowoptions='{\'width\':\'900px\'}'/>
+<@button text='${action.getText(\'create\')}' view='input' windowoptions='{\'width\':\'950px\'}'/>
 <@button text='${action.getText(\'delete\')}' action='delete'/>
 <@button text='${action.getText(\'reload\')}' action='reload'/>
 ">

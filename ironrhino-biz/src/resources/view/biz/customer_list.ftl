@@ -9,7 +9,7 @@
 <@button text='${action.getText(\'view\')}' view='view'/>
 <@button text='${action.getText(\'edit\')}' view='input'/>
 <@button text='${action.getText(\'order\')}' type='link' href='order?customer.id=${entity.id}' class='ajax view'/>
-<@button text='${action.getText(\'create\')+action.getText(\'order\')}' type='link' href='order/input?customer.id=${entity.id}' rel='richtable' windowoptions='{\'width\':\'900px\',\'reloadonclose\':false}'/>
+<@button text='${action.getText(\'create\')+action.getText(\'order\')}' type='link' href='order/input?customer.id=${entity.id}' rel='richtable' windowoptions='{\'width\':\'950px\',\'reloadonclose\':false}'/>
 ">
 <#assign bottomButtons=r"
 <@button text='${action.getText(\'create\')}' view='input'/>
