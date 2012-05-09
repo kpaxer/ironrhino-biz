@@ -7,7 +7,7 @@
 <#assign columns={"code":{"width":"100px"},"customer":{"template":r"<span class='tiped' tipurl='${getUrl('/biz/customer/view/'+value.id+'?type=tip')}'>${value?string}</span>"},"grandTotal":{"width":"80px"},"orderDate":{"template":r"${(entity.orderDate?string('yyyy年MM月dd日'))!}","width":"120px"},"saleType":{"width":"100px"},"paid":{"width":"80px"},"shipped":{"width":"80px"}}>
 <#assign actionColumnButtons=r"
 <@button text='${action.getText(\'view\')}' view='view'/>
-<@button text='${action.getText(\'edit\')}' view='input' windowoptions='{\'width\':\'900px\'}'/>
+<@button text='${action.getText(\'edit\')}' view='input' windowoptions='{\'width\':\'950px\'}'/>
 <#if !entity.paid>
 <@button text='${action.getText(\'pay\')}' action='pay'/>
 </#if>
