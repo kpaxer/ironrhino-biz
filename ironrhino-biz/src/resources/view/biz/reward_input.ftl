@@ -27,7 +27,7 @@
 				${action.getText('memo')}
 				</td>
 				<td class="manipulate">
-				<@button text="+" class="add"/>
+				<button type="button" class="btn add">+</button>
 				</td>
 			</tr>
 		</thead>
@@ -38,7 +38,7 @@
 					<@s.select theme="simple" name="rewardList[0].type" list="@com.ironrhino.biz.model.RewardType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
 				</td>
 				<td><input type="text" name="rewardList[0].memo"/></td>
-				<td class="manipulate"><@button text="+" class="add"/><@button text="-" class="remove"/></td>
+				<td class="manipulate"><button type="button" class="btn add">+</button><button type="button" class="btn remove">-</button></td>
 			</tr>
 		</tbody>
 		</table>

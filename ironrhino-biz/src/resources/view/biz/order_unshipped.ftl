@@ -22,7 +22,7 @@
 					<td><a target="_blank" href="order?customer.id=${var.customer.id}">${var.customer!}</a></td>
 					<td>${var.orderDate?string("yyyy年MM月dd日")}</td>
 					<td>${var.grandTotal}</td>
-					<td><@button text="${action.getText('ship')}" type="link" href="order/ship/${var.id}" class="ajax" onsuccess="$(this).closest('tr').remove()"/></td>
+					<td><a class="btn ajax" href="${getUrl('/biz/order/ship/'+var.id)}" onsuccess="$(this).closest('tr').remove()">${action.getText('ship')}</a></td>
 				</tr>
 			</#list>
 			</tbody>

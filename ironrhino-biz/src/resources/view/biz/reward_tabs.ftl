@@ -14,11 +14,11 @@
 <#if request.queryString??>
 <#assign dataurl=dataurl+'&'+request.queryString>
 </#if>
-	<div id="tab1" class="ajaxpanel" url="<@url value=dataurl/>">
+	<div id="tab1" class="ajaxpanel" data-url="<@url value=dataurl/>">
 	</div>
-	<div id="tab2" class="ajaxpanel manual" url="<@url value=dataurl+'&negative=false'/>">
+	<div id="tab2" class="ajaxpanel manual" data-url="<@url value=dataurl+'&negative=false'/>">
 	</div>
-	<div id="tab3" class="ajaxpanel manual" url="<@url value=dataurl+'&negative=true'/>">
+	<div id="tab3" class="ajaxpanel manual" data-url="<@url value=dataurl+'&negative=true'/>">
 	</div>
 </div>
 </body>

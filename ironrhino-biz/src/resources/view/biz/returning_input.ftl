@@ -56,7 +56,7 @@
 					<td width="13%"><@s.textfield name="returning.items[${index}].quantity" cssClass="required integer positive quantity"/></td>
 					<td width="13%"><@s.textfield name="returning.items[${index}].price" cssClass="required double positive price"/></td>
 					<td width="15%" align="right"><span class="info">${(returning.items[index].subtotal)!}</span></td>
-					<td><@button text="+" class="add"/><@button text="-" class="remove"/><@button text="↑" class="moveup"/><@button text="↓" class="movedown"/></td>
+					<td><button type="button" class="btn add">+</button><button type="button" class="btn remove">-</button><button type="button" class="btn moveup">↑</button><button type="button" class="btn movedown">↓</button></td>
 				</tr>
 			</#list>
 			</tbody>

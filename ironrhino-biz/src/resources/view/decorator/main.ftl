@@ -34,11 +34,11 @@
 <div id="wrapper">
 <div id="header">
 <#if requestURI=='/login'>
-		<div class="menu rounded" corner="top 8px" style="text-align:center;font-size:1.2em;font-weight:bold;">
+		<div class="menu rounded" data-corner="top 8px" style="text-align:center;font-size:1.2em;font-weight:bold;">
 		${title}
 		</div>
 <#else>
-		<ul class="menu rounded" corner="top 8px">
+		<ul class="menu rounded" data-corner="top 8px">
 			<li><a class="ajax view" href="<@url value="/biz/index"/>">${action.getText('index')}</a></li>
 			<li><a class="ajax view" href="<@url value="/biz/customer"/>">${action.getText('customer')}</a></li>
 			<li><a class="ajax view" href="<@url value="/biz/order"/>">${action.getText('order')}</a>
@@ -71,7 +71,7 @@
 </#if>
 </div>
 
-<div id="content" class="rounded" corner="bottom 8px">
+<div id="content" class="rounded" data-corner="bottom 8px">
 <div id="message">
 <@s.actionerror cssClass="action_error" />
 <@s.actionmessage cssClass="action_message" />

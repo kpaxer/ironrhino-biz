@@ -25,7 +25,7 @@
 					<td>${action.getText('quantity')}</td>
 					<td>${action.getText('price')}</td>
 					<td>${action.getText('subtotal')}</td>
-					<td class="manipulate"><@button text="+" class="add"/></td>
+					<td class="manipulate"><button type="button" class="btn add">+</button></td>
 				</tr>
 			</thead>
 			<tfoot align="right">
@@ -60,7 +60,7 @@
 					<td width="13%"><@s.textfield name="order.items[${index}].quantity" cssClass="required integer positive quantity"/></td>
 					<td width="13%"><@s.textfield name="order.items[${index}].price" cssClass="required double positive price"/></td>
 					<td width="15%" align="right"><span class="info">${(order.items[index].subtotal)!}</span></td>
-					<td class="manipulate"><@button text="+" class="add"/><@button text="-" class="remove"/><@button text="↑" class="moveup"/><@button text="↓" class="movedown"/></td>
+					<td class="manipulate"><button type="button" class="btn add">+</button><button type="button" class="btn remove">-</button><button type="button" class="btn moveup">↑</button><button type="button" class="btn movedown">↓</button></td>
 				</tr>
 			</#list>
 			</tbody>

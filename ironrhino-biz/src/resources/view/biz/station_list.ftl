@@ -5,13 +5,13 @@
 </head>
 <body>
 <#assign columns={"id":{"width":"60px"},"name":{"width":"120px","cellEdit":"click"},"address":{"width":"220px","template":r'<#if entity.region??><a class="region" title="点击查看${entity.region.fullname}所有客户" href="station?regionId=${entity.region.id}">${entity.region.fullname}</a></#if>${value!}'},"destination":{"width":"180px","cellEdit":"click"},"linkman":{"cellEdit":"click","width":"80px"},"phone":{"cellEdit":"click","width":"100px"},"mobile":{"cellEdit":"click","width":"100px"},"fax":{"cellEdit":"click","width":"100px"}}>
-<#assign bottomButtons=r"
-<@button text='${action.getText(\'create\')}' view='input'/>
-<@button text='${action.getText(\'save\')}' action='save'/>
-<@button text='${action.getText(\'delete\')}' action='delete'/>
-<@button text='${action.getText(\'reload\')}' action='reload'/>
-<@button text='${action.getText(\'merge\')}' onclick='$(\'#merge\').toggle()'/>
-">
+<#assign bottomButtons='
+<button type="button" class="btn" data-view="input">${action.getText("create")}</button><#t>
+<button type="button" class="btn" data-action="save">${action.getText("save")}</button><#t>
+<button type="button" class="btn" data-action="delete">${action.getText("delete")}</button><#t>
+<button type="button" class="btn" data-action="reload">${action.getText("reload")}</button><#t>
+<button type="button" class="btn" onclick="$(\'#merge\').toggle()">${action.getText("merge")}</button><#t>
+'>
 <@richtable entityName="station" columns=columns bottomButtons=bottomButtons searchable=true/>
 
 <form id="merge" action="station/merge" method="post" class="ajax reset" style="display:none;" onprepare="return confirm('此操作不能恢复,确定要合并?');" onsuccess="Richtable.reload($('#station_form'))">

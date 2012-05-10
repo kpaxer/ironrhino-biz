@@ -5,8 +5,8 @@
 </head>
 <body>
 <div id="report_format" class="switch" style="text-align:center;margin-bottom:10px;">
-	<@button class="selected" text="PDF" format="PDF" />
-	<@button text="EXCEL" format="XLS"/>
+	<button type="button" class="btn selected" data-format="PDF" >PDF</button>
+	<button type="button" class="btn" data-format="XLS" >XLS</button>
 </div>
 
 <div class="portal">
@@ -32,7 +32,7 @@
 				<form action="report/jasper" method="post" class="report line clearfix">
 					<input type="hidden" name="type" value="order"/>
 					<input id="customerId" type="hidden" name="customer"/>
-					<div class="field"><span id="customer" class="listpick" pickoptions="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'customer','id':'customerId'}">请点击选择客户</span></div>
+					<div class="field"><span id="customer" class="listpick" data-pickoptions="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'customer','id':'customerId'}">请点击选择客户</span></div>
 					<div class="field"><@s.textfield id="" name="from" cssClass="date required" theme="simple"/></div>
 					<div class="field"><@s.textfield id="" name="to" cssClass="date required" theme="simple"/></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
@@ -73,7 +73,7 @@
 				<form action="report/jasper" method="post" class="report line clearfix">
 					<input type="hidden" name="type" value="productsales"/>
 					<input id="customerId2" type="hidden" name="customer"/>
-					<div class="field"><span id="customer2" class="listpick" pickoptions="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'customer2','id':'customerId2'}">请点击选择客户</span></div>
+					<div class="field"><span id="customer2" class="listpick" data-pickoptions="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'customer2','id':'customerId2'}">请点击选择客户</span></div>
 					<div class="field"><@s.textfield id="" name="from" cssClass="date required" theme="simple"/></div>
 					<div class="field"><@s.textfield id="" name="to" cssClass="date required" theme="simple"/></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
@@ -122,7 +122,7 @@
 				<form action="report/jasper" method="post" class="report line clearfix">
 					<input type="hidden" name="type" value="privatereward"/>
 					<input id="employeeId" type="hidden" name="id"/>
-					<div class="field"><span id="employee" class="listpick" pickoptions="{'url':'<@url value="/biz/employee/pick?columns=name"/>','name':'employee','id':'employeeId'}">选择员工</span></div>
+					<div class="field"><span id="employee" class="listpick" data-pickoptions="{'url':'<@url value="/biz/employee/pick?columns=name"/>','name':'employee','id':'employeeId'}">选择员工</span></div>
 					<div class="field"><@s.textfield id="" name="from" cssClass="date required" theme="simple" cssStyle="width:80px;"/></div>
 					<div class="field"><@s.textfield id="" name="to" cssClass="date required" theme="simple" cssStyle="width:80px;"/></div>
 					<div class="field"><select name="negative" style="width:60px;"><option value="">全部</option><option value="false">收入</option><option value="true">支出</option></select></div>
@@ -161,9 +161,9 @@
 				<h3>库存清单</h3>
 				<form>
 				<div class="field">
-					<@button text="库存单" type="link" href="report/jasper?type=product" class="report"/>
-					<@button text="欠货单" type="link" href="report/jasper?type=product&negative=true" class="report"/>
-					<@button text="原料库存单" type="link" href="report/jasper?type=stuff" class="report"/>
+					<a class="btn report" href="report/jasper?type=product">库存单</a>
+					<a class="btn report" href="report/jasper?type=product&negative=true">欠货单</a>
+					<a class="btn report" href="report/jasper?type=stuff">原料库存单</a>
 				</div>
 				</form>
 				<h3>出入库统计</h3>
@@ -189,7 +189,7 @@
 				<form action="report/jasper" method="post" class="report line clearfix">
 					<input type="hidden" name="type" value="customer"/>
 					<input id="regionId" type="hidden" name="id"/>
-					<div class="field" style="margin-right:5px;"><span id="region" class="treeselect" treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId'}">请点击选择地区</span></div>
+					<div class="field" style="margin-right:5px;"><span id="region" class="treeselect" data-treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId'}">请点击选择地区</span></div>
 					<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 				</form>
 			</div>

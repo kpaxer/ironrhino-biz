@@ -9,7 +9,7 @@
 		<@s.hidden name="station.id" />
 	</#if>
 	<@s.textfield label="%{getText('name')}" name="station.name" cssClass="required"/>
-	<div class="field clearfix treeselect" treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId'}">
+	<div class="field clearfix treeselect" data-treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId'}">
 	<@s.hidden id="regionId" name="regionId" />
 	<label class="field" for="region"><span style="cursor:pointer;">请选择地区</span></label>
 	<#if station.region??><span id="region">${station.region.fullname}</span><#else><span id="region">...</span></#if>
@@ -34,7 +34,7 @@
 				<td width="80%">
 					<@s.select theme="simple" name="station.cashCondition[${index}]" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue="请选择"/>
 				</td>
-				<td class="manipulate"><@button text="+" class="add"/><@button text="-" class="remove"/></td>
+				<td class="manipulate"><button type="button" class="btn add">+</button><button type="button" class="btn remove">-</button></td>
 			</tr>
 			</#list>
 			</tbody>

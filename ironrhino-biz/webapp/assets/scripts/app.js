@@ -3,7 +3,7 @@
 	Observation.app = function() {
 		$('form.report,a.report').attr('target', '_blank');
 		$('#report_format').children().click(function() {
-			var format = $(this).attr('format');
+			var format = $(this).data('format');
 			$('a.report').attr('href', function(i, href) {
 						var i = href.indexOf('format=');
 						if (i > 0)
