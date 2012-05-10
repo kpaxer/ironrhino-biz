@@ -15,7 +15,7 @@
 			<div class="portlet-header">订单报表</div>
 			<div class="portlet-content">
 				<h3>订单详情</h3>
-				<span>按天</span>
+				<div style="clear:left;">按天</div>
 				<form action="report/jasper" method="post" class="report line clearfix">
 					<input type="hidden" name="type" value="order"/>
 					<div class="field"><@s.textfield id="" name="date" cssClass="date required" theme="simple"/></div>
@@ -159,9 +159,13 @@
 			<div class="portlet-header">产品和原料库存报表</div>
 			<div class="portlet-content">
 				<h3>库存清单</h3>
-				<@button text="库存单" type="link" href="report/jasper?type=product" class="report"/>
-				<@button text="欠货单" type="link" href="report/jasper?type=product&negative=true" class="report"/>
-				<@button text="原料库存单" type="link" href="report/jasper?type=stuff" class="report"/>
+				<form>
+				<div class="field">
+					<@button text="库存单" type="link" href="report/jasper?type=product" class="report"/>
+					<@button text="欠货单" type="link" href="report/jasper?type=product&negative=true" class="report"/>
+					<@button text="原料库存单" type="link" href="report/jasper?type=stuff" class="report"/>
+				</div>
+				</form>
 				<h3>出入库统计</h3>
 				<form action="report/jasper" method="post" class="report line clearfix">
 					<input type="hidden" name="type" value="stuffflow"/>
