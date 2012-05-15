@@ -36,11 +36,11 @@
 	      <div id="menu">
 			<#assign href=request.requestURI?substring(request.contextPath?length)/>
 			<ul>
-				<li<#if href=='/'||href=='/index'> class="selected"</#if>><a href="<@url value="/"/>">${action.getText('index')}</a></li>
-				<li<#if href=='/product'||href?starts_with('/product/')> class="selected"</#if>><a href="<@url value="/product"/>">${action.getText('product')}</a></li>
+				<li<#if href=='/'||href=='/index'> class="active"</#if>><a href="<@url value="/"/>">${action.getText('index')}</a></li>
+				<li<#if href=='/product'||href?starts_with('/product/')> class="active"</#if>><a href="<@url value="/product"/>">${action.getText('product')}</a></li>
 				<#assign pages=statics['org.ironrhino.core.util.ApplicationContextUtils'].getBean('pageManager').findListByTag('HEADER_LINK')>
 				<#list pages as page>
-				<li<#if href=='/p'+page.path> class="selected"</#if>><a href="<@url value="${'/p'+page.path}"/>">${page.title}</a></li>
+				<li<#if href=='/p'+page.path> class="active"</#if>><a href="<@url value="${'/p'+page.path}"/>">${page.title}</a></li>
 				</#list>
 			</ul>
 	      </div>
