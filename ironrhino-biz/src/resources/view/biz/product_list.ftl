@@ -19,6 +19,6 @@
 <button type="button" class="btn" data-action="reload">${action.getText("reload")}</button><#t>
 <a class="btn" href="${getUrl("/biz/chart/view?type=product")}" rel="richtable" data-windowoptions="{\'width\':\'1200px\',\'reloadonclose\':false}">${action.getText("compare")+action.getText("price")+action.getText("trend")}</a>
 '>
-<@richtable entityName="product" actionColumnWidth="210px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons columns=columns searchable=true/>
+<@richtable entityName="product" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons columns=columns searchable=true/>
 </body>
 </html></#escape>

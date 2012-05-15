@@ -17,7 +17,7 @@
 <#if entity.type??&&entity.type.name()=="DELIVERYMAN"><a class="btn ajax view" href="${getUrl("/biz/order?deliveryman.id="+entity.id)}">${action.getText("deliveryman")}${action.getText("order")}</a><#t>
 </#if>
 '>
-<@richtable entityName="employee" columns=columns actionColumnWidth="260px" actionColumnButtons=actionColumnButtons searchable=true/>
+<@richtable entityName="employee" columns=columns actionColumnButtons=actionColumnButtons searchable=true/>
 <div style="display: none;">
 <textarea id="rt_select_template_type">
 <@s.select theme="simple" cssStyle="width: 100%;" onblur="Richtable.updateCell(this)" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>

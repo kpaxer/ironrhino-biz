@@ -26,6 +26,6 @@
 <button type="button" class="btn" data-action="ship">${action.getText("ship")}</button><#t>
 <button type="button" class="btn" data-action="reload">${action.getText("reload")}</button><#t>
 '>
-<@richtable entityName="order" columns=columns actionColumnWidth="220px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deleteable=false searchable=true/>
+<@richtable entityName="order" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deleteable=false searchable=true/>
 </body>
 </html></#escape>

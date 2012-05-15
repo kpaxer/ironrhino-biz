@@ -20,6 +20,6 @@
 <button type="button" class="btn" data-action="complete">${action.getText("complete")}</button><#t>
 <button type="button" class="btn" data-action="reload">${action.getText("reload")}</button><#t>
 '>
-<@richtable entityName="plan" columns=columns actionColumnWidth="130px" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false searchable=true/>
+<@richtable entityName="plan" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false searchable=true/>
 </body>
 </html></#escape>

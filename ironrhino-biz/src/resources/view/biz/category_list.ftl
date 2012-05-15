@@ -9,6 +9,6 @@
 <button type="button" class="btn" data-view="input">${action.getText("edit")}</button><#t>
 <a class="btn" href="${getUrl("/common/schema/input/category:"+entity.id+"?brief=true")}" rel="richtable">${action.getText("schema")}</a><#t>
 '>
-<@richtable entityName="category" actionColumnWidth="105px" actionColumnButtons=actionColumnButtons columns=columns searchable=true/>
+<@richtable entityName="category" actionColumnButtons=actionColumnButtons columns=columns searchable=true/>
 </body>
 </html></#escape>
