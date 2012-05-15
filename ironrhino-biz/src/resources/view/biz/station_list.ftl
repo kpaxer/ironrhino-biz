@@ -4,7 +4,7 @@
 <title>${action.getText('station')}${action.getText('list')}</title>
 </head>
 <body>
-<#assign columns={"id":{"width":"60px"},"name":{"width":"120px","cellEdit":"click"},"address":{"width":"220px","template":r'<#if entity.region??><a class="region" title="点击查看${entity.region.fullname}所有客户" href="station?regionId=${entity.region.id}">${entity.region.fullname}</a></#if>${value!}'},"destination":{"width":"180px","cellEdit":"click"},"linkman":{"cellEdit":"click","width":"80px"},"phone":{"cellEdit":"click","width":"100px"},"mobile":{"cellEdit":"click","width":"100px"},"fax":{"cellEdit":"click","width":"100px"}}>
+<#assign columns={"id":{"width":"60px"},"name":{"width":"120px","cellEdit":"click"},"address":{"width":"220px","template":r'<#if entity.region??><a class="region" title="点击查看${entity.region.fullname}所有客户" href="station?regionId=${entity.region.id}">${entity.region.fullname}</a></#if>${value!}'},"destination":{"width":"100px","cellEdit":"click"},"linkman":{"cellEdit":"click","width":"80px"},"phone":{"cellEdit":"click","width":"200px"},"mobile":{"cellEdit":"click","width":"165px"},"fax":{"cellEdit":"click","width":"100px"}}>
 <#assign bottomButtons='
 <button type="button" class="btn" data-view="input">${action.getText("create")}</button><#t>
 <button type="button" class="btn" data-action="save">${action.getText("save")}</button><#t>
