@@ -9,10 +9,12 @@
 		<@s.hidden name="customer.id" />
 	</#if>
 	<@s.textfield label="%{getText('name')}" name="customer.name" cssClass="required"/>
-	<div class="field clearfix treeselect" data-treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId','cache':false}">
+	<div class="control-group treeselect" data-treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId','cache':false}">
 	<@s.hidden id="regionId" name="regionId" />
-	<label class="field" for="region"><span style="cursor:pointer;">请选择地区</span></label>
+	<label class="control-label" for="region"><span style="cursor:pointer;">请选择地区</span></label>
+	<div class="controls">
 	<span id="region"><#if customer.region??>${customer.region.fullname}<a class="close">x</a></span><#else>...</#if></span>
+	</div>
 	</div>
 	<@s.textfield label="%{getText('address')}" name="customer.address" size="50"/>
 	<@s.textfield label="%{getText('linkman')}" name="customer.linkman" size="50" />

@@ -4,7 +4,7 @@
 <title>${title!'chart'}</title>
 </head>
 <body>
-<form id="daterange" action="<@url value="/biz/chart/view"/>" method="get" class="ajax view line nodirty" replacement="c"  style="margin-left:10px;">
+<form id="daterange" action="<@url value="/biz/chart/view"/>" method="get" class="ajax view inline nodirty" replacement="c"  style="margin-left:10px;">
 	<#if id??>
 	<#list id as var>
 	<input type="hidden" name="id" value="${var}" />
@@ -15,9 +15,9 @@
 	<input type="hidden" name="${name}" value="${Parameters[name]}" />
 	</#if>
 	</#list>
-	<div class="field"><@s.textfield theme="simple" name="from" cssClass="date required"/></div>
-	<div class="field"><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
-	<div class="field"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
+	<div class="control-group"><@s.textfield theme="simple" name="from" cssClass="date required"/></div>
+	<div class="control-group"><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
+	<div class="control-group"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
 </form>
 <#assign dataurl=getUrl("/biz/chart/data")/>
 <#if request.queryString??>

@@ -8,16 +8,16 @@
 	<#if !order.new>
 		<@s.hidden name="order.id" />
 	</#if>
-	<div class="field clearfix">
-		<label class="field" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
-		<div>
+	<div class="control-group">
+		<label class="control-label" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
+		<div class="controls">
 			<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required customerName"/>
 			<span class="info" style="font-style:italic;margin-left:20px;"></span>
 		</div>
 	</div>
-	<div class="field clearfix">
-		<label class="field" for="orderItems">${action.getText('orderItems')}</label>
-		<div id="orderItems">
+	<div class="control-group">
+		<label class="control-label" for="orderItems">${action.getText('orderItems')}</label>
+		<div id="orderItems" class="controls">
 		<table border="0" width="90%" class="highlightrow">
 			<thead>
 				<tr>
@@ -71,18 +71,18 @@
 	<@s.select label="%{getText('salesman')}" name="salesman.id" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 	<@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
 	<@s.select label="%{getText('deliveryman')}" name="deliveryman.id" list="deliverymanList" listKey="id" listValue="name" headerKey="" headerValue=""/>
-	<div class="field">
-		<label class="field">${action.getText('pay')}</label>
-		<div>
+	<div class="control-group">
+		<label class="control-label">${action.getText('pay')}</label>
+		<div class="controls">
 			<span>${action.getText('paid')}</span><@s.checkbox id="paid" theme="simple" name="order.paid" cssStyle="margin-right:20px;"/>
 			<span<#if !order.paid> style="display:none;"</#if>>
 				<span style="margin:5px;">${action.getText('payDate')}</span><@s.textfield theme="simple" name="order.payDate"  cssClass="date"/>
 			</span>
 		</div>
 	</div>
-	<div class="field">
-		<label class="field">${action.getText('ship')}</label>
-		<div>
+	<div class="control-group">
+		<label class="control-label">${action.getText('ship')}</label>
+		<div class="controls">
 			<span>${action.getText('shipped')}</span><@s.checkbox id="shipped" theme="simple" name="order.shipped"/>
 			<span<#if !order.shipped> style="display:none;"</#if>>
 				<span style="margin:5px;">${action.getText('shipDate')}</span><@s.textfield theme="simple" name="order.shipDate" cssClass="date"/>

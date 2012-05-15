@@ -8,16 +8,16 @@
 	<#if !returning.new>
 		<@s.hidden name="returning.id" />
 	</#if>
-	<div class="field clearfix">
-		<label class="field" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
-		<div>
+	<div class="control-group">
+		<label class="control-label" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
+		<div class="controls">
 			<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required customerName"/>
 			<span class="info" style="font-style:italic;margin-left:20px;"></span>
 		</div>
 	</div>
-	<div class="field clearfix">
-		<label class="field" for="orderItems">${action.getText('orderItems')}</label>
-		<div id="orderItems">
+	<div class="control-group">
+		<label class="control-label" for="orderItems">${action.getText('orderItems')}</label>
+		<div id="orderItems" class="controls">
 		<table border="0" width="90%" class="atleastone">
 			<thead>
 				<tr>

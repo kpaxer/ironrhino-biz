@@ -9,10 +9,12 @@
 		<@s.hidden name="station.id" />
 	</#if>
 	<@s.textfield label="%{getText('name')}" name="station.name" cssClass="required"/>
-	<div class="field clearfix treeselect" data-treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId'}">
+	<div class="control-group treeselect" data-treeoptions="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId'}">
 	<@s.hidden id="regionId" name="regionId" />
-	<label class="field" for="region"><span style="cursor:pointer;">请选择地区</span></label>
+	<label class="control-label" for="region"><span style="cursor:pointer;">请选择地区</span></label>
+	<div class="controls">
 	<#if station.region??><span id="region">${station.region.fullname}</span><#else><span id="region">...</span></#if>
+	</div>
 	</div>
 	<@s.textfield label="%{getText('address')}" name="station.address"/>
 	<@s.textfield label="%{getText('destination')}" name="station.destination"/>
@@ -20,10 +22,10 @@
 	<@s.textfield label="%{getText('phone')}" name="station.phone" />
 	<@s.textfield label="%{getText('mobile')}" name="station.mobile" />
 	<@s.textfield label="%{getText('fax')}" name="station.fax" />
-	<div class="field clearfix">
-		<label class="field" for="cashCondition">${action.getText('cashCondition')}</label>
-		<div id="cashCondition" style="float:right;">
-		<table border="0" width="600px;" class="datagrid highlightrow nullable">
+	<div class="control-group clearfix">
+		<label class="control-label" for="cashCondition">${action.getText('cashCondition')}</label>
+		<div id="cashCondition" class="controls">
+		<table border="0" class="datagrid highlightrow nullable">
 			<tbody>
 			<#assign size = 0>
 			<#if station.cashCondition?? && station.cashCondition?size gt 0>

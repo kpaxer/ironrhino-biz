@@ -54,9 +54,9 @@
 		<div id="inactive" class="portlet">
 			<div class="portlet-header">长时间没下单的客户</div>
 			<div class="portlet-content">
-				<form method="get" action="customer" class="line" target="_blank">
-				<div class="field"><label for="threshold">天数:</label><input id="threshold" name="threshold" value="60" size="5" cssClass="required integer positive"/></div>
-				<div class="field"><@s.submit theme="simple" value="确定"/></div>
+				<form method="get" action="customer" class="inline" target="_blank">
+				<div class="control-group"><label for="threshold">天数:</label><input type="text" id="threshold" name="threshold" value="60" size="5" cssClass="required integer positive"/></div>
+				<div class="control-group"><@s.submit theme="simple" value="确定"/></div>
 				</form>
 			</div>
 		</div>

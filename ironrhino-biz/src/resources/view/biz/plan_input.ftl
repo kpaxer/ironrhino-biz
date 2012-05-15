@@ -9,9 +9,11 @@
 		<@s.hidden name="plan.id" />
 	</#if>
 	<#if !plan.completed>
-		<div class="field clearfix">
-		<label class="field" for="filterproduct">${action.getText('product')}</label>
+		<div class="control-group">
+		<label class="control-label" for="filterproduct">${action.getText('product')}</label>
+		<div class="controls">
 		<input id="filterproduct" type="text" size="5" class="filterselect" style="margin-right:3px;"/><@s.select theme="simple" name="product.id" cssClass="required" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
+		</div>
 		</div>
 		<@s.textfield label="%{getText('quantity')}" name="plan.quantity" cssClass="integer positive required"/>
 		<@s.textfield label="%{getText('planDate')}" name="plan.planDate" cssClass="date required"/>

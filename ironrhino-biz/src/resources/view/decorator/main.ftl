@@ -73,8 +73,8 @@
 
 <div id="content" class="rounded" data-corner="bottom 8px">
 <div id="message">
-<@s.actionerror cssClass="action_error" />
-<@s.actionmessage cssClass="action_message" />
+<@s.actionerror />
+<@s.actionmessage />
 </div>
 <#noescape>${body}</#noescape>
 </div>
