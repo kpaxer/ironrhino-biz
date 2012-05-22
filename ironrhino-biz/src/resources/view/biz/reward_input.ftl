@@ -11,7 +11,7 @@
 		<@s.hidden name="reward.id" />
 		<@s.textfield label="%{(negative?'支':'发')+getText('amount')}" name="reward.amount" cssClass="required double positive"/>
 		<@s.select label="%{getText('type')}" name="reward.type" list="@com.ironrhino.biz.model.RewardType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
-		<@s.textarea label="%{getText('memo')}" name="reward.memo" cols="50" rows="10"/>
+		<@s.textarea label="%{getText('memo')}" name="reward.memo" cssStyle="width:400px;height:50px;"/>
 	<#else>
 		<@s.select label="%{getText('employee')}" name="employee.id" cssClass="required" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 		<table border="0" width="100%" class="datagrid highlightrow">
@@ -26,19 +26,17 @@
 				<td>
 				${action.getText('memo')}
 				</td>
-				<td class="manipulate">
-				<button type="button" class="btn add">+</button>
-				</td>
+				<td class="manipulate"></td>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<td><input type="text" name="rewardList[0].amount" class="required double positive"/></td>
 				<td>
-					<@s.select theme="simple" name="rewardList[0].type" list="@com.ironrhino.biz.model.RewardType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
+					<@s.select theme="simple" name="rewardList[0].type" cssStyle="width:100px;" list="@com.ironrhino.biz.model.RewardType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
 				</td>
 				<td><input type="text" name="rewardList[0].memo"/></td>
-				<td class="manipulate"><button type="button" class="btn add">+</button><button type="button" class="btn remove">-</button></td>
+				<td class="manipulate"></td>
 			</tr>
 		</tbody>
 		</table>

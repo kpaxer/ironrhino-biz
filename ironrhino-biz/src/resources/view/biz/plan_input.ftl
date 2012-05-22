@@ -4,7 +4,7 @@
 <title><#if plan.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('plan')}</title>
 </head>
 <body>
-<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax">
+<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax form-horizontal">
 	<#if !plan.new>
 		<@s.hidden name="plan.id" />
 	</#if>
@@ -18,7 +18,7 @@
 		<@s.textfield label="%{getText('quantity')}" name="plan.quantity" cssClass="integer positive required"/>
 		<@s.textfield label="%{getText('planDate')}" name="plan.planDate" cssClass="date required"/>
 	</#if>
-	<@s.textarea label="%{getText('memo')}" name="plan.memo" cols="50" rows="10"/>
+	<@s.textarea label="%{getText('memo')}" name="plan.memo" cssStyle="width:400px;height:200px;"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

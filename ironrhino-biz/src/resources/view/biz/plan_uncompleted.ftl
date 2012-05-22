@@ -5,13 +5,13 @@
 </head>
 <body>
 <#if uncompletedPlans.size() gt 0>
-<table border="0" width="88%" class="highlightrow">
+<table class="table table-striped">
 	<thead>
 		<tr>
 			<td>${action.getText('product')}</td>
 			<td>${action.getText('quantity')}</td>
 			<td>${action.getText('planDate')}</td>
-			<td width="10%"></td>
+			<td width="12%"></td>
 		</tr>
 	</thead>
 	<tbody>

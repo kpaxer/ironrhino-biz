@@ -4,7 +4,7 @@
 <title><#if order.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('order')}</title>
 </head>
 <body>
-<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax reset">
+<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax form-horizontal reset">
 	<#if !order.new>
 		<@s.hidden name="order.id" />
 	</#if>
@@ -18,14 +18,14 @@
 	<div class="control-group">
 		<label class="control-label" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems" class="controls">
-		<table border="0" width="90%" class="highlightrow">
+		<table border="0" width="90%" class="highlightrow" style="table-layout:fixed;">
 			<thead>
 				<tr>
-					<td>${action.getText('product')}</td>
+					<td width="47%">${action.getText('product')}</td>
 					<td>${action.getText('quantity')}</td>
-					<td>${action.getText('price')}</td>
-					<td>${action.getText('subtotal')}</td>
-					<td class="manipulate"><button type="button" class="btn add">+</button></td>
+					<td width="13%">${action.getText('price')}</td>
+					<td width="10%">${action.getText('subtotal')}</td>
+					<td class="manipulate"></td>
 				</tr>
 			</thead>
 			<tfoot align="right">
@@ -52,15 +52,15 @@
 			</#if>
 			<#list 0..size as index>
 				<tr>
-					<td width="47%">
-						<input type="text" size="5" class="filterselect" style="margin-right:3px;"/>
+					<td>
+						<input type="text" class="filterselect" style="margin-right:3px;width:50px;"/>
 						<@s.select theme="simple" name="productId" value="${(productId[index])!}" cssClass="required fetchprice" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
 						<span class="info" style="font-style:italic;margin-left:5px;"></span>
 					</td>
-					<td width="13%"><@s.textfield name="order.items[${index}].quantity" cssClass="required integer positive quantity"/></td>
-					<td width="13%"><@s.textfield name="order.items[${index}].price" cssClass="required double positive price"/></td>
-					<td width="15%" align="right"><span class="info">${(order.items[index].subtotal)!}</span></td>
-					<td class="manipulate"><button type="button" class="btn add">+</button><button type="button" class="btn remove">-</button><button type="button" class="btn moveup">↑</button><button type="button" class="btn movedown">↓</button></td>
+					<td><@s.textfield theme="simple" name="order.items[${index}].quantity" cssClass="required integer positive quantity"/></td>
+					<td><@s.textfield theme="simple" name="order.items[${index}].price" cssClass="required double positive price"/></td>
+					<td align="right"><span class="info">${(order.items[index].subtotal)!}</span></td>
+					<td class="manipulate"></td>
 				</tr>
 			</#list>
 			</tbody>
@@ -92,7 +92,7 @@
 			<@s.select theme="simple" name="stationId" cssStyle="width:200px;" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 		</div>
 	</div>
-	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:80%;" rows="3"/>
+	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:80%;height:20px;"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

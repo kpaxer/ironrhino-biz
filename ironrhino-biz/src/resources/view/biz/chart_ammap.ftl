@@ -16,7 +16,7 @@ swfobject.embedSWF("<@url value='/assets/components/ammap/ammap.swf'/>","chart_a
 </script>
 </head>
 <body>
-<form id="daterange" action="<@url value='/biz/chart/ammap'/>" method="get" class="ajax view inline" replacement="c" style="margin-left:10px;">
+<form id="daterange" action="<@url value='/biz/chart/ammap'/>" method="get" class="ajax view form-inline" replacement="c" style="margin-left:10px;">
 	<#if id??>
 	<#list id as var>
 	<input type="hidden" name="id" value="${var}" />
@@ -27,9 +27,9 @@ swfobject.embedSWF("<@url value='/assets/components/ammap/ammap.swf'/>","chart_a
 	<input type="hidden" name="${name}" value="${Parameters[name]}" />
 	</#if>
 	</#list>
-	<div class="control-group"><@s.textfield theme="simple" name="from" cssClass="date required"/></div>
-	<div class="control-group"><@s.textfield theme="simple" name="to" cssClass="date required"/></div>
-	<div class="control-group"><@s.submit theme="simple" value="%{getText('confirm')}"/></div>
+	<@s.textfield theme="simple" name="from" cssClass="date required"/>
+	<@s.textfield theme="simple" name="to" cssClass="date required"/>
+	<@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
 <#assign data_file="${getUrl('/biz/chart/ammapdata')}"/>
 <#if request.queryString??>

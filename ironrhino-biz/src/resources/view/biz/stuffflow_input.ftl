@@ -4,7 +4,7 @@
 <title><#if stuffflow.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('stuffflow')}</title>
 </head>
 <body>
-<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax">
+<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax form-horizontal">
 	<@s.hidden name="stuff.id" />
 	<@s.hidden name="out" />
 	<@s.textfield label="%{getText('quantity')}" name="stuffflow.quantity" cssClass="required integer positive"/>

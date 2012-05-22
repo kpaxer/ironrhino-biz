@@ -5,15 +5,15 @@
 </head>
 <body>
 <#if unpaidOrders.size() gt 0>
-<table border="0" width="95%" style="margin: 10px;" class="highlightrow unpaid_order">
+<table class="table table-striped unpaid_order">
 			<thead>
 				<tr>
 					<td>${action.getText('code')}</td>
-					<td>${action.getText('customer')}</td>
-					<td width="22%">${action.getText('orderDate')}</td>
+					<td width="22%">${action.getText('customer')}</td>
+					<td width="25%">${action.getText('orderDate')}</td>
 					<td>${action.getText('grandTotal')}</td>
-					<td width="20%">${action.getText('station')}</td>
-					<td width="10%"></td>
+					<td width="18%">${action.getText('station')}</td>
+					<td width="12%"></td>
 				</tr>
 			</thead>
 			<tbody>

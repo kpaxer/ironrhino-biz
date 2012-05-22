@@ -5,14 +5,14 @@
 </head>
 <body>
 <#if unshippedOrders.size() gt 0>
-<table border="0" width="95%" style="margin: 10px;" class="highlightrow">
+<table class="table table-striped">
 			<thead>
 				<tr>
 					<td>${action.getText('code')}</td>
 					<td>${action.getText('customer')}</td>
 					<td>${action.getText('orderDate')}</td>
 					<td>${action.getText('grandTotal')}</td>
-					<td width="10%"></td>
+					<td width="12%"></td>
 				</tr>
 			</thead>
 			<tbody>

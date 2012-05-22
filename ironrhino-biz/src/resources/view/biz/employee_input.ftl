@@ -4,7 +4,7 @@
 <title><#if employee.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('employee')}</title>
 </head>
 <body>
-<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax">
+<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax form-horizontal">
 	<#if !employee.new>
 		<@s.hidden name="employee.id" />
 	</#if>
@@ -13,7 +13,7 @@
 	<@s.textfield label="%{getText('phone')}" name="employee.phone" />
 	<@s.textfield label="%{getText('address')}" name="employee.address" />
 	<@s.checkbox label="%{getText('dimission')}" name="employee.dimission" />
-	<@s.textarea label="%{getText('memo')}" name="employee.memo" cols="50" rows="10"/>
+	<@s.textarea label="%{getText('memo')}" name="employee.memo" cssStyle="width:400px;height:100px;"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

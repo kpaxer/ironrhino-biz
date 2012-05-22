@@ -4,7 +4,7 @@
 <title><#if product.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('product')}</title>
 </head>
 <body>
-<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax">
+<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax form-horizontal">
 	<#if !product.new>
 		<@s.hidden name="product.id"/>
 	</#if>

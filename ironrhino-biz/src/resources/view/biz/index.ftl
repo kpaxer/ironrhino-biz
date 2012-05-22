@@ -20,8 +20,10 @@
 		<div id="unpaid" class="portlet">
 			<div class="portlet-header">未输单的日期</div>
 			<div class="portlet-content">
-				<div class="ajaxpanel" data-url="order/uninputed" style="float:left;width:150px;"></div>
-				<div class="ajaxpanel" data-url="reward/uninputed" style="float:left;width:150px;"></div>
+				<div class="row">			
+				<div class="ajaxpanel span6" data-url="order/uninputed" style="width:45%;"></div>
+				<div class="ajaxpanel span6" data-url="reward/uninputed" style="width:45%;"></div>
+				</div>
 			</div>
 		</div>
 		<div id="unpaid" class="portlet">
@@ -54,9 +56,9 @@
 		<div id="inactive" class="portlet">
 			<div class="portlet-header">长时间没下单的客户</div>
 			<div class="portlet-content">
-				<form method="get" action="customer" class="inline" target="_blank">
-				<div class="control-group"><label for="threshold">天数:</label><input type="text" id="threshold" name="threshold" value="60" size="5" cssClass="required integer positive"/></div>
-				<div class="control-group"><@s.submit theme="simple" value="确定"/></div>
+				<form method="get" action="customer" class="form-inline" target="_blank">
+				<label for="threshold">天数:</label><input type="text" id="threshold" name="threshold" value="60" style="width:50px;" cssClass="required integer positive"/>
+				<@s.submit theme="simple" value="确定"/>
 				</form>
 			</div>
 		</div>
