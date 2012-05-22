@@ -18,30 +18,30 @@
 	<div class="control-group">
 		<label class="control-label" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems" class="controls">
-		<table border="0" width="90%" class="highlightrow" style="table-layout:fixed;">
+		<table class="table" style="table-layout:fixed;">
 			<thead>
 				<tr>
 					<td width="47%">${action.getText('product')}</td>
 					<td>${action.getText('quantity')}</td>
-					<td width="13%">${action.getText('price')}</td>
-					<td width="10%">${action.getText('subtotal')}</td>
+					<td>${action.getText('price')}</td>
+					<td>${action.getText('subtotal')}</td>
 					<td class="manipulate"></td>
 				</tr>
 			</thead>
 			<tfoot align="right">
 				<tr>
 					<td colspan="3">${action.getText('amount')}</td>
-					<td id="amount">${order.amount!}</td>
+					<td id="amount" style="text-align:right;">${order.amount!}</td>
 					<td></td>
 				</tr>
 				<tr>
 					<td colspan="3">${action.getText('discount')}</td>
-					<td>－<@s.textfield id="discount" name="order.discount" theme="simple" cssClass="double positive" cssStyle="text-align:right;width:60px;" tabindex="10"/></td>
+					<td style="text-align:right;">－<@s.textfield id="discount" name="order.discount" theme="simple" cssClass="double positive" cssStyle="text-align:right;width:40px;" tabindex="10"/></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td colspan="3">${action.getText('grandTotal')}</td>
-					<td id="grandTotal" style="font-weight:bold;">${order.grandTotal!}</td>
+					<td id="grandTotal" style="font-weight:bold;text-align:right;">${order.grandTotal!}</td>
 					<td></td>
 				</tr>
 			</tfoot>
@@ -57,9 +57,9 @@
 						<@s.select theme="simple" name="productId" value="${(productId[index])!}" cssClass="required fetchprice" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
 						<span class="info" style="font-style:italic;margin-left:5px;"></span>
 					</td>
-					<td><@s.textfield theme="simple" name="order.items[${index}].quantity" cssClass="required integer positive quantity"/></td>
-					<td><@s.textfield theme="simple" name="order.items[${index}].price" cssClass="required double positive price"/></td>
-					<td align="right"><span class="info">${(order.items[index].subtotal)!}</span></td>
+					<td><@s.textfield theme="simple" name="order.items[${index}].quantity" cssClass="required integer positive quantity" cssStyle="width:40px;"/></td>
+					<td><@s.textfield theme="simple" name="order.items[${index}].price" cssClass="required double positive price" cssStyle="width:60px;"/></td>
+					<td style="text-align:right;"><span class="info">${(order.items[index].subtotal)!}</span></td>
 					<td class="manipulate"></td>
 				</tr>
 			</#list>

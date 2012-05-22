@@ -18,12 +18,12 @@
 <title>选择地区</title>
 </head>
 <body>
-<table class="treeTable" width="100%">
+<table class="treeTable table">
   <thead>
     <tr>
-      <th width="30%"></th>
-      <th width="35%"></th>
-       <th width="35%"></th>
+      <th width="30%">地区</th>
+      <th width="35%">销量</th>
+       <th width="35%">客户</th>
     </tr>
   </thead>
   <tbody>

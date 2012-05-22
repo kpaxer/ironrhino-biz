@@ -48,7 +48,7 @@
 <span style="margin-left:5px;">${action.getText('modifyDate')}:</span><span>${order.modifyDate?string('yyyy-MM-dd HH:mm:ss')}</span>
 </#if>
 </div>
-<table border="0" width="100%">
+<table class="table">
 	<thead>
 		<tr>
 			<td>
@@ -60,31 +60,31 @@
 			<td>
 			${action.getText('price')}
 			</td>
-			<td align="right">
+			<td style="text-align:right;">
 			${action.getText('subtotal')}
 			</td>
 		</tr>
 	</thead>
-	<tfoot align="right">
+	<tfoot>
 		<tr>
 			<td colspan="3">${action.getText('amount')}</td>
-			<td>${order.amount}</td>
+			<td style="text-align:right;">${order.amount}</td>
 		</tr>
 		<#if order.discount??>
 		<tr>
 			<td colspan="3">${action.getText('discount')}</td>
-			<td>-${order.discount}</td>
+			<td style="text-align:right;">-${order.discount}</td>
 		</tr>
 		</#if>
 		<#if order.freight??>
 		<tr>
 			<td colspan="3">${action.getText('freight')}</td>
-			<td>-${order.freight}</td>
+			<td style="text-align:right;">-${order.freight}</td>
 		</tr>
 		</#if>
 		<tr>
 			<td colspan="3">${action.getText('grandTotal')}</td>
-			<td style="font-weight:bold;">${order.grandTotal}</td>
+			<td style="font-weight:bold;text-align:right;">${order.grandTotal}</td>
 		</tr>
 	</tfoot>
 	<tbody>
@@ -99,7 +99,7 @@
 	<td>
 	${item.price}
 	</td>
-	<td align="right">
+	<td style="text-align:right;">
 	${item.subtotal}
 	</td>
 	</tr>

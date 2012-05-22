@@ -34,7 +34,7 @@
 <span style="margin-left:5px;">${action.getText('modifyDate')}:</span><span>${returning.modifyDate?string('yyyy-MM-dd HH:mm:ss')}</span>
 </#if>
 </div>
-<table breturning="0" width="100%">
+<table class="table">
 	<thead>
 		<tr>
 			<td>
@@ -46,7 +46,7 @@
 			<td>
 			${action.getText('price')}
 			</td>
-			<td align="right">
+			<td style="text-align:right;">
 			${action.getText('subtotal')}
 			</td>
 		</tr>
@@ -54,17 +54,17 @@
 	<tfoot align="right">
 		<tr>
 			<td colspan="3">${action.getText('amount')}</td>
-			<td>${returning.amount}</td>
+			<td style="text-align:right;">${returning.amount}</td>
 		</tr>
 		<#if returning.freight??>
 		<tr>
 			<td colspan="3">${action.getText('freight')}</td>
-			<td>${returning.freight}</td>
+			<td style="text-align:right;">${returning.freight}</td>
 		</tr>
 		</#if>
 		<tr>
 			<td colspan="3">${action.getText('grandTotal')}</td>
-			<td style="font-weight:bold;">${returning.grandTotal}</td>
+			<td style="font-weight:bold;text-align:right;">${returning.grandTotal}</td>
 		</tr>
 	</tfoot>
 	<tbody>
@@ -79,7 +79,7 @@
 	<td>
 	${item.price}
 	</td>
-	<td align="right">
+	<td style="text-align:right;">
 	${item.subtotal}
 	</td>
 	</tr>
@@ -87,9 +87,7 @@
 	</tbody>
 </table>
 <#if returning.memo?has_content>
-<div>
-<pre style="margin-left:20px;">${returning.memo!}</pre>
-</div>
+<div class="well">${returning.memo!}</div>
 </#if>
 </div>
 </body>
