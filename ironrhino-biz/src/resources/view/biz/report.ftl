@@ -40,7 +40,7 @@
 				<div style="clear:left;">按业务员和区间</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="order"/>
-					<@s.select theme="simple" cssClass="required" cssStyle="width:120px;" name="salesman" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
+					<@s.select theme="simple" cssClass="required" cssStyle="width:80px;" name="salesman" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
@@ -48,7 +48,7 @@
 				<div style="clear:left;">按配送员和区间</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="order"/>
-					<@s.select theme="simple" cssClass="required" cssStyle="width:120px;" name="deliveryman" list="deliverymanList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
+					<@s.select theme="simple" cssClass="required" cssStyle="width:80px;" name="deliveryman" list="deliverymanList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
@@ -56,7 +56,7 @@
 				<div style="clear:left;">按销售方式和区间</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="order"/>
-					<@s.select theme="simple" name="saletype" cssClass="required" cssStyle="width:120px;" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" headerKey="" headerValue="请选择"/>
+					<@s.select theme="simple" name="saletype" cssClass="required" cssStyle="width:80px;" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" headerKey="" headerValue="请选择"/>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
@@ -81,7 +81,7 @@
 				<div style="clear:left;">按业务员和区间</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="productsales"/>
-					<@s.select theme="simple" cssClass="required" cssStyle="width:120px;" name="salesman" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
+					<@s.select theme="simple" cssClass="required" cssStyle="width:80px;" name="salesman" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
@@ -89,7 +89,7 @@
 				<div style="clear:left;">按销售方式和区间</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="productsales"/>
-					<@s.select theme="simple" name="saletype" cssClass="required" cssStyle="width:120px;" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" headerKey="" headerValue="请选择"/>
+					<@s.select theme="simple" name="saletype" cssClass="required" cssStyle="width:80px;" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" headerKey="" headerValue="请选择"/>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
