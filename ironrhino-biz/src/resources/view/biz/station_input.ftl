@@ -25,7 +25,7 @@
 	<div class="control-group clearfix">
 		<label class="control-label" for="cashCondition">${action.getText('cashCondition')}</label>
 		<div id="cashCondition" class="controls">
-		<table class="datagrid table nullable">
+		<table class="datagrid table table-condensed middle nullable">
 			<tbody>
 			<#assign size = 0>
 			<#if station.cashCondition?? && station.cashCondition?size gt 0>

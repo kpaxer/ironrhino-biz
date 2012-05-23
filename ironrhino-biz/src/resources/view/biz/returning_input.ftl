@@ -18,7 +18,7 @@
 	<div class="control-group">
 		<label class="control-label" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems" class="controls">
-		<table class="table atleastone" style="table-layout:fixed;">
+		<table class="table table-condensed middle atleastone" style="table-layout:fixed;">
 			<thead>
 				<tr>
 					<td width="47%">${action.getText('product')}</td>

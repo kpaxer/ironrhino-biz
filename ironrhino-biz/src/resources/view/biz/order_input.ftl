@@ -18,7 +18,7 @@
 	<div class="control-group">
 		<label class="control-label" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems" class="controls">
-		<table class="table" style="table-layout:fixed;">
+		<table class="table table-condensed middle" style="table-layout:fixed;">
 			<thead>
 				<tr>
 					<td width="47%">${action.getText('product')}</td>
@@ -73,18 +73,18 @@
 	<@s.select label="%{getText('deliveryman')}" name="deliveryman.id" list="deliverymanList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 	<div class="control-group">
 		<label class="control-label">${action.getText('pay')}</label>
-		<div class="controls">
-			<span>${action.getText('paid')}</span><@s.checkbox id="paid" theme="simple" name="order.paid" cssStyle="margin-right:20px;"/>
-			<span<#if !order.paid> style="display:none;"</#if>>
+		<div class="controls" style="height:28px;">
+			<label class="checkbox inline" style="margin-right:20px;"><@s.checkbox id="paid" theme="simple" name="order.paid"/>${action.getText('paid')}</label>
+			<span class="toggle"<#if !order.paid> style="display:none;"</#if>>
 				<span style="margin:5px;">${action.getText('payDate')}</span><@s.textfield theme="simple" name="order.payDate"  cssClass="date"/>
 			</span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">${action.getText('ship')}</label>
-		<div class="controls">
-			<span>${action.getText('shipped')}</span><@s.checkbox id="shipped" theme="simple" name="order.shipped"/>
-			<span<#if !order.shipped> style="display:none;"</#if>>
+		<div class="controls" style="height:28px;">
+			<label class="checkbox inline" style="margin-right:20px;"><@s.checkbox id="shipped" theme="simple" name="order.shipped"/>${action.getText('shipped')}</label>
+			<span class="toggle"<#if !order.shipped> style="display:none;"</#if>>
 				<span style="margin:5px;">${action.getText('shipDate')}</span><@s.textfield theme="simple" name="order.shipDate" cssClass="date"/>
 			</span>
 			<span style="margin:5px;">${action.getText('freight')}</span>－<@s.textfield id="freight"  theme="simple" name="order.freight" cssClass="double positive"/>

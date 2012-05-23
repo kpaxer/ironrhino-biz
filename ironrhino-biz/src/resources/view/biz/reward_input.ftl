@@ -14,7 +14,7 @@
 		<@s.textarea label="%{getText('memo')}" name="reward.memo" cssStyle="width:400px;height:50px;"/>
 	<#else>
 		<@s.select label="%{getText('employee')}" name="employee.id" cssClass="required" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
-		<table class="datagrid table highlightrow">
+		<table class="datagrid table table-condensed middle">
 		<thead>
 			<tr>
 				<td>

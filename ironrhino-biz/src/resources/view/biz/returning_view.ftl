@@ -34,7 +34,7 @@
 <span style="margin-left:5px;">${action.getText('modifyDate')}:</span><span>${returning.modifyDate?string('yyyy-MM-dd HH:mm:ss')}</span>
 </#if>
 </div>
-<table class="table">
+<table class="table table-condensed middle">
 	<thead>
 		<tr>
 			<td>

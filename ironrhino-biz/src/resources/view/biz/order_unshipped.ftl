@@ -5,7 +5,7 @@
 </head>
 <body>
 <#if unshippedOrders.size() gt 0>
-<table class="table table-striped">
+<table class="table table-striped table-condensed middle">
 			<thead>
 				<tr>
 					<td>${action.getText('code')}</td>

@@ -18,7 +18,7 @@
 <title>选择地区</title>
 </head>
 <body>
-<table class="treeTable table">
+<table class="treeTable table table-condensed">
   <thead>
     <tr>
       <th width="30%">地区</th>

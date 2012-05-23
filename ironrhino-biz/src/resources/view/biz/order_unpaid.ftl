@@ -5,7 +5,7 @@
 </head>
 <body>
 <#if unpaidOrders.size() gt 0>
-<table class="table table-striped unpaid_order">
+<table class="table table-striped table-condensed middle unpaid_order">
 			<thead>
 				<tr>
 					<td>${action.getText('code')}</td>

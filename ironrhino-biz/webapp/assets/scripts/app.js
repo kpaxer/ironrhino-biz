@@ -21,8 +21,8 @@
 				}
 			});
 		});
-		$('#shipped,#paid').click(function() {
-					var span = $(this).nextAll('span:eq(0)');
+		$('#shipped,#paid').change(function() {
+					var span = $('span.toggle',$(this).closest('.controls'));
 					if ($(this).is(':checked'))
 						span.show();
 					else
