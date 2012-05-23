@@ -6846,14 +6846,6 @@ a.remove:hover {
 	float: right;
 	padding-right: 20px;
 }
-.crumbs{
-	margin: 10px;
-}
-.crumbs a {
-	color: #36C;
-	text-decoration: none;
-}
-
 /*
 input[type="text"],input[type="password"],select,textarea {
 	border: 1px solid #0064b4;
