@@ -25,6 +25,8 @@
 <meta name="context_path" content="${request.contextPath}" />
 </#if>
 <link rel="shortcut icon" href="<@url value="/assets/website/images/favicon.ico"/>" />
+<link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" media="all" rel="stylesheet" type="text/css"/>
+<link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css"/>
 <link href="<@url value="/assets/styles/ironrhino-lite${modernBrowser?string('-min','')}.css"/>" media="all" rel="stylesheet" type="text/css"/>
 <link href="<@url value="/assets/website/style${modernBrowser?string('-min','')}.css"/>" rel="stylesheet" type="text/css"/>
 <#noescape>${head}</#noescape>
@@ -36,7 +38,7 @@
 	      <div id="logo"><a href="<@url value="/"/>"><img src="<@url value="/assets/website/images/logo.gif"/>" alt="${action.getText('index')}"/></a></div>
 	      <div id="menu">
 			<#assign href=request.requestURI?substring(request.contextPath?length)/>
-			<ul>
+			<ul class="unstyled">
 				<li<#if href=='/'||href=='/index'> class="active"</#if>><a href="<@url value="/"/>">${action.getText('index')}</a></li>
 				<li<#if href=='/product'||href?starts_with('/product/')> class="active"</#if>><a href="<@url value="/product"/>">${action.getText('product')}</a></li>
 				<#assign pages=statics['org.ironrhino.core.util.ApplicationContextUtils'].getBean('pageManager').findListByTag('HEADER_LINK')>
@@ -76,6 +78,7 @@
     
 	</div>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="<@url value="/assets/scripts/ironrhino-lite${modernBrowser?string('-min','')}.js"/>" type="text/javascript"></script>
 </body>
 </html></#escape></#compress>
