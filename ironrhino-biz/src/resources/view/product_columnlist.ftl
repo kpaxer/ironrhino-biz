@@ -31,7 +31,7 @@
 		</ul>
     </div>
     <div id="list" class="span10">
-		<ul class="unstyled row-fluid">
+		<ul class="thumbnails">
 		<#list resultPage.result as page>
 			<#if column??>
 			<#assign pageurl="/${name}/p${page.path}?column=${column}"/>
@@ -39,13 +39,11 @@
 			<#assign pageurl="/${name}/p${page.path}"/>
 			</#if>
 			<li class="span4">
-			<div class="pic">
+			<div class="thumbnail">
 			<a href="<@url value="${pageurl}"/>" class="ajax view">
-				<img src="${page.content}" alt="${page.title!}" style="width:100%" />
-			</a>	
-			</div>
-			<div class="title">
-				<a href="<@url value="${pageurl}"/>" class="ajax view">${page.title!}</a>
+				<img src="${page.content}" alt="${page.title!}"/>
+			</a>
+			<h5 style="text-align:center;"><a href="<@url value="${pageurl}"/>" class="ajax view">${page.title!}</a></h5>
 			</div>
 			</li>
 		</#list>

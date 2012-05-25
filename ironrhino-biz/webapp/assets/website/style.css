@@ -107,11 +107,3 @@ padding-left:10px;
 text-decoration:underline;
 }
 /*--------------------product------------------*/
-div.product img{
-border-radius: 5px;
--webkit-border-radius: 5px;
--moz-border-radius: 5px;
-}
-div.product div.title{
-text-align:center;
-}
