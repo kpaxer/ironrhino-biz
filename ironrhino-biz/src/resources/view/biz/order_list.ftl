@@ -4,7 +4,7 @@
 <title>${action.getText('order')}${action.getText('list')}</title>
 </head>
 <body>
-<#assign columns={"code":{"width":"100px"},"customer":{"template":r"<span class='tiped' data-tipurl='${getUrl('/biz/customer/view/'+value.id+'?type=tip')}'>${value?string}</span>"},"grandTotal":{"width":"80px"},"orderDate":{"template":r"${(entity.orderDate?string('yyyy年MM月dd日'))!}","width":"120px"},"saleType":{"width":"100px"},"paid":{"width":"80px"},"shipped":{"width":"80px"}}>
+<#assign columns={"code":{"width":"100px"},"customer":{"template":r"<span class='tiped' data-placement='right' data-tipurl='${getUrl('/biz/customer/view/'+value.id+'?type=tip')}'>${value?string}</span>"},"grandTotal":{"width":"80px"},"orderDate":{"template":r"${(entity.orderDate?string('yyyy年MM月dd日'))!}","width":"120px"},"saleType":{"width":"100px"},"paid":{"width":"80px"},"shipped":{"width":"80px"}}>
 <#assign actionColumnButtons=r'
 <button type="button" class="btn" data-view="view">${action.getText("view")}</button>
 <button type="button" class="btn" data-view="input" '
