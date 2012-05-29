@@ -2,12 +2,12 @@
 <#escape x as x?html><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
 <head>
 <title>${customer.name}</title>
-<#if Parameters.type?default('')=='tip'>
+<#if Parameters.type?default('')=='card'>
 <meta name="decorator" content="none"/>
 </#if>
 </head>
 <body>
-<#if Parameters.type?default('')=='tip'>
+<#if Parameters.type?default('')=='card'>
 	<div style="text-align:left;">
 	<div><span>${action.getText('id')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.id}<span></div>
 	<div><span>${action.getText('name')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.name!}<span></div>
