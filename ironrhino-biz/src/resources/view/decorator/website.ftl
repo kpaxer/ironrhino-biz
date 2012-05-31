@@ -29,7 +29,6 @@
 <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css"/>
 <link href="<@url value="/assets/styles/ironrhino-lite${modernBrowser?string('-min','')}.css"/>" media="all" rel="stylesheet" type="text/css"/>
 <link href="<@url value="/assets/website/style${modernBrowser?string('-min','')}.css"/>" rel="stylesheet" type="text/css"/>
-<#noescape>${head}</#noescape>
 </head>
 <body>
 	<div id="wrapper">
@@ -80,5 +79,6 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 	<script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="<@url value="/assets/scripts/ironrhino-lite${modernBrowser?string('-min','')}.js"/>" type="text/javascript"></script>
+	<#noescape>${head}</#noescape>
 </body>
 </html></#escape></#compress>
