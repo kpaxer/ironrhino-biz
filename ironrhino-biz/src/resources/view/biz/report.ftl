@@ -4,9 +4,11 @@
 <title>${action.getText('report')}</title>
 </head>
 <body>
-<div id="report_format" class="switch" style="text-align:center;margin-bottom:10px;">
-	<button type="button" class="btn selected" data-format="PDF" >PDF</button>
-	<button type="button" class="btn" data-format="XLS" >XLS</button>
+<div class="row">
+	<div id="report_format" class="btn-group switch span2 offset5" style="margin-bottom:10px;">
+	  <button class="btn active" data-format="PDF">PDF</button>
+	  <button class="btn" data-format="XLS">XLS</button>
+	</div>
 </div>
 
 <div class="portal">
