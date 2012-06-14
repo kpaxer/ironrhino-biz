@@ -57,6 +57,9 @@
 		<div class="nav-collapse">
 	        <ul class="nav">
 				<li><a class="ajax view" href="<@url value="/biz/index"/>">${action.getText('index')}</a></li>
+				<@authorize ifAnyGranted="ROLE_ADMINISTRATOR">
+	          	<li><a href="<@url value="/user"/>">${action.getText('user')}</a></li>
+	          	</@authorize>
 				<li><a class="ajax view" href="<@url value="/biz/customer"/>">${action.getText('customer')}</a></li>
 				<li><a class="ajax view" href="<@url value="/biz/order"/>">${action.getText('order')}</a>
 				<li><a class="ajax view" href="<@url value="/biz/returning"/>">${action.getText('returning')}</a></li>
