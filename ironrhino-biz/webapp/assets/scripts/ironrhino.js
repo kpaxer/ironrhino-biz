@@ -33574,12 +33574,15 @@ Observation.common = function(container) {
 							+ '/assets/images/open-flash-chart.swf', id, width,
 					height, '9.0.0', CONTEXT_PATH
 							+ '/assets/images/expressInstall.swf', {
-						'data-file' : encodeURIComponent(data)
+						'data-file' : encodeURIComponent(data),
+						'loading':MessageBundle.get('ajax.loading')
 					}, {
 						wmode : 'transparent'
 					});
-			if (t.data('interval'))
-				setInterval(function() {
+			if (t.data('_interval'))
+				clearInterval(parseInt(t.data('_interval')));
+			if (t.data('interval')) {
+				var _interval = setInterval(function() {
 							if (t.data('quiet')) {
 								$.ajax({
 											global : false,
@@ -33594,7 +33597,10 @@ Observation.common = function(container) {
 								document.getElementById(id).reload(data);
 							}
 						}, parseInt(t.data('interval')));
+				t.data('_interval', _interval);
+			}
 		});
+
 		window.save_image = function() {
 			var content = [];
 			content

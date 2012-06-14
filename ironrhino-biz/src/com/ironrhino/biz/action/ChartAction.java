@@ -294,7 +294,7 @@ public class ChartAction extends BaseAction {
 
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
-		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
+		chart.setY_legend(new Text("sales", "{font-size: 12px; color: #778877}"));
 		chart.setX_legend(new Text("商标", "{font-size: 12px; color: #778877}"));
 
 		if (category != null) {
@@ -445,7 +445,7 @@ public class ChartAction extends BaseAction {
 		orders = orderManager.findListByCriteria(dc);
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
-		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
+		chart.setY_legend(new Text("sales", "{font-size: 12px; color: #778877}"));
 		chart.setX_legend(new Text("品种", "{font-size: 12px; color: #778877}"));
 
 		if (brand != null) {
@@ -595,7 +595,7 @@ public class ChartAction extends BaseAction {
 		orders = orderManager.findListByCriteria(dc);
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
-		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
+		chart.setY_legend(new Text("sales", "{font-size: 12px; color: #778877}"));
 		chart.setX_legend(new Text("销售方式", "{font-size: 12px; color: #778877}"));
 
 		if (category != null) {
@@ -758,7 +758,7 @@ public class ChartAction extends BaseAction {
 		orders = orderManager.findListByCriteria(dc);
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
-		chart.setY_legend(new Text("销量", "{font-size: 12px; color: #778877}"));
+		chart.setY_legend(new Text("sales", "{font-size: 12px; color: #778877}"));
 		chart.setX_legend(new Text("地区", "{font-size: 12px; color: #778877}"));
 
 		if (category != null) {
@@ -928,7 +928,7 @@ public class ChartAction extends BaseAction {
 		title = "产品价格走势图";
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
-		chart.setY_legend(new Text("价格", "{font-size: 12px; color: #778877}"));
+		chart.setY_legend(new Text("price", "{font-size: 12px; color: #778877}"));
 		chart.setX_legend(new Text("时间", "{font-size: 12px; color: #778877}"));
 		XAxis x = new XAxis();
 		XAxisLabels xAxisLabels = new XAxisLabels();
@@ -1040,7 +1040,7 @@ public class ChartAction extends BaseAction {
 		title = "原料价格走势图";
 		chart = new Chart(title + "(" + getDateRange() + ")",
 				"font-size: 15px;");
-		chart.setY_legend(new Text("价格", "{font-size: 12px; color: #778877}"));
+		chart.setY_legend(new Text("price", "{font-size: 12px; color: #778877}"));
 		chart.setX_legend(new Text("时间", "{font-size: 12px; color: #778877}"));
 		XAxis x = new XAxis();
 		XAxisLabels xAxisLabels = new XAxisLabels();
