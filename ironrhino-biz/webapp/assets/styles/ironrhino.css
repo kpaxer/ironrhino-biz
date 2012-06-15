@@ -6120,7 +6120,7 @@ div.text-core{
 }
 table .resizeTitle {
 	float: left;
-	width: 90%;
+	width: 95%;
 	text-align: center;
 }
 table .resizeBar {
@@ -6128,7 +6128,7 @@ table .resizeBar {
 	margin: 0px;
 	float: right;
 	cursor: col-resize;
-	width: 3px;
+	width: 1px;
 	height: 24px;
 	font-size: 1px;
 	background-color: #cccccc;
@@ -6147,6 +6147,9 @@ table.richtable td,th {
 	padding: 0.5em;
 	border: 1px solid #CCC;
 	line-height: 180%;
+}
+table.richtable thead td {
+	padding: 0.5em 0;
 }
 .richtable table td.action{
 	white-space:nowrap;
@@ -6196,7 +6199,7 @@ table.richtable td,th {
 	background-color: #fff3f0;
 }
 .richtable .inputPage {
-	margin-left:3px;
+	margin-left:4px;
 	width: 25px;
 	text-align:right;
 }
@@ -6244,11 +6247,22 @@ td.radio input[type="radio"], td.checkbox input[type="checkbox"]{
           box-shadow: none;
 }
 .richtable .pagination a{
-	padding: 0 12px;
+	padding:0 8px;
 	line-height: 26px;
 }
-.richtable .pagination li.firstPage a,.richtable .pagination li.lastPage a{
-	padding:0 7.5px;
+.richtable .pagination li.disabled a i{
+	filter: Alpha(Opacity=20); 
+	opacity: 0.20;
+}
+.richtable .pagination li.firstPage a{
+  -webkit-border-radius: 3px 0 0 3px;
+     -moz-border-radius: 3px 0 0 3px;
+          border-radius: 3px 0 0 3px;
+}
+.richtable .pagination li.lastPage a{
+  -webkit-border-radius: 0 3px 3px 0;
+     -moz-border-radius: 0 3px 3px 0;
+          border-radius: 0 3px 3px 0;
 }
 /*override bootstrap end*/
 
