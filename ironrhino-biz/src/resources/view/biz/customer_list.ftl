@@ -20,11 +20,11 @@
 <button type="button" class="btn" data-action="reload">${action.getText("reload")}</button>
 <button type="button" class="btn" onclick="$(\'#merge\').toggle()">${action.getText("merge")}</button>
 '>
-<#assign searchButtons=r'<a class="btn" href="chart/geo" target="_blank">按区域检索</a>'/>
+<#assign searchButtons=r'<a href="chart/geo" target="_blank" title="按区域检索"><i class="icon-filter"></i></a>'/>
 <@richtable entityName="customer" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true searchButtons=searchButtons/>
 
-<form id="merge" action="customer/merge" method="post" class="ajax reset" style="display:none;" onprepare="return confirm('此操作不能恢复,确定要合并?');" onsuccess="Richtable.reload($('#customer_form'))">
-<div style="padding-top:10px;text-align:center;">
+<form id="merge" action="customer/merge" method="post" class="ajax reset form-inline" style="display:none;" onprepare="return confirm('此操作不能恢复,确定要合并?');" onsuccess="Richtable.reload($('#customer_form'))">
+<div style="text-align:center;">
 	<span style="margin:3px;">将</span><input type="text" name="id" class="required"/>
 	<span style="margin:3px;">合并到</span><input type="text" name="id" class="required"/>
 	<@s.submit theme="simple" value="%{getText('confirm')}" />
