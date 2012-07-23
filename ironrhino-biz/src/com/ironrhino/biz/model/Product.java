@@ -147,7 +147,8 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 
 	@NotInCopy
 	public String getAttributesAsString() {
-		if (attributes == null || attributes.isEmpty())
+		if (attributes == null || attributes.isEmpty()
+				|| attributes.size() == 1 && attributes.get(0).isBlank())
 			return null;
 		return JsonUtils.toJson(attributes);
 	}
