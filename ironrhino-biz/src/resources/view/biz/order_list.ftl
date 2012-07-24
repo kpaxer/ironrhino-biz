@@ -8,7 +8,8 @@
 <#assign actionColumnButtons=r'
 <button type="button" class="btn" data-view="view">${action.getText("view")}</button>
 <button type="button" class="btn" data-view="input" '
-+'data-windowoptions="{\'width\':\'950px\'}">${action.getText("edit")}</button>'
++'data-windowoptions="{\'width\':\'950px\'}">${action.getText("edit")}</button>
+'
 +r'<#if !entity.paid>
 <button type="button" class="btn" data-action="pay">${action.getText("pay")}</button>
 </#if>

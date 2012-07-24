@@ -10,9 +10,9 @@ import javax.inject.Singleton;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.core.sequence.CyclicSequence;
 import org.ironrhino.core.service.BaseManagerImpl;
 import org.ironrhino.core.util.DateUtils;
-import org.springframework.jdbc.support.incrementer.DataFieldMaxValueIncrementer;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.model.Customer;
@@ -29,7 +29,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 
 	@Inject
 	@Named("orderCodeSequence")
-	private DataFieldMaxValueIncrementer orderCodeSequence;
+	private CyclicSequence orderCodeSequence;
 
 	@Inject
 	private CustomerManager customerManager;

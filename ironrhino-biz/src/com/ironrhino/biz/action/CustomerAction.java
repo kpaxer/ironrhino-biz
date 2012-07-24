@@ -148,15 +148,17 @@ public class CustomerAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Customer>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage, new Mapper<Customer>() {
-				public Customer map(Customer source) {
-					Customer c = (Customer) source;
-					if (c.getRegion() != null)
-						c.setRegion(regionTreeControl.getRegionTree()
-								.getDescendantOrSelfById(c.getRegion().getId()));
-					return c;
-				}
-			});
+			resultPage = compassSearchService.search(resultPage,
+					new Mapper<Customer>() {
+						public Customer map(Customer source) {
+							Customer c = (Customer) source;
+							if (c.getRegion() != null)
+								c.setRegion(regionTreeControl.getRegionTree()
+										.getDescendantOrSelfById(
+												c.getRegion().getId()));
+							return c;
+						}
+					});
 		}
 		return LIST;
 	}
@@ -351,17 +353,16 @@ public class CustomerAction extends BaseAction {
 			dc.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
 			dc.addOrder(org.hibernate.criterion.Order.desc("code"));
 			Order lastOrder = orderManager.findByCriteria(dc);
+			Map<String, String> extra = new HashMap<String, String>();
 			if (lastOrder != null) {
-				Map<String, String> map = new HashMap<String, String>();
 				Employee salesman = lastOrder.getSalesman();
 				if (salesman != null)
-					map.put("salesman", String.valueOf(salesman.getId()));
+					extra.put("salesman", String.valueOf(salesman.getId()));
 				Station station = lastOrder.getStation();
 				if (station != null)
-					map.put("station", String.valueOf(station.getId()));
-				if (!map.isEmpty())
-					customer.setMemo(JsonUtils.toJson(map));
+					extra.put("station", String.valueOf(station.getId()));
 			}
+			customer.setMemo(JsonUtils.toJson(extra));
 		}
 		return JSON;
 	}
