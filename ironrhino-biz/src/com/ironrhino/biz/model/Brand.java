@@ -8,6 +8,7 @@ import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInJson;
+import org.ironrhino.core.metadata.UiConfig;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
 
@@ -23,8 +24,10 @@ public class Brand extends Entity<Long> implements Ordered {
 
 	@NaturalId(mutable = true)
 	@SearchableProperty
+	@UiConfig(displayOrder = 1)
 	private String name;
 
+	@UiConfig(displayOrder = 2)
 	private int displayOrder;
 
 	public Brand() {

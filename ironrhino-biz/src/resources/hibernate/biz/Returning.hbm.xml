@@ -4,7 +4,7 @@
 
 <hibernate-mapping package="com.ironrhino.biz.model"
 	default-lazy="true">
-	<class name="Returning" table="returning" dynamic-insert="true"
+	<class name="Returning" table="`returning`" dynamic-insert="true"
 		dynamic-update="true">
 		<id name="id" type="java.lang.String" length="32" unsaved-value="null">
 			<generator class="uuid" />
