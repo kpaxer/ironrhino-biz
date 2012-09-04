@@ -21,8 +21,8 @@
 			<div class="portlet-header">未输单的日期</div>
 			<div class="portlet-content">
 				<div class="row">			
-				<div class="ajaxpanel span6" data-url="order/uninputed" style="width:45%;"></div>
-				<div class="ajaxpanel span6" data-url="reward/uninputed" style="width:45%;"></div>
+				<div class="ajaxpanel span6" data-url="order/uninputed" style="width:40%;"></div>
+				<div class="ajaxpanel span6" data-url="reward/uninputed" style="width:40%;"></div>
 				</div>
 			</div>
 		</div>

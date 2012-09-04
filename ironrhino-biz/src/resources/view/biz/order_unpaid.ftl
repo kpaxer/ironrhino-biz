@@ -10,10 +10,10 @@
 				<tr>
 					<td>${action.getText('code')}</td>
 					<td width="22%">${action.getText('customer')}</td>
-					<td width="25%">${action.getText('orderDate')}</td>
+					<td>${action.getText('orderDate')}</td>
 					<td>${action.getText('grandTotal')}</td>
 					<td width="18%">${action.getText('station')}</td>
-					<td width="12%"></td>
+					<td width="13%"></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -23,7 +23,7 @@
 				<tr>
 					<td><a target="_blank" href="order/view/${var.id}">${var.code}</a></td>
 					<td><a target="_blank" href="order?customer.id=${var.customer.id}">${var.customer!}</a></td>
-					<td>${var.orderDate?string("yyyy年MM月dd日")}</td>
+					<td>${var.orderDate?string("yyyy-MM-dd")}</td>
 					<td>${var.grandTotal}</td>
 					<td><#if var.station??><a target="_blank" href="order?stationId=${var.station.id}" <#if var.cashable> title="今天可结账" style="color:red;"</#if>>${var.station!}</a></#if></td>
 					<td><a class="btn ajax pay" href="${getUrl('/biz/order/pay/'+var.id)}">${action.getText('pay')}</a></td>

@@ -124,10 +124,10 @@
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="privatereward"/>
 					<input id="employeeId" type="hidden" name="id"/>
-					<span id="employee" class="listpick" data-options="{'url':'<@url value="/biz/employee/pick?columns=name"/>','name':'employee','id':'employeeId'}">选择员工</span>
+					<span id="employee" class="listpick" data-options="{'url':'<@url value="/biz/employee/pick?columns=name"/>','name':'employee','id':'employeeId'}">请选择</span>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple" cssStyle="width:80px;"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple" cssStyle="width:80px;"/>
-					<select name="negative" style="width:60px;"><option value="">全部</option><option value="false">收入</option><option value="true">支出</option></select>
+					<select name="negative" style="width:80px;"><option value="">全部</option><option value="false">收入</option><option value="true">支出</option></select>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<h3 style="clear:left;">工资清单</h3>
@@ -149,7 +149,7 @@
 					<input type="hidden" name="type" value="aggregationreward"/>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
-					<select name="negative" style="width:60px;"><option value="">全部</option><option value="false">收入</option><option value="true">支出</option></select>
+					<select name="negative" style="width:80px;"><option value="">全部</option><option value="false">收入</option><option value="true">支出</option></select>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
