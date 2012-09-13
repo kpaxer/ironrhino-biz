@@ -5,11 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.compass.annotations.Index;
-import org.compass.annotations.Searchable;
-import org.compass.annotations.SearchableComponent;
-import org.compass.annotations.SearchableId;
-import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
@@ -17,12 +12,17 @@ import org.ironrhino.core.model.Attributable;
 import org.ironrhino.core.model.Attribute;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
+import org.ironrhino.core.search.elasticsearch.annotations.Index;
+import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
+import org.ironrhino.core.search.elasticsearch.annotations.SearchableComponent;
+import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
+import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 import org.ironrhino.core.util.JsonUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
 @AutoConfig(searchable = true)
-@Searchable(alias = "product")
+@Searchable(type = "product")
 public class Product extends Entity<Long> implements Ordered, Attributable {
 
 	private static final long serialVersionUID = 1876365527076787416L;

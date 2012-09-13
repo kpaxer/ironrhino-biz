@@ -3,17 +3,17 @@ package com.ironrhino.biz.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.compass.annotations.Index;
-import org.compass.annotations.Searchable;
-import org.compass.annotations.SearchableComponent;
-import org.compass.annotations.SearchableProperty;
-import org.compass.annotations.Store;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
+import org.ironrhino.core.search.elasticsearch.annotations.Index;
+import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
+import org.ironrhino.core.search.elasticsearch.annotations.SearchableComponent;
+import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
+import org.ironrhino.core.search.elasticsearch.annotations.Store;
 
 @AutoConfig
-@Searchable(alias = "reward")
+@Searchable(type = "reward")
 public class Reward extends BaseEntity {
 
 	private static final long serialVersionUID = 1361468983711747618L;
@@ -23,7 +23,7 @@ public class Reward extends BaseEntity {
 
 	private RewardType type;
 
-	@SearchableProperty(converter = "date", format = "yyyy-MM-dd")
+	@SearchableProperty(converter = "date", format = "yyyy-MM-dd HH:mm:ss")
 	private Date rewardDate = new Date();
 
 	@NotInCopy

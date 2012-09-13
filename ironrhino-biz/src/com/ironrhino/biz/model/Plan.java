@@ -2,17 +2,17 @@ package com.ironrhino.biz.model;
 
 import java.util.Date;
 
-import org.compass.annotations.Index;
-import org.compass.annotations.Searchable;
-import org.compass.annotations.SearchableComponent;
-import org.compass.annotations.SearchableProperty;
-import org.compass.annotations.Store;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
+import org.ironrhino.core.search.elasticsearch.annotations.Index;
+import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
+import org.ironrhino.core.search.elasticsearch.annotations.SearchableComponent;
+import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
+import org.ironrhino.core.search.elasticsearch.annotations.Store;
 
 @AutoConfig
-@Searchable(alias = "plan")
+@Searchable(type = "plan")
 public class Plan extends BaseEntity {
 
 	private static final long serialVersionUID = -4137689927315849975L;
@@ -20,10 +20,10 @@ public class Plan extends BaseEntity {
 	@SearchableProperty(index = Index.NO, store = Store.YES)
 	private int quantity;
 
-	@SearchableProperty(converter = "date", format = "yyyy-MM-dd")
+	@SearchableProperty(converter = "date", format = "yyyy-MM-dd HH:mm:ss")
 	private Date planDate = new Date();
 
-	@SearchableProperty(converter = "date", format = "yyyy-MM-dd")
+	@SearchableProperty(converter = "date", format = "yyyy-MM-dd HH:mm:ss")
 	@NotInCopy
 	private Date completeDate;
 

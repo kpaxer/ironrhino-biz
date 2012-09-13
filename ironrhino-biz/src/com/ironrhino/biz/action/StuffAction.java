@@ -14,8 +14,8 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
-import org.ironrhino.core.search.compass.CompassSearchCriteria;
-import org.ironrhino.core.search.compass.CompassSearchService;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class StuffAction extends BaseAction {
 	private transient StuffManager stuffManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService<Stuff> compassSearchService;
+	private transient ElasticSearchService<Stuff> elasticSearchService;
 
 	public String getVendorId() {
 		return vendorId;
@@ -71,7 +71,7 @@ public class StuffAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
+		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = stuffManager.detachedCriteria();
 			Criterion filtering = CriterionUtils.filter(stuff, "id", "name");
 			if (filtering != null)
@@ -85,14 +85,14 @@ public class StuffAction extends BaseAction {
 			resultPage = stuffManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
-			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
 			criteria.setQuery(query);
-			criteria.setAliases(new String[] { "stuff" });
+			criteria.setTypes(new String[] { "stuff" });
 			criteria.addSort("displayOrder", false);
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuff>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage);
+			resultPage = elasticSearchService.search(resultPage);
 		}
 		return LIST;
 	}

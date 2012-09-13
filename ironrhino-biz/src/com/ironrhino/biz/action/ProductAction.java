@@ -16,8 +16,8 @@ import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.SearchService.Mapper;
-import org.ironrhino.core.search.compass.CompassSearchCriteria;
-import org.ironrhino.core.search.compass.CompassSearchService;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +57,7 @@ public class ProductAction extends BaseAction {
 	private transient ProductManager productManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService<Product> compassSearchService;
+	private transient ElasticSearchService<Product> elasticSearchService;
 
 	public ResultPage<Product> getResultPage() {
 		return resultPage;
@@ -101,7 +101,7 @@ public class ProductAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
+		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = productManager.detachedCriteria();
 			Criterion filtering = CriterionUtils.filter(product, "id", "name");
 			if (filtering != null)
@@ -121,14 +121,14 @@ public class ProductAction extends BaseAction {
 			resultPage = productManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();
-			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
 			criteria.setQuery(query);
-			criteria.setAliases(new String[] { "product" });
+			criteria.setTypes(new String[] { "product" });
 			criteria.addSort("displayOrder", false);
 			if (resultPage == null)
 				resultPage = new ResultPage<Product>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage, new Mapper<Product>() {
+			resultPage = elasticSearchService.search(resultPage, new Mapper<Product>() {
 				public Product map(Product source) {
 					return productManager.get(source.getId());
 				}

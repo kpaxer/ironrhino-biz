@@ -14,8 +14,8 @@ import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.SearchService.Mapper;
-import org.ironrhino.core.search.compass.CompassSearchCriteria;
-import org.ironrhino.core.search.compass.CompassSearchService;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class PlanAction extends BaseAction {
 	private transient ProductManager productManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService<Plan> compassSearchService;
+	private transient ElasticSearchService<Plan> elasticSearchService;
 
 	public ResultPage<Plan> getResultPage() {
 		return resultPage;
@@ -84,7 +84,7 @@ public class PlanAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
+		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = planManager.detachedCriteria();
 			Criterion filtering = CriterionUtils.filter(plan, "id", "planDate",
 					"completeDate", "completed");
@@ -114,14 +114,14 @@ public class PlanAction extends BaseAction {
 				sb.append(query.substring(8, 10));
 				query = sb.toString();
 			}
-			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
 			criteria.addSort("planDate", true);
 			criteria.setQuery(query);
-			criteria.setAliases(new String[] { "plan" });
+			criteria.setTypes(new String[] { "plan" });
 			if (resultPage == null)
 				resultPage = new ResultPage<Plan>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage, new Mapper<Plan>() {
+			resultPage = elasticSearchService.search(resultPage, new Mapper<Plan>() {
 				public Plan map(Plan source) {
 					Plan p = (Plan) source;
 					p.setProduct(productManager.get(p.getProduct().getId()));

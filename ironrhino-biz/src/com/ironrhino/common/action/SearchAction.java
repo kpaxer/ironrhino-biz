@@ -7,8 +7,8 @@ import org.ironrhino.common.model.Page;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.SearchService.Mapper;
-import org.ironrhino.core.search.compass.CompassSearchCriteria;
-import org.ironrhino.core.search.compass.CompassSearchService;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,7 +21,7 @@ public class SearchAction extends BaseAction {
 	private static final long serialVersionUID = 3969977471985368095L;
 
 	@Inject
-	private transient CompassSearchService<Page> compassSearchService;
+	private transient ElasticSearchService<Page> elasticSearchService;
 
 	private ResultPage<Page> resultPage;
 
@@ -48,13 +48,13 @@ public class SearchAction extends BaseAction {
 		if (StringUtils.isBlank(q))
 			return REDIRECT;
 		String query = q.trim();
-		CompassSearchCriteria criteria = new CompassSearchCriteria();
+		ElasticSearchCriteria criteria = new ElasticSearchCriteria();
 		criteria.setQuery(query + " AND tags:product");
-		criteria.setAliases(new String[] { "page" });
+		criteria.setTypes(new String[] { "page" });
 		if (resultPage == null)
 			resultPage = new ResultPage<Page>();
 		resultPage.setCriteria(criteria);
-		resultPage = compassSearchService.search(resultPage, new Mapper<Page>() {
+		resultPage = elasticSearchService.search(resultPage, new Mapper<Page>() {
 			public Page map(Page source) {
 				Page p = (Page) source;
 				Document doc = Jsoup.parse(p.getContent());

@@ -22,8 +22,8 @@ import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.LabelValue;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.SearchService.Mapper;
-import org.ironrhino.core.search.compass.CompassSearchCriteria;
-import org.ironrhino.core.search.compass.CompassSearchService;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 import org.ironrhino.core.util.DateUtils;
@@ -65,7 +65,7 @@ public class CustomerAction extends BaseAction {
 	private transient RegionTreeControl regionTreeControl;
 
 	@Autowired(required = false)
-	private transient CompassSearchService compassSearchService;
+	private transient ElasticSearchService elasticSearchService;
 
 	public ResultPage<Customer> getResultPage() {
 		return resultPage;
@@ -105,7 +105,7 @@ public class CustomerAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
+		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = customerManager.detachedCriteria();
 			Criterion filtering = CriterionUtils.filter(customer, "id", "name");
 			if (filtering != null)
@@ -142,13 +142,13 @@ public class CustomerAction extends BaseAction {
 							.getDescendantOrSelfById(c.getRegion().getId()));
 		} else {
 			String query = keyword.trim();
-			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
 			criteria.setQuery(query);
-			criteria.setAliases(new String[] { "customer" });
+			criteria.setTypes(new String[] { "customer" });
 			if (resultPage == null)
 				resultPage = new ResultPage<Customer>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage,
+			resultPage = elasticSearchService.search(resultPage,
 					new Mapper<Customer>() {
 						public Customer map(Customer source) {
 							Customer c = (Customer) source;
@@ -314,10 +314,10 @@ public class CustomerAction extends BaseAction {
 		keyword = ServletActionContext.getRequest().getParameter("term");
 		if (StringUtils.isBlank(keyword))
 			return NONE;
-		CompassSearchCriteria cc = new CompassSearchCriteria();
+		ElasticSearchCriteria cc = new ElasticSearchCriteria();
 		cc.setQuery(keyword);
-		cc.setAliases(new String[] { "customer" });
-		List<Customer> list = compassSearchService.search(cc);
+		cc.setTypes(new String[] { "customer" });
+		List<Customer> list = elasticSearchService.search(cc);
 		if (list.size() > 0) {
 			suggestions = new ArrayList<LabelValue>(list.size());
 			for (Customer c : list) {
@@ -369,13 +369,13 @@ public class CustomerAction extends BaseAction {
 
 	@JsonConfig(root = "suggestions")
 	public String tag() {
-		CompassSearchCriteria criteria = new CompassSearchCriteria();
+		ElasticSearchCriteria criteria = new ElasticSearchCriteria();
 		if (StringUtils.isNotBlank(keyword))
 			criteria.setQuery("*" + keyword + "*");
 		else
 			criteria.setQuery("*");
-		criteria.setAliases(new String[] { "category" });
-		List<Category> list = compassSearchService.search(criteria);
+		criteria.setTypes(new String[] { "category" });
+		List<Category> list = elasticSearchService.search(criteria);
 		if (list.size() > 0) {
 			suggestions = new ArrayList<LabelValue>(list.size());
 			for (Category cat : list) {

@@ -2,18 +2,18 @@ package com.ironrhino.biz.model;
 
 import java.util.Date;
 
-import org.compass.annotations.Index;
-import org.compass.annotations.Searchable;
-import org.compass.annotations.SearchableId;
-import org.compass.annotations.SearchableProperty;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
+import org.ironrhino.core.search.elasticsearch.annotations.Index;
+import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
+import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
+import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 
 @AutoConfig
-@Searchable(alias = "employee")
+@Searchable(type = "employee")
 public class Employee extends Entity<Long> {
 
 	private static final long serialVersionUID = 4207375657699283494L;

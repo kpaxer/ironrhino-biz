@@ -16,8 +16,8 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
-import org.ironrhino.core.search.compass.CompassSearchCriteria;
-import org.ironrhino.core.search.compass.CompassSearchService;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 import org.ironrhino.core.util.DateUtils;
@@ -58,7 +58,7 @@ public class RewardAction extends BaseAction {
 	private transient EmployeeManager employeeManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService<Reward> compassSearchService;
+	private transient ElasticSearchService<Reward> elasticSearchService;
 
 	@CreateIfNull
 	public List<Reward> getRewardList() {
@@ -119,7 +119,7 @@ public class RewardAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
+		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = rewardManager.detachedCriteria();
 			Criterion filtering = CriterionUtils.filter(reward, "id",
 					"rewardDate", "type");
@@ -155,13 +155,13 @@ public class RewardAction extends BaseAction {
 				sb.append(query.substring(8, 10));
 				query = sb.toString();
 			}
-			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
 			criteria.setQuery(query);
-			criteria.setAliases(new String[] { "reward" });
+			criteria.setTypes(new String[] { "reward" });
 			if (resultPage == null)
 				resultPage = new ResultPage<Reward>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage);
+			resultPage = elasticSearchService.search(resultPage);
 		}
 		return LIST;
 	}

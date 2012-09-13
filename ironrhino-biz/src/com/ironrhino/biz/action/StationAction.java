@@ -20,8 +20,8 @@ import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.SearchService.Mapper;
-import org.ironrhino.core.search.compass.CompassSearchCriteria;
-import org.ironrhino.core.search.compass.CompassSearchService;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class StationAction extends BaseAction {
 	private transient RegionTreeControl regionTreeControl;
 
 	@Autowired(required = false)
-	private transient CompassSearchService<Station> compassSearchService;
+	private transient ElasticSearchService<Station> elasticSearchService;
 
 	public ResultPage<Station> getResultPage() {
 		return resultPage;
@@ -92,7 +92,7 @@ public class StationAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
+		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = stationManager.detachedCriteria();
 			Criterion filtering = CriterionUtils.filter(station, "id", "name");
 			if (filtering != null)
@@ -124,13 +124,13 @@ public class StationAction extends BaseAction {
 							.getDescendantOrSelfById(c.getRegion().getId()));
 		} else {
 			String query = keyword.trim();
-			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
 			criteria.setQuery(query);
-			criteria.setAliases(new String[] { "station" });
+			criteria.setTypes(new String[] { "station" });
 			if (resultPage == null)
 				resultPage = new ResultPage<Station>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage, new Mapper<Station>() {
+			resultPage = elasticSearchService.search(resultPage, new Mapper<Station>() {
 				public Station map(Station source) {
 					Station s = (Station) source;
 					if (s.getRegion() != null)
@@ -282,10 +282,10 @@ public class StationAction extends BaseAction {
 			id = id.trim();
 			station = stationManager.findByNaturalId(id);
 			if (station == null) {
-				CompassSearchCriteria criteria = new CompassSearchCriteria();
+				ElasticSearchCriteria criteria = new ElasticSearchCriteria();
 				criteria.setQuery(id);
-				criteria.setAliases(new String[] { "station" });
-				List<Station> list = compassSearchService.search(criteria);
+				criteria.setTypes(new String[] { "station" });
+				List<Station> list = elasticSearchService.search(criteria);
 				if (list.size() == 1) {
 					station = list.get(1);
 				} else {

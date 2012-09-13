@@ -5,20 +5,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.compass.annotations.Index;
-import org.compass.annotations.Searchable;
-import org.compass.annotations.SearchableComponent;
-import org.compass.annotations.SearchableProperty;
-import org.compass.annotations.Store;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
 import org.ironrhino.core.model.Recordable;
+import org.ironrhino.core.search.elasticsearch.annotations.Index;
+import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
+import org.ironrhino.core.search.elasticsearch.annotations.SearchableComponent;
+import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
+import org.ironrhino.core.search.elasticsearch.annotations.Store;
 import org.ironrhino.security.model.User;
 
 import com.opensymphony.xwork2.util.CreateIfNull;
 
-@Searchable(alias = "returning")
+@Searchable(type = "returning")
 @AutoConfig
 public class Returning extends BaseEntity implements Recordable<User> {
 
@@ -27,7 +27,7 @@ public class Returning extends BaseEntity implements Recordable<User> {
 	@SearchableProperty
 	private String memo;
 
-	@SearchableProperty(converter = "date", format = "yyyy-MM-dd")
+	@SearchableProperty(converter = "date", format = "yyyy-MM-dd HH:mm:ss")
 	private Date returnDate = new Date();
 
 	@NotInCopy

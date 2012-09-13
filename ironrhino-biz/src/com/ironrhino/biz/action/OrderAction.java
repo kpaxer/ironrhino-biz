@@ -17,8 +17,8 @@ import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.SearchService.Mapper;
-import org.ironrhino.core.search.compass.CompassSearchCriteria;
-import org.ironrhino.core.search.compass.CompassSearchService;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +88,7 @@ public class OrderAction extends BaseAction {
 	private transient StationManager stationManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService<Order> compassSearchService;
+	private transient ElasticSearchService<Order> elasticSearchService;
 
 	public ResultPage<Order> getResultPage() {
 		return resultPage;
@@ -184,7 +184,7 @@ public class OrderAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
+		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = orderManager.detachedCriteria();
 			Criterion filtering = CriterionUtils.filter(order, "id", "code");
 			if (filtering != null)
@@ -224,15 +224,15 @@ public class OrderAction extends BaseAction {
 				sb.append(query.substring(8, 10));
 				query = sb.toString();
 			}
-			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
 			criteria.addSort("orderDate", true);
 			criteria.setQuery(query);
-			criteria.setAliases(new String[] { "order" });
+			criteria.setTypes(new String[] { "order" });
 			if (resultPage == null)
 				resultPage = new ResultPage<Order>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage,
-					new Mapper< Order>() {
+			resultPage = elasticSearchService.search(resultPage,
+					new Mapper<Order>() {
 						public Order map(Order source) {
 							return orderManager.get(source.getId());
 						}

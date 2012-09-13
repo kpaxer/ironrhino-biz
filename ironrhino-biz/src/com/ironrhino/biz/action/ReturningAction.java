@@ -16,8 +16,8 @@ import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.SearchService.Mapper;
-import org.ironrhino.core.search.compass.CompassSearchCriteria;
-import org.ironrhino.core.search.compass.CompassSearchService;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
+import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
 import org.ironrhino.core.service.EntityManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +73,7 @@ public class ReturningAction extends BaseAction {
 	private transient StationManager stationManager;
 
 	@Autowired(required = false)
-	private transient CompassSearchService<Returning> compassSearchService;
+	private transient ElasticSearchService<Returning> elasticSearchService;
 
 	public ResultPage<Returning> getResultPage() {
 		return resultPage;
@@ -142,7 +142,7 @@ public class ReturningAction extends BaseAction {
 
 	@Override
 	public String execute() {
-		if (StringUtils.isBlank(keyword) || compassSearchService == null) {
+		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = entityManager.detachedCriteria();
 			Criterion filtering = CriterionUtils.filter(returning, "id",
 					"returnDate");
@@ -178,14 +178,14 @@ public class ReturningAction extends BaseAction {
 				sb.append(query.substring(8, 10));
 				query = sb.toString();
 			}
-			CompassSearchCriteria criteria = new CompassSearchCriteria();
+			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
 			criteria.addSort("returnDate", true);
 			criteria.setQuery(query);
-			criteria.setAliases(new String[] { "returning" });
+			criteria.setTypes(new String[] { "returning" });
 			if (resultPage == null)
 				resultPage = new ResultPage<Returning>();
 			resultPage.setCriteria(criteria);
-			resultPage = compassSearchService.search(resultPage, new Mapper<Returning>() {
+			resultPage = elasticSearchService.search(resultPage, new Mapper<Returning>() {
 				public Returning map(Returning source) {
 					return entityManager.get( source.getId());
 				}
