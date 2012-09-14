@@ -23,7 +23,7 @@ public class Reward extends BaseEntity {
 
 	private RewardType type;
 
-	@SearchableProperty(converter = "date", format = "yyyy-MM-dd HH:mm:ss")
+	@SearchableProperty
 	private Date rewardDate = new Date();
 
 	@NotInCopy

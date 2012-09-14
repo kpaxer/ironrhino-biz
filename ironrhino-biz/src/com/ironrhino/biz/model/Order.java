@@ -38,7 +38,7 @@ public class Order extends BaseEntity implements Recordable<User> {
 	@SearchableProperty
 	private String memo;
 
-	@SearchableProperty(converter = "date", format = "yyyy-MM-dd HH:mm:ss")
+	@SearchableProperty
 	private Date orderDate = new Date();
 
 	@NotInCopy

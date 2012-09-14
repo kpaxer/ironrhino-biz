@@ -23,7 +23,7 @@ public class Stuffflow extends BaseEntity {
 	@SearchableProperty(index = Index.NO, store = Store.YES)
 	private int quantity;
 
-	@SearchableProperty(converter = "date", format = "yyyy-MM-dd HH:mm:ss")
+	@SearchableProperty
 	private Date date = new Date();
 
 	@SearchableProperty

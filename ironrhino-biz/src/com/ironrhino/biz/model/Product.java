@@ -12,7 +12,6 @@ import org.ironrhino.core.model.Attributable;
 import org.ironrhino.core.model.Attribute;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
-import org.ironrhino.core.search.elasticsearch.annotations.Index;
 import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableComponent;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
@@ -27,7 +26,7 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 
 	private static final long serialVersionUID = 1876365527076787416L;
 
-	@SearchableId(converter = "long", index = Index.NOT_ANALYZED)
+	@SearchableId
 	private Long id;
 
 	@SearchableProperty(boost = 3)

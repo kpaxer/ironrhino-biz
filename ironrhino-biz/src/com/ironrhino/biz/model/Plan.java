@@ -20,10 +20,10 @@ public class Plan extends BaseEntity {
 	@SearchableProperty(index = Index.NO, store = Store.YES)
 	private int quantity;
 
-	@SearchableProperty(converter = "date", format = "yyyy-MM-dd HH:mm:ss")
+	@SearchableProperty
 	private Date planDate = new Date();
 
-	@SearchableProperty(converter = "date", format = "yyyy-MM-dd HH:mm:ss")
+	@SearchableProperty
 	@NotInCopy
 	private Date completeDate;
 

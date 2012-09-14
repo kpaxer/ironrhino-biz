@@ -24,7 +24,7 @@ public class Customer extends Entity<Long> {
 
 	private static final long serialVersionUID = 5061457998732482283L;
 
-	@SearchableId(converter = "long")
+	@SearchableId
 	private Long id;
 
 	@NaturalId(mutable = true)

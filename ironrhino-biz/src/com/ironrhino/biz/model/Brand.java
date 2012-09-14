@@ -7,7 +7,6 @@ import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.metadata.UiConfig;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
-import org.ironrhino.core.search.elasticsearch.annotations.Index;
 import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
@@ -19,7 +18,7 @@ public class Brand extends Entity<Long> implements Ordered {
 
 	private static final long serialVersionUID = 6728147186060800090L;
 
-	@SearchableId(converter = "long", index = Index.NOT_ANALYZED)
+	@SearchableId
 	private Long id;
 
 	@NaturalId(mutable = true)

@@ -7,7 +7,6 @@ import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
-import org.ironrhino.core.search.elasticsearch.annotations.Index;
 import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
@@ -18,7 +17,7 @@ public class Stuff extends Entity<Long> implements Ordered {
 
 	private static final long serialVersionUID = 8649365520461282768L;
 
-	@SearchableId(converter = "long", index = Index.NOT_ANALYZED)
+	@SearchableId
 	private Long id;
 
 	@NaturalId(mutable = true)
