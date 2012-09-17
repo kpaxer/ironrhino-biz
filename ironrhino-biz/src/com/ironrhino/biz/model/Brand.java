@@ -27,6 +27,7 @@ public class Brand extends Entity<Long> implements Ordered {
 	private String name;
 
 	@UiConfig(displayOrder = 2)
+	@SearchableProperty
 	private int displayOrder;
 
 	public Brand() {

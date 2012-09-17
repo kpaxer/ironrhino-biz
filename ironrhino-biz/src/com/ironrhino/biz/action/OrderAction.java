@@ -225,6 +225,7 @@ public class OrderAction extends BaseAction {
 				query = sb.toString();
 			}
 			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
+			//criteria.setMinScore(2.0f);
 			criteria.addSort("orderDate", true);
 			criteria.setQuery(query);
 			criteria.setTypes(new String[] { "order" });

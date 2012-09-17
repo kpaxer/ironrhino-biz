@@ -27,6 +27,7 @@ public class Category extends Entity<Long> implements Ordered {
 	private String name;
 
 	@UiConfig(displayOrder = 2)
+	@SearchableProperty
 	private int displayOrder;
 
 	public Category() {

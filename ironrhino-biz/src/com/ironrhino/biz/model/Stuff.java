@@ -28,6 +28,7 @@ public class Stuff extends Entity<Long> implements Ordered {
 
 	private BigDecimal weight;
 
+	@SearchableProperty
 	private int displayOrder;
 
 	public Stuff() {
