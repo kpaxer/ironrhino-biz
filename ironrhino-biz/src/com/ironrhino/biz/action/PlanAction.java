@@ -1,11 +1,14 @@
 package com.ironrhino.biz.action;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -18,6 +21,7 @@ import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
 import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.BeanUtils;
+import org.ironrhino.core.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.model.Plan;
@@ -101,12 +105,11 @@ public class PlanAction extends BaseAction {
 			resultPage.setCriteria(dc);
 			resultPage = planManager.findByResultPage(resultPage);
 		} else {
+			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
+			criteria.addSort("planDate", true);
 			String query = keyword.trim();
-			if (query.matches("^\\d{4}-\\d{2}-\\d{2}$"))
-				query = "planDate:" + query;
 			if (query.matches("^\\d{4}年\\d{2}月\\d{2}日$")) {
 				StringBuilder sb = new StringBuilder();
-				sb.append("planDate:");
 				sb.append(query.substring(0, 4));
 				sb.append('-');
 				sb.append(query.substring(5, 7));
@@ -114,20 +117,31 @@ public class PlanAction extends BaseAction {
 				sb.append(query.substring(8, 10));
 				query = sb.toString();
 			}
-			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
-			criteria.addSort("planDate", true);
-			criteria.setQuery(query);
+			if (query.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+				Date date = DateUtils.parseDate10(query);
+				RangeQueryBuilder qb = QueryBuilders
+						.rangeQuery("planDate")
+						.from(DateUtils.formatDatetimeISO(DateUtils
+								.beginOfDay(date)))
+						.to(DateUtils.formatDatetimeISO(DateUtils
+								.endOfDay(date)));
+				criteria.setQueryBuilder(qb);
+			} else {
+				criteria.setQuery(query);
+			}
 			criteria.setTypes(new String[] { "plan" });
 			if (resultPage == null)
 				resultPage = new ResultPage<Plan>();
 			resultPage.setCriteria(criteria);
-			resultPage = elasticSearchService.search(resultPage, new Mapper<Plan>() {
-				public Plan map(Plan source) {
-					Plan p = (Plan) source;
-					p.setProduct(productManager.get(p.getProduct().getId()));
-					return p;
-				}
-			});
+			resultPage = elasticSearchService.search(resultPage,
+					new Mapper<Plan>() {
+						public Plan map(Plan source) {
+							Plan p = (Plan) source;
+							p.setProduct(productManager.get(p.getProduct()
+									.getId()));
+							return p;
+						}
+					});
 		}
 		return LIST;
 	}
