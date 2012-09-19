@@ -28,7 +28,7 @@ public class Customer extends Entity<Long> {
 	private Long id;
 
 	@NaturalId(mutable = true)
-	@SearchableProperty(boost = 3)
+	@SearchableProperty(boost = 3, index = Index.NOT_ANALYZED)
 	private String name;
 
 	@SearchableProperty(boost = 3)
@@ -43,7 +43,7 @@ public class Customer extends Entity<Long> {
 	@SearchableProperty
 	private String fax;
 
-	@SearchableProperty(boost = 3)
+	@SearchableProperty(boost = 3, index = Index.NOT_ANALYZED)
 	private String linkman;
 
 	@SearchableProperty
@@ -159,12 +159,12 @@ public class Customer extends Entity<Long> {
 		this.name = name;
 	}
 
-	@SearchableProperty(boost = 3)
+	@SearchableProperty(boost = 3, index = Index.NOT_ANALYZED)
 	public String getNameAsPinyin() {
 		return StringUtils.pinyin(name);
 	}
 
-	@SearchableProperty(boost = 3)
+	@SearchableProperty(boost = 3, index = Index.NOT_ANALYZED)
 	public String getNameAsPinyinAbbr() {
 		return StringUtils.pinyinAbbr(name);
 	}
