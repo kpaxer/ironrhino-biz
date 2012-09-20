@@ -63,7 +63,6 @@ public class Customer extends Entity<Long> {
 	private Region region;
 
 	@NotInCopy
-	@NotInJson
 	@SearchableProperty(index = Index.NOT_ANALYZED)
 	private Set<String> tags = new LinkedHashSet<String>(0);
 
