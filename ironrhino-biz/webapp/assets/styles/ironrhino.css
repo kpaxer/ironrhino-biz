@@ -5816,6 +5816,12 @@ body.simple {
 .table.middle th, .table.middle td{
 	vertical-align: middle;
 }
+td.center {
+	text-align:center;
+}
+td.middle {
+	vertical-align:middle;
+}
 .form-horizontal .control-label{
 	width: 100px;
 }
@@ -5850,6 +5856,15 @@ body.simple {
 }
 td input,td textarea,td select,td .uneditable-input{
 	margin-bottom: 0px;
+}
+th.radio,th.checkbox,td.radio,td.checkbox{
+	padding: 0;
+	text-align: center;
+	vertical-align: middle;
+}
+th.radio input[type="radio"],th.checkbox input[type="checkbox"],td.radio input[type="radio"],td.checkbox input[type="checkbox"]{
+	float: none !important;
+	margin: 0;
 }
 .ui-icon.close{
 	opacity: 1;
@@ -6009,12 +6024,8 @@ img.captcha {
 	background: #FF6;
 }
 
-.highlightrow tbody tr:hover td{
-	background: #EEE;
-}
-
 thead,tfoot {
-	background-color: #DDD;
+	background-color: #EEE;
 }
 
 ul.attributes li{
@@ -6064,12 +6075,6 @@ a.remove:hover {
 .datagrided [class*="icon-"]:hover{
 	opacity: 1;
   	filter: alpha(opacity=1);
-}
-td.center {
-	text-align:center;
-}
-td.middle {
-	vertical-align:middle;
 }
 /*textext*/
 div.text-core{
@@ -6178,23 +6183,20 @@ table.richtable thead {
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#EFEFEF), to(#EFEFEF), color-stop(.5,#DEDEDE));
 	background: -moz-linear-gradient(center top , #EFEFEF, #DEDEDE, #EFEFEF);
 }
-table.richtable {
-	width: 100%;
-	border-collapse: collapse;
-}
-table.richtable td,th {
+table.richtable td,table.richtable th {
 	padding: 0.5em;
-	border: 1px solid #CCC;
-	line-height: 180%;
 	height: 30px;
+	vertical-align: middle;
 }
-
+table.richtable th {
+	padding: 0.5em 0;
+}
+.richtable th,.richtable .toolbar .action {
+	text-align: center;
+}
 .richtable table td.action{
 	white-space:nowrap;
 	overflow:hidden;
-}
-.richtable table td a:hover{
-	color: #1E50A2;
 }
 .richtable input.text,.richtable textarea.text {
 	width: 90%;
@@ -6209,22 +6211,6 @@ table.richtable td,th {
 	margin: 0;
 	padding-left: 0;
 }
-.richtable thead td {
-	white-space: nowrap;
-	word-break: keep-all;
-	word-wrap: normal;
-	font-weight: bolder;
-	height: 24px;
-	text-align: center;
-	overflow: visible;
-}
-.richtable tbody tr:nth-child(even) td {
-  background-color: #f3f4f3;
-}
-.richtable td.checkbox {
-	text-align: center;
-}
-
 .richtable .selected td {
 	background-color: #FFC !important;
 }
@@ -6242,7 +6228,7 @@ table.richtable td,th {
 	text-align:left;
 }
 .richtable .pageSize {
-	border: 1px solid #DDD;
+	border: 1px solid #ddd;
 	-webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
@@ -6254,9 +6240,6 @@ table.richtable td,th {
 	margin-top:18px;
 }
 
-.richtable .toolbar .action{
-	text-align:center;
-}
 .richtable .toolbar .status{
 	line-height: 26px;
 	vertical-align: middle;
@@ -6264,9 +6247,8 @@ table.richtable td,th {
 }
 
 /*override bootstrap start*/
-td.radio input[type="radio"], td.checkbox input[type="checkbox"]{
-	float: none;
-	margin-left: 0;
+table.richtable {
+	margin-bottom: 0;
 }
 .richtable input[name="keyword"]{
 	width:100px;
@@ -6331,17 +6313,17 @@ td.radio input[type="radio"], td.checkbox input[type="checkbox"]{
 	margin-left: 0;
 	width:20%;
 }
-td.filtercolumn li.selecton
+th.filtercolumn li.selecton
 {
 	color: green;
 	font-weight: bold;
 }
-td.filtercolumn li.selectoff
+th.filtercolumn li.selectoff
 {
 	color: red;
 	font-weight: bold;
 }
-td.filtercolumn div.cmDiv
+th.filtercolumn div.cmDiv
 {
 	display: inline;
 	background: none;
@@ -6349,7 +6331,7 @@ td.filtercolumn div.cmDiv
 	float: left;
 	padding-left: 8px;
 }
-td.filtercolumn li.main
+th.filtercolumn li.main
 {
 	padding: 0;
 	background: none;
@@ -6357,7 +6339,7 @@ td.filtercolumn li.main
 	text-align: left;
 	cursor: pointer;
 }
-td.filtercolumn li.main li
+th.filtercolumn li.main li
 {
 	text-align: left;
 	padding-right: 2px;
