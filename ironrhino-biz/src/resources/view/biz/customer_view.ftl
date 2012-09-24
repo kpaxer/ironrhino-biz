@@ -22,33 +22,28 @@
 	<#if customer.memo?has_content><div><span>${action.getText('memo')}:</span><span style="margin-left:20px;">${customer.memo!}</span></div></#if>
 	</div>
 <#else>
-	<div id="info">
-		<div>
-		<span>${action.getText('id')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.id}</span>
-		<span style="margin-left:40px;">${action.getText('name')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.name!}</span>
-		<span style="margin-left:40px;">${action.getText('address')}:</span><span style="font-weight:bold;margin-left:20px;"><#if customer.region??>${customer.region.fullname}</#if>${customer.address!}</span>
-		</div>
-		<div>
-		<span>${action.getText('linkman')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.linkman!}</span>
-		<span style="margin-left:20px;">${action.getText('phone')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.phone!}</span>
-		<span style="margin-left:20px;">${action.getText('mobile')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.mobile!}</span>
-		<span style="margin-left:20px;">${action.getText('fax')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.fax!}</span>
-		</div>
-		<#if customer.tags?size gt 0>
-		<div>
-		<span>${action.getText('tag')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.tagsAsString!}</span>
-		</div>
-		</#if>
-		<div>
-		<span>${action.getText('activeDate')}:</span><span>${customer.activeDate?string('yyyy年MM月dd日')}</span>
-		<span style="margin-left:5px;">${action.getText('createDate')}:</span><span>${customer.createDate?string('yyyy年MM月dd日')}</span>
-		</div>
-		<#if customer.memo?has_content>
-		<div>
-		<span>${action.getText('memo')}:</span><span style="margin-left:20px;">${customer.memo!}</span>
-		</div>
-		</#if>
-	</div>
+<table id="details" class="table table-bordered middle">
+	<tbody>
+		<tr>
+			<td class="fieldlabel">${action.getText('id')}</td><td>${customer.id!}</td>
+			<td class="fieldlabel">${action.getText('name')}</td><td width="18%">${customer.name!}</td>
+			<td class="fieldlabel">${action.getText('address')}</td><td width="25%">${customer.fullAddress!}</td>
+		</tr>
+		<tr>
+			<td class="fieldlabel">${action.getText('phone')}</td><td>${customer.phone!}</td>
+			<td class="fieldlabel">${action.getText('mobile')}</td><td>${customer.mobile!}</td>
+			<td class="fieldlabel">${action.getText('fax')}</td><td>${customer.fax!}</td>
+		</tr>
+		<tr>
+			<td class="fieldlabel">${action.getText('tag')}</td><td>${customer.tagsAsString!}</td>
+			<td class="fieldlabel">${action.getText('createDate')}</td><td>${customer.createDate?string('yyyy年MM月dd日')!}</td>
+			<td class="fieldlabel">${action.getText('activeDate')}</td><td>${customer.activeDate?string('yyyy年MM月dd日')!}</td>
+		</tr>
+	</tbody>
+</table>
+<#if customer.memo?has_content>
+<pre>${customer.memo!}</pre>
+</#if>
 </#if>
 </body>
 </html></#escape>
