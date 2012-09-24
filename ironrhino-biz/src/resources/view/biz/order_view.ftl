@@ -4,7 +4,7 @@
 <title>${action.getText('view')}${action.getText('order')}</title>
 </head>
 <body>
-<table id="details" class="table table-bordered middle">
+<table id="details" class="table<#if !Parameters.printpage??> table-bordered</#if> middle">
 	<tbody>
 		<tr>
 			<td class="fieldlabel">${action.getText('code')}</td><td>${order.code!}</td>
@@ -33,7 +33,7 @@
 		</tr>
 	</tbody>
 </table>
-<table id="items" class="table table-bordered middle">
+<table id="items" class="table<#if !Parameters.printpage??> table-bordered</#if> middle">
 	<thead>
 		<tr>
 			<td style="font-weight:bold;">
@@ -93,6 +93,11 @@
 </table>
 <#if order.memo?has_content>
 <pre id="memo">${order.memo!}</pre>
+</#if>
+<#if !Parameters.printpage??>
+<div style="text-align:center;">
+	<a href="${getUrl('/biz/order/view/'+order.id+'?decorator=simple&printpage=true')}" target="_blank" class="btn">${action.getText('print')}</a>
+</div>
 </#if>
 </body>
 </html></#escape>

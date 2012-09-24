@@ -22,7 +22,7 @@
 	<#if customer.memo?has_content><div><span>${action.getText('memo')}:</span><span style="margin-left:20px;">${customer.memo!}</span></div></#if>
 	</div>
 <#else>
-<table id="details" class="table table-bordered middle">
+<table id="details" class="table<#if !Parameters.printpage??> table-bordered</#if> middle">
 	<tbody>
 		<tr>
 			<td class="fieldlabel">${action.getText('id')}</td><td>${customer.id!}</td>
@@ -43,6 +43,11 @@
 </table>
 <#if customer.memo?has_content>
 <pre>${customer.memo!}</pre>
+</#if>
+<#if !Parameters.printpage??>
+<div style="text-align:center;">
+	<a href="${getUrl('/biz/customer/view/'+customer.id+'?decorator=simple&printpage=true')}" target="_blank" class="btn">${action.getText('print')}</a>
+</div>
 </#if>
 </#if>
 </body>
