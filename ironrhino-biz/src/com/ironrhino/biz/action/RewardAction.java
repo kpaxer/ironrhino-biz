@@ -121,15 +121,16 @@ public class RewardAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = rewardManager.detachedCriteria();
+			dc.createAlias("employee", "employee");
 			Criterion filtering = CriterionUtils.filter(reward, "id",
 					"rewardDate", "type");
 			if (filtering != null)
 				dc.add(filtering);
 			if (StringUtils.isNotBlank(keyword))
-				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "memo"));
+				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE,
+						"employee.name", "memo"));
 			if (employee != null && employee.getId() != null)
-				dc.createAlias("employee", "c").add(
-						Restrictions.eq("c.id", employee.getId()));
+				dc.add(Restrictions.eq("employee.id", employee.getId()));
 			if (negative != null)
 				if (!negative)
 					dc.add(Restrictions.gt("amount", new BigDecimal(0)));

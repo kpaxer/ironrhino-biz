@@ -149,7 +149,9 @@ public class ReturningAction extends BaseAction {
 			if (filtering != null)
 				dc.add(filtering);
 			if (StringUtils.isNotBlank(keyword))
-				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "memo"));
+				dc.createAlias("customer", "customer").add(
+						CriterionUtils.like(keyword, MatchMode.ANYWHERE,
+								"customer.name", "memo"));
 			if (customer != null && customer.getId() != null)
 				dc.createAlias("customer", "c").add(
 						Restrictions.eq("c.id", customer.getId()));
@@ -185,11 +187,12 @@ public class ReturningAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Returning>();
 			resultPage.setCriteria(criteria);
-			resultPage = elasticSearchService.search(resultPage, new Mapper<Returning>() {
-				public Returning map(Returning source) {
-					return entityManager.get( source.getId());
-				}
-			});
+			resultPage = elasticSearchService.search(resultPage,
+					new Mapper<Returning>() {
+						public Returning map(Returning source) {
+							return entityManager.get(source.getId());
+						}
+					});
 		}
 		return LIST;
 	}

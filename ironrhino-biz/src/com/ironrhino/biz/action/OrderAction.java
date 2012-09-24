@@ -190,8 +190,9 @@ public class OrderAction extends BaseAction {
 			if (filtering != null)
 				dc.add(filtering);
 			if (StringUtils.isNotBlank(keyword))
-				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "code",
-						"memo"));
+				dc.createAlias("customer", "customer").add(
+						CriterionUtils.like(keyword, MatchMode.ANYWHERE,
+								"customer.name", "code", "memo"));
 			if (customer != null && customer.getId() != null)
 				dc.createAlias("customer", "c").add(
 						Restrictions.eq("c.id", customer.getId()));
@@ -225,7 +226,7 @@ public class OrderAction extends BaseAction {
 				query = sb.toString();
 			}
 			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
-			//criteria.setMinScore(2.0f);
+			// criteria.setMinScore(2.0f);
 			criteria.addSort("orderDate", true);
 			criteria.setQuery(query);
 			criteria.setTypes(new String[] { "order" });

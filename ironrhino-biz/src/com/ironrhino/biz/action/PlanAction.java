@@ -95,7 +95,9 @@ public class PlanAction extends BaseAction {
 			if (filtering != null)
 				dc.add(filtering);
 			if (StringUtils.isNotBlank(keyword))
-				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "memo"));
+				dc.createAlias("product", "product").add(
+						CriterionUtils.like(keyword, MatchMode.ANYWHERE,
+								"product.name", "memo"));
 			if (product != null && product.getId() != null)
 				dc.createAlias("product", "c").add(
 						Restrictions.eq("c.id", product.getId()));
