@@ -4,37 +4,26 @@
 <title>${action.getText('view')}${action.getText('returning')}</title>
 </head>
 <body>
-<div id="info">
-<div>
-<span style="margin-left:5px;">${action.getText('customer')}:</span><span>${returning.customer}</span>
-<span style="margin-left:5px;">${action.getText('phone')}:</span><span>${returning.customer.phone!}&nbsp;${returning.customer.mobile!}</span>
-<span style="margin-left:5px;">${action.getText('address')}:</span><span>${returning.customer.fullAddress!}</span>
-<#if returning.customer.tags?size gt 0>
-<span style="margin-left:5px;">${action.getText('tag')}:</span><span>${returning.customer.tagsAsString!}</span>
-</#if>
-</div>
-<div>
-<span style="margin-left:5px;">${action.getText('returnDate')}:</span><span>${returning.returnDate?string('yyyy年MM月dd日')}</span>
-<#if returning.salesman??>
-<span style="margin-left:5px;">${action.getText('salesman')}:</span><span>${returning.salesman.name}</span>
-</#if>
-</div>
-<div>
-<#if returning.station??>
-<span style="margin-left:5px;">${action.getText('station')}:</span><span>${returning.station.name}</span>
-</#if>
-</div>
-<div>
-<#if returning.createUser??>
-<span style="margin-left:5px;">${action.getText('createUser')}:</span><span>${returning.createUser.name}</span>
-<span style="margin-left:5px;">${action.getText('createDate')}:</span><span>${returning.createDate?string('yyyy-MM-dd HH:mm:ss')}</span>
-</#if>
-<#if returning.modifyUser??>
-<span style="margin-left:5px;">${action.getText('modifyUser')}:</span><span>${returning.modifyUser.name}</span>
-<span style="margin-left:5px;">${action.getText('modifyDate')}:</span><span>${returning.modifyDate?string('yyyy-MM-dd HH:mm:ss')}</span>
-</#if>
-</div>
-<table class="table table-condensed middle">
+<table id="details" class="table<#if !Parameters.printpage??> table-bordered</#if> middle">
+	<tbody>
+		<tr>
+			<td class="fieldlabel">${action.getText('returnDate')}</td><td style="width:24%;">${(returning.returnDate?string('yyyy年MM月dd日'))!}</td>
+			<td class="fieldlabel">${action.getText('customer')}</td><td><a href="${getUrl("/biz/order")}?customer.id=${returning.customer.id}" target="_blank">${returning.customer}</a></td>
+			<td class="fieldlabel">${action.getText('phone')}</td><td style="width:24%;">${returning.customer.phone!}&nbsp;${returning.customer.mobile!}</td>
+		</tr>
+		<tr>
+			<td class="fieldlabel">${action.getText('station')}</td><td>${(returning.station.name)!}</td>
+			<td class="fieldlabel">${action.getText('salesman')}</td><td>${(returning.salesman.name)!}</td>
+			<td class="fieldlabel">${action.getText('createUser')}</td><td>${returning.createUser!}</td>
+		</tr>
+		<tr>
+			<td class="fieldlabel">${action.getText('createDate')}</td><td>${returning.createDate!}</td>
+			<td class="fieldlabel">${action.getText('modifyUser')}</td><td>${returning.modifyUser!}</td>
+			<td class="fieldlabel">${action.getText('modifyDate')}</td><td>${returning.modifyDate!}</td>
+		</tr>
+	</tbody>
+</table>
+<table id="items" class="table<#if !Parameters.printpage??> table-bordered</#if> middle">
 	<thead>
 		<tr>
 			<td>
@@ -51,19 +40,19 @@
 			</td>
 		</tr>
 	</thead>
-	<tfoot align="right">
+	<tfoot>
 		<tr>
-			<td colspan="3">${action.getText('amount')}</td>
+			<td colspan="3" style="text-align:right;">${action.getText('amount')}</td>
 			<td style="text-align:right;">${returning.amount}</td>
 		</tr>
 		<#if returning.freight??>
 		<tr>
-			<td colspan="3">${action.getText('freight')}</td>
+			<td colspan="3" style="text-align:right;">${action.getText('freight')}</td>
 			<td style="text-align:right;">${returning.freight}</td>
 		</tr>
 		</#if>
 		<tr>
-			<td colspan="3">${action.getText('grandTotal')}</td>
+			<td colspan="3" style="text-align:right;">${action.getText('grandTotal')}</td>
 			<td style="font-weight:bold;text-align:right;">${returning.grandTotal}</td>
 		</tr>
 	</tfoot>
@@ -87,8 +76,12 @@
 	</tbody>
 </table>
 <#if returning.memo?has_content>
-<div class="well">${returning.memo!}</div>
+<pre id="memo">${returning.memo!}</pre>
 </#if>
+<#if !Parameters.printpage??>
+<div style="text-align:center;">
+	<a href="${getUrl('/biz/returning/view/'+returning.id+'?decorator=simple&printpage=true')}" target="_blank" class="btn">${action.getText('print')}</a>
 </div>
+</#if>
 </body>
 </html></#escape>

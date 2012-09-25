@@ -28,19 +28,19 @@
 					<td class="manipulate"></td>
 				</tr>
 			</thead>
-			<tfoot align="right">
+			<tfoot>
 				<tr>
-					<td colspan="3">${action.getText('amount')}</td>
+					<td colspan="3" style="text-align:right;">${action.getText('amount')}</td>
 					<td id="amount" style="text-align:right;">${order.amount!}</td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="3">${action.getText('discount')}</td>
+					<td colspan="3" style="text-align:right;">${action.getText('discount')}</td>
 					<td style="text-align:right;">－<@s.textfield id="discount" name="order.discount" theme="simple" cssClass="double positive" cssStyle="text-align:right;width:40px;" tabindex="10"/></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="3">${action.getText('grandTotal')}</td>
+					<td colspan="3" style="text-align:right;">${action.getText('grandTotal')}</td>
 					<td id="grandTotal" style="font-weight:bold;text-align:right;">${order.grandTotal!}</td>
 					<td></td>
 				</tr>

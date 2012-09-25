@@ -77,9 +77,11 @@ public class Order extends BaseEntity implements Recordable<User> {
 	private Employee deliveryman;
 
 	@NotInCopy
+	@SearchableComponent
 	private User createUser;
 
 	@NotInCopy
+	@SearchableComponent
 	private User modifyUser;
 
 	@CreateIfNull

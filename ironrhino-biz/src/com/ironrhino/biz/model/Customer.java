@@ -58,7 +58,6 @@ public class Customer extends Entity<Long> {
 	private Date createDate = new Date();
 
 	@NotInCopy
-	@NotInJson
 	@SearchableComponent
 	private Region region;
 
@@ -184,6 +183,7 @@ public class Customer extends Entity<Long> {
 		this.tags = tags;
 	}
 
+	@NotInJson
 	public String getTagsAsString() {
 		if (tags.size() > 0)
 			return org.apache.commons.lang3.StringUtils.join(tags.iterator(),

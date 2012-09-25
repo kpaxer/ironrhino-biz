@@ -152,7 +152,7 @@ public class CustomerAction extends BaseAction {
 					new Mapper<Customer>() {
 						public Customer map(Customer source) {
 							Customer c = (Customer) source;
-							c = customerManager.get(c.getId());
+//							c = customerManager.get(c.getId());
 							if (c.getRegion() != null)
 								c.setRegion(regionTreeControl.getRegionTree()
 										.getDescendantOrSelfById(

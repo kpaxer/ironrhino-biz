@@ -52,23 +52,23 @@
 	</thead>
 	<tfoot>
 		<tr>
-			<td colspan="3" style="font-weight:bold;">${action.getText('amount')}</td>
+			<td colspan="3" style="font-weight:bold;text-align:right;">${action.getText('amount')}</td>
 			<td style="text-align:right;">${order.amount}</td>
 		</tr>
 		<#if order.discount??>
 		<tr>
-			<td colspan="3" style="font-weight:bold;">${action.getText('discount')}</td>
+			<td colspan="3" style="font-weight:bold;text-align:right;">${action.getText('discount')}</td>
 			<td style="text-align:right;">-${order.discount}</td>
 		</tr>
 		</#if>
 		<#if order.freight??>
 		<tr>
-			<td colspan="3" style="font-weight:bold;">${action.getText('freight')}</td>
+			<td colspan="3" style="font-weight:bold;text-align:right;">${action.getText('freight')}</td>
 			<td style="text-align:right;">-${order.freight}</td>
 		</tr>
 		</#if>
 		<tr>
-			<td colspan="3" style="font-weight:bold;">${action.getText('grandTotal')}</td>
+			<td colspan="3" style="font-weight:bold;text-align:right;">${action.getText('grandTotal')}</td>
 			<td style="font-weight:bold;text-align:right;">${order.grandTotal}</td>
 		</tr>
 	</tfoot>
