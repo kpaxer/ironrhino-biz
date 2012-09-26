@@ -37,8 +37,8 @@
 		<many-to-one name="salesman" column="salesmanId" lazy="proxy" />
 		<many-to-one name="deliveryman" column="deliverymanId"
 			lazy="proxy" />
-		<many-to-one name="createUser" lazy="proxy" />
-		<many-to-one name="modifyUser" lazy="proxy" />
+		<many-to-one name="createUser" lazy="proxy" not-found="ignore" />
+		<many-to-one name="modifyUser" lazy="proxy" not-found="ignore" />
 		<list name="items" table="orderitem" cascade="all" lazy="true"
 			fetch="subselect">
 			<key column="orderId" />

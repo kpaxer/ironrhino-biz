@@ -62,7 +62,6 @@ public class Station extends Entity<Long> {
 	private Date createDate = new Date();;
 
 	@NotInCopy
-	@NotInJson
 	@SearchableComponent
 	private Region region;
 
