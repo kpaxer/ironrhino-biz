@@ -68,7 +68,7 @@
 		</div>
 	</div>
 	<@s.textfield label="%{getText('returnDate')}" name="returning.returnDate" cssClass="date required"/>
-	<@s.select label="%{getText('station')}" name="stationId" cssStyle="width:200px;" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
+	<@s.select label="%{getText('station')}" name="stationId" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 	<@s.select label="%{getText('salesman')}" name="salesman.id" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 	<@s.textarea label="%{getText('memo')}" name="returning.memo" cssStyle="width:80%;height:50px;"/>
 	<@s.submit value="%{getText('save')}" />

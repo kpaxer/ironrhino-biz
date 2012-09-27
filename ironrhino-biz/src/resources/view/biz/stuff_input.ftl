@@ -9,9 +9,9 @@
 		<@s.hidden name="stuff.id" />
 	</#if>
 	<@s.textfield label="%{getText('name')}" name="stuff.name" cssClass="required"/>
-	<@s.textfield label="%{getText('weight')}" name="stuff.weight" cssClass="double positive"/>
-	<@s.textfield label="%{getText('stock')}" name="stuff.stock" cssClass="integer"/>
-	<@s.textfield label="%{getText('displayOrder')}" name="stuff.displayOrder" cssClass="integer"/>
+	<@s.textfield label="%{getText('weight')}" name="stuff.weight" type="number" cssClass="double positive"/>
+	<@s.textfield label="%{getText('stock')}" name="stuff.stock" type="number" cssClass="integer"/>
+	<@s.textfield label="%{getText('displayOrder')}" name="stuff.displayOrder" type="number" cssClass="integer"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

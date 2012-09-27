@@ -12,7 +12,7 @@
 		<div class="control-group">
 		<label class="control-label" for="filterproduct">${action.getText('product')}</label>
 		<div class="controls">
-		<input id="filterproduct" type="text" size="5" class="filterselect" style="margin-right:3px;"/><@s.select theme="simple" name="product.id" cssClass="required" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
+		<input id="filterproduct" type="text" class="filterselect" style="margin-right:3px;"/><@s.select theme="simple" name="product.id" cssClass="required" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
 		</div>
 		</div>
 		<@s.textfield label="%{getText('quantity')}" name="plan.quantity" cssClass="integer positive required"/>

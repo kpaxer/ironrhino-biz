@@ -89,10 +89,10 @@
 			</span>
 			<span style="margin:5px;">${action.getText('freight')}</span>－<@s.textfield id="freight"  theme="simple" name="order.freight" cssClass="double positive"/>
 			<span style="margin:5px;">${action.getText('station')}</span>
-			<@s.select theme="simple" name="stationId" cssStyle="width:200px;" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
+			<@s.select theme="simple" name="stationId" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 		</div>
 	</div>
-	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:80%;height:20px;"/>
+	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:80%;height:40px;"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

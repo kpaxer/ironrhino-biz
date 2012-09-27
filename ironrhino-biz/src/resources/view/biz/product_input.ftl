@@ -11,11 +11,11 @@
 	<@s.select label="%{getText('brand')}" name="brandId" cssClass="required" list="brandList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 	<@s.select label="%{getText('category')}" name="categoryId" cssClass="required conjunct" replacement="editAttributes" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 	<@s.textfield label="%{getText('name')}" name="product.name" cssClass="required"/>
-	<@s.textfield label="%{getText('stock')}" name="product.stock" cssClass="integer"/>
-	<@s.textfield label="%{getText('shopStock')}" name="product.shopStock" cssClass="integer positive"/>
-	<@s.textfield label="%{getText('weight')}" name="product.weight" cssClass="double positive"/>
-	<@s.textfield label="%{getText('price')}" name="product.price" cssClass="double positive"/>
-	<@s.textfield label="%{getText('displayOrder')}" name="product.displayOrder" cssClass="integer"/>
+	<@s.textfield label="%{getText('stock')}" name="product.stock" type="number" cssClass="integer"/>
+	<@s.textfield label="%{getText('shopStock')}" name="product.shopStock" type="number" cssClass="integer positive"/>
+	<@s.textfield label="%{getText('weight')}" name="product.weight" type="number" cssClass="double positive"/>
+	<@s.textfield label="%{getText('price')}" name="product.price" type="number" cssClass="double positive"/>
+	<@s.textfield label="%{getText('displayOrder')}" name="product.displayOrder" type="number" cssClass="integer"/>
 	<div id="editAttributes">
 	<@editAttributes schemaName='category:'+categoryId! attributes=product.attributes parameterNamePrefix='product.'/>
 	</div>
