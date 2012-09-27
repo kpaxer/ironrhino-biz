@@ -15,11 +15,15 @@
 				<param name="enumClass">
 					com.ironrhino.biz.model.RewardType
 				</param>
+				<param name="useNamed">
+					false
+				</param>
 			</type>
 		</property>
 		<property name="rewardDate" />
 		<property name="createDate" />
 		<property name="memo" length="2500" />
-		<many-to-one name="employee" column="employeeId" not-null="true" lazy="false" fetch="join" />
+		<many-to-one name="employee" column="employeeId" not-null="true"
+			lazy="false" fetch="join" />
 	</class>
 </hibernate-mapping>

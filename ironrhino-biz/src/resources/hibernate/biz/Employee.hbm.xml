@@ -10,12 +10,15 @@
 			<generator class="identity" />
 		</id>
 		<natural-id mutable="true">
-			<property name="name" not-null="true"/>
+			<property name="name" not-null="true" />
 		</natural-id>
 		<property name="type">
 			<type name="org.hibernate.type.EnumType">
 				<param name="enumClass">
 					com.ironrhino.biz.model.EmployeeType
+				</param>
+				<param name="useNamed">
+					false
 				</param>
 			</type>
 		</property>
