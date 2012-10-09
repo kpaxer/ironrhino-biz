@@ -17,7 +17,7 @@
 		<property name="modifyDate" />
 		<property name="memo" length="2500" />
 		<many-to-one name="customer" column="customerId" not-null="true"
-			lazy="false" fetch="join" />
+			lazy="false" fetch="select" />
 		<many-to-one name="station" column="stationId" lazy="proxy" />
 		<many-to-one name="salesman" column="salesmanId" lazy="proxy" />
 		<many-to-one name="createUser" lazy="proxy" not-found="ignore" />

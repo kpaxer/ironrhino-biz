@@ -10,7 +10,7 @@
 			<generator class="identity" />
 		</id>
 		<natural-id mutable="true">
-			<property name="name" not-null="true"/>
+			<property name="name" not-null="true" />
 		</natural-id>
 		<property name="address" />
 		<property name="linkman" />
@@ -20,8 +20,9 @@
 		<property name="memo" length="2500" />
 		<property name="activeDate" index="activeDate" />
 		<property name="createDate" />
-		<property name="tagsAsString" type="java.lang.String" column="tags" length="500"/>
-		<many-to-one name="region" column="regionId" lazy="false"
-			fetch="join" />
+		<property name="tagsAsString" type="java.lang.String" column="tags"
+			length="500" />
+		<many-to-one name="region" column="regionId" lazy="proxy"
+			fetch="select" />
 	</class>
 </hibernate-mapping>
