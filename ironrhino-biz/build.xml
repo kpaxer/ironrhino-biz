@@ -14,7 +14,8 @@
 	<property name="jar.name" value="${ant.project.name}-${version}.jar" />
 	<property name="war.name" value="ROOT.war" />
 	<property name="server.home" value="/tomcat" />
-	<property name="server.check.port" value="8005" />
+	<property name="server.startup.port" value="8080" />
+	<property name="server.shutdown.port" value="8005" />
 	<property name="webapp.deploy.dir" value="${server.home}/webapps/ROOT" />
 	<condition property="cmd.suffix" value="bat">
 		<os family="windows" />
@@ -330,7 +331,7 @@
 
 	<target name="checkserverstarted">
 		<condition property="server.started">
-			<socket server="localhost" port="${server.check.port}" />
+			<socket server="localhost" port="${server.shutdown.port}" />
 		</condition>
 	</target>
 
@@ -364,28 +365,29 @@
 
 	<target name="shutdown" if="server.started" depends="checkserverstarted">
 		<exec executable="${server.shutdown.cmd}" dir="${server.home}" />
-		<waitfor checkevery="2" checkeveryunit="second" maxwait="60"
+		<waitfor checkevery="2" checkeveryunit="second" maxwait="180"
 			maxwaitunit="second">
 			<not>
-				<socket server="localhost" port="${server.check.port}" />
+				<socket server="localhost" port="${server.shutdown.port}" />
 			</not>
 		</waitfor>
 	</target>
 
 	<target name="startup" depends="shutdown">
 		<exec executable="${server.startup.cmd}" dir="${server.home}" />
+		<waitfor checkevery="2" checkeveryunit="second" maxwait="180"
+			maxwaitunit="second">
+			<socket server="localhost" port="${server.startup.port}" />
+		</waitfor>
 	</target>
 
 	<target name="deploy">
-		<exec executable="svn" dir="${basedir}">
-			<arg value="update" />
-		</exec>
 		<antcall target="compile" />
 		<antcall target="war" />
 		<antcall target="backup" />
 		<antcall target="shutdown" />
 		<delete>
-			<fileset dir="${webapp.deploy.dir}" includes="**/*" />
+			<fileset dir="${webapp.deploy.dir}" />
 		</delete>
 		<unzip dest="${webapp.deploy.dir}" src="${target.dir}/${war.name}" />
 		<antcall target="startup" />
