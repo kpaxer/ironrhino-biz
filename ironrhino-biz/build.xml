@@ -365,7 +365,7 @@
 
 	<target name="shutdown" if="server.started" depends="checkserverstarted">
 		<exec executable="${server.shutdown.cmd}" dir="${server.home}" />
-		<waitfor checkevery="2" checkeveryunit="second" maxwait="180"
+		<waitfor checkevery="2" checkeveryunit="second" maxwait="60"
 			maxwaitunit="second">
 			<not>
 				<socket server="localhost" port="${server.shutdown.port}" />
