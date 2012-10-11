@@ -303,7 +303,7 @@
 		<antcall target="reset-append-svn-revision-for-assets" />
 	</target>
 
-	<target name="war" depends="sync,compress,jar">
+	<target name="war" depends="sync,jar">
 		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" />
 		<mkdir dir="${target.dir}/classes" />
 		<move todir="${target.dir}/classes">
