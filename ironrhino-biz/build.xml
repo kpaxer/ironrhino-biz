@@ -176,7 +176,8 @@
 	<target name="compile" depends="sync">
 		<antcall target="clean" />
 		<antcall target="init" />
-		<javac includeantruntime="false" debug="true" debuglevel="vars,lines" srcdir="${src.dir}" destdir="${classes.dir}" encoding="UTF-8">
+		<javac includeantruntime="false" debug="true" debuglevel="vars,lines"
+			srcdir="${src.dir}" destdir="${classes.dir}" encoding="UTF-8">
 			<classpath refid="lib.classpath" />
 		</javac>
 		<copy todir="${classes.dir}">
@@ -188,8 +189,8 @@
 
 	<target name="test" depends="compile">
 		<mkdir dir="${test.classes.dir}" />
-		<javac includeantruntime="false" debug="true" debuglevel="vars,lines" srcdir="${test.src.dir}" destdir="${test.classes.dir}"
-			encoding="utf-8">
+		<javac includeantruntime="false" debug="true" debuglevel="vars,lines"
+			srcdir="${test.src.dir}" destdir="${test.classes.dir}" encoding="utf-8">
 			<classpath>
 				<path refid="lib.classpath" />
 				<pathelement location="${classes.dir}" />
@@ -369,12 +370,10 @@
 				<socket server="localhost" port="${server.check.port}" />
 			</not>
 		</waitfor>
-		<sleep seconds="3" />
 	</target>
 
 	<target name="startup" depends="shutdown">
-		<exec executable="${server.startup.cmd}" dir="${server.home}"
-			spawn="true" />
+		<exec executable="${server.startup.cmd}" dir="${server.home}" />
 	</target>
 
 	<target name="deploy">
@@ -385,7 +384,9 @@
 		<antcall target="war" />
 		<antcall target="backup" />
 		<antcall target="shutdown" />
-		<delete dir="${webapp.deploy.dir}" />
+		<delete>
+			<fileset dir="${webapp.deploy.dir}" includes="**/*" />
+		</delete>
 		<unzip dest="${webapp.deploy.dir}" src="${target.dir}/${war.name}" />
 		<antcall target="startup" />
 	</target>
