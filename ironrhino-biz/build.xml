@@ -364,6 +364,12 @@
 	</target>
 
 	<target name="shutdown" if="server.started" depends="checkserverstarted">
+		<waitfor checkevery="1" checkeveryunit="second" maxwait="2"
+			maxwaitunit="second">
+			<http
+				url="http://localhost:${server.startup.port}/?firewallHandler.allowedAddrPattern=127.0.0.1" />
+		</waitfor>
+		<sleep seconds="3" />
 		<exec executable="${server.shutdown.cmd}" dir="${server.home}" />
 		<waitfor checkevery="2" checkeveryunit="second" maxwait="60"
 			maxwaitunit="second">
@@ -377,7 +383,7 @@
 		<exec executable="${server.startup.cmd}" dir="${server.home}" />
 		<waitfor checkevery="2" checkeveryunit="second" maxwait="180"
 			maxwaitunit="second">
-			<http url="http://localhost:${server.startup.port}/"/>
+			<http url="http://localhost:${server.startup.port}/" />
 		</waitfor>
 	</target>
 
@@ -386,11 +392,7 @@
 		<antcall target="war" />
 		<antcall target="backup" />
 		<antcall target="shutdown" />
-		<!-- 
-		<delete>
-			<fileset dir="${webapp.deploy.dir}" />
-		</delete>
-		 -->
+		<!-- <delete> <fileset dir="${webapp.deploy.dir}" /> </delete> -->
 		<unzip dest="${webapp.deploy.dir}" src="${target.dir}/${war.name}" />
 		<antcall target="startup" />
 	</target>
