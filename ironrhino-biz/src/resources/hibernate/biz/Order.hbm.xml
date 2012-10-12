@@ -35,7 +35,7 @@
 		<property name="modifyDate" />
 		<property name="memo" length="2500" />
 		<many-to-one name="customer" column="customerId" not-null="true"
-			lazy="false" fetch="join" />
+			lazy="proxy" />
 		<many-to-one name="station" column="stationId" lazy="proxy" />
 		<many-to-one name="salesman" column="salesmanId" lazy="proxy" />
 		<many-to-one name="deliveryman" column="deliverymanId"
@@ -43,7 +43,7 @@
 		<many-to-one name="createUser" lazy="proxy" not-found="ignore" />
 		<many-to-one name="modifyUser" lazy="proxy" not-found="ignore" />
 		<list name="items" table="orderitem" cascade="all" lazy="true"
-			fetch="subselect">
+			fetch="select">
 			<key column="orderId" />
 			<list-index column="lineNumber" />
 			<composite-element class="OrderItem">
