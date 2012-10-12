@@ -37,7 +37,8 @@ import com.ironrhino.biz.service.OrderManager;
 import com.ironrhino.biz.service.ProductManager;
 import com.ironrhino.biz.service.StationManager;
 
-@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
+		+ UserRole.ROLE_SALESMAN)
 public class OrderAction extends BaseAction {
 
 	private static final long serialVersionUID = 4331302727890834065L;

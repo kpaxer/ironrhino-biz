@@ -30,7 +30,8 @@ import com.ironrhino.biz.model.Station;
 import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.StationManager;
 
-@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
+		+ UserRole.ROLE_CUSTOMERMANAGER)
 public class StationAction extends BaseAction {
 
 	private static final long serialVersionUID = 4331302727890834065L;
@@ -130,15 +131,17 @@ public class StationAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Station>();
 			resultPage.setCriteria(criteria);
-			resultPage = elasticSearchService.search(resultPage, new Mapper<Station>() {
-				public Station map(Station source) {
-					Station s = (Station) source;
-					if (s.getRegion() != null)
-						s.setRegion(regionTreeControl.getRegionTree()
-								.getDescendantOrSelfById(s.getRegion().getId()));
-					return s;
-				}
-			});
+			resultPage = elasticSearchService.search(resultPage,
+					new Mapper<Station>() {
+						public Station map(Station source) {
+							Station s = (Station) source;
+							if (s.getRegion() != null)
+								s.setRegion(regionTreeControl.getRegionTree()
+										.getDescendantOrSelfById(
+												s.getRegion().getId()));
+							return s;
+						}
+					});
 		}
 		return LIST;
 	}
@@ -146,11 +149,11 @@ public class StationAction extends BaseAction {
 	@Override
 	public String input() {
 		String id = getUid();
-		if(StringUtils.isNotBlank(id))
-		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
-			station = stationManager.get(Long.valueOf(id));
-		else
-			station = stationManager.findByNaturalId(id);
+		if (StringUtils.isNotBlank(id))
+			if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
+				station = stationManager.get(Long.valueOf(id));
+			else
+				station = stationManager.findByNaturalId(id);
 		if (station == null)
 			station = new Station();
 		else {

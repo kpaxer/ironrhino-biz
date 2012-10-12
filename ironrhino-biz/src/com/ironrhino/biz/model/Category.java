@@ -13,7 +13,8 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 
 @AutoConfig(searchable = true)
-@Authorize(ifAnyGranted = org.ironrhino.security.model.UserRole.ROLE_ADMINISTRATOR)
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
+		+ UserRole.ROLE_PRODUCTMANAGER)
 @Searchable(type = "category")
 public class Category extends Entity<Long> implements Ordered {
 

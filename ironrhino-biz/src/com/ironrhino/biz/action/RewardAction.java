@@ -30,7 +30,7 @@ import com.ironrhino.biz.service.EmployeeManager;
 import com.ironrhino.biz.service.RewardManager;
 import com.opensymphony.xwork2.util.CreateIfNull;
 
-@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + "," + UserRole.ROLE_HR)
 public class RewardAction extends BaseAction {
 
 	private static final long serialVersionUID = 4331302727890834065L;

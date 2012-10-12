@@ -11,7 +11,7 @@
 		<security:intercept-url pattern="/common/**"
 			access="ROLE_ADMINISTRATOR" />
 		<security:intercept-url pattern="/biz/**"
-			access="ROLE_ADMINISTRATOR" />
+			access="ROLE_BUILTIN_USER" />
 		<!-- <security:intercept-url pattern="/login" access="ROLE_BUILTIN_ANONYMOUS"/> 
 			<security:intercept-url pattern="/signup*/**" access="ROLE_BUILTIN_ANONYMOUS"/> 
 			<security:intercept-url pattern="/setup" access="ROLE_BUILTIN_ANONYMOUS"/> -->

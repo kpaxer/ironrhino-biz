@@ -30,7 +30,8 @@ import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.PlanManager;
 import com.ironrhino.biz.service.ProductManager;
 
-@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
+		+ UserRole.ROLE_PLANMANAGER)
 public class PlanAction extends BaseAction {
 
 	private static final long serialVersionUID = 4331302727890834065L;

@@ -40,7 +40,8 @@ import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.OrderManager;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
-@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR)
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
+		+ UserRole.ROLE_CUSTOMERMANAGER)
 public class CustomerAction extends BaseAction {
 
 	private static final long serialVersionUID = 4331302727890834065L;
@@ -152,7 +153,7 @@ public class CustomerAction extends BaseAction {
 					new Mapper<Customer>() {
 						public Customer map(Customer source) {
 							Customer c = (Customer) source;
-//							c = customerManager.get(c.getId());
+							// c = customerManager.get(c.getId());
 							if (c.getRegion() != null)
 								c.setRegion(regionTreeControl.getRegionTree()
 										.getDescendantOrSelfById(
