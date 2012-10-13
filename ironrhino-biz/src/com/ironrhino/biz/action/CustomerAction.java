@@ -221,7 +221,9 @@ public class CustomerAction extends BaseAction {
 							.getDescendantOrSelfById(regionId);
 					customer.setRegion(region);
 				}
-			}
+			} else if (ServletActionContext.getRequest().getParameter(
+					"regionId") != null)
+				customer.setRegion(null);
 			if (temp.getAddress() == null)
 				temp.setAddress(customer.getAddress());
 			if (temp.getMemo() == null)

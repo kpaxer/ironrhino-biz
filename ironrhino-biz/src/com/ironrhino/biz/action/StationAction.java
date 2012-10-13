@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -202,7 +203,9 @@ public class StationAction extends BaseAction {
 							.getDescendantOrSelfById(regionId);
 					station.setRegion(region);
 				}
-			}
+			} else if (ServletActionContext.getRequest().getParameter(
+					"regionId") != null)
+				station.setRegion(null);
 			if (temp.getAddress() == null)
 				temp.setAddress(station.getAddress());
 			if (temp.getCashCondition() == null)
