@@ -4,21 +4,22 @@
 <title>${action.getText('reward')}${action.getText('list')}</title>
 </head>
 <body>
-<div class="tabs">
-	<ul>
-		<li><a href="#tab1">全部</a></li>
-		<li><a href="#tab2">收入</a></li>
-		<li><a href="#tab3">支出</a></li>
-	</ul>
-<#assign dataurl=getUrl("/biz/reward?1")/>
+
+<#assign dataurl=getUrl("/biz/reward?1=1")/>
 <#if request.queryString??>
-<#assign dataurl=dataurl+'&'+request.queryString>
+<#assign dataurl=dataurl+'&'+request.queryString?replace('view=tabs&','')>
 </#if>
-	<div id="tab1" class="ajaxpanel" data-url="<@url value=dataurl/>">
+<ul class="nav nav-tabs">
+	<li class="active"><a href="#all_reward" data-toggle="tab">全部</a></li>
+	<li><a href="#positive_reward" data-toggle="tab">收入</a></li>
+	<li><a href="#negative_reward" data-toggle="tab">支出</a></li>
+</ul>
+<div class="tab-content">
+	<div id="all_reward" class="tab-pane ajaxpanel active" data-url="<@url value=dataurl/>">
 	</div>
-	<div id="tab2" class="ajaxpanel manual" data-url="<@url value=dataurl+'&negative=false'/>">
+	<div id="positive_reward" class="tab-pane ajaxpanel manual" data-url="<@url value=dataurl+'&negative=false'/>">
 	</div>
-	<div id="tab3" class="ajaxpanel manual" data-url="<@url value=dataurl+'&negative=true'/>">
+	<div id="negative_reward" class="tab-pane ajaxpanel manual" data-url="<@url value=dataurl+'&negative=true'/>">
 	</div>
 </div>
 </body>

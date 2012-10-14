@@ -8,6 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -119,6 +120,9 @@ public class RewardAction extends BaseAction {
 
 	@Override
 	public String execute() {
+		String view = ServletActionContext.getRequest().getParameter("view");
+		if (StringUtils.isNotBlank(view))
+			return view;
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = rewardManager.detachedCriteria();
 			dc.createAlias("employee", "employee");
@@ -249,10 +253,6 @@ public class RewardAction extends BaseAction {
 			}
 		}
 		return SUCCESS;
-	}
-
-	public String tabs() {
-		return "tabs";
 	}
 
 	public String uninputed() {

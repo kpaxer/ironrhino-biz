@@ -53,8 +53,7 @@
 			<#list 0..size as index>
 				<tr>
 					<td>
-						<input type="text" class="filterselect" style="margin-right:3px;width:50px;"/>
-						<@s.select theme="simple" name="productId" value="${(productId[index])!}" cssClass="required fetchprice" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
+						<@s.select id="" theme="simple" name="productId" value="${(productId[index])!}" cssClass="required fetchprice chosen" cssStyle="width:260px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue=""/>
 						<span class="info" style="font-style:italic;margin-left:5px;"></span>
 					</td>
 					<td><@s.textfield theme="simple" name="order.items[${index}].quantity" cssClass="required integer positive quantity" cssStyle="width:40px;"/></td>
@@ -89,7 +88,7 @@
 			</span>
 			<span style="margin:5px;">${action.getText('freight')}</span>－<@s.textfield id="freight"  theme="simple" name="order.freight" cssClass="double positive"/>
 			<span style="margin:5px;">${action.getText('station')}</span>
-			<@s.select theme="simple" name="stationId" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
+			<@s.select theme="simple" name="stationId" cssClass="chosen" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
 		</div>
 	</div>
 	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:80%;height:40px;"/>

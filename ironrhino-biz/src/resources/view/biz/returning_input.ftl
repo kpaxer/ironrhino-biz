@@ -53,8 +53,7 @@
 			<#list 0..size as index>
 				<tr>
 					<td>
-						<input type="text" class="filterselect" style="margin-right:3px;width:50px;"/>
-						<@s.select theme="simple" name="productId" value="${(productId[index])!}" cssClass="required fetchprice" cssStyle="width:230px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue="请选择"/>
+						<@s.select theme="simple" id="" name="productId" value="${(productId[index])!}" cssClass="required fetchprice chosen" cssStyle="width:260px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue=""/>
 						<span class="info" style="font-style:italic;margin-left:5px;"></span>
 					</td>
 					<td><@s.textfield theme="simple" name="returning.items[${index}].quantity" cssClass="required integer positive quantity" cssStyle="width:40px;"/></td>
