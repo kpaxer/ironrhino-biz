@@ -234,6 +234,7 @@ public class StationAction extends BaseAction {
 			if (temp.getMemo() == null)
 				temp.setMemo(station.getMemo());
 			BeanUtils.copyProperties(temp, station);
+			stationManager.evict(station);
 		}
 		return true;
 	}

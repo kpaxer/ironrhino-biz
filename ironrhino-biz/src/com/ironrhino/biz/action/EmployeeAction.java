@@ -143,6 +143,7 @@ public class EmployeeAction extends BaseAction {
 			if (temp.getMemo() == null)
 				temp.setMemo(employee.getMemo());
 			BeanUtils.copyProperties(temp, employee);
+			employeeManager.evict(employee);
 		}
 		return true;
 	}

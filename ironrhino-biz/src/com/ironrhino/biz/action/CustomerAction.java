@@ -250,6 +250,7 @@ public class CustomerAction extends BaseAction {
 			if (temp.getMemo() == null)
 				temp.setMemo(customer.getMemo());
 			BeanUtils.copyProperties(temp, customer);
+			customerManager.evict(customer);
 		}
 		return true;
 	}
