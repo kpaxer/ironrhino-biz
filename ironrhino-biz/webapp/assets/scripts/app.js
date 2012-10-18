@@ -22,7 +22,7 @@
 			});
 		});
 		$('#shipped,#paid').change(function() {
-					var span = $('span.toggle',$(this).closest('.controls'));
+					var span = $('span.toggle', $(this).closest('.controls'));
 					if ($(this).is(':checked'))
 						span.show();
 					else
@@ -125,7 +125,7 @@
 				return;
 			var ele = $('select.fetchprice', $(event.target).closest('tr'));
 			var val = ele.val();
-			if (val && !ele.siblings('span.info').text()) {
+			if (val) {
 				var url = CONTEXT_PATH + '/biz/product/json/' + val;
 				$.ajax({
 							url : url,
