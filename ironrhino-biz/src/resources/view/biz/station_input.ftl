@@ -11,7 +11,7 @@
 	<@s.textfield label="%{getText('name')}" name="station.name" cssClass="required checkavailable"/>
 	<div class="control-group treeselect" data-options="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId'}">
 	<@s.hidden id="regionId" name="regionId" />
-	<label class="control-label" for="region"><span style="cursor:pointer;">请选择地区</span></label>
+	<label class="control-label" for="region">地区</label>
 	<div class="controls">
 	<#if station.region??><span id="region">${station.region.fullname}<a class="remove" href="#">&times;</a></span><#else><span id="region">...</span></#if>
 	</div>
@@ -34,7 +34,7 @@
 			<#list 0..size as index>
 			<tr>
 				<td width="80%">
-					<@s.select theme="simple" name="station.cashCondition[${index}]" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue="请选择"/>
+					<@s.select theme="simple" name="station.cashCondition[${index}]" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue=""/>
 				</td>
 				<td class="manipulate"></td>
 			</tr>

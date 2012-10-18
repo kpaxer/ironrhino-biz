@@ -10,9 +10,9 @@
 	</#if>
 	<#if !plan.completed>
 		<div class="control-group">
-		<label class="control-label" for="filterproduct">${action.getText('product')}</label>
+		<label class="control-label" for="productId">${action.getText('product')}</label>
 		<div class="controls">
-		<@s.select theme="simple" name="product.id" cssClass="required chosen" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue=""/>
+		<@s.select id="productId" theme="simple" name="product.id" cssClass="required chosen" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue=""/>
 		</div>
 		</div>
 		<@s.textfield label="%{getText('quantity')}" name="plan.quantity" cssClass="integer positive required"/>
