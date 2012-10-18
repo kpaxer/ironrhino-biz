@@ -8,7 +8,7 @@
 	<#if !employee.new>
 		<@s.hidden name="employee.id" />
 	</#if>
-	<@s.textfield label="%{getText('name')}" name="employee.name" cssClass="required"/>
+	<@s.textfield label="%{getText('name')}" name="employee.name" cssClass="required checkavailable"/>
 	<@s.select label="%{getText('type')}" name="employee.type" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
 	<@s.textfield label="%{getText('phone')}" name="employee.phone" />
 	<@s.textfield label="%{getText('address')}" name="employee.address" cssStyle="width:400px;"/>

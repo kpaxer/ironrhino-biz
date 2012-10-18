@@ -38,6 +38,9 @@ import com.ironrhino.biz.model.Station;
 import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.CustomerManager;
 import com.ironrhino.biz.service.OrderManager;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
+import com.opensymphony.xwork2.validator.annotations.Validations;
+import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 @Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
@@ -190,14 +193,31 @@ public class CustomerAction extends BaseAction {
 	}
 
 	@Override
+	@Validations(requiredStrings = { @RequiredStringValidator(type = ValidatorType.FIELD, fieldName = "customer.name", trim = true, key = "validation.required") })
 	public String save() {
-		if (customer == null)
+		if (!makeEntityValid())
 			return INPUT;
+		customerManager.save(customer);
+		addActionMessage(getText("save.success"));
+		return SUCCESS;
+	}
+
+	public String checkavailable() {
+		return makeEntityValid() ? NONE : INPUT;
+	}
+
+	private boolean makeEntityValid() {
+		if (customer == null) {
+			addActionError(getText("access.denied"));
+			return false;
+		}
 		if (customer.isNew()) {
-			if (customerManager.findByNaturalId(customer.getName()) != null) {
-				addFieldError("customer.name",
-						getText("validation.already.exists"));
-				return INPUT;
+			if (StringUtils.isNotBlank(customer.getName())) {
+				if (customerManager.findByNaturalId(customer.getName()) != null) {
+					addFieldError("customer.name",
+							getText("validation.already.exists"));
+					return false;
+				}
 			}
 			if (regionId != null) {
 				Region region = regionTreeControl.getRegionTree()
@@ -207,11 +227,12 @@ public class CustomerAction extends BaseAction {
 		} else {
 			Customer temp = customer;
 			customer = customerManager.get(temp.getId());
-			if (!customer.getName().equals(temp.getName())) {
+			if (StringUtils.isNotBlank(temp.getName())
+					&& !customer.getName().equals(temp.getName())) {
 				if (customerManager.findByNaturalId(temp.getName()) != null) {
 					addFieldError("customer.name",
 							getText("validation.already.exists"));
-					return INPUT;
+					return false;
 				}
 			}
 			if (regionId != null) {
@@ -230,9 +251,7 @@ public class CustomerAction extends BaseAction {
 				temp.setMemo(customer.getMemo());
 			BeanUtils.copyProperties(temp, customer);
 		}
-		customerManager.save(customer);
-		addActionMessage(getText("save.success"));
-		return SUCCESS;
+		return true;
 	}
 
 	@Override

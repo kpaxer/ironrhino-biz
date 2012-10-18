@@ -8,7 +8,7 @@
 	<#if !customer.new>
 		<@s.hidden name="customer.id" />
 	</#if>
-	<@s.textfield label="%{getText('name')}" name="customer.name" cssClass="required" cssStyle="width:350px;"/>
+	<@s.textfield label="%{getText('name')}" name="customer.name" cssClass="required checkavailable" cssStyle="width:350px;"/>
 	<div class="control-group treeselect" data-options="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId','cache':false}">
 	<@s.hidden id="regionId" name="regionId" />
 	<label class="control-label" for="region"><span style="cursor:pointer;">请选择地区</span></label>

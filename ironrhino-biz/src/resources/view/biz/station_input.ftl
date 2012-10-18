@@ -8,7 +8,7 @@
 	<#if !station.new>
 		<@s.hidden name="station.id" />
 	</#if>
-	<@s.textfield label="%{getText('name')}" name="station.name" cssClass="required"/>
+	<@s.textfield label="%{getText('name')}" name="station.name" cssClass="required checkavailable"/>
 	<div class="control-group treeselect" data-options="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId'}">
 	<@s.hidden id="regionId" name="regionId" />
 	<label class="control-label" for="region"><span style="cursor:pointer;">请选择地区</span></label>

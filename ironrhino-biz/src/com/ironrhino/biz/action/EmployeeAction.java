@@ -23,9 +23,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.EmployeeManager;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
+import com.opensymphony.xwork2.validator.annotations.Validations;
+import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
-@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
-		+ UserRole.ROLE_HR)
+@Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + "," + UserRole.ROLE_HR)
 public class EmployeeAction extends BaseAction {
 
 	private static final long serialVersionUID = 4331302727890834065L;
@@ -100,32 +102,49 @@ public class EmployeeAction extends BaseAction {
 	}
 
 	@Override
+	@Validations(requiredStrings = { @RequiredStringValidator(type = ValidatorType.FIELD, fieldName = "employee.name", trim = true, key = "validation.required") })
 	public String save() {
-		if (employee == null)
+		if (!makeEntityValid())
 			return INPUT;
+		employeeManager.save(employee);
+		addActionMessage(getText("save.success"));
+		return SUCCESS;
+	}
+
+	public String checkavailable() {
+		return makeEntityValid() ? NONE : INPUT;
+	}
+
+	private boolean makeEntityValid() {
+		if (employee == null) {
+			addActionError(getText("access.denied"));
+			return false;
+		}
 		if (employee.isNew()) {
-			if (employeeManager.findByNaturalId(employee.getName()) != null) {
-				addFieldError("employee.name",
-						getText("validation.already.exists"));
-				return INPUT;
+			if (StringUtils.isNotBlank(employee.getName())) {
+				if (employeeManager.findByNaturalId(employee.getName()) != null) {
+					addFieldError("employee.name",
+							getText("validation.already.exists"));
+					return false;
+				}
 			}
+
 		} else {
 			Employee temp = employee;
 			employee = employeeManager.get(temp.getId());
-			if (!employee.getName().equals(temp.getName())) {
+			if (StringUtils.isNotBlank(temp.getName())
+					&& !employee.getName().equals(temp.getName())) {
 				if (employeeManager.findByNaturalId(temp.getName()) != null) {
 					addFieldError("employee.name",
 							getText("validation.already.exists"));
-					return INPUT;
+					return false;
 				}
 			}
 			if (temp.getMemo() == null)
 				temp.setMemo(employee.getMemo());
 			BeanUtils.copyProperties(temp, employee);
 		}
-		employeeManager.save(employee);
-		addActionMessage(getText("save.success"));
-		return SUCCESS;
+		return true;
 	}
 
 	@Override

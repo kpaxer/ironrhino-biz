@@ -30,6 +30,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ironrhino.biz.model.Station;
 import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.StationManager;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
+import com.opensymphony.xwork2.validator.annotations.Validations;
+import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
 		+ UserRole.ROLE_CUSTOMERMANAGER)
@@ -172,14 +175,31 @@ public class StationAction extends BaseAction {
 	}
 
 	@Override
+	@Validations(requiredStrings = { @RequiredStringValidator(type = ValidatorType.FIELD, fieldName = "station.name", trim = true, key = "validation.required") })
 	public String save() {
-		if (station == null)
+		if (!makeEntityValid())
 			return INPUT;
+		stationManager.save(station);
+		addActionMessage(getText("save.success"));
+		return SUCCESS;
+	}
+
+	public String checkavailable() {
+		return makeEntityValid() ? NONE : INPUT;
+	}
+
+	private boolean makeEntityValid() {
+		if (station == null) {
+			addActionError(getText("access.denied"));
+			return false;
+		}
 		if (station.isNew()) {
-			if (stationManager.findByNaturalId(station.getName()) != null) {
-				addFieldError("station.name",
-						getText("validation.already.exists"));
-				return INPUT;
+			if (StringUtils.isNotBlank(station.getName())) {
+				if (stationManager.findByNaturalId(station.getName()) != null) {
+					addFieldError("station.name",
+							getText("validation.already.exists"));
+					return false;
+				}
 			}
 			if (regionId != null) {
 				Region region = regionTreeControl.getRegionTree()
@@ -189,11 +209,12 @@ public class StationAction extends BaseAction {
 		} else {
 			Station temp = station;
 			station = stationManager.get(temp.getId());
-			if (!station.getName().equals(temp.getName())) {
+			if (StringUtils.isNotBlank(temp.getName())
+					&& !station.getName().equals(temp.getName())) {
 				if (stationManager.findByNaturalId(temp.getName()) != null) {
 					addFieldError("station.name",
 							getText("validation.already.exists"));
-					return INPUT;
+					return false;
 				}
 			}
 			if (regionId != null) {
@@ -214,9 +235,7 @@ public class StationAction extends BaseAction {
 				temp.setMemo(station.getMemo());
 			BeanUtils.copyProperties(temp, station);
 		}
-		stationManager.save(station);
-		addActionMessage(getText("save.success"));
-		return SUCCESS;
+		return true;
 	}
 
 	@Override
