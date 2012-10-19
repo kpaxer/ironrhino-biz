@@ -65,10 +65,12 @@
 										.removeAttr('selected');
 							$('option:selected', station)
 									.removeAttr('selected');
-							ele.siblings('span.info').html('自动保存新客户');
+							ele.siblings('span.info').text('自动保存新客户');
 						}
 					}
 				});
+			} else {
+				ele.siblings('span.info').text('');
 			}
 		});
 		var cache = {};
