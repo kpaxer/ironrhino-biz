@@ -8,13 +8,12 @@
 	<#if !order.new>
 		<@s.hidden name="order.id" />
 	</#if>
-	<div class="control-group">
-		<label class="control-label" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
-		<div class="controls">
-			<@s.textfield id="customerName" theme="simple" name="customer.name" cssClass="required customerName"/>
-			<span class="info" style="font-style:italic;margin-left:20px;"></span>
-		</div>
+	<div class="row-fluid">
+		<div class="span5" style="min-height:60px;"><@s.textfield id="customerName" label="%{getText('customer')}%{getText('name')}" name="customer.name" cssClass="required customerName"><@s.param name="after"><span class="info" style="font-style:italic;margin-left:15px;"></span></@s.param></@s.textfield></div>
+		<div class="span3"><@s.textfield label="${action.getText('orderDate')}" name="order.orderDate" cssClass="date required"/></div>
+		<div class="span4"><@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" /></div>
 	</div>
+    
 	<div class="control-group">
 		<label class="control-label" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems" class="controls">
@@ -66,32 +65,37 @@
 		</table>
 		</div>
 	</div>
-	<@s.textfield label="%{getText('orderDate')}" name="order.orderDate" cssClass="date required"/>
-	<@s.select label="%{getText('salesman')}" name="salesman.id" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue=""/>
-	<@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" />
-	<@s.select label="%{getText('deliveryman')}" name="deliveryman.id" list="deliverymanList" listKey="id" listValue="name" headerKey="" headerValue=""/>
-	<div class="control-group">
-		<label class="control-label">${action.getText('pay')}</label>
-		<div class="controls" style="height:28px;">
-			<label class="checkbox inline" style="margin-right:20px;"><@s.checkbox id="paid" theme="simple" name="order.paid"/>${action.getText('paid')}</label>
-			<span class="toggle"<#if !order.paid> style="display:none;"</#if>>
-				<span style="margin:5px;">${action.getText('payDate')}</span><@s.textfield theme="simple" name="order.payDate"  cssClass="date"/>
-			</span>
+	<div class="row-fluid">
+		<div class="span3"><@s.select label="%{getText('salesman')}" name="salesman.id" cssClass="input-medium" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue=""/></div>
+		<div class="span5">
+			<div class="control-group">
+				<label class="control-label">${action.getText('pay')}</label>
+				<div class="controls">
+					<label class="checkbox inline" style="margin-right:20px;"><@s.checkbox id="paid" theme="simple" name="order.paid"/></label>
+					<span class="toggle"<#if !order.paid> style="display:none;"</#if>>
+						<span style="margin:5px;">${action.getText('payDate')}</span><@s.textfield theme="simple" name="order.payDate"  cssClass="date"/>
+					</span>
+				</div>
+			</div>
 		</div>
+		<div class="span4"><span style="margin:5px;">${action.getText('freight')}</span>－<@s.textfield id="freight"  theme="simple" name="order.freight" cssClass="double positive"/></div>
 	</div>
-	<div class="control-group">
-		<label class="control-label">${action.getText('ship')}</label>
-		<div class="controls" style="height:28px;">
-			<label class="checkbox inline" style="margin-right:20px;"><@s.checkbox id="shipped" theme="simple" name="order.shipped"/>${action.getText('shipped')}</label>
-			<span class="toggle"<#if !order.shipped> style="display:none;"</#if>>
-				<span style="margin:5px;">${action.getText('shipDate')}</span><@s.textfield theme="simple" name="order.shipDate" cssClass="date"/>
-			</span>
-			<span style="margin:5px;">${action.getText('freight')}</span>－<@s.textfield id="freight"  theme="simple" name="order.freight" cssClass="double positive"/>
-			<span style="margin:5px;">${action.getText('station')}</span>
-			<@s.select theme="simple" name="stationId" cssClass="chosen" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/>
+	<div class="row-fluid">
+		<div class="span3"><@s.select label="%{getText('deliveryman')}" name="deliveryman.id" cssClass="input-medium" list="deliverymanList" listKey="id" listValue="name" headerKey="" headerValue=""/></div>
+		<div class="span5">
+			<div class="control-gropu">
+				<label class="control-label">${action.getText('ship')}</label>
+				<div class="controls">
+					<label class="checkbox inline" style="margin-right:20px;"><@s.checkbox id="shipped" theme="simple" name="order.shipped"/></label>
+					<span class="toggle"<#if !order.shipped> style="display:none;"</#if>>
+						<span style="margin:5px;">${action.getText('shipDate')}</span><@s.textfield theme="simple" name="order.shipDate" cssClass="date"/>
+					</span>
+				</div>
+			</div>
 		</div>
+		<div class="span4"><span style="margin:5px;">${action.getText('station')}</span><@s.select theme="simple" name="stationId" cssClass="chosen" list="stationList" listKey="id" listValue="name" headerKey="" headerValue=""/></div>
 	</div>
-	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:80%;height:40px;"/>
+	<@s.textarea label="%{getText('memo')}" name="order.memo" cssStyle="width:95%;height:40px;"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>
