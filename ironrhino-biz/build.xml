@@ -120,6 +120,8 @@
         				}
         			}
         		}
+        		if(!file.exists())
+        			file = new File(basedir+'/extralib',filename);
         		copy.setFile(file);
         		copy.setTofile(tofile);
         		if(file.exists())
