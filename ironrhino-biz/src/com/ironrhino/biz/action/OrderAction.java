@@ -371,9 +371,14 @@ public class OrderAction extends BaseAction {
 					order.getItems().remove(i);
 					continue;
 				}
-				if (item.getQuantity() > 0 && item.getPrice() != null)
-					item.setProduct(productManager.get(productId[i]));
-				else
+				if (item.getQuantity() > 0 && item.getPrice() != null) {
+					Product p = productManager.get(productId[i]);
+					if (p == null) {
+						addActionError("请选择产品");
+						return INPUT;
+					} else
+						item.setProduct(p);
+				} else
 					order.getItems().remove(i);
 			}
 		}

@@ -14,7 +14,7 @@
 		<div class="span4"><@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" /></div>
 	</div>
     
-	<div class="control-group">
+	<div>
 		<label class="control-label" for="orderItems">${action.getText('orderItems')}</label>
 		<div id="orderItems" class="controls">
 		<table class="table table-bordered middle" style="table-layout:fixed;">
@@ -23,23 +23,24 @@
 					<td width="47%">${action.getText('product')}</td>
 					<td>${action.getText('quantity')}</td>
 					<td>${action.getText('price')}</td>
+					<td width="50px">${action.getText('freegift')}</td>
 					<td>${action.getText('subtotal')}</td>
 					<td class="manipulate"></td>
 				</tr>
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="3" style="text-align:right;">${action.getText('amount')}</td>
+					<td colspan="4" style="text-align:right;">${action.getText('amount')}</td>
 					<td id="amount" style="text-align:right;">${order.amount!}</td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="3" style="text-align:right;">${action.getText('discount')}</td>
+					<td colspan="4" style="text-align:right;">${action.getText('discount')}</td>
 					<td style="text-align:right;">－<@s.textfield id="discount" name="order.discount" theme="simple" cssClass="double positive" cssStyle="text-align:right;width:40px;" tabindex="10"/></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td colspan="3" style="text-align:right;">${action.getText('grandTotal')}</td>
+					<td colspan="4" style="text-align:right;">${action.getText('grandTotal')}</td>
 					<td id="grandTotal" style="font-weight:bold;text-align:right;">${order.grandTotal!}</td>
 					<td></td>
 				</tr>
@@ -57,6 +58,7 @@
 					</td>
 					<td><@s.textfield theme="simple" name="order.items[${index}].quantity" cssClass="required integer positive quantity" cssStyle="width:40px;"/></td>
 					<td><@s.textfield theme="simple" name="order.items[${index}].price" cssClass="required double positive price" cssStyle="width:60px;"/></td>
+					<td style="text-align:center;"><input type="checkbox" class="freegift"<#if order.items[index]?? && order.items[index].price == 0> checked</#if>></td>
 					<td style="text-align:right;"><span class="info">${(order.items[index].subtotal)!}</span></td>
 					<td class="manipulate"></td>
 				</tr>

@@ -50,7 +50,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		boolean customerModified = false;
 		for (OrderItem oi : order.getItems()) {
 			String categoryName = oi.getProduct().getCategory().getName();
-			if (categoryName.equals("促销品"))
+			if (oi.isFreegift() || categoryName.equals("促销品"))
 				continue;
 			if (!customer.getTags().contains(categoryName)) {
 				customer.getTags().add(categoryName);

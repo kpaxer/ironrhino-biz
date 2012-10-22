@@ -53,4 +53,8 @@ public class OrderItem implements Serializable {
 		return price.multiply(new BigDecimal(quantity));
 	}
 
+	public boolean isFreegift() {
+		return price.doubleValue() == 0;
+	}
+
 }

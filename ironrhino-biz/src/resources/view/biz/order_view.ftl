@@ -82,7 +82,7 @@
 	${item.quantity}
 	</td>
 	<td>
-	${item.price}
+	${item.price}<#if item.price==0>(${action.getText('freegift')})</#if>
 	</td>
 	<td style="text-align:right;">
 	${item.subtotal}

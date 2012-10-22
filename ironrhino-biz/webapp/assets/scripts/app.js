@@ -28,6 +28,7 @@
 					else
 						span.hide();
 				});
+
 		$('#customerName').blur(function(event) {
 			var ele = $(event.target);
 			var val = ele.val();
@@ -143,7 +144,30 @@
 						});
 			}
 		});
-		$('#orderItems input.price,#discount,#freight').blur(function() {
+		$('#orderItems .freegift').change(function() {
+			var price = $('input.price', $(this).closest('tr'));
+			if ($(this).is(':checked')) {
+				price.data('oldvalue', price.val()).val('0.00').prop(
+						'readonly', true).next('.field-error').remove();
+			} else {
+				var oldvalue = price.data('oldvalue');
+				if (oldvalue)
+					price.val(oldvalue);
+				else
+					price.val('').focus();
+				price.prop('readonly', false);
+			}
+			calculate();
+		});
+		$('#orderItems input.price').blur(function() {
+			var value = $(this).val();
+			if (value) {
+				$('.freegift', $(this).closest('tr')).prop('checked',
+						parseFloat(value) == 0);
+			}
+			calculate()
+		});
+		$('#discount,#freight').blur(function() {
 					calculate()
 				});
 
@@ -162,11 +186,11 @@
 	var calculate = function(row) {
 		if (row) {
 			var quantity = $('input.integer', row).val();
-			var price = $('input.double', row).val();
+			var price = $('input.price', row).val();
 			var subtotal = 0;
-			if (quantity && price) {
+			if (quantity && price !== '') {
 				subtotal = quantity * price;
-				$('td:eq(3) span.info', row).text(subtotal);
+				$('td:eq(4) span.info', row).text(subtotal);
 			}
 			return subtotal;
 		} else {
