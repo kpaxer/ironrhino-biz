@@ -30,6 +30,7 @@ import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.service.EntityManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
+import org.ironrhino.core.util.ErrorMessage;
 
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
@@ -273,7 +274,7 @@ public class ReportAction extends BaseAction {
 				Method method = getClass().getDeclaredMethod(type);
 				method.invoke(this, new Object[0]);
 			} catch (NoSuchMethodException e) {
-				throw new IllegalArgumentException("没有此报表");
+				throw new ErrorMessage("没有此报表");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

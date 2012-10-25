@@ -37,6 +37,7 @@ import org.ironrhino.core.model.Persistable;
 import org.ironrhino.core.service.EntityManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
+import org.ironrhino.core.util.ErrorMessage;
 
 import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
@@ -265,7 +266,7 @@ public class ChartAction extends BaseAction {
 				Method method = getClass().getDeclaredMethod(type);
 				method.invoke(this, new Object[0]);
 			} catch (NoSuchMethodException e) {
-				throw new IllegalArgumentException("没有此图表");
+				throw new ErrorMessage("没有此图表");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
