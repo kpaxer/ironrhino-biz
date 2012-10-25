@@ -379,6 +379,7 @@
 				<socket server="localhost" port="${server.shutdown.port}" />
 			</not>
 		</waitfor>
+		<sleep seconds="3" />
 	</target>
 
 	<target name="startup" depends="shutdown">
