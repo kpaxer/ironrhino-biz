@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.ironrhino.core.coordination.Membership;
 import org.ironrhino.core.mail.MailSender;
+import org.ironrhino.core.metadata.Trigger;
 import org.ironrhino.core.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,7 @@ public class Backup {
 		membership.join(getClass().getName());
 	}
 
+	@Trigger
 	@Scheduled(cron = "0 0 22 * * ?")
 	public void send() {
 		if (!membership.isLeader(getClass().getName()))
