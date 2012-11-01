@@ -53,13 +53,13 @@
 			<div class="portlet-header">全国销量分布图</div>
 			<div class="portlet-content">
 				<div>所有品种</div>
-				<form action="chart/ammap" method="get" class="form-inline clearfix" target="_blank" replacement="c">
+				<form action="chart/chinamap" method="get" class="form-inline clearfix" target="_blank" replacement="c">
 					<@s.textfield theme="simple" id="" name="from" cssClass="date required"/>
 					<@s.textfield theme="simple" id="" name="to" cssClass="date required"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">指定品种</div>
-				<form action="chart/ammap" method="get" class="form-inline clearfix" target="_blank" replacement="c">
+				<form action="chart/chinamap" method="get" class="form-inline clearfix" target="_blank" replacement="c">
 					<@s.select theme="simple" cssClass="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
 					<@s.textfield theme="simple" id="" name="from" cssClass="date required"/>
 					<@s.textfield theme="simple" id="" name="to" cssClass="date required"/>

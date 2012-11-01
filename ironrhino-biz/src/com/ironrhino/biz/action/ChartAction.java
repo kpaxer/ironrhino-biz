@@ -4,23 +4,24 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.common.util.RegionUtils;
 import org.ironrhino.core.chart.ChartUtils;
-import org.ironrhino.core.chart.ammap.DataFile;
 import org.ironrhino.core.chart.openflashchart.Chart;
 import org.ironrhino.core.chart.openflashchart.Text;
 import org.ironrhino.core.chart.openflashchart.axis.Label.Rotate;
@@ -75,6 +76,8 @@ public class ChartAction extends BaseAction {
 
 	private Chart chart;
 
+	private Object data;
+
 	private String location = "湖南省";
 
 	private String title;
@@ -112,8 +115,8 @@ public class ChartAction extends BaseAction {
 		return brandList;
 	}
 
-	public Chart getChart() {
-		return chart;
+	public Object getData() {
+		return data;
 	}
 
 	public void setType(String type) {
@@ -205,14 +208,20 @@ public class ChartAction extends BaseAction {
 		return "geo";
 	}
 
-	public String ammap() {
-		return "ammap";
+	public String chinamap() {
+		return "chinamap";
 	}
 
-	public String ammapdata() throws TemplateException, IOException {
-		title = "全国销量分布图";
-		DataFile df = new DataFile();
-		Map<String, BigDecimal> data = new HashMap<String, BigDecimal>();
+	@JsonConfig(root = "data")
+	public String chinamapdata() throws TemplateException, IOException {
+		Map<String, Object> data = new HashMap<String, Object>();
+		Map<String, Object> title = new HashMap<String, Object>();
+		data.put("title", title);
+		Map<String, String> titleattr = new HashMap<String, String>();
+		title.put("attr", titleattr);
+		titleattr.put("font-size", "20px");
+		title.put("text", "全国销量分布图");
+		final Map<String, BigDecimal> datamap = new HashMap<String, BigDecimal>();
 		List<Order> orders;
 		Category category = null;
 		final String id = getUid();
@@ -220,7 +229,10 @@ public class ChartAction extends BaseAction {
 			category = categoryManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
 			category = categoryManager.findByNaturalId(id);
-		title = (category != null ? category.getName() : "") + title;
+		title.put(
+				"text",
+				(category != null ? category.getName() : "")
+						+ title.get("text"));
 		DetachedCriteria dc = orderManager.detachedCriteria();
 		dc.add(Restrictions.between("orderDate",
 				DateUtils.beginOfDay(getFrom()), DateUtils.endOfDay(getTo())));
@@ -236,30 +248,45 @@ public class ChartAction extends BaseAction {
 						&& !item.getProduct().getCategory().getId()
 								.equals(category.getId()))
 					continue;
-				BigDecimal total = data.get(regionName);
+				BigDecimal total = datamap.get(regionName);
 				if (total == null) {
-					data.put(regionName, item.getSubtotal());
+					datamap.put(regionName, item.getSubtotal());
 				} else {
-					data.put(regionName, total.add(item.getSubtotal()));
+					datamap.put(regionName, total.add(item.getSubtotal()));
 				}
 			}
 		}
+		Map<String, BigDecimal> sortedMap = new TreeMap<String, BigDecimal>(
+				new Comparator<String>() {
+					public int compare(String o1, String o2) {
+						BigDecimal p1 = datamap.get(o1);
+						BigDecimal p2 = datamap.get(o2);
+						if (p1 == null)
+							return -1;
+						if (p2 == null)
+							return 1;
+						int i = p2.compareTo(p1);
+						return i != 0 ? i : o1.compareTo(o2);
+					}
+				});
+		sortedMap.putAll(datamap);
 		BigDecimal max = new BigDecimal(0);
-		for (Map.Entry<String, BigDecimal> entry : data.entrySet()) {
-			BigDecimal total = entry.getValue();
-			if (max.compareTo(total) < 0)
-				max = total;
-		}
-
-		for (Map.Entry<String, BigDecimal> entry : data.entrySet())
-			df.put(entry.getKey(), entry.getValue().toString(),
+		if (sortedMap.size() > 0)
+			max = sortedMap.entrySet().iterator().next().getValue();
+		Map<String, Object> states = new LinkedHashMap<String, Object>();
+		data.put("states", states);
+		for (Map.Entry<String, BigDecimal> entry : sortedMap.entrySet()) {
+			Map<String, String> stateattr = new HashMap<String, String>();
+			states.put(entry.getKey(), stateattr);
+			stateattr.put("title", entry.getKey() + ": " + entry.getValue());
+			stateattr.put("fill",
 					ChartUtils.caculateStepColor(max, entry.getValue()));
-		df.setLabel(title);
-		df.render(ServletActionContext.getResponse().getWriter());
-		return NONE;
+		}
+		this.data = data;
+		return JSON;
 	}
 
-	@JsonConfig(root = "chart")
+	@JsonConfig(root = "data")
 	public String data() {
 		if (type != null) {
 			try {
@@ -271,6 +298,8 @@ public class ChartAction extends BaseAction {
 				e.printStackTrace();
 			}
 		}
+		if (data == null && chart != null)
+			data = chart;
 		return JSON;
 	}
 
