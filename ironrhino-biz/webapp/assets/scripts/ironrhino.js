@@ -32582,6 +32582,98 @@ ArrayUtils = {
 		}
 	}
 };
+
+Date.prototype.format = function(fmt, monthNames, dayNames) {
+	if (typeof this.strftime == "function") {
+		return this.strftime(fmt);
+	}
+	var leftPad = function(n, pad) {
+		n = "" + n;
+		pad = "" + (pad == null ? "0" : pad);
+		return n.length == 1 ? pad + n : n;
+	};
+
+	var r = [];
+	var escape = false;
+	var hours = this.getHours();
+	var isAM = hours < 12;
+	if (monthNames == null)
+		monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
+				"Sep", "Oct", "Nov", "Dec"];
+	if (dayNames == null)
+		dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+	var hours12;
+	if (hours > 12) {
+		hours12 = hours - 12;
+	} else if (hours == 0) {
+		hours12 = 12;
+	} else {
+		hours12 = hours;
+	}
+
+	for (var i = 0; i < fmt.length; ++i) {
+		var c = fmt.charAt(i);
+
+		if (escape) {
+			switch (c) {
+				case 'a' :
+					c = "" + dayNames[this.getDay()];
+					break;
+				case 'b' :
+					c = "" + monthNames[this.getMonth()];
+					break;
+				case 'd' :
+					c = leftPad(this.getDate());
+					break;
+				case 'e' :
+					c = leftPad(this.getDate(), " ");
+					break;
+				case 'H' :
+					c = leftPad(hours);
+					break;
+				case 'I' :
+					c = leftPad(hours12);
+					break;
+				case 'l' :
+					c = leftPad(hours12, " ");
+					break;
+				case 'm' :
+					c = leftPad(this.getMonth() + 1);
+					break;
+				case 'M' :
+					c = leftPad(this.getMinutes());
+					break;
+				case 'S' :
+					c = leftPad(this.getSeconds());
+					break;
+				case 'y' :
+					c = leftPad(this.getFullYear() % 100);
+					break;
+				case 'Y' :
+					c = "" + this.getFullYear();
+					break;
+				case 'p' :
+					c = (isAM) ? ("" + "am") : ("" + "pm");
+					break;
+				case 'P' :
+					c = (isAM) ? ("" + "AM") : ("" + "PM");
+					break;
+				case 'w' :
+					c = "" + this.getDay();
+					break;
+			}
+			r.push(c);
+			escape = false;
+		} else {
+			if (c == "%")
+				escape = true;
+			else
+				r.push(c);
+		}
+	}
+	return r.join("");
+};
 (function($) {
 	$.fn.checkavailable = function() {
 		this.each(function() {
@@ -32794,6 +32886,10 @@ Observation.checkavailable = function(container) {
 		return this;
 	};
 	function ajaxpanel(ele) {
+		ele.css('min-height', '100px');
+		if (ele.hasClass('tab-pane') && ele.hasClass('cache')
+				&& ele.hasClass('loaded'))
+			return;
 		var options = {
 			url : ele.data('url') || document.location.href,
 			global : false,
@@ -32811,6 +32907,7 @@ Observation.checkavailable = function(container) {
 					ele.unmask();
 			},
 			success : function(data) {
+				ele.addClass('loaded');
 				if (typeof data != 'string') {
 					ele.empty();
 					$.tmpl($('#' + ele.data('tmpl')), data).appendTo(ele);
