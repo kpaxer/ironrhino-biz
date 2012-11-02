@@ -395,9 +395,7 @@
 		<antcall target="war" />
 		<antcall target="backup" />
 		<antcall target="shutdown" />
-		<delete>
-			<fileset dir="${webapp.deploy.dir}/WEB-INF/lib" />
-		</delete>
+		<delete dir="${webapp.deploy.dir}"/>
 		<unzip dest="${webapp.deploy.dir}" src="${target.dir}/${war.name}" />
 		<antcall target="startup" />
 	</target>
