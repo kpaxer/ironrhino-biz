@@ -372,7 +372,7 @@
 				url="http://localhost:${server.startup.port}/?firewallHandler.allowedAddrPattern=127.0.0.1" />
 		</waitfor>
 		<sleep seconds="3" />
-		<exec executable="${server.shutdown.cmd}" dir="${server.home}" />
+		<exec executable="${server.shutdown.cmd} -force" dir="${server.home}" />
 		<waitfor checkevery="2" checkeveryunit="second" maxwait="60"
 			maxwaitunit="second">
 			<not>
