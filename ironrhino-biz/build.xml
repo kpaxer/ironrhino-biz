@@ -372,7 +372,9 @@
 				url="http://localhost:${server.startup.port}/?firewallHandler.allowedAddrPattern=127.0.0.1" />
 		</waitfor>
 		<sleep seconds="3" />
-		<exec executable="${server.shutdown.cmd} -force" dir="${server.home}" />
+		<exec executable="${server.shutdown.cmd}" dir="${server.home}">
+			<arg value="-force" />
+		</exec>
 		<waitfor checkevery="2" checkeveryunit="second" maxwait="60"
 			maxwaitunit="second">
 			<not>
@@ -395,7 +397,7 @@
 		<antcall target="war" />
 		<antcall target="backup" />
 		<antcall target="shutdown" />
-		<delete dir="${webapp.deploy.dir}"/>
+		<delete dir="${webapp.deploy.dir}" />
 		<unzip dest="${webapp.deploy.dir}" src="${target.dir}/${war.name}" />
 		<antcall target="startup" />
 	</target>
