@@ -4,7 +4,7 @@
 <title>${action.getText('order')}${action.getText('list')}</title>
 </head>
 <body>
-<#assign columns={"code":{"width":"100px"},"customer":{"template":r"<span class='poped' data-popurl='${getUrl('/biz/customer/view/'+value.id+'?type=card')}'>${value?string}</span>"},"grandTotal":{"width":"80px"},"orderDate":{"template":r"${(entity.orderDate?string('yyyy年MM月dd日'))!}","width":"120px"},"saleType":{"width":"100px"},"paid":{"width":"80px"},"shipped":{"width":"80px"}}>
+<#assign columns={"code":{"width":"100px"},"customer":{"template":r"<a href='${getUrl('/biz/customer/input/'+value.id)}' class='noid' rel='richtable'><span class='poped' data-popurl='${getUrl('/biz/customer/view/'+value.id+'?type=card')}'>${value?string}</span></a>"},"grandTotal":{"width":"80px"},"orderDate":{"template":r"${(entity.orderDate?string('yyyy年MM月dd日'))!}","width":"120px"},"saleType":{"width":"100px"},"paid":{"width":"80px"},"shipped":{"width":"80px"}}>
 <#assign actionColumnButtons=r'
 <button type="button" class="btn" data-view="view" '
 +'data-windowoptions="{\'width\':\'950px\'}">${action.getText("view")}</button>
