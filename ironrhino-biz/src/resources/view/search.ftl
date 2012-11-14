@@ -16,7 +16,7 @@
 	<div class="list">
 		<dl>
 			<#list resultPage.result as page>
-			<#assign pageurl="/product/p${page.path}"/>
+			<#assign pageurl="/product/p${page.pagepath}"/>
 			<dd>
 				<div style="float:left;width:192px;">
 					<div style="padding:10px;">

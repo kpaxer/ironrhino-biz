@@ -266,6 +266,16 @@ public class Order extends BaseEntity implements Recordable<User> {
 		this.deliveryman = deliveryman;
 	}
 
+	@Override
+	public void setCreateUserDetails(User createUser) {
+		this.createUser = createUser;
+	}
+
+	@Override
+	public void setModifyUserDetails(User modifyUser) {
+		this.modifyUser = modifyUser;
+	}
+
 	public boolean isCashable() {
 		if (paid || station == null)
 			return false;

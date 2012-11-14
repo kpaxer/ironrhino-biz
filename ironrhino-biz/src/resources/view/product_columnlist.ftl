@@ -34,9 +34,9 @@
 		<ul class="thumbnails">
 		<#list resultPage.result as page>
 			<#if column??>
-			<#assign pageurl="/${name}/p${page.path}?column=${column}"/>
+			<#assign pageurl="/${name}/p${page.pagepath}?column=${column}"/>
 			<#else>
-			<#assign pageurl="/${name}/p${page.path}"/>
+			<#assign pageurl="/${name}/p${page.pagepath}"/>
 			</#if>
 			<li class="span4">
 			<div class="thumbnail">

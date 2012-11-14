@@ -179,6 +179,16 @@ public class Returning extends BaseEntity implements Recordable<User> {
 	}
 
 	@Override
+	public void setCreateUserDetails(User createUser) {
+		this.createUser = createUser;
+	}
+
+	@Override
+	public void setModifyUserDetails(User modifyUser) {
+		this.modifyUser = modifyUser;
+	}
+
+	@Override
 	public String toString() {
 		return "";
 	}
