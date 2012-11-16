@@ -34,7 +34,7 @@
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="order"/>
 					<input id="customerId" type="hidden" name="customer"/>
-					<span id="customer" class="listpick" data-options="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'customer','id':'customerId'}">请点击选择客户</span>
+					<span class="listpick" data-options="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'this','id':'#customerId'}">请点击选择客户</span>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
@@ -75,7 +75,7 @@
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="productsales"/>
 					<input id="customerId2" type="hidden" name="customer"/>
-					<span id="customer2" class="listpick" data-options="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'customer2','id':'customerId2'}">请点击选择客户</span>
+					<span class="listpick" data-options="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'this','id':'#customerId2'}">请点击选择客户</span>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
@@ -124,7 +124,7 @@
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="privatereward"/>
 					<input id="employeeId" type="hidden" name="id"/>
-					<span id="employee" class="listpick" data-options="{'url':'<@url value="/biz/employee/pick?columns=name"/>','name':'employee','id':'employeeId'}">请选择</span>
+					<span class="listpick" data-options="{'url':'<@url value="/biz/employee/pick?columns=name"/>','name':'this','id':'#employeeId'}">请选择</span>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
 					<select name="negative" style="width:70px;"><option value="">全部</option><option value="false">收入</option><option value="true">支出</option></select>
@@ -189,7 +189,7 @@
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="customer"/>
 					<input id="regionId" type="hidden" name="id"/>
-					<span id="region" class="treeselect" data-options="{'url':'<@url value="/region/children"/>','name':'region','id':'regionId'}">请点击选择地区</span>
+					<span class="treeselect" data-options="{'url':'<@url value="/region/children"/>','name':'this','id':'#regionId'}">请点击选择地区</span>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
