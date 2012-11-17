@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.service.BaseManagerImpl;
+import org.ironrhino.core.util.ErrorMessage;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.model.Brand;
@@ -21,10 +22,12 @@ public class BrandManagerImpl extends BaseManagerImpl<Brand> implements
 
 	@Override
 	@Transactional(readOnly = true)
-	public boolean canDelete(Brand b) {
+	public void checkDelete(Brand b) {
 		DetachedCriteria dc = productManager.detachedCriteria();
 		dc.createAlias("brand", "b").add(Restrictions.eq("b.id", b.getId()));
-		return productManager.countByCriteria(dc) == 0;
+		if (productManager.countByCriteria(dc) > 0)
+			throw new ErrorMessage("delete.forbidden", new Object[] { b },
+					"此品牌下面有产品");
 	}
 
 }

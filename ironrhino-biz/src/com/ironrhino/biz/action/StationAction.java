@@ -1,6 +1,6 @@
 package com.ironrhino.biz.action;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -255,35 +255,10 @@ public class StationAction extends BaseAction {
 
 	@Override
 	public String delete() {
-		String[] _id = getId();
-		if (_id != null) {
-			Long[] id = new Long[_id.length];
-			for (int i = 0; i < _id.length; i++)
-				id[i] = Long.valueOf(_id[i]);
-			List<Station> list;
-			if (id.length == 1) {
-				list = new ArrayList<Station>(1);
-				list.add(stationManager.get(id[0]));
-			} else {
-				DetachedCriteria dc = stationManager.detachedCriteria();
-				dc.add(Restrictions.in("id", id));
-				list = stationManager.findListByCriteria(dc);
-			}
-			if (list.size() > 0) {
-				boolean deletable = true;
-				for (Station c : list) {
-					if (!stationManager.canDelete(c)) {
-						deletable = false;
-						addActionError(c.getName() + "有订单,不能删除只能合并到其他客户");
-						break;
-					}
-				}
-				if (deletable) {
-					for (Station station : list)
-						stationManager.delete(station);
-					addActionMessage(getText("delete.success"));
-				}
-			}
+		String[] id = getId();
+		if (id != null) {
+			stationManager.delete((Serializable[]) id);
+			addActionMessage(getText("delete.success"));
 		}
 		return SUCCESS;
 	}

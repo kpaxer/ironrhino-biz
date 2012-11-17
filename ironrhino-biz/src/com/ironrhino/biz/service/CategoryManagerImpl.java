@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.service.BaseManagerImpl;
+import org.ironrhino.core.util.ErrorMessage;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.model.Category;
@@ -21,10 +22,13 @@ public class CategoryManagerImpl extends BaseManagerImpl<Category> implements
 
 	@Override
 	@Transactional(readOnly = true)
-	public boolean canDelete(Category c) {
+	public void checkDelete(Category c) {
 		DetachedCriteria dc = productManager.detachedCriteria();
 		dc.createAlias("category", "c").add(Restrictions.eq("c.id", c.getId()));
-		return productManager.countByCriteria(dc) == 0;
+		if (productManager.countByCriteria(dc) > 0) {
+			throw new ErrorMessage("delete.forbidden", new Object[] { c },
+					"此品种下面有产品");
+		}
 	}
 
 }

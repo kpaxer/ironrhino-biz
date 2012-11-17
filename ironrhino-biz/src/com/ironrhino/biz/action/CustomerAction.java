@@ -1,5 +1,6 @@
 package com.ironrhino.biz.action;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -271,35 +272,10 @@ public class CustomerAction extends BaseAction {
 
 	@Override
 	public String delete() {
-		String[] _id = getId();
-		if (_id != null) {
-			Long[] id = new Long[_id.length];
-			for (int i = 0; i < _id.length; i++)
-				id[i] = Long.valueOf(_id[i]);
-			List<Customer> list;
-			if (id.length == 1) {
-				list = new ArrayList<Customer>(1);
-				list.add(customerManager.get(id[0]));
-			} else {
-				DetachedCriteria dc = customerManager.detachedCriteria();
-				dc.add(Restrictions.in("id", id));
-				list = customerManager.findListByCriteria(dc);
-			}
-			if (list.size() > 0) {
-				boolean deletable = true;
-				for (Customer c : list) {
-					if (!customerManager.canDelete(c)) {
-						deletable = false;
-						addActionError(c.getName() + "有订单,不能删除只能合并到其他客户");
-						break;
-					}
-				}
-				if (deletable) {
-					for (Customer customer : list)
-						customerManager.delete(customer);
-					addActionMessage(getText("delete.success"));
-				}
-			}
+		String[] id = getId();
+		if (id != null) {
+			customerManager.delete((Serializable[]) id);
+			addActionMessage(getText("delete.success"));
 		}
 		return SUCCESS;
 	}

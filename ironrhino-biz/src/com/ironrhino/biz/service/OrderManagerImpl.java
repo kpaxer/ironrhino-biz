@@ -13,6 +13,7 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.sequence.CyclicSequence;
 import org.ironrhino.core.service.BaseManagerImpl;
 import org.ironrhino.core.util.DateUtils;
+import org.ironrhino.core.util.ErrorMessage;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.model.Customer;
@@ -152,8 +153,10 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 
 	@Override
 	@Transactional(readOnly = true)
-	public boolean canDelete(Order order) {
-		return !(order.isPaid() || order.isShipped());
+	public void checkDelete(Order order) {
+		if (order.isPaid() || order.isShipped())
+			throw new ErrorMessage("delete.forbidden",
+					new Object[] { order.getCode() }, "此订单已经付款或已经发货");
 	}
 
 	@Transactional

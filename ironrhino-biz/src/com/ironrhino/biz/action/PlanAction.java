@@ -1,5 +1,6 @@
 package com.ironrhino.biz.action;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -194,30 +195,8 @@ public class PlanAction extends BaseAction {
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {
-			List<Plan> list;
-			if (id.length == 1) {
-				list = new ArrayList<Plan>(1);
-				list.add(planManager.get(id[0]));
-			} else {
-				DetachedCriteria dc = planManager.detachedCriteria();
-				dc.add(Restrictions.in("id", id));
-				list = planManager.findListByCriteria(dc);
-			}
-			if (list.size() > 0) {
-				boolean deletable = true;
-				for (Plan temp : list) {
-					if (!planManager.canDelete(temp)) {
-						deletable = false;
-						addActionError("已经完成的计划不能删除");
-						break;
-					}
-				}
-				if (deletable)
-					for (Plan temp : list) {
-						planManager.delete(temp);
-					}
-				addActionMessage(getText("delete.success"));
-			}
+			planManager.delete((Serializable[]) id);
+			addActionMessage(getText("delete.success"));
 		}
 		return SUCCESS;
 	}

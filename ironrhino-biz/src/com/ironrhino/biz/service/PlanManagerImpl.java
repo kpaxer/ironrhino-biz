@@ -7,6 +7,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import org.ironrhino.core.service.BaseManagerImpl;
+import org.ironrhino.core.util.ErrorMessage;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.model.Plan;
@@ -22,8 +23,10 @@ public class PlanManagerImpl extends BaseManagerImpl<Plan> implements
 
 	@Override
 	@Transactional(readOnly = true)
-	public boolean canDelete(Plan plan) {
-		return !plan.isCompleted();
+	public void checkDelete(Plan plan) {
+		if (plan.isCompleted())
+			throw new ErrorMessage("delete.forbidden",
+					new Object[] { plan.getId() }, "此计划已经完成");
 	}
 
 	public void complete(Plan plan) {

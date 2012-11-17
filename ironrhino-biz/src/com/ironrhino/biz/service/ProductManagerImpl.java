@@ -9,6 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.ironrhino.core.service.BaseManagerImpl;
+import org.ironrhino.core.util.ErrorMessage;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,7 @@ public class ProductManagerImpl extends BaseManagerImpl<Product> implements
 
 	@Override
 	@Transactional(readOnly = true)
-	public boolean canDelete(final Product product) {
+	public void checkDelete(final Product product) {
 		final String hql = "select count(o) from Order o join o.items item join item.product p where p.id = ?";
 		Long count = (Long) executeFind(new HibernateCallback<Long>() {
 
@@ -32,6 +33,8 @@ public class ProductManagerImpl extends BaseManagerImpl<Product> implements
 				return (Long) q.uniqueResult();
 			}
 		});
-		return count == 0;
+		if (count > 0)
+			throw new ErrorMessage("delete.forbidden",
+					new Object[] { product }, "此产品下面有订单");
 	}
 }

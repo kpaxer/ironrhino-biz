@@ -1,7 +1,6 @@
 package com.ironrhino.biz.action;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 import javax.inject.Inject;
 
@@ -9,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
@@ -150,35 +148,10 @@ public class EmployeeAction extends BaseAction {
 
 	@Override
 	public String delete() {
-		String[] _id = getId();
-		if (_id != null) {
-			Long[] id = new Long[_id.length];
-			for (int i = 0; i < _id.length; i++)
-				id[i] = Long.valueOf(_id[i]);
-			List<Employee> list;
-			if (id.length == 1) {
-				list = new ArrayList<Employee>(1);
-				list.add(employeeManager.get(id[0]));
-			} else {
-				DetachedCriteria dc = employeeManager.detachedCriteria();
-				dc.add(Restrictions.in("id", id));
-				list = employeeManager.findListByCriteria(dc);
-			}
-			if (list.size() > 0) {
-				boolean deletable = true;
-				for (Employee c : list) {
-					if (!employeeManager.canDelete(c)) {
-						deletable = false;
-						addActionError(c.getName() + "有工资,不能删除");
-						break;
-					}
-				}
-				if (deletable) {
-					for (Employee employee : list)
-						employeeManager.delete(employee);
-					addActionMessage(getText("delete.success"));
-				}
-			}
+		String[] id = getId();
+		if (id != null) {
+			employeeManager.delete((Serializable[]) id);
+			addActionMessage(getText("delete.success"));
 		}
 		return SUCCESS;
 	}

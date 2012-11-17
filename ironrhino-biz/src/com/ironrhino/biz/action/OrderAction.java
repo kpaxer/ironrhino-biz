@@ -1,5 +1,6 @@
 package com.ironrhino.biz.action;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -410,30 +411,8 @@ public class OrderAction extends BaseAction {
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {
-			List<Order> list;
-			if (id.length == 1) {
-				list = new ArrayList<Order>(1);
-				list.add(orderManager.get(id[0]));
-			} else {
-				DetachedCriteria dc = orderManager.detachedCriteria();
-				dc.add(Restrictions.in("id", id));
-				list = orderManager.findListByCriteria(dc);
-			}
-			if (list.size() > 0) {
-				boolean deletable = true;
-				for (Order temp : list) {
-					if (!orderManager.canDelete(temp)) {
-						addActionError("订单" + temp.getCode() + "已付款或已发货,不能删除");
-						deletable = false;
-						break;
-					}
-				}
-				if (deletable) {
-					for (Order temp : list)
-						orderManager.cancel(temp);
-					addActionMessage(getText("delete.success"));
-				}
-			}
+			orderManager.delete((Serializable[]) id);
+			addActionMessage(getText("delete.success"));
 		}
 		return SUCCESS;
 	}

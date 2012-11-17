@@ -1,7 +1,6 @@
 package com.ironrhino.biz.action;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 import javax.inject.Inject;
 
@@ -10,7 +9,6 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.ResultPage;
@@ -135,35 +133,10 @@ public class StuffAction extends BaseAction {
 
 	@Override
 	public String delete() {
-		String[] _id = getId();
-		if (_id != null) {
-			Long[] id = new Long[_id.length];
-			for (int i = 0; i < _id.length; i++)
-				id[i] = Long.valueOf(_id[i]);
-			List<Stuff> list;
-			if (id.length == 1) {
-				list = new ArrayList<Stuff>(1);
-				list.add(stuffManager.get(id[0]));
-			} else {
-				DetachedCriteria dc = stuffManager.detachedCriteria();
-				dc.add(Restrictions.in("id", id));
-				list = stuffManager.findListByCriteria(dc);
-			}
-			if (list.size() > 0) {
-				boolean deletable = true;
-				for (Stuff temp : list) {
-					if (!stuffManager.canDelete(temp)) {
-						addActionError(temp.getName() + "不能删除");
-						deletable = false;
-						break;
-					}
-				}
-				if (deletable) {
-					for (Stuff temp : list)
-						stuffManager.delete(temp);
-					addActionMessage(getText("delete.success"));
-				}
-			}
+		String[] id = getId();
+		if (id != null) {
+			stuffManager.delete((Serializable[]) id);
+			addActionMessage(getText("delete.success"));
 		}
 		return SUCCESS;
 	}

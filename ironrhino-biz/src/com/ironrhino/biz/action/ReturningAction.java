@@ -1,6 +1,6 @@
 package com.ironrhino.biz.action;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -322,30 +322,9 @@ public class ReturningAction extends BaseAction {
 	public String delete() {
 		String[] id = getId();
 		if (id != null) {
-			List<Returning> list;
-			if (id.length == 1) {
-				list = new ArrayList<Returning>(1);
-				list.add(entityManager.get(id[0]));
-			} else {
-				DetachedCriteria dc = entityManager.detachedCriteria();
-				dc.add(Restrictions.in("id", id));
-				list = entityManager.findListByCriteria(dc);
-			}
-			if (list.size() > 0) {
-				boolean deletable = true;
-				for (Returning temp : list) {
-					if (!entityManager.canDelete(temp)) {
-						addActionError("不能删除");
-						deletable = false;
-						break;
-					}
-				}
-				if (deletable) {
-					for (Returning temp : list)
-						entityManager.delete(temp);
-					addActionMessage(getText("delete.success"));
-				}
-			}
+			entityManager.setEntityClass(Returning.class);
+			entityManager.delete((Serializable[]) id);
+			addActionMessage(getText("delete.success"));
 		}
 		return SUCCESS;
 	}

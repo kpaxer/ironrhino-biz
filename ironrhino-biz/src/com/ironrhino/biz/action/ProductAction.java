@@ -1,6 +1,6 @@
 package com.ironrhino.biz.action;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -129,11 +129,12 @@ public class ProductAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Product>();
 			resultPage.setCriteria(criteria);
-			resultPage = elasticSearchService.search(resultPage, new Mapper<Product>() {
-				public Product map(Product source) {
-					return productManager.get(source.getId());
-				}
-			});
+			resultPage = elasticSearchService.search(resultPage,
+					new Mapper<Product>() {
+						public Product map(Product source) {
+							return productManager.get(source.getId());
+						}
+					});
 		}
 		return LIST;
 	}
@@ -213,35 +214,10 @@ public class ProductAction extends BaseAction {
 
 	@Override
 	public String delete() {
-		String[] _id = getId();
-		if (_id != null) {
-			Long[] id = new Long[_id.length];
-			for (int i = 0; i < _id.length; i++)
-				id[i] = Long.valueOf(_id[i]);
-			List<Product> list;
-			if (id.length == 1) {
-				list = new ArrayList<Product>(1);
-				list.add(productManager.get(id[0]));
-			} else {
-				DetachedCriteria dc = productManager.detachedCriteria();
-				dc.add(Restrictions.in("id", id));
-				list = productManager.findListByCriteria(dc);
-			}
-			if (list.size() > 0) {
-				boolean deletable = true;
-				for (final Product product : list) {
-					if (!productManager.canDelete(product)) {
-						deletable = false;
-						addActionError(product.getName() + "有订单,不能删除");
-						break;
-					}
-				}
-				if (deletable) {
-					for (Product product : list)
-						productManager.delete(product);
-					addActionMessage(getText("delete.success"));
-				}
-			}
+		String[] id = getId();
+		if (id != null) {
+			productManager.delete((Serializable[]) id);
+			addActionMessage(getText("delete.success"));
 		}
 		return SUCCESS;
 	}

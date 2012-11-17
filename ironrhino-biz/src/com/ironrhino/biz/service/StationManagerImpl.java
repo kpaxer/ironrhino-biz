@@ -9,10 +9,11 @@ import javax.inject.Singleton;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.service.BaseManagerImpl;
+import org.ironrhino.core.util.ErrorMessage;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ironrhino.biz.model.Station;
 import com.ironrhino.biz.model.Order;
+import com.ironrhino.biz.model.Station;
 
 @Singleton
 @Named("stationManager")
@@ -24,10 +25,13 @@ public class StationManagerImpl extends BaseManagerImpl<Station> implements
 
 	@Override
 	@Transactional(readOnly = true)
-	public boolean canDelete(Station c) {
+	public void checkDelete(Station c) {
 		DetachedCriteria dc = orderManager.detachedCriteria();
 		dc.createAlias("station", "c").add(Restrictions.eq("c.id", c.getId()));
-		return orderManager.countByCriteria(dc) == 0;
+		if (orderManager.countByCriteria(dc) > 0)
+			throw new ErrorMessage("delete.forbidden", new Object[] { c },
+					"此货运站下面有订单");
+		;
 	}
 
 	@Transactional
