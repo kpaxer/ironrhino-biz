@@ -46,7 +46,7 @@
 </#if>
 <#if !Parameters.printpage??>
 <div style="text-align:center;">
-	<a href="${getUrl('/biz/customer/view/'+customer.id+'?decorator=simple&printpage=true')}" target="_blank" class="btn">${action.getText('print')}</a>
+	<a href="${getUrl(actionBaseUrl+'/view/'+customer.id+'?decorator=simple&printpage=true')}" target="_blank" class="btn">${action.getText('print')}</a>
 </div>
 </#if>
 </#if>

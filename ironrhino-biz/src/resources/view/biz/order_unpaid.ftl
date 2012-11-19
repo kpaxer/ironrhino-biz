@@ -26,7 +26,7 @@
 					<td>${var.orderDate?string("yyyy年MM月dd日")}</td>
 					<td>${var.grandTotal}</td>
 					<td><#if var.station??><a target="_blank" href="order?stationId=${var.station.id}" <#if var.cashable> title="今天可结账" style="color:red;"</#if>>${var.station!}</a></#if></td>
-					<td><a class="btn ajax pay" href="${getUrl('/biz/order/pay/'+var.id)}">${action.getText('pay')}</a></td>
+					<td><a class="btn ajax pay" href="${getUrl(actionBaseUrl+'/pay/'+var.id)}">${action.getText('pay')}</a></td>
 				</tr>
 			</#list>
 			</tbody>

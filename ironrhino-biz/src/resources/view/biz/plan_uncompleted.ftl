@@ -20,7 +20,7 @@
 			<td>${var.product?string}</td>
 			<td>${var.planDate?string("yyyy年MM月dd日")}</td>
 			<td>${var.quantity}</td>
-			<td><a class="btn ajax" href="${getUrl('/biz/plan/complete/'+var.id)}" onsuccess="$(this).closest('tr').remove()">${action.getText('complete')}</a></td>
+			<td><a class="btn ajax" href="${getUrl(actionBaseUrl+'/complete/'+var.id)}" onsuccess="$(this).closest('tr').remove()">${action.getText('complete')}</a></td>
 		</tr>
 	</#list>
 	</tbody>

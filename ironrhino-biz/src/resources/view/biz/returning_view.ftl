@@ -80,7 +80,7 @@
 </#if>
 <#if !Parameters.printpage??>
 <div style="text-align:center;">
-	<a href="${getUrl('/biz/returning/view/'+returning.id+'?decorator=simple&printpage=true')}" target="_blank" class="btn">${action.getText('print')}</a>
+	<a href="${getUrl(actionBaseUrl+'/view/'+returning.id+'?decorator=simple&printpage=true')}" target="_blank" class="btn">${action.getText('print')}</a>
 </div>
 </#if>
 </body>
