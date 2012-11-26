@@ -9,11 +9,11 @@
 			<thead>
 				<tr>
 					<td>${action.getText('code')}</td>
-					<td width="20%">${action.getText('customer')}</td>
-					<td width="23%">${action.getText('orderDate')}</td>
+					<td style="width:20%;">${action.getText('customer')}</td>
+					<td style="width:23%;">${action.getText('orderDate')}</td>
 					<td>${action.getText('grandTotal')}</td>
 					<td>${action.getText('station')}</td>
-					<td width="13%"></td>
+					<td style="width:13%;"></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -34,10 +34,10 @@
 			<tr>
 					<td></td>
 					<td></td>
-					<td width="22%">合计</td>
+					<td style="width:22%;">合计</td>
 					<td>${grandTotal}</td>
-					<td width="20%"></td>
-					<td width="10%"></td>
+					<td style="width:20%;"></td>
+					<td style="width:10%;"></td>
 				</tr>
 			</tfoot>
 		</table>

@@ -26,8 +26,8 @@
 	<tbody>
 		<tr>
 			<td class="fieldlabel">${action.getText('id')}</td><td>${customer.id!}</td>
-			<td class="fieldlabel">${action.getText('name')}</td><td width="18%">${customer.name!}</td>
-			<td class="fieldlabel">${action.getText('address')}</td><td width="25%">${customer.fullAddress!}</td>
+			<td class="fieldlabel">${action.getText('name')}</td><td style="width:18%;">${customer.name!}</td>
+			<td class="fieldlabel">${action.getText('address')}</td><td style="width:25%;">${customer.fullAddress!}</td>
 		</tr>
 		<tr>
 			<td class="fieldlabel">${action.getText('phone')}</td><td>${customer.phone!}</td>

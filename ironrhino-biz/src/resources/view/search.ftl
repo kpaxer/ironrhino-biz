@@ -21,7 +21,7 @@
 				<div style="float:left;width:192px;">
 					<div style="padding:10px;">
 						<a href="<@url value="${pageurl}"/>">
-							<img src="${page.content}" alt="${page.title!}" width="172" height="150" />
+							<img src="${page.content}" alt="${page.title!}" style="width:172px;height:150px;" />
 						</a>
 					</div>
 					<div style="text-align:center;">

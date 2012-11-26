@@ -33,7 +33,7 @@
 			</#if>
 			<#list 0..size as index>
 			<tr>
-				<td width="80%">
+				<td style="width:80%;">
 					<@s.select theme="simple" name="station.cashCondition[${index}]" cssStyle="width:100px;" list="cashConditionMap" listKey="key" listValue="value" headerKey="" headerValue=""/>
 				</td>
 				<td class="manipulate"></td>

@@ -21,7 +21,7 @@
 		<table class="table table-condensed middle atleastone" style="table-layout:fixed;">
 			<thead>
 				<tr>
-					<td width="47%">${action.getText('product')}</td>
+					<td style="width:47%;">${action.getText('product')}</td>
 					<td>${action.getText('quantity')}</td>
 					<td>${action.getText('price')}</td>
 					<td>${action.getText('subtotal')}</td>
