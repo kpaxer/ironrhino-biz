@@ -32352,41 +32352,48 @@ Observation.common = function(container) {
 			title : t.data('title'),
 			content : t.data('content')
 		};
-		if (!options.content && t.data('popurl'))
-			options.title = MessageBundle.get('ajax.loading');
-		t.bind(options.trigger, function() {
-			if (!t.hasClass('_poped')) {
-				t.addClass('_poped');
-				$.ajax({
-							url : t.data('popurl'),
-							global : false,
-							dataType : 'html',
-							success : function(data) {
-								$('div.popover').remove();
-								if (data.indexOf('<title>') >= 0
-										&& data.indexOf('</title>') > 0)
-									t.attr('data-original-title',
-											data.substring(data
-															.indexOf('<title>')
-															+ 7,
-													data.indexOf('</title>')));
-								if (data.indexOf('<body>') >= 0
-										&& data.indexOf('</body>') > 0)
-									t
-											.attr(
-													'data-content',
-													data
-															.substring(
-																	data
-																			.indexOf('<body>')
-																			+ 6,
-																	data
-																			.indexOf('</body>')));
-								t.popover(options).popover('show');
-							}
-						});
-			}
-		});
+		if (t.data('popurl')) {
+			if (!options.content && t.data('popurl'))
+				options.title = MessageBundle.get('ajax.loading');
+			t.bind(options.trigger, function() {
+				if (!t.hasClass('_poped')) {
+					t.addClass('_poped');
+					$.ajax({
+								url : t.data('popurl'),
+								global : false,
+								dataType : 'html',
+								success : function(data) {
+									$('div.popover').remove();
+									if (data.indexOf('<title>') >= 0
+											&& data.indexOf('</title>') > 0)
+										t
+												.attr(
+														'data-original-title',
+														data
+																.substring(
+																		data
+																				.indexOf('<title>')
+																				+ 7,
+																		data
+																				.indexOf('</title>')));
+									if (data.indexOf('<body>') >= 0
+											&& data.indexOf('</body>') > 0)
+										t
+												.attr(
+														'data-content',
+														data
+																.substring(
+																		data
+																				.indexOf('<body>')
+																				+ 6,
+																		data
+																				.indexOf('</body>')));
+									t.popover(options).popover('show');
+								}
+							});
+				}
+			});
+		}
 		t.popover(options);
 	});
 	// bootstrap end
@@ -34500,33 +34507,30 @@ Observation.richtable = function(container) {
 										});
 							});
 				});
-		$('.firstPage a', container).click(function(event) {
-					var form = $(event.target).closest('form');
+		$('.firstPage:not(.disabled) a', container).click(function(event) {
+					var form = $(this).closest('form');
 					$('.inputPage', form).val(1);
 					Richtable.reload(form, true);
 					return false;
 				});
-		$('.prevPage a', container).click(function(event) {
-					var form = $(event.target).closest('form');
+		$('.prevPage:not(.disabled) a', container).click(function(event) {
+					var form = $(this).closest('form');
 					$('.inputPage', form).val(function(i, v) {
 								return parseInt(v) - 1
 							});
 					Richtable.reload(form, true);
 					return false;
 				});
-		$('.nextPage a', container).click(function(event) {
-					var form = $(event.target).closest('form');
+		$('.nextPage:not(.disabled) a', container).click(function(event) {
+					var form = $(this).closest('form');
 					$('.inputPage', form).val(function(i, v) {
 								return parseInt(v) + 1
 							});
 					Richtable.reload(form, true);
 					return false;
 				});
-		$('.lastPage a', container).click(function(event) {
-					var t = $(this);
-					if (t.parent().hasClass('disabled'))
-						return false;
-					var form = t.closest('form');
+		$('.lastPage:not(.disabled) a', container).click(function(event) {
+					var form = $(this).closest('form');
 					$('.inputPage', form).val($('.totalPage strong', form)
 							.text());
 					Richtable.reload(form, true);
