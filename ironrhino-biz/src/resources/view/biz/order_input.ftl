@@ -11,7 +11,7 @@
 	<div class="row-fluid">
 		<div class="span5" style="min-height:60px;"><@s.textfield id="customerName" label="%{getText('customer')}%{getText('name')}" name="customer.name" cssClass="required customerName"><@s.param name="after"><span class="info" style="font-style:italic;margin-left:15px;"></span></@s.param></@s.textfield></div>
 		<div class="span3"><@s.textfield label="${action.getText('orderDate')}" name="order.orderDate" cssClass="date required"/></div>
-		<div class="span4"><@s.radio label="%{getText('saleType')}" name="order.saleType" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" /></div>
+		<div class="span4"><@s.radio theme="simple" name="order.saleType" cssClass="custom" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" /></div>
 	</div>
     
 	<div>
@@ -58,7 +58,7 @@
 					</td>
 					<td><@s.textfield theme="simple" name="order.items[${index}].quantity" cssClass="required integer positive quantity" cssStyle="width:40px;"/></td>
 					<td><@s.textfield theme="simple" name="order.items[${index}].price" cssClass="required double positive price" cssStyle="width:60px;"/></td>
-					<td style="text-align:center;"><input type="checkbox" class="freegift"<#if order.items[index]?? && order.items[index].price == 0> checked</#if>></td>
+					<td style="text-align:center;"><input type="checkbox" class="freegift custom"<#if order.items[index]?? && order.items[index].price == 0> checked</#if>></td>
 					<td style="text-align:right;"><span class="info">${(order.items[index].subtotal)!}</span></td>
 					<td class="manipulate"></td>
 				</tr>
@@ -73,7 +73,7 @@
 			<div class="control-group">
 				<label class="control-label">${action.getText('pay')}</label>
 				<div class="controls">
-					<label class="checkbox inline" style="margin-right:20px;"><@s.checkbox id="paid" theme="simple" name="order.paid"/></label>
+					<label class="checkbox inline" style="margin-right:20px;"><@s.checkbox id="paid" theme="simple" name="order.paid" cssClass="custom"/></label>
 					<span class="toggle"<#if !order.paid> style="display:none;"</#if>>
 						<span style="margin:5px;">${action.getText('payDate')}</span><@s.textfield theme="simple" name="order.payDate"  cssClass="date"/>
 					</span>
@@ -88,7 +88,7 @@
 			<div class="control-gropu">
 				<label class="control-label">${action.getText('ship')}</label>
 				<div class="controls">
-					<label class="checkbox inline" style="margin-right:20px;"><@s.checkbox id="shipped" theme="simple" name="order.shipped"/></label>
+					<label class="checkbox inline" style="margin-right:20px;"><@s.checkbox id="shipped" theme="simple" name="order.shipped" cssClass="custom"/></label>
 					<span class="toggle"<#if !order.shipped> style="display:none;"</#if>>
 						<span style="margin:5px;">${action.getText('shipDate')}</span><@s.textfield theme="simple" name="order.shipDate" cssClass="date"/>
 					</span>
