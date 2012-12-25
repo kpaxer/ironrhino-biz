@@ -22,7 +22,7 @@ Observation.chinamap = function(container){
 </script>
 </head>
 <body>
-<form id="daterange" action="<@url value='${actionBaseUrl}/chinamap'/>" method="get" class="ajax view form-inline" replacement="c" style="margin-left:10px;">
+<form id="daterange" action="<@url value='${actionBaseUrl}/chinamap'/>" method="get" class="ajax view form-inline" data-replacement="c" style="margin-left:10px;">
 	<#if id??>
 	<#list id as var>
 	<input type="hidden" name="id" value="${var}" />

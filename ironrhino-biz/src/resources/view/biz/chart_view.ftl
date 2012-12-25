@@ -4,7 +4,7 @@
 <title>${title!'chart'}</title>
 </head>
 <body>
-<form id="daterange" action="<@url value="${actionBaseUrl}/view"/>" method="get" class="ajax view form-inline nodirty" replacement="c"  style="margin-left:10px;">
+<form id="daterange" action="<@url value="${actionBaseUrl}/view"/>" method="get" class="ajax view form-inline nodirty" data-replacement="c"  style="margin-left:10px;">
 	<#if id??>
 	<#list id as var>
 	<input type="hidden" name="id" value="${var}" />
@@ -24,7 +24,7 @@
 <#assign dataurl=dataurl+'?'+request.queryString>
 </#if>
 <div id="c" style="clear: both;">
-<div id="chart" class="chart" data="<@url value="${dataurl}"/>" style="width:1150px; height:400px;">
+<div id="chart" class="chart" data-url="<@url value="${dataurl}"/>" style="width:1150px; height:400px;">
 <span style="color:red;">请先安装flash插件</span>
 </div>
 </div>

@@ -48,7 +48,7 @@
 			</li>
 		</#list>
 		</ul>
-		<@pagination class="ajax view history" replacement="list" cache="true"/>
+		<@pagination class="ajax view history cache" dynamicAttributes={"data-replacement":"list"}/>
     </div>
   </div>
 </div>
