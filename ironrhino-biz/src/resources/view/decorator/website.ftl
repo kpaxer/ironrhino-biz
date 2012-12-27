@@ -21,9 +21,9 @@
 <#assign metaKeywords=getSetting('meta.keywords')/><#if metaKeywords!=''><meta name="keywords" content="${metaKeywords}"/></#if>
 <#assign metaDescription=getSetting('meta.description')/><#if metaDescription!=''><meta name="description" content="${metaDescription}"/></#if>
 <#if request.contextPath!=''>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="context_path" content="${request.contextPath}" />
 </#if>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="shortcut icon" href="<@url value="/assets/website/images/favicon.ico"/>" />
 <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" media="all" rel="stylesheet" type="text/css"/>
 <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css"/>
