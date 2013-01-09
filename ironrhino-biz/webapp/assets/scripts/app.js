@@ -190,7 +190,7 @@
 			var subtotal = 0;
 			if (quantity && price !== '') {
 				subtotal = quantity * price;
-				$('td:eq(4) span.info', row).text(subtotal);
+				$('td:eq(4) span.info', row).text(subtotal.toFixed(2));
 			}
 			return subtotal;
 		} else {
@@ -199,7 +199,7 @@
 						grandTotal += calculate(this);
 					});
 			if (grandTotal > 0)
-				$('#amount').text(grandTotal);
+				$('#amount').text(grandTotal.toFixed(2));
 			var discount = $('#discount').val();
 			if (discount)
 				grandTotal -= parseFloat(discount);
@@ -210,7 +210,7 @@
 				else
 					grandTotal -= parseFloat(freight.val());
 			$('#grandTotal').html(grandTotal >= 0
-					? grandTotal
+					? grandTotal.toFixed(2)
 					: '<span style="color:red;">负数</span>');
 		}
 	}
