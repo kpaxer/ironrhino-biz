@@ -14,7 +14,7 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-lang3-3.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ehcache-core-2.6.2.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ehcache-core-2.6.3.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/freemarker-2.3.19.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/guava-13.0.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/hibernate-commons-annotations-4.0.1.jar"/>
@@ -78,9 +78,9 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/jedis-2.1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-data-redis-1.0.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/jackson-annotations-2.1.0.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/jackson-core-2.1.0.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/jackson-databind-2.1.0.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/jackson-annotations-2.1.2.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/jackson-core-2.1.2.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/jackson-databind-2.1.2.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/javassist-3.15.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/elasticsearch-0.20.2.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/jboss-logging-3.1.0.jar"/>
