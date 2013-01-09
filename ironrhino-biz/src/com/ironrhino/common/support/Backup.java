@@ -1,5 +1,7 @@
 package com.ironrhino.common.support;
 
+import static org.ironrhino.core.metadata.Profiles.DUAL;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,12 +21,14 @@ import org.ironrhino.core.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Scheduled;
 
 @Singleton
 @Named
+@Profile(DUAL)
 public class Backup {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
