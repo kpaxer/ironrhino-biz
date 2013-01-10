@@ -311,6 +311,8 @@ public class CustomerAction extends BaseAction {
 
 	@JsonConfig(root = "suggestions")
 	public String suggest() {
+		if (elasticSearchService == null)
+			return NONE;
 		keyword = ServletActionContext.getRequest().getParameter("term");
 		if (StringUtils.isBlank(keyword))
 			return NONE;
@@ -369,6 +371,8 @@ public class CustomerAction extends BaseAction {
 
 	@JsonConfig(root = "suggestions")
 	public String tag() {
+		if (elasticSearchService == null)
+			return NONE;
 		ElasticSearchCriteria criteria = new ElasticSearchCriteria();
 		if (StringUtils.isNotBlank(keyword))
 			criteria.setQuery("*" + keyword + "*");
