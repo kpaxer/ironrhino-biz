@@ -58,7 +58,7 @@
 					</td>
 					<td><@s.textfield theme="simple" name="order.items[${index}].quantity" cssClass="required integer positive quantity" cssStyle="width:40px;"/></td>
 					<td><@s.textfield theme="simple" name="order.items[${index}].price" cssClass="required double positive price" cssStyle="width:60px;"/></td>
-					<td style="text-align:center;"><input type="checkbox" class="freegift custom"<#if order.items[index]?? && order.items[index].price == 0> checked</#if>></td>
+					<td style="text-align:center;"><input type="checkbox" class="freegift"<#if order.items[index]?? && order.items[index].price == 0> checked</#if>></td>
 					<td style="text-align:right;"><span class="info">${(order.items[index].subtotal)!}</span></td>
 					<td class="manipulate"></td>
 				</tr>
