@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
 		</a>
-		<a class="brand" href="<@url value="/"/>"><@printSetting key="company.name" default="ironrhino"/></a>
+		<a class="brand hidden-tablet hidden-phone hidden-pad" href="<@url value="/"/>"><@printSetting key="company.name" default="ironrhino"/></a>
 		<div class="btn-group pull-right">
 	        <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
 	          <i class="icon-user"></i>${authentication("principal")?string} <span class="caret"></span>
@@ -82,7 +82,7 @@
 				</@authorize>
 				<@authorize ifAnyGranted="ROLE_ADMINISTRATOR">
 				<li><a class="ajax view" href="<@url value="/biz/report"/>">${action.getText('report')}</a></li>
-			    <li><a class="ajax view" href="<@url value="/biz/chart"/>">${action.getText('chart')}</a></li>
+			    <li><a class="ajax view hidden-tablet hidden-phone hidden-pad" href="<@url value="/biz/chart"/>">${action.getText('chart')}</a></li>
 			    </@authorize>
 	        </ul>
       </div>
