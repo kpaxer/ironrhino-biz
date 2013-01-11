@@ -116,6 +116,9 @@ public class ProductAction extends BaseAction {
 				dc.createAlias("brand", "b").add(
 						Restrictions.eq("b.id", brandId));
 			dc.addOrder(Order.asc("displayOrder"));
+			dc.createAlias("brand", "b").addOrder(Order.asc("b.name"));
+			dc.createAlias("category", "c").addOrder(Order.asc("c.name"));
+			dc.addOrder(Order.asc("name"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Product>();
 			resultPage.setCriteria(dc);

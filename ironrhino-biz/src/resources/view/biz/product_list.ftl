@@ -4,7 +4,7 @@
 <title>${action.getText('product')}${action.getText('list')}</title>
 </head>
 <body>
-<#assign columns={"brand":{"excludeIfNotEdited",true},"category":{"excludeIfNotEdited",true},"name":{"width":"160px","cellEdit":"click"},"stock":{"cellEdit":"click"},"shopStock":{"cellEdit":"click"},"weight":{"cellEdit":"click"},"price":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
+<#assign columns={"brand":{"excludeIfNotEdited",true},"category":{"excludeIfNotEdited",true},"name":{"width":"150px","cellEdit":"click"},"stock":{"cellEdit":"click"},"shopStock":{"cellEdit":"click"},"weight":{"cellEdit":"click"},"price":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click"}}>
 <#assign actionColumnButtons=r'
 <button type="button" class="btn" data-view="input">${action.getText("edit")}</button>
 <a class="btn" href="chart/view?type=product&id=${entity.id}" rel="richtable" '
