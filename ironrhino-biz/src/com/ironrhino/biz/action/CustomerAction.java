@@ -313,7 +313,6 @@ public class CustomerAction extends BaseAction {
 	public String suggest() {
 		if (elasticSearchService == null)
 			return NONE;
-		keyword = ServletActionContext.getRequest().getParameter("term");
 		if (StringUtils.isBlank(keyword))
 			return NONE;
 		ElasticSearchCriteria cc = new ElasticSearchCriteria();
