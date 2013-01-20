@@ -54,22 +54,23 @@ public class SearchAction extends BaseAction {
 		if (resultPage == null)
 			resultPage = new ResultPage<Page>();
 		resultPage.setCriteria(criteria);
-		resultPage = elasticSearchService.search(resultPage, new Mapper<Page>() {
-			public Page map(Page source) {
-				Page p = (Page) source;
-				Document doc = Jsoup.parse(p.getContent());
-				Elements elements = doc.select("img");
-				if (elements.size() > 0) {
-					Element ele = elements.get(0);
-					Page page = new Page();
-					page.setPagepath(p.getPagepath());
-					page.setTitle(p.getTitle());
-					page.setContent(ele.attr("src"));
-					return page;
-				} else
-					return null;
-			}
-		});
+		resultPage = elasticSearchService.search(resultPage,
+				new Mapper<Page>() {
+					public Page map(Page source) {
+						Page p = (Page) source;
+						Document doc = Jsoup.parse(p.getContent());
+						Elements elements = doc.select("img");
+						if (elements.size() > 0) {
+							Element ele = elements.get(0);
+							Page page = new Page();
+							page.setPagepath(p.getPagepath());
+							page.setTitle(p.getTitle());
+							page.setContent(ele.attr("src"));
+							return page;
+						} else
+							return null;
+					}
+				});
 		return SUCCESS;
 	}
 
