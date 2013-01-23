@@ -88,6 +88,7 @@
 						$.ajax({
 									url : CONTEXT_PATH
 											+ '/biz/customer/suggest',
+									type : 'post',
 									dataType : "json",
 									data : {
 										keyword : query
