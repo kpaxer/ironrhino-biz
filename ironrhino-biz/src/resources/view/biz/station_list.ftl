@@ -4,7 +4,7 @@
 <title>${action.getText('station')}${action.getText('list')}</title>
 </head>
 <body>
-<#assign columns={"name":{"width":"120px","cellEdit":"click"},"address":{"width":"220px","template":r'<#if entity.region??><a class="region" title="点击查看${entity.region.fullname}所有货运站" href="station?regionId=${entity.region.id}">${entity.region.fullname}</a></#if>${value!}'},"destination":{"width":"150px","cellEdit":"click"},"linkman":{"cellEdit":"click","width":"80px"},"phone":{"cellEdit":"click","width":"200px"},"mobile":{"cellEdit":"click","width":"200px"},"fax":{"cellEdit":"click","width":"80px"}}>
+<#assign columns={"name":{"width":"120px","cellEdit":"click"},"address":{"width":"220px","cssClass":"excludeIfNotEdited","template":r'<#if entity.region??><a class="region" title="点击查看${entity.region.fullname}所有货运站" href="station?regionId=${entity.region.id}">${entity.region.fullname}</a></#if>${value!}'},"destination":{"width":"150px","cellEdit":"click"},"linkman":{"cellEdit":"click","width":"80px"},"phone":{"cellEdit":"click","width":"200px"},"mobile":{"cellEdit":"click","width":"200px"},"fax":{"cellEdit":"click","width":"80px"}}>
 <#assign bottomButtons='
 <button type="button" class="btn" data-view="input">${action.getText("create")}</button>
 <button type="button" class="btn" data-action="save">${action.getText("save")}</button>
