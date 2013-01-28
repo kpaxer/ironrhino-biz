@@ -312,7 +312,7 @@
 			<fileset dir="${webapp.dir}/WEB-INF/classes" />
 		</move>
 		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}"
-			webxml="${webapp.dir}/WEB-INF/web.xml" excludes="**/upload/**,/assetsbak/**,**/ironrhino-assets-*.jar" />
+			webxml="${webapp.dir}/WEB-INF/web.xml" excludes="**/upload/**,assetsbak/**,**/ironrhino-assets-*.jar" />
 		<move file="${webapp.dir}/WEB-INF/lib/${jar.name}" todir="${target.dir}" />
 		<move todir="${webapp.dir}/WEB-INF/classes">
 			<fileset dir="${target.dir}/classes" />
