@@ -42,7 +42,7 @@
 				<li<#if href=='/product'||href?starts_with('/product/')> class="active"</#if>><a href="<@url value="/product"/>">${action.getText('product')}</a></li>
 				<#assign pages=statics['org.ironrhino.core.util.ApplicationContextUtils'].getBean('pageManager').findListByTag('HEADER_LINK')>
 				<#list pages as page>
-				<li<#if href=='/p'+page.path> class="active"</#if>><a href="<@url value="${'/p'+page.path}"/>">${page.title}</a></li>
+				<li<#if href=='/p'+page.pagepath> class="active"</#if>><a href="<@url value="${'/p'+page.pagepath}"/>">${page.title}</a></li>
 				</#list>
 			</ul>
 	      </div>
@@ -70,7 +70,7 @@
 	      <div class="links">
 			<#assign pages=statics['org.ironrhino.core.util.ApplicationContextUtils'].getBean('pageManager').findListByTag('FOOTER_LINK')>
 			<#list pages as page>
-			<a href="<@url value="${'/p'+page.path}"/>">${page.title}</a>
+			<a href="<@url value="${'/p'+page.pagepath}"/>">${page.title}</a>
 			</#list>
 	      </div>
 	    </div>
