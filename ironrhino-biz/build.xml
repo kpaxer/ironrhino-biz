@@ -389,7 +389,7 @@
 		</waitfor>
 		<sleep seconds="3" />
 		<exec executable="${server.shutdown.cmd}" dir="${server.home}">
-			<arg value="10 -force" />
+			<arg value="-force" />
 		</exec>
 		<waitfor checkevery="2" checkeveryunit="second" maxwait="60"
 			maxwaitunit="second">
