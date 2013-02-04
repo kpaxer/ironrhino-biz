@@ -112,6 +112,7 @@
         			file = new File(basedir+'/extralib',filename);
         		copy.setFile(file);
         		copy.setTofile(tofile);
+				copy.setPreserveLastModified(true);
         		if(file.exists())
         			copy.perform();
 			}
@@ -162,11 +163,10 @@
 	<target name="compile" depends="syncJars">
 		<antcall target="clean" />
 		<antcall target="init" />
-		<javac includeantruntime="false" debug="true" debuglevel="lines,vars,source"
-			srcdir="${src.dir}" destdir="${classes.dir}" encoding="UTF-8">
+		<javac includeantruntime="false" debug="true" debuglevel="lines,vars,source" srcdir="${src.dir}" destdir="${classes.dir}" encoding="UTF-8">
 			<classpath refid="lib.classpath" />
 		</javac>
-		<copy todir="${classes.dir}">
+		<copy todir="${classes.dir}" preservelastmodified="true">
 			<fileset dir="${src.dir}">
 				<exclude name="**/*.java" />
 			</fileset>
@@ -175,14 +175,13 @@
 
 	<target name="test" depends="compile">
 		<mkdir dir="${test.classes.dir}" />
-		<javac includeantruntime="false" debug="true" debuglevel="lines,vars,source"
-			srcdir="${test.src.dir}" destdir="${test.classes.dir}" encoding="utf-8">
+		<javac includeantruntime="false" debug="true" debuglevel="lines,vars,source" srcdir="${test.src.dir}" destdir="${test.classes.dir}" encoding="utf-8">
 			<classpath>
 				<path refid="lib.classpath" />
 				<pathelement location="${classes.dir}" />
 			</classpath>
 		</javac>
-		<copy todir="${test.classes.dir}">
+		<copy todir="${test.classes.dir}" preservelastmodified="true">
 			<fileset dir="${test.src.dir}">
 				<exclude name="**/*.java" />
 			</fileset>
@@ -205,16 +204,13 @@
 
 	<target name="compress">
 		<java jar="${lib.dir}/closure-compiler.jar" fork="true">
-			<arg
-				line=" --js=./webapp/assets/scripts/app.js --js_output_file=./webapp/assets/scripts/app-min.js" />
+			<arg line=" --js=./webapp/assets/scripts/app.js --js_output_file=./webapp/assets/scripts/app-min.js" />
 		</java>
 		<java jar="${lib.dir}/yuicompressor.jar" fork="true">
-			<arg
-				line=" --charset utf-8 --type css -o ./webapp/assets/styles/app-min.css ./webapp/assets/styles/app.css" />
+			<arg line=" --charset utf-8 --type css -o ./webapp/assets/styles/app-min.css ./webapp/assets/styles/app.css" />
 		</java>
 		<java jar="${lib.dir}/yuicompressor.jar" fork="true">
-			<arg
-				line=" --charset utf-8 --type css -o ./webapp/assets/website/style-min.css ./webapp/assets/website/style.css" />
+			<arg line=" --charset utf-8 --type css -o ./webapp/assets/website/style-min.css ./webapp/assets/website/style.css" />
 		</java>
 	</target>
 
@@ -275,8 +271,7 @@
 		</script>
 	</target>
 	<target name="reset-append-revision-for-assets">
-		<copy todir="${webapp.dir}/WEB-INF/classes/resources/view/decorator"
-			overwrite="true">
+		<copy todir="${webapp.dir}/WEB-INF/classes/resources/view/decorator" preservelastmodified="true" overwrite="true">
 			<fileset dir="${src.dir}/resources/view/decorator">
 				<include name="**/*.ftl" />
 			</fileset>
@@ -284,8 +279,8 @@
 	</target>
 
 	<target name="unzip-assets">
-		<move file="${webapp.dir}/assets" tofile="${webapp.dir}/assetsbak" />
-		<sync todir="${webapp.dir}/assets">
+		<move file="${webapp.dir}/assets" tofile="${webapp.dir}/assetsbak" preservelastmodified="true" failonerror="false" />
+		<sync todir="${webapp.dir}/assets" failonerror="false">
 			<fileset dir="${webapp.dir}/assetsbak" />
 			<preserveintarget>
 				<include name="**/**" />
@@ -305,7 +300,7 @@
 
 	<target name="reset-assets">
 		<delete dir="${webapp.dir}/assets" />
-		<move file="${webapp.dir}/assetsbak" tofile="${webapp.dir}/assets" />
+		<move file="${webapp.dir}/assetsbak" tofile="${webapp.dir}/assets" preservelastmodified="true" failonerror="false" />
 	</target>
 
 	<target name="jar" depends="compile">
@@ -320,15 +315,14 @@
 
 	<target name="war" depends="jar">
 		<antcall target="unzip-assets" />
-		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" />
+		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" preservelastmodified="true"/>
 		<mkdir dir="${target.dir}/classes" />
-		<move todir="${target.dir}/classes">
+		<move todir="${target.dir}/classes" preservelastmodified="true">
 			<fileset dir="${webapp.dir}/WEB-INF/classes" />
 		</move>
-		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}"
-			webxml="${webapp.dir}/WEB-INF/web.xml" excludes="**/upload/**,assetsbak/**,**/ironrhino-assets-*.jar" />
-		<move file="${webapp.dir}/WEB-INF/lib/${jar.name}" todir="${target.dir}" />
-		<move todir="${webapp.dir}/WEB-INF/classes">
+		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}" webxml="${webapp.dir}/WEB-INF/web.xml" excludes="**/upload/**,assetsbak/**,**/ironrhino-assets-*.jar" />
+		<move file="${webapp.dir}/WEB-INF/lib/${jar.name}" todir="${target.dir}" preservelastmodified="true"/>
+		<move todir="${webapp.dir}/WEB-INF/classes" preservelastmodified="true">
 			<fileset dir="${target.dir}/classes" />
 		</move>
 		<delete dir="${target.dir}/classes" />
@@ -336,15 +330,14 @@
 	</target>
 
 	<target name="war2" depends="jar">
-		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" />
+		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" preservelastmodified="true"/>
 		<mkdir dir="${target.dir}/classes" />
-		<move todir="${target.dir}/classes">
+		<move todir="${target.dir}/classes" preservelastmodified="true">
 			<fileset dir="${webapp.dir}/WEB-INF/classes" />
 		</move>
-		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}"
-			webxml="${webapp.dir}/WEB-INF/web.xml" excludes="**/upload/**" />
-		<move file="${webapp.dir}/WEB-INF/lib/${jar.name}" todir="${target.dir}" />
-		<move todir="${webapp.dir}/WEB-INF/classes">
+		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}" webxml="${webapp.dir}/WEB-INF/web.xml" excludes="**/upload/**" />
+		<move file="${webapp.dir}/WEB-INF/lib/${jar.name}" todir="${target.dir}" preservelastmodified="true"/>
+		<move todir="${webapp.dir}/WEB-INF/classes" preservelastmodified="true">
 			<fileset dir="${target.dir}/classes" />
 		</move>
 		<delete dir="${target.dir}/classes" />
@@ -372,14 +365,12 @@
 		</exec>
 		<echo message="${svn.update.output}" />
 		<condition property="svn.updated">
-			<matches pattern="^.*\n.*$" string="${svn.update.output}"
-				multiline="true" />
+			<matches pattern="^.*\n.*$" string="${svn.update.output}" multiline="true" />
 		</condition>
 	</target>
 
 	<target name="backup" if="webapp.deployed" depends="checkwebappdeployed">
-		<war warfile="${target.dir}/${war.name}.bak" basedir="${webapp.deploy.dir}"
-			webxml="${webapp.deploy.dir}/WEB-INF/web.xml" />
+		<war warfile="${target.dir}/${war.name}.bak" basedir="${webapp.deploy.dir}" webxml="${webapp.deploy.dir}/WEB-INF/web.xml" />
 	</target>
 
 	<target name="update" if="svn.updated" depends="checksvnupdated">
@@ -395,17 +386,14 @@
 	</target>
 
 	<target name="shutdown" if="server.started" depends="checkserverstarted">
-		<waitfor checkevery="1" checkeveryunit="second" maxwait="2"
-			maxwaitunit="second">
-			<http
-				url="http://localhost:${server.startup.port}/?firewallHandler.allowedAddrPattern=127.0.0.1" />
+		<waitfor checkevery="1" checkeveryunit="second" maxwait="2" maxwaitunit="second">
+			<http url="http://localhost:${server.startup.port}/?firewallHandler.allowedAddrPattern=127.0.0.1" />
 		</waitfor>
 		<sleep seconds="3" />
 		<exec executable="${server.shutdown.cmd}" dir="${server.home}">
 			<arg value="-force" />
 		</exec>
-		<waitfor checkevery="2" checkeveryunit="second" maxwait="60"
-			maxwaitunit="second">
+		<waitfor checkevery="2" checkeveryunit="second" maxwait="60" maxwaitunit="second">
 			<not>
 				<socket server="localhost" port="${server.shutdown.port}" />
 			</not>
@@ -415,8 +403,7 @@
 
 	<target name="startup" depends="shutdown">
 		<exec executable="${server.startup.cmd}" dir="${server.home}" />
-		<waitfor checkevery="2" checkeveryunit="second" maxwait="180"
-			maxwaitunit="second">
+		<waitfor checkevery="2" checkeveryunit="second" maxwait="180" maxwaitunit="second">
 			<http url="http://localhost:${server.startup.port}/" />
 		</waitfor>
 	</target>
