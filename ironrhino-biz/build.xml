@@ -218,16 +218,17 @@
 		</java>
 	</target>
 
-	<target name="append-svn-revision-for-assets">
+	<target name="append-revision-for-assets">
 		<script language="javascript">
 			<![CDATA[
 			importPackage(java.io);
-			var dirs = 'scripts,styles,website'.split(',');
+			var assetsDir = new File(project.getProperty('webapp.dir')+'/assets');
+			var dirs = assetsDir.listFiles();
 			for(var n=0;n<dirs.length;n++){
-				var dir = new File(project.getProperty('webapp.dir')+'/assets/'+dirs[n]);
-				if(!dir.exists()||!dir.isDirectory())
+				var dir = dirs[n];
+				if(dir.getName()=='components'||dir.getName()=='images'||!dir.isDirectory())
 					continue;
-				var wcpropsfile = new File(project.getProperty('webapp.dir')+'/assets/'+dirs[n]+'/.svn/all-wcprops');
+				var wcpropsfile = new File(dir,'.svn/all-wcprops');
 				var wcprops = [];
 				if(wcpropsfile.exists()){
 					var is = new FileInputStream(wcpropsfile);
@@ -238,7 +239,7 @@
 					br.close();
 					is.close();
 				}
-				var files = new File(project.getProperty('webapp.dir')+'/assets/'+dirs[n]).listFiles();
+				var files = dir.listFiles();
 				for(var i=0;i<files.length;i++){
 					var file = files[i];
 					if(file.isDirectory())
@@ -252,7 +253,9 @@
 							break;
 						}
 					}
-					revision = revision || file.lastModified();
+					revision = revision || (''+file.lastModified());
+					if(revision.length==13)
+						revision = revision.substring(0,10);
 					var replaceregexp = project.createTask('replaceregexp');
 					replaceregexp.setEncoding('utf-8');
 					replaceregexp.setPreserveLastModified(true);
@@ -261,8 +264,8 @@
 	      			fs.setIncludes('**/*.ftl');
 	      			replaceregexp.addFileset(fs);
 	      			var namearr = name.split('\\.');
-	      			var match = '/'+dirs[n]+'/'+namearr[0]+'(.*)\\.'+namearr[1];
-	      			var replace = '/'+dirs[n]+'/'+namearr[0]+'\\1\\.'+namearr[1]+'?'+revision;
+	      			var match = '/'+dir.getName()+'/'+namearr[0]+'(.*)\\.'+namearr[1];
+	      			var replace = '/'+dir.getName()+'/'+namearr[0]+'\\1\\.'+namearr[1]+'?'+revision;
 	        		replaceregexp.setMatch(match);
 	        		replaceregexp.setReplace(replace);
 	        		replaceregexp.perform();
@@ -271,7 +274,7 @@
 			]]>
 		</script>
 	</target>
-	<target name="reset-append-svn-revision-for-assets">
+	<target name="reset-append-revision-for-assets">
 		<copy todir="${webapp.dir}/WEB-INF/classes/resources/view/decorator"
 			overwrite="true">
 			<fileset dir="${src.dir}/resources/view/decorator">
@@ -280,15 +283,7 @@
 		</copy>
 	</target>
 
-	<target name="jar" depends="compile">
-		<mkdir dir="${target.dir}" />
-		<delete file="${target.dir}/${jar.name}" />
-		<antcall target="append-svn-revision-for-assets" />
-		<jar jarfile="${target.dir}/${jar.name}" basedir="${classes.dir}" />
-		<antcall target="reset-append-svn-revision-for-assets" />
-	</target>
-
-	<target name="war" depends="jar">
+	<target name="unzip-assets">
 		<move file="${webapp.dir}/assets" tofile="${webapp.dir}/assetsbak" />
 		<sync todir="${webapp.dir}/assets">
 			<fileset dir="${webapp.dir}/assetsbak" />
@@ -306,6 +301,25 @@
 			</preserveintarget>
 		</sync>
 		<delete dir="${webapp.dir}/META-INF" />
+	</target>
+
+	<target name="reset-assets">
+		<delete dir="${webapp.dir}/assets" />
+		<move file="${webapp.dir}/assetsbak" tofile="${webapp.dir}/assets" />
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="${target.dir}" />
+		<delete file="${target.dir}/${jar.name}" />
+		<antcall target="unzip-assets" />
+		<antcall target="append-revision-for-assets" />
+		<antcall target="reset-assets" />
+		<jar jarfile="${target.dir}/${jar.name}" basedir="${classes.dir}" />
+		<antcall target="reset-append-revision-for-assets" />
+	</target>
+
+	<target name="war" depends="jar">
+		<antcall target="unzip-assets" />
 		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" />
 		<mkdir dir="${target.dir}/classes" />
 		<move todir="${target.dir}/classes">
@@ -318,8 +332,7 @@
 			<fileset dir="${target.dir}/classes" />
 		</move>
 		<delete dir="${target.dir}/classes" />
-		<delete dir="${webapp.dir}/assets" />
-		<move file="${webapp.dir}/assetsbak" tofile="${webapp.dir}/assets" />
+		<antcall target="reset-assets" />
 	</target>
 
 	<target name="war2" depends="jar">
