@@ -12,7 +12,7 @@
 			<td class="fieldlabel">${action.getText('saleType')}</td><td>${order.saleType.displayName!}</td>
 		</tr>
 		<tr>
-			<td class="fieldlabel">${action.getText('customer')}</td><td><a href="${getUrl(actionBaseUrl)}?customer.id=${order.customer.id}" target="_blank">${order.customer}</a></td>
+			<td class="fieldlabel">${action.getText('customer')}</td><td><#if !Parameters.printpage??><a href="${getUrl(actionBaseUrl)}?customer.id=${order.customer.id}" target="_blank"></#if>${order.customer}<#if !Parameters.printpage??></a></#if></td>
 			<td class="fieldlabel">${action.getText('phone')}</td><td>${order.customer.phone!}&nbsp;${order.customer.mobile!}</td>
 			<td class="fieldlabel">${action.getText('address')}</td><td>${order.customer.fullAddress!}</td>
 		</tr>
