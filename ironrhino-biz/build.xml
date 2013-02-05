@@ -224,17 +224,6 @@
 				var dir = dirs[n];
 				if(dir.getName()=='components'||dir.getName()=='images'||!dir.isDirectory())
 					continue;
-				var wcpropsfile = new File(dir,'.svn/all-wcprops');
-				var wcprops = [];
-				if(wcpropsfile.exists()){
-					var is = new FileInputStream(wcpropsfile);
-					var br = new BufferedReader(new InputStreamReader(is,'utf-8'));
-					var line;
-					while(line=br.readLine())
-						wcprops.push(line);
-					br.close();
-					is.close();
-				}
 				var files = dir.listFiles();
 				for(var i=0;i<files.length;i++){
 					var file = files[i];
@@ -242,13 +231,32 @@
 						continue;
 					var name = file.getName();
 					var revision = null;
-					for(var j=0;j<wcprops.length;j++){
-						var line = wcprops[j];
-						if(!line.startsWith(name) && line.endsWith(name)){
-							var revision = line.split('/')[4];
-							break;
+					var exec = project.createTask('exec');
+					exec.setExecutable('svn');
+					exec.setOutputproperty(name+'.svninfo');
+					exec.setFailIfExecutionFails(false);
+					exec.setResultProperty('resultCode');
+					var arg = exec.createArg();
+					arg.setValue('info');
+					arg = exec.createArg();
+					arg.setValue(file.getPath());
+					exec.execute();
+					var svninfo = project.getProperty(name+'.svninfo');
+						if(svninfo){
+							var arr = svninfo.split('\n');
+							for(var j=0;j<arr.length;j++){
+								var arr2 = arr[j].split(':',2);
+								if(arr2.length>1){
+									var s = arr2[1].trim();
+									try{
+										if(s.match(/^\d+$/)){
+											revision = s;
+										}
+									}catch(e){
+									}
+								}
+							}
 						}
-					}
 					revision = revision || (''+file.lastModified());
 					if(revision.length==13)
 						revision = revision.substring(0,10);
