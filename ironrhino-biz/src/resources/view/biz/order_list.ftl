@@ -27,6 +27,7 @@
 <button type="button" class="btn" data-action="pay">${action.getText("pay")}</button>
 <button type="button" class="btn" data-action="ship">${action.getText("ship")}</button>
 <button type="button" class="btn" data-action="reload">${action.getText("reload")}</button>
+<button type="button" class="btn loadmore raw">${action.getText("more")}</button>
 '>
 <@richtable entityName="order" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deleteable=false searchable=true/>
 </body>
