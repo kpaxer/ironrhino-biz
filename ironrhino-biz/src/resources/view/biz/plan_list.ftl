@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<#assign columns={"product":{},"quantity":{},"planDate":{"template":r"${(value?string('yyyy年MM月dd日'))!}"},"completeDate":{"template":r"${(value?string('yyyy年MM月dd日'))!}"}}>
+<#assign columns={"product":{},"quantity":{},"planDate":{"template":r"${(entity.planDate?string('yyyy年MM月dd日'))!}"},"completeDate":{"template":r"${(entity.completeDate?string('yyyy年MM月dd日'))!}"}}>
 <#assign actionColumnButtons=r'
 <#if !entity.completed>
 <button type="button" class="btn" data-view="input">${action.getText("edit")}</button>
