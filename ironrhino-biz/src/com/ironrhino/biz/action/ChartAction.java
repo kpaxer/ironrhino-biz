@@ -20,7 +20,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
-import org.ironrhino.common.util.RegionUtils;
+import org.ironrhino.common.util.LocationUtils;
 import org.ironrhino.core.chart.ChartUtils;
 import org.ironrhino.core.chart.openflashchart.Chart;
 import org.ironrhino.core.chart.openflashchart.Text;
@@ -841,7 +841,7 @@ public class ChartAction extends BaseAction {
 			YAxis y = new YAxis();
 			List<String> shortLabels = new ArrayList<String>(labels.size());
 			for (String s : labels)
-				shortLabels.add(RegionUtils.shortenName(s));
+				shortLabels.add(LocationUtils.shortenName(s));
 			XAxisLabels xAxisLabels = new XAxisLabels(shortLabels);
 			xAxisLabels.setSize(12);
 			x.setXAxisLabels(xAxisLabels);
@@ -913,7 +913,7 @@ public class ChartAction extends BaseAction {
 			YAxis y = new YAxis();
 			List<String> shortLabels = new ArrayList<String>(labels.size());
 			for (String s : labels)
-				shortLabels.add(RegionUtils.shortenName(s));
+				shortLabels.add(LocationUtils.shortenName(s));
 			XAxisLabels xAxisLabels = new XAxisLabels(shortLabels);
 			xAxisLabels.setSize(12);
 			x.setXAxisLabels(xAxisLabels);
