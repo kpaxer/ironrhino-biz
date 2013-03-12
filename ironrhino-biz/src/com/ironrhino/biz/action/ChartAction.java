@@ -21,6 +21,7 @@ import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
 import org.ironrhino.common.util.LocationUtils;
+import org.ironrhino.common.util.RegionUtils;
 import org.ironrhino.core.chart.ChartUtils;
 import org.ironrhino.core.chart.openflashchart.Chart;
 import org.ironrhino.core.chart.openflashchart.Text;
@@ -764,7 +765,8 @@ public class ChartAction extends BaseAction {
 			region = regionTreeControl.getRegionTree().getDescendantOrSelfById(
 					Long.valueOf(location));
 		else
-			region = regionTreeControl.parseByAddress(location);
+			region = RegionUtils.parseByAddress(location,
+					regionTreeControl.getRegionTree());
 		if (region == null)
 			region = regionTreeControl.getRegionTree();
 		for (Region r : region.getChildren())
