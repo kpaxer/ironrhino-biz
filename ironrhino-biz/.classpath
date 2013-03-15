@@ -86,7 +86,7 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-redis-config-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-schedule-config-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-rabbitmq-config-1.0.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/rabbitmq-client-3.0.1.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/rabbitmq-client-3.0.4.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-amqp-1.1.4.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-rabbit-1.1.4.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-assets-1.0.jar"/>
