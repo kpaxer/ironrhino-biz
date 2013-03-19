@@ -243,7 +243,8 @@ public class ChartAction extends BaseAction {
 			if (r == null)
 				continue;
 			String regionName = regionTreeControl.getRegionTree()
-					.getDescendantOrSelfById(r.getId()).getAncestorName(1);
+					.getDescendantOrSelfById(r.getId()).getAncestor(1)
+					.getName();
 			for (OrderItem item : order.getItems()) {
 				if (category != null
 						&& !item.getProduct().getCategory().getId()
@@ -807,8 +808,8 @@ public class ChartAction extends BaseAction {
 							if (r.getId().equals(region.getId()))
 								regionName = region.getName() + "未知";
 							else
-								regionName = r.getAncestorName(region
-										.getLevel() + 1);
+								regionName = r.getAncestor(
+										region.getLevel() + 1).getName();
 						}
 					}
 					if (!item.getProduct().getCategory().equals(category))
@@ -869,8 +870,8 @@ public class ChartAction extends BaseAction {
 							if (r.getId().equals(region.getId()))
 								regionName = region.getName() + "未知";
 							else
-								regionName = r.getAncestorName(region
-										.getLevel() + 1);
+								regionName = r.getAncestor(
+										region.getLevel() + 1).getName();
 					}
 					BigDecimal total = sales.get(regionName);
 					if (total == null) {
