@@ -64,8 +64,9 @@
 				is.close();
 				var replacement = [];
 				for(var n=0;n<lines.length;n++){
-					var arr = lines[n].split('"');
-					var path = arr[arr.length-2];
+					var line = lines[n];
+					var index = line.indexOf('path="')+6;
+					var path = line.substring(index,line.indexOf('"',index));
 					var arr2 = path.split('/');
 					var filename = arr2[arr2.length-1];
 					var jarname = filename.substring(0,filename.lastIndexOf(filename.lastIndexOf('-')>0?'-':'.'));
@@ -133,8 +134,8 @@
 				while(line=br.readLine()){
 					if(line.indexOf('kind="lib"') < 0)
 						continue;
-					var arr = line.split('"');
-					var path = arr[arr.length-2];
+					var index = line.indexOf('path="')+6;
+					var path = line.substring(index,line.indexOf('"',index));
 					var arr2 = path.split('/');
 					if(arr2[0]=='webapp')
 						jarnames.push(arr2[arr2.length-1]);	
@@ -327,13 +328,13 @@
 
 	<target name="war" depends="jar">
 		<antcall target="unzip-assets" />
-		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" preservelastmodified="true"/>
+		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" preservelastmodified="true" />
 		<mkdir dir="${target.dir}/classes" />
 		<move todir="${target.dir}/classes" preservelastmodified="true">
 			<fileset dir="${webapp.dir}/WEB-INF/classes" />
 		</move>
 		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}" webxml="${webapp.dir}/WEB-INF/web.xml" excludes="**/upload/**,assetsbak/**,**/ironrhino-assets-*.jar" />
-		<move file="${webapp.dir}/WEB-INF/lib/${jar.name}" todir="${target.dir}" preservelastmodified="true"/>
+		<move file="${webapp.dir}/WEB-INF/lib/${jar.name}" todir="${target.dir}" preservelastmodified="true" />
 		<move todir="${webapp.dir}/WEB-INF/classes" preservelastmodified="true">
 			<fileset dir="${target.dir}/classes" />
 		</move>
@@ -342,13 +343,13 @@
 	</target>
 
 	<target name="war2" depends="jar">
-		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" preservelastmodified="true"/>
+		<move file="${target.dir}/${jar.name}" todir="${webapp.dir}/WEB-INF/lib" preservelastmodified="true" />
 		<mkdir dir="${target.dir}/classes" />
 		<move todir="${target.dir}/classes" preservelastmodified="true">
 			<fileset dir="${webapp.dir}/WEB-INF/classes" />
 		</move>
 		<war warfile="${target.dir}/${war.name}" basedir="${webapp.dir}" webxml="${webapp.dir}/WEB-INF/web.xml" excludes="**/upload/**" />
-		<move file="${webapp.dir}/WEB-INF/lib/${jar.name}" todir="${target.dir}" preservelastmodified="true"/>
+		<move file="${webapp.dir}/WEB-INF/lib/${jar.name}" todir="${target.dir}" preservelastmodified="true" />
 		<move todir="${webapp.dir}/WEB-INF/classes" preservelastmodified="true">
 			<fileset dir="${target.dir}/classes" />
 		</move>
