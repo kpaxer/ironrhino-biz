@@ -226,7 +226,7 @@ public class ChartAction extends BaseAction {
 		List<Order> orders;
 		Category category = null;
 		final String id = getUid();
-		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
+		if (StringUtils.isNumeric(id))
 			category = categoryManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
 			category = categoryManager.findByNaturalId(id);
@@ -314,7 +314,7 @@ public class ChartAction extends BaseAction {
 		List<Order> orders;
 		Category category = null;
 		String id = getUid();
-		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
+		if (StringUtils.isNumeric(id))
 			category = categoryManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
 			category = categoryManager.findByNaturalId(id);
@@ -466,7 +466,7 @@ public class ChartAction extends BaseAction {
 		List<Order> orders;
 		Brand brand = null;
 		final String id = getUid();
-		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
+		if (StringUtils.isNumeric(id))
 			brand = brandManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
 			brand = brandManager.findByNaturalId(id);
@@ -616,7 +616,7 @@ public class ChartAction extends BaseAction {
 		List<Order> orders;
 		Category category = null;
 		String id = getUid();
-		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
+		if (StringUtils.isNumeric(id))
 			category = categoryManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
 			category = categoryManager.findByNaturalId(id);
@@ -762,7 +762,7 @@ public class ChartAction extends BaseAction {
 		List<Category> cates = categoryManager.findAll();
 		List<String> labels = new ArrayList<String>();
 		Region region = null;
-		if (org.ironrhino.core.util.StringUtils.isNumericOnly(location))
+		if (StringUtils.isNumeric(location))
 			region = regionTreeControl.getRegionTree().getDescendantOrSelfById(
 					Long.valueOf(location));
 		else
@@ -779,7 +779,7 @@ public class ChartAction extends BaseAction {
 		List<Order> orders;
 		Category category = null;
 		final String id = getUid();
-		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
+		if (StringUtils.isNumeric(id))
 			category = categoryManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
 			category = categoryManager.findByNaturalId(id);

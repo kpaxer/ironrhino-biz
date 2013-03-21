@@ -173,7 +173,7 @@ public class CustomerAction extends BaseAction {
 	public String input() {
 		String id = getUid();
 		if (StringUtils.isNotBlank(id))
-			if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
+			if (StringUtils.isNumeric(id))
 				customer = customerManager.get(Long.valueOf(id));
 			else
 				customer = customerManager.findByNaturalId(id);
@@ -259,7 +259,7 @@ public class CustomerAction extends BaseAction {
 	@Override
 	public String view() {
 		String id = getUid();
-		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id)) {
+		if (StringUtils.isNumeric(id)) {
 			customer = customerManager.get(Long.valueOf(id));
 			if (customer.getRegion() != null)
 				customer.setRegion(regionTreeControl.getRegionTree()
@@ -284,7 +284,7 @@ public class CustomerAction extends BaseAction {
 		String[] id = getId();
 		if (id != null && id.length == 2) {
 			Customer source;
-			if (org.ironrhino.core.util.StringUtils.isNumericOnly(id[0])) {
+			if (StringUtils.isNumeric(id[0])) {
 				source = customerManager.get(Long.valueOf(id[0]));
 			} else {
 				source = customerManager.findByNaturalId(id[0].trim());
@@ -294,7 +294,7 @@ public class CustomerAction extends BaseAction {
 				return SUCCESS;
 			}
 			Customer target;
-			if (org.ironrhino.core.util.StringUtils.isNumericOnly(id[1])) {
+			if (StringUtils.isNumeric(id[1])) {
 				target = customerManager.get(Long.valueOf(id[1]));
 			} else {
 				target = customerManager.findByNaturalId(id[1].trim());
@@ -344,7 +344,7 @@ public class CustomerAction extends BaseAction {
 		String id = getUid();
 		if (id != null)
 			id = id.trim();
-		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
+		if (StringUtils.isNumeric(id))
 			customer = customerManager.get(Long.valueOf(id));
 		else if (StringUtils.isNotBlank(id))
 			customer = customerManager.findByNaturalId(id);

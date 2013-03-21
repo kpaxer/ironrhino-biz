@@ -90,7 +90,7 @@ public class EmployeeAction extends BaseAction {
 	public String input() {
 		String id = getUid();
 		if (StringUtils.isNotBlank(id))
-			if (org.ironrhino.core.util.StringUtils.isNumericOnly(id))
+			if (StringUtils.isNumeric(id))
 				employee = employeeManager.get(Long.valueOf(id));
 			else
 				employee = employeeManager.findByNaturalId(id);
@@ -159,7 +159,7 @@ public class EmployeeAction extends BaseAction {
 	@JsonConfig(root = "employee")
 	public String json() {
 		String id = getUid();
-		if (org.ironrhino.core.util.StringUtils.isNumericOnly(id)) {
+		if (StringUtils.isNumeric(id)) {
 			employee = employeeManager.get(Long.valueOf(id));
 		} else if (StringUtils.isNotBlank(id)) {
 			id = id.trim();
