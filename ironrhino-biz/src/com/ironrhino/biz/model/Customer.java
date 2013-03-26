@@ -195,7 +195,7 @@ public class Customer extends Entity<Long> {
 		tags.clear();
 		if (org.apache.commons.lang3.StringUtils.isNotBlank(tagsAsString))
 			tags.addAll(Arrays.asList(org.ironrhino.core.util.StringUtils
-					.trimTail(tagsAsString, ",").split(",\\s*")));
+					.trimTail(tagsAsString, ",").split("\\s*,\\s*")));
 	}
 
 	public String getFullAddress() {
