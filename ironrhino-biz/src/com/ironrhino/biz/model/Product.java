@@ -140,6 +140,17 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 		return attributes;
 	}
 
+	public String getAttribute(String name) {
+		if (attributes == null)
+			return null;
+		for (Attribute attr : attributes) {
+			if (StringUtils.isNotBlank(attr.getName())
+					&& attr.getName().equals(name))
+				return attr.getValue();
+		}
+		return null;
+	}
+
 	public void setAttributes(List<Attribute> attributes) {
 		this.attributes = attributes;
 	}
