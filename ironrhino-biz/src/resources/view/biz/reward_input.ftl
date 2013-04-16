@@ -13,7 +13,7 @@
 		<@s.select label="%{getText('type')}" name="reward.type" list="@com.ironrhino.biz.model.RewardType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
 		<@s.textarea label="%{getText('memo')}" name="reward.memo" cssStyle="width:400px;height:50px;"/>
 	<#else>
-		<@s.select label="%{getText('employee')}" name="employee.id" cssClass="required" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="请选择"/>
+		<@s.select label="%{getText('employee')}" name="employee.id" cssClass="required" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
 		<table class="datagrid table table-bordered">
 		<thead>
 			<tr>
