@@ -17,8 +17,8 @@
 	<div><span>${action.getText('mobile')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.mobile!}<span></div>
 	<div><span>${action.getText('fax')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.fax!}<span></div>
 	<#if customer.tags?size gt 0><div><span>${action.getText('tag')}:</span><span style="font-weight:bold;margin-left:20px;">${customer.tagsAsString!}</span></div></#if>
-	<div><span>${action.getText('activeDate')}:</span><span>${customer.activeDate?string('yyyy年MM月dd日')}</span></div>
-	<div><span>${action.getText('createDate')}:</span><span>${customer.createDate?string('yyyy年MM月dd日')}</span></div>
+	<div><span>${action.getText('activeDate')}:</span><span>${customer.activeDate?string('yyyy-MM-dd')}</span></div>
+	<div><span>${action.getText('createDate')}:</span><span>${customer.createDate?string('yyyy-MM-dd')}</span></div>
 	<#if customer.memo?has_content><div><span>${action.getText('memo')}:</span><span style="margin-left:20px;">${customer.memo!}</span></div></#if>
 	</div>
 <#else>
@@ -36,8 +36,8 @@
 		</tr>
 		<tr>
 			<td class="fieldlabel">${action.getText('tag')}</td><td>${customer.tagsAsString!}</td>
-			<td class="fieldlabel">${action.getText('createDate')}</td><td>${customer.createDate?string('yyyy年MM月dd日')!}</td>
-			<td class="fieldlabel">${action.getText('activeDate')}</td><td>${customer.activeDate?string('yyyy年MM月dd日')!}</td>
+			<td class="fieldlabel">${action.getText('createDate')}</td><td>${customer.createDate?string('yyyy-MM-dd')!}</td>
+			<td class="fieldlabel">${action.getText('activeDate')}</td><td>${customer.activeDate?string('yyyy-MM-dd')!}</td>
 		</tr>
 	</tbody>
 </table>

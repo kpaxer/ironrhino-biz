@@ -1,5 +1,4 @@
 <ul class="nav">
-	<li><a class="ajax view" href="<@url value="/biz/index"/>">${action.getText('index')}</a></li>
 	<@authorize ifAnyGranted="ROLE_ADMINISTRATOR,ROLE_CUSTOMERMANAGER">
 	<li><a class="ajax view" href="<@url value="/biz/customer"/>">${action.getText('customer')}</a></li>
 	<li><a class="ajax view" href="<@url value="/biz/station"/>">${action.getText('station')}</a></li>

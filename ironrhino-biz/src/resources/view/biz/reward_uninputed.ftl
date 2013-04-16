@@ -8,7 +8,7 @@
 <h4>未输工资的日期</h4>
 <ul>
 	<#list uninputedDates as var>
-	<li>${var?string('yyyy年MM月dd日')}</li>
+	<li>${var?string('yyyy-MM-dd')}</li>
 	</#list>
 </ul>
 </#if>

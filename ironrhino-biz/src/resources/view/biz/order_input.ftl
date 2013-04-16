@@ -9,14 +9,13 @@
 		<@s.hidden name="order.id" />
 	</#if>
 	<div class="row-fluid">
-		<div class="span5" style="min-height:60px;"><@s.textfield id="customerName" label="%{getText('customer')}%{getText('name')}" name="customer.name" cssClass="required customerName"><@s.param name="after"><span class="info" style="font-style:italic;margin-left:15px;"></span></@s.param></@s.textfield></div>
-		<div class="span3"><@s.textfield label="${action.getText('orderDate')}" name="order.orderDate" cssClass="date required"/></div>
+		<div class="span5" style="min-height:60px;"><@s.textfield id="customerName" label="%{getText('customer')}" name="customer.name" cssClass="required customerName"><@s.param name="after"><span class="info" style="font-style:italic;margin-left:15px;"></span></@s.param></@s.textfield></div>
+		<div class="span3"><@s.textfield label="${action.getText('date')}" name="order.orderDate" cssClass="date required"/></div>
 		<div class="span4"><@s.radio theme="simple" name="order.saleType" cssClass="custom" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" /></div>
 	</div>
     
 	<div>
-		<label class="control-label" for="orderItems">${action.getText('orderItems')}</label>
-		<div id="orderItems" class="controls">
+		<div id="orderItems">
 		<table class="table table-bordered middle" style="table-layout:fixed;">
 			<thead>
 				<tr>

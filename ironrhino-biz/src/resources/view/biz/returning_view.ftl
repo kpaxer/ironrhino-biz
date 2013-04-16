@@ -7,7 +7,7 @@
 <table id="details" class="table<#if !Parameters.printpage??> table-bordered</#if> middle">
 	<tbody>
 		<tr>
-			<td class="fieldlabel">${action.getText('returnDate')}</td><td style="width:24%;">${(returning.returnDate?string('yyyy年MM月dd日'))!}</td>
+			<td class="fieldlabel">${action.getText('returnDate')}</td><td style="width:24%;">${(returning.returnDate?string('yyyy-MM-dd'))!}</td>
 			<td class="fieldlabel">${action.getText('customer')}</td><td><#if !Parameters.printpage??><a href="${getUrl("/biz/order")}?customer.id=${returning.customer.id}" target="_blank"></#if>${returning.customer}<#if !Parameters.printpage??></a></#if></td>
 			<td class="fieldlabel">${action.getText('phone')}</td><td style="width:24%;">${returning.customer.phone!}&nbsp;${returning.customer.mobile!}</td>
 		</tr>

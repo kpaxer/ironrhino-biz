@@ -8,7 +8,7 @@
 	<tbody>
 		<tr>
 			<td class="fieldlabel">${action.getText('code')}</td><td>${order.code!}</td>
-			<td class="fieldlabel">${action.getText('orderDate')}</td><td>${order.orderDate!?string('yyyy年MM月dd日')}</td>
+			<td class="fieldlabel">${action.getText('orderDate')}</td><td>${order.orderDate!?string('yyyy-MM-dd')}</td>
 			<td class="fieldlabel">${action.getText('saleType')}</td><td>${order.saleType.displayName!}</td>
 		</tr>
 		<tr>
@@ -17,8 +17,8 @@
 			<td class="fieldlabel">${action.getText('address')}</td><td>${order.customer.fullAddress!}</td>
 		</tr>
 		<tr>
-			<td class="fieldlabel">${action.getText('payDate')}</td><td>${(order.payDate?string('yyyy年MM月dd日'))!}</td>
-			<td class="fieldlabel">${action.getText('shipDate')}</td><td>${(order.shipDate?string('yyyy年MM月dd日'))!}</td>
+			<td class="fieldlabel">${action.getText('payDate')}</td><td>${(order.payDate?string('yyyy-MM-dd'))!}</td>
+			<td class="fieldlabel">${action.getText('shipDate')}</td><td>${(order.shipDate?string('yyyy-MM-dd'))!}</td>
 			<td class="fieldlabel">${action.getText('station')}</td><td>${(order.station.name)!}</td>
 		</tr>
 		<tr>
