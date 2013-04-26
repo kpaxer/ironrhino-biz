@@ -18,8 +18,8 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/freemarker-2.3.19.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/guava-14.0.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/hibernate-commons-annotations-4.0.1.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/hibernate-core-4.2.0.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpclient-4.2.3.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/hibernate-core-4.2.1.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpclient-4.2.5.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpcore-4.2.4.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/inject-api-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-common-cms-1.0.jar"/>
@@ -78,7 +78,7 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-data-redis-1.0.4.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/mongo-2.10.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-data-commons-1.5.1.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-data-mongodb-1.2.0.jar"/>
+	<classpathentry kind="lib" path="webapp/WEB-INF/lib/spring-data-mongodb-1.2.1.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-search-config-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-hibernate-config-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-mail-config-1.0.jar"/>

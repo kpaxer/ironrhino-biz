@@ -2,8 +2,8 @@ package com.ironrhino.biz.model;
 
 import java.math.BigDecimal;
 
+import org.hibernate.annotations.NaturalId;
 import org.ironrhino.core.metadata.AutoConfig;
-import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;

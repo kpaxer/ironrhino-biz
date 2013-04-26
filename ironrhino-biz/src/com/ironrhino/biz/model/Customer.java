@@ -5,9 +5,9 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.NaturalId;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.core.metadata.AutoConfig;
-import org.ironrhino.core.metadata.NaturalId;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
