@@ -22,6 +22,6 @@
 		<property name="memo" length="2500" />
 		<property name="createDate" />
 		<many-to-one name="region" column="regionId" lazy="proxy"
-			fetch="select" />
+			fetch="select" foreign-key="none" />
 	</class>
 </hibernate-mapping>

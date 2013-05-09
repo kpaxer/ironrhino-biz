@@ -24,6 +24,6 @@
 		<property name="createDate" />
 		<property name="memo" length="2500" />
 		<many-to-one name="employee" column="employeeId" not-null="true"
-			lazy="false" fetch="join" />
+			lazy="false" fetch="join" foreign-key="none" />
 	</class>
 </hibernate-mapping>

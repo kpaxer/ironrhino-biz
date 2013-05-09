@@ -17,18 +17,22 @@
 		<property name="modifyDate" />
 		<property name="memo" length="2500" />
 		<many-to-one name="customer" column="customerId" not-null="true"
-			lazy="proxy" />
-		<many-to-one name="station" column="stationId" lazy="proxy" />
-		<many-to-one name="salesman" column="salesmanId" lazy="proxy" />
-		<many-to-one name="createUser" lazy="proxy" not-found="ignore" />
-		<many-to-one name="modifyUser" lazy="proxy" not-found="ignore" />
+			lazy="proxy" foreign-key="none" />
+		<many-to-one name="station" column="stationId" lazy="proxy"
+			foreign-key="none" />
+		<many-to-one name="salesman" column="salesmanId" lazy="proxy"
+			foreign-key="none" />
+		<many-to-one name="createUser" lazy="proxy" not-found="ignore"
+			foreign-key="none" />
+		<many-to-one name="modifyUser" lazy="proxy" not-found="ignore"
+			foreign-key="none" />
 		<list name="items" table="returningitem" cascade="all" lazy="true"
 			fetch="select">
-			<key column="returningId" />
+			<key column="returningId" foreign-key="none" />
 			<list-index column="lineNumber" />
 			<composite-element class="OrderItem">
 				<many-to-one name="product" column="productId" not-null="true"
-					lazy="false" fetch="join" />
+					lazy="false" fetch="join" foreign-key="none" />
 				<property name="quantity" />
 				<property name="price" />
 			</composite-element>

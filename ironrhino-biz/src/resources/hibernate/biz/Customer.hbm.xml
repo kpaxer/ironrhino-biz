@@ -23,6 +23,6 @@
 		<property name="tagsAsString" type="java.lang.String" column="tags"
 			length="500" />
 		<many-to-one name="region" column="regionId" lazy="proxy"
-			fetch="select" />
+			fetch="select" foreign-key="none" />
 	</class>
 </hibernate-mapping>

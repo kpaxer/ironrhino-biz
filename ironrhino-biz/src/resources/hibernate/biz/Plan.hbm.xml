@@ -15,6 +15,7 @@
 		<property name="completeDate" />
 		<property name="createDate" />
 		<property name="memo" length="2500" />
-		<many-to-one name="product" column="productId" not-null="true" lazy="false" fetch="join" />
+		<many-to-one name="product" column="productId" not-null="true"
+			lazy="false" fetch="join" foreign-key="none" />
 	</class>
 </hibernate-mapping>
