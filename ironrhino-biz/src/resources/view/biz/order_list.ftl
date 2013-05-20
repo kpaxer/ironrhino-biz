@@ -23,9 +23,9 @@
 '>
 <#assign bottomButtons='
 <button type="button" class="btn" data-view="input" data-windowoptions="{\'width\':\'950px\'}">${action.getText("create")}</button>
-<button type="button" class="btn" data-action="delete">${action.getText("delete")}</button>
-<button type="button" class="btn" data-action="pay">${action.getText("pay")}</button>
-<button type="button" class="btn" data-action="ship">${action.getText("ship")}</button>
+<button type="button" class="btn" data-action="delete" data-shown="selected">${action.getText("delete")}</button>
+<button type="button" class="btn" data-action="pay" data-shown="selected">${action.getText("pay")}</button>
+<button type="button" class="btn" data-action="ship" data-shown="selected">${action.getText("ship")}</button>
 <button type="button" class="btn" data-action="reload">${action.getText("reload")}</button>
 '>
 <#if !locale?starts_with('en')>

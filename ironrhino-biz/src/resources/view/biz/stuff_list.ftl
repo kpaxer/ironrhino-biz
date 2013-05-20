@@ -16,7 +16,7 @@
 <#assign bottomButtons='
 <button type="button" class="btn" data-view="input">${action.getText("create")}</button>
 <button type="button" class="btn" data-action="save">${action.getText("save")}</button>
-<button type="button" class="btn" data-action="delete">${action.getText("delete")}</button>
+<button type="button" class="btn" data-action="delete" data-shown="selected">${action.getText("delete")}</button>
 <button type="button" class="btn" data-action="reload">${action.getText("reload")}</button>
 <a class="btn" href="chart/view?type=stuff" rel="richtable" data-windowoptions="{\'width\':\'1200px\',\'reloadonclose\':false}">${action.getText("compare")}</a>
 '>
