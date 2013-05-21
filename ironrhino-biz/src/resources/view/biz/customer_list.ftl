@@ -19,9 +19,10 @@
 <button type="button" class="btn" data-action="delete" data-shown="selected">${action.getText("delete")}</button>
 <button type="button" class="btn" data-action="reload">${action.getText("reload")}</button>
 <button type="button" class="btn" onclick="$(\'#merge\').toggle()">${action.getText("merge")}</button>
+<a class="btn vcard" href="${getUrl(actionBaseUrl)}/vcard">${action.getText("vcard")}</a>
 '>
 <#assign searchButtons=r'<a href="chart/geo" class="hidden-tablet hidden-phone hidden-pad" target="_blank" title="按区域检索" style="line-height:30px;margin-left:2px;"><i class="icon-filter"></i></a>'/>
-<@richtable entityName="customer" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true searchButtons=searchButtons/>
+<@richtable entityName="customer" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true/>
 
 <form id="merge" action="customer/merge" method="post" class="ajax reset form-inline" style="display:none;" onprepare="return confirm('此操作不能恢复,确定要合并?');" onsuccess="Richtable.reload($('#customer_form'))">
 <div style="text-align:center;">

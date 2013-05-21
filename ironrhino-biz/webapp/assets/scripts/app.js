@@ -197,6 +197,30 @@
 						calculateUnpaidOrder();
 					}
 				});
+
+		$('a.vcard', container).click(function() {
+			var t = $(this);
+			var orginalhref = t.data('orginalhref');
+			if (!orginalhref) {
+				orginalhref = t.attr('href');
+				t.data('orginalhref', orginalhref);
+			}
+			var href = orginalhref;
+			var form = t.closest('form.richtable');
+			var checked = $('input[name="check"]:checked');
+			var keyword = $('input[name="keyword"]', form).val();
+			if (checked.length) {
+				var i = 0;
+				checked.each(function() {
+							href += (i == 0 ? '?' : '&') + 'id='
+									+ $(this).val();
+							i++;
+						});
+			} else if (keyword) {
+				href += '?keyword=' + encodeURIComponent(keyword);
+			}
+			this.href = href;
+		});
 	};
 
 	var calculate = function(row) {

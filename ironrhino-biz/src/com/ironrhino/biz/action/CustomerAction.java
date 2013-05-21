@@ -1,6 +1,7 @@
 package com.ironrhino.biz.action;
 
 import java.io.Serializable;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -167,6 +168,32 @@ public class CustomerAction extends BaseAction {
 					});
 		}
 		return LIST;
+	}
+
+	public String vcard() throws Exception {
+		if (resultPage == null)
+			resultPage = new ResultPage<Customer>();
+		resultPage.setPageNo(1);
+		resultPage.setPageSize(ResultPage.MAX_PAGESIZE);
+		String filename = "customers.vcf";
+		String[] id = getId();
+		if (id != null) {
+			List<Customer> result = new ArrayList<Customer>();
+			resultPage.setResult(result);
+			for (String uid : id)
+				result.add(customerManager.get(Long.valueOf(uid)));
+		} else {
+			execute();
+			if (StringUtils.isNotBlank(keyword)) {
+				filename = URLEncoder.encode(keyword, "utf-8") + ".vcf";
+			}
+		}
+		if (resultPage.getResult().size() == 0)
+			return NONE;
+		ServletActionContext.getResponse().setContentType("text/x-vcard");
+		ServletActionContext.getResponse().setHeader("Content-Disposition",
+				"attachment; filename=\"" + filename + "\"");
+		return "vcard";
 	}
 
 	@Override
