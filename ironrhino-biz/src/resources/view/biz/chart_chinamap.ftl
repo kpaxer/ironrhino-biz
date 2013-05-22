@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>${title!}</title>
 <script src="<@url value="/assets/components/raphael/raphael.js"/>" type="text/javascript"></script>
-<script src="<@url value="/assets/components/raphael/chinamap.js"/>" type="text/javascript"></script>
+<script src="<@url value="/assets/components/raphael/ironrhino.chinamap.js"/>" type="text/javascript"></script>
 <script>
 Observation.chinamap = function(container){
 	$('.chinamap',container).each(function(){
