@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="row">
-	<div id="report_format" class="btn-group switch span2 offset5" style="margin-bottom:10px;">
+	<div id="report_format" class="btn-group btn-switch span2 offset5" style="margin-bottom:10px;">
 	  <button class="btn active" data-format="PDF">PDF</button>
 	  <button class="btn" data-format="XLS">XLS</button>
 	</div>
