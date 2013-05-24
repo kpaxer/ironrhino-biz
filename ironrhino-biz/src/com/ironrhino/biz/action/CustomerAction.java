@@ -174,7 +174,7 @@ public class CustomerAction extends BaseAction {
 		if (resultPage == null)
 			resultPage = new ResultPage<Customer>();
 		resultPage.setPageNo(1);
-		resultPage.setPageSize(ResultPage.MAX_PAGESIZE);
+		resultPage.setPageSize(ResultPage.MAX_PAGESIZE.get());
 		String filename = "customers.vcf";
 		String[] id = getId();
 		if (id != null) {
