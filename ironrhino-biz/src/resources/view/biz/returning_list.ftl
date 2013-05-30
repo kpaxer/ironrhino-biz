@@ -14,6 +14,6 @@
 <button type="button" class="btn" data-action="delete" data-shown="selected">${action.getText("delete")}</button>
 <button type="button" class="btn" data-action="reload">${action.getText("reload")}</button>
 '>
-<@richtable entityName="returning" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deleteable=false searchable=true/>
+<@richtable entityName="returning" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deletable=false searchable=true/>
 </body>
 </html></#escape>

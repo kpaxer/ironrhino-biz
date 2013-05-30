@@ -31,6 +31,6 @@
 <#if !locale?starts_with('en')>
 <#assign bottomButtons=bottomButtons+'<button type="button" class="btn more raw">${action.getText("more")}</button>'/>
 </#if>
-<@richtable entityName="order" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deleteable=false searchable=true/>
+<@richtable entityName="order" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deletable=false searchable=true/>
 </body>
 </html></#escape>
