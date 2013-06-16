@@ -63,7 +63,7 @@
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
-				<h3 style="clear:left;">${action.getText('product')} ${action.getText('sales')}</h3>
+				<h3 style="clear:left;">${action.getText('product')}${action.getText('sales')}</h3>
 				<div>${action.getText('range')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="productsales"/>
