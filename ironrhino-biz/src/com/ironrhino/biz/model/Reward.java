@@ -49,7 +49,7 @@ public class Reward extends BaseEntity {
 	@SearchableComponent
 	@JoinColumn(name = "employeeId")
 	@ForeignKey(name = "none")
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Employee employee;
 
 	public BigDecimal getAmount() {

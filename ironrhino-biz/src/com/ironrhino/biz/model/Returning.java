@@ -5,6 +5,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
+import javax.persistence.Version;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.ForeignKey;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
@@ -20,11 +34,14 @@ import com.opensymphony.xwork2.util.CreateIfNull;
 
 @Searchable(type = "returning")
 @AutoConfig
+@Entity
+@Table(name = "returning")
 public class Returning extends BaseEntity implements Recordable<User> {
 
 	private static final long serialVersionUID = -2299864231084541294L;
 
 	@SearchableProperty
+	@Column(length = 2500)
 	private String memo;
 
 	@SearchableProperty
@@ -43,33 +60,53 @@ public class Returning extends BaseEntity implements Recordable<User> {
 
 	@SearchableComponent
 	@NotInCopy
+	@JoinColumn(name = "customerId")
+	@ForeignKey(name = "none")
+	@ManyToOne(optional = false)
 	private Customer customer;
 
 	@SearchableComponent
 	@NotInCopy
+	@JoinColumn(name = "stationId")
+	@ForeignKey(name = "none")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Station station;
 
 	@SearchableComponent
 	@NotInCopy
+	@JoinColumn(name = "salesmanId")
+	@ForeignKey(name = "none")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee salesman;
 
 	@SearchableComponent
 	@NotInCopy
+	@JoinColumn(name = "createUser")
+	@ForeignKey(name = "none")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User createUser;
 
 	@SearchableComponent
 	@NotInCopy
+	@JoinColumn(name = "modifyUser")
+	@ForeignKey(name = "none")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User modifyUser;
 
 	@CreateIfNull
-	private List<OrderItem> items = new ArrayList<OrderItem>(0);
+	@ElementCollection(fetch = FetchType.LAZY, targetClass = ReturningItem.class)
+	@CollectionTable(name = "returningitem", joinColumns = @JoinColumn(name = "returningId"))
+	@OrderColumn(name = "lineNumber", nullable = false)
+	@Fetch(FetchMode.SUBSELECT)
+	private List<ReturningItem> items = new ArrayList<ReturningItem>(0);
 
 	@NotInCopy
+	@Version
 	protected int version;
 
 	public BigDecimal getAmount() {
 		BigDecimal amount = new BigDecimal(0.0);
-		for (OrderItem item : items)
+		for (ReturningItem item : items)
 			amount = amount.add(item.getSubtotal());
 		return amount;
 	}
@@ -93,7 +130,7 @@ public class Returning extends BaseEntity implements Recordable<User> {
 	public BigDecimal getGrandTotal() {
 		if (grandTotal == null) {
 			grandTotal = new BigDecimal(0.0);
-			for (OrderItem item : items)
+			for (ReturningItem item : items)
 				grandTotal = grandTotal.add(item.getSubtotal());
 			if (freight != null)
 				grandTotal = grandTotal.add(freight);
@@ -101,7 +138,7 @@ public class Returning extends BaseEntity implements Recordable<User> {
 		return grandTotal;
 	}
 
-	public List<OrderItem> getItems() {
+	public List<ReturningItem> getItems() {
 		return items;
 	}
 
@@ -150,7 +187,7 @@ public class Returning extends BaseEntity implements Recordable<User> {
 		this.grandTotal = grandTotal;
 	}
 
-	public void setItems(List<OrderItem> items) {
+	public void setItems(List<ReturningItem> items) {
 		this.items = items;
 	}
 

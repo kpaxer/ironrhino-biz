@@ -25,9 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
 import com.ironrhino.biz.model.EmployeeType;
-import com.ironrhino.biz.model.OrderItem;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.Returning;
+import com.ironrhino.biz.model.ReturningItem;
 import com.ironrhino.biz.model.Station;
 import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.CustomerManager;
@@ -284,7 +284,7 @@ public class ReturningAction extends BaseAction {
 			for (int i = 0; i < returning.getItems().size(); i++) {
 				if (i >= productId.length)
 					break;
-				OrderItem item = returning.getItems().get(i);
+				ReturningItem item = returning.getItems().get(i);
 				if (item == null) {
 					returning.getItems().remove(i);
 					continue;

@@ -9,10 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.ForeignKey;
-import org.hibernate.annotations.Parent;
 
 @Embeddable
-public class OrderItem implements Serializable {
+public class ReturningItem implements Serializable {
 
 	private static final long serialVersionUID = -5603601574402741053L;
 
@@ -24,17 +23,6 @@ public class OrderItem implements Serializable {
 	@ForeignKey(name = "none")
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Product product;
-
-	@Parent
-	private Order order;
-
-	public Order getOrder() {
-		return order;
-	}
-
-	public void setOrder(Order order) {
-		this.order = order;
-	}
 
 	public Product getProduct() {
 		return product;
@@ -64,10 +52,6 @@ public class OrderItem implements Serializable {
 
 	public BigDecimal getSubtotal() {
 		return price.multiply(new BigDecimal(quantity));
-	}
-
-	public boolean isFreegift() {
-		return price.doubleValue() == 0;
 	}
 
 }

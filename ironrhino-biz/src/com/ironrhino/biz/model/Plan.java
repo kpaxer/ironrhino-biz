@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -51,7 +52,7 @@ public class Plan extends BaseEntity {
 	@SearchableComponent
 	@JoinColumn(name = "productId")
 	@ForeignKey(name = "none")
-	@ManyToOne
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Product product;
 
 	public Date getCreateDate() {

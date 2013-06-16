@@ -67,7 +67,7 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 	@NaturalId(mutable = true)
 	@JoinColumn(name = "categoryId")
 	@ForeignKey(name = "none")
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Category category;
 
 	@NotInCopy
@@ -76,7 +76,7 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 	@NaturalId(mutable = true)
 	@JoinColumn(name = "brandId")
 	@ForeignKey(name = "none")
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Brand brand;
 
 	@SearchableComponent

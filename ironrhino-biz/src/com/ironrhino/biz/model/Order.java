@@ -6,7 +6,22 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
+import javax.persistence.Version;
+
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.NaturalId;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
@@ -23,19 +38,24 @@ import com.opensymphony.xwork2.util.CreateIfNull;
 
 @Searchable(type = "order")
 @AutoConfig
+@Entity
+@Table(name = "orders")
 public class Order extends BaseEntity implements Recordable<User> {
 
 	private static final long serialVersionUID = -3191022860732749749L;
 
 	@NaturalId
 	@SearchableProperty(boost = 3, index = Index.NOT_ANALYZED)
+	@Column(nullable = false)
 	private String code;
 
 	private BigDecimal discount;
 
+	@Enumerated
 	private SaleType saleType = SaleType.FACTORY;
 
 	@SearchableProperty
+	@Column(length = 2500)
 	private String memo;
 
 	@SearchableProperty
@@ -62,30 +82,53 @@ public class Order extends BaseEntity implements Recordable<User> {
 
 	@SearchableComponent
 	@NotInCopy
+	@JoinColumn(name = "customerId")
+	@ForeignKey(name = "none")
+	@ManyToOne(optional = false)
 	private Customer customer;
 
 	@SearchableComponent
 	@NotInCopy
+	@JoinColumn(name = "stationId")
+	@ForeignKey(name = "none")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Station station;
 
 	@SearchableComponent
 	@NotInCopy
+	@JoinColumn(name = "salesmanId")
+	@ForeignKey(name = "none")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee salesman;
 
 	@SearchableComponent
 	@NotInCopy
+	@JoinColumn(name = "deliverymanId")
+	@ForeignKey(name = "none")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee deliveryman;
 
 	@NotInCopy
+	@JoinColumn(name = "createUser")
+	@ForeignKey(name = "none")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User createUser;
 
 	@NotInCopy
+	@JoinColumn(name = "modifyUser")
+	@ForeignKey(name = "none")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User modifyUser;
 
 	@CreateIfNull
+	@ElementCollection(fetch = FetchType.LAZY, targetClass = OrderItem.class)
+	@CollectionTable(name = "orderitem", joinColumns = @JoinColumn(name = "orderId"))
+	@OrderColumn(name = "lineNumber", nullable = false)
+	@Fetch(FetchMode.SUBSELECT)
 	private List<OrderItem> items = new ArrayList<OrderItem>(0);
 
 	@NotInCopy
+	@Version
 	protected int version;
 
 	public BigDecimal getAmount() {
