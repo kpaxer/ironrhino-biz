@@ -4,7 +4,21 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.ForeignKey;
+import org.hibernate.annotations.NaturalId;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
@@ -22,14 +36,19 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 @AutoConfig(searchable = true)
 @Searchable(type = "product")
+@javax.persistence.Entity
+@Table(name = "product")
 public class Product extends Entity<Long> implements Ordered, Attributable {
 
 	private static final long serialVersionUID = 1876365527076787416L;
 
 	@SearchableId
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@SearchableProperty(boost = 3)
+	@NaturalId(mutable = true)
 	private String name;
 
 	private int stock;
@@ -45,14 +64,23 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 	@NotInCopy
 	@NotInJson
 	@SearchableComponent
+	@NaturalId(mutable = true)
+	@JoinColumn(name = "categoryId")
+	@ForeignKey(name = "none")
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Category category;
 
 	@NotInCopy
 	@NotInJson
 	@SearchableComponent
+	@NaturalId(mutable = true)
+	@JoinColumn(name = "brandId")
+	@ForeignKey(name = "none")
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Brand brand;
 
 	@SearchableComponent
+	@Transient
 	private List<Attribute> attributes = new ArrayList<Attribute>();
 
 	public Long getId() {
@@ -156,6 +184,8 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 	}
 
 	@NotInCopy
+	@Access(AccessType.PROPERTY)
+	@Column(name = "attributes", length = 1024)
 	public String getAttributesAsString() {
 		if (attributes == null || attributes.isEmpty()
 				|| attributes.size() == 1 && attributes.get(0).isBlank())

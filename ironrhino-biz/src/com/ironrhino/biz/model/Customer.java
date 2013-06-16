@@ -5,6 +5,18 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.NaturalId;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.core.metadata.AutoConfig;
@@ -20,15 +32,20 @@ import org.ironrhino.core.util.StringUtils;
 
 @Searchable(type = "customer")
 @AutoConfig
+@javax.persistence.Entity
+@Table(name = "customer")
 public class Customer extends Entity<Long> {
 
 	private static final long serialVersionUID = 5061457998732482283L;
 
 	@SearchableId
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NaturalId(mutable = true)
 	@SearchableProperty(boost = 3, index = Index.NOT_ANALYZED)
+	@Column(nullable = false)
 	private String name;
 
 	@SearchableProperty(boost = 3)
@@ -47,6 +64,7 @@ public class Customer extends Entity<Long> {
 	private String linkman;
 
 	@SearchableProperty
+	@Column(length = 2500)
 	private String memo;
 
 	@NotInCopy
@@ -59,10 +77,14 @@ public class Customer extends Entity<Long> {
 
 	@NotInCopy
 	@SearchableComponent
+	@JoinColumn(name = "regionId")
+	@ForeignKey(name = "none")
+	@ManyToOne
 	private Region region;
 
 	@NotInCopy
 	@SearchableProperty(index = Index.NOT_ANALYZED)
+	@Transient
 	private Set<String> tags = new LinkedHashSet<String>(0);
 
 	public Customer() {
@@ -184,6 +206,8 @@ public class Customer extends Entity<Long> {
 	}
 
 	@NotInJson
+	@Access(AccessType.PROPERTY)
+	@Column(name = "tags", length = 500)
 	public String getTagsAsString() {
 		if (tags.size() > 0)
 			return org.apache.commons.lang3.StringUtils.join(tags.iterator(),
@@ -198,6 +222,7 @@ public class Customer extends Entity<Long> {
 					.trimTail(tagsAsString, ",").split("\\s*,\\s*")));
 	}
 
+	@Transient
 	public String getFullAddress() {
 		if (region == null)
 			return address;

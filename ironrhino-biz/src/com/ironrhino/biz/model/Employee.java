@@ -2,6 +2,13 @@ package com.ironrhino.biz.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.NaturalId;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
@@ -14,17 +21,23 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 
 @AutoConfig
 @Searchable(type = "employee")
+@javax.persistence.Entity
+@Table(name = "employee")
 public class Employee extends Entity<Long> {
 
 	private static final long serialVersionUID = 4207375657699283494L;
 
 	@SearchableId
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NaturalId(mutable = true)
 	@SearchableProperty(boost = 3, index = Index.NOT_ANALYZED)
+	@Column(nullable = false)
 	private String name;
 
+	@Enumerated
 	private EmployeeType type;
 
 	private boolean dimission;
@@ -36,6 +49,7 @@ public class Employee extends Entity<Long> {
 	private String address;
 
 	@SearchableProperty(boost = 1)
+	@Column(length = 2500)
 	private String memo;
 
 	@NotInCopy

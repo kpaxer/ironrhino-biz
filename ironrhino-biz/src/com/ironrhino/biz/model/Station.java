@@ -4,7 +4,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.NaturalId;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.core.metadata.AutoConfig;
@@ -21,15 +33,20 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 @Searchable(type = "station")
 @AutoConfig
+@javax.persistence.Entity
+@Table(name = "station")
 public class Station extends Entity<Long> {
 
 	private static final long serialVersionUID = 5061457998732482283L;
 
 	@SearchableId
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NaturalId(mutable = true)
 	@SearchableProperty(boost = 3)
+	@Column(nullable = false)
 	private String name;
 
 	@SearchableProperty(boost = 3)
@@ -51,10 +68,12 @@ public class Station extends Entity<Long> {
 	private String linkman;
 
 	@SearchableProperty
+	@Column(length = 2500)
 	private String memo;
 
 	@NotInCopy
 	@NotInJson
+	@Transient
 	private List<String> cashCondition = new ArrayList<String>();
 
 	@NotInCopy
@@ -63,6 +82,9 @@ public class Station extends Entity<Long> {
 
 	@NotInCopy
 	@SearchableComponent
+	@JoinColumn(name = "regionId")
+	@ForeignKey(name = "none")
+	@ManyToOne
 	private Region region;
 
 	public Station() {
@@ -152,6 +174,8 @@ public class Station extends Entity<Long> {
 		this.region = region;
 	}
 
+	@Access(AccessType.PROPERTY)
+	@Column(length = 2500)
 	public String getCashConditionAsString() {
 		if (cashCondition != null && cashCondition.size() > 0)
 			return JsonUtils.toJson(cashCondition);

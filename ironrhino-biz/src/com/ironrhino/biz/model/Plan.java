@@ -2,6 +2,13 @@ package com.ironrhino.biz.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.ForeignKey;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
@@ -13,6 +20,8 @@ import org.ironrhino.core.search.elasticsearch.annotations.Store;
 
 @AutoConfig
 @Searchable(type = "plan")
+@Entity
+@Table(name = "plan")
 public class Plan extends BaseEntity {
 
 	private static final long serialVersionUID = -4137689927315849975L;
@@ -35,10 +44,14 @@ public class Plan extends BaseEntity {
 	private Date createDate = new Date();
 
 	@SearchableProperty
+	@Column(length = 2500)
 	private String memo;
 
 	@NotInCopy
 	@SearchableComponent
+	@JoinColumn(name = "productId")
+	@ForeignKey(name = "none")
+	@ManyToOne
 	private Product product;
 
 	public Date getCreateDate() {

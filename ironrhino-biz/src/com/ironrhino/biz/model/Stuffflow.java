@@ -3,6 +3,14 @@ package com.ironrhino.biz.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.ForeignKey;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
@@ -14,6 +22,8 @@ import org.ironrhino.core.search.elasticsearch.annotations.Store;
 
 @AutoConfig(searchable = true)
 @Searchable(type = "stuffflow")
+@Entity
+@Table(name = "stuffflow")
 public class Stuffflow extends BaseEntity {
 
 	private static final long serialVersionUID = -1796500601044183359L;
@@ -27,12 +37,16 @@ public class Stuffflow extends BaseEntity {
 	private Date date = new Date();
 
 	@SearchableProperty
+	@Column(length = 2500)
 	private String memo;
 
 	@NotInCopy
 	private Date createDate = new Date();
 
 	@SearchableComponent
+	@JoinColumn(name = "stuffId")
+	@ForeignKey(name = "none")
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Stuff stuff;
 
 	public Stuffflow() {

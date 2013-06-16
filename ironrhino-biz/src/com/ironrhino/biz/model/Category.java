@@ -1,5 +1,11 @@
 package com.ironrhino.biz.model;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.NaturalId;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.AutoConfig;
@@ -16,16 +22,21 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 @Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
 		+ UserRole.ROLE_PRODUCTMANAGER)
 @Searchable(type = "category")
+@javax.persistence.Entity
+@Table(name = "category")
 public class Category extends Entity<Long> implements Ordered {
 
 	private static final long serialVersionUID = 2084288046799489929L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@SearchableId
 	private Long id;
 
 	@NaturalId(mutable = true)
 	@SearchableProperty(index = Index.NOT_ANALYZED)
 	@UiConfig(displayOrder = 1)
+	@Column(nullable = false)
 	private String name;
 
 	@UiConfig(displayOrder = 2)
