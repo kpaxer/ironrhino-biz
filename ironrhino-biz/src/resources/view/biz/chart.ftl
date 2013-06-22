@@ -6,7 +6,7 @@
 <body>
 <div id="c" style="margin-bottom:10px;"></div>
 <div class="portal">
-	<div class="portal-column half">
+	<div class="portal-column">
 		<div class="portlet">
 			<div class="portlet-header">${action.getText('brand')}</div>
 			<div class="portlet-content">
@@ -71,7 +71,7 @@
 	</div>
 	
 	
-	<div class="portal-column half">
+	<div class="portal-column">
 		<div class="portlet">
 			<div class="portlet-header">${action.getText('category')}</div>
 			<div class="portlet-content">

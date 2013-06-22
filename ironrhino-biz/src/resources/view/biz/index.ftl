@@ -8,7 +8,8 @@
 <div class="portal savable">
 
 	<@authorize ifAnyGranted="ROLE_ADMINISTRATOR,ROLE_SALESMAN">
-	<div class="portal-column full">
+	<div>
+	<div class="portal-column">
 		<div id="inputorder" class="portlet">
 			<div class="portlet-header">${action.getText('create')}${action.getText('order')}</div>
 			<div class="portlet-content">
@@ -16,9 +17,10 @@
 			</div>
 		</div>
 	</div>
+	</div>
 	</@authorize>
-
-	<div class="portal-column half">
+	<div>
+	<div class="portal-column">
 		
 		<div id="uninputed" class="portlet">
 			<div class="portlet-header">${action.getText('uninputed')}${action.getText('date')}</div>
@@ -43,7 +45,7 @@
 		</@authorize>
 	</div>
 	
-	<div class="portal-column half">
+	<div class="portal-column">
 		<@authorize ifAnyGranted="ROLE_ADMINISTRATOR,ROLE_HR">
 		<div id="inputreward" class="portlet">
 			<div class="portlet-header">${action.getText('create')}${action.getText('reward')}</div>
@@ -79,6 +81,7 @@
 			</div>
 		</div>
 		</@authorize>
+	</div>
 	</div>
 	
 
