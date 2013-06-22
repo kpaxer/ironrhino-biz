@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
@@ -29,7 +30,8 @@ public class Category extends Entity<Long> implements Ordered {
 	private static final long serialVersionUID = 2084288046799489929L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "category_seq")
+	@SequenceGenerator(name = "category_seq", sequenceName = "category_seq")
 	@SearchableId
 	private Long id;
 

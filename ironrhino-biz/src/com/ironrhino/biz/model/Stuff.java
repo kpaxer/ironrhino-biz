@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
@@ -27,7 +28,8 @@ public class Stuff extends Entity<Long> implements Ordered {
 
 	@SearchableId
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "stuff_seq")
+	@SequenceGenerator(name = "stuff_seq", sequenceName = "stuff_seq")
 	private Long id;
 
 	@NaturalId(mutable = true)

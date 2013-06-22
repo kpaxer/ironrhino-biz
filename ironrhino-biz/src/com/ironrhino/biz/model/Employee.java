@@ -7,6 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
@@ -29,7 +30,8 @@ public class Employee extends Entity<Long> {
 
 	@SearchableId
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "employee_seq")
+	@SequenceGenerator(name = "employee_seq", sequenceName = "employee_seq")
 	private Long id;
 
 	@NaturalId(mutable = true)
