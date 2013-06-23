@@ -10,7 +10,7 @@
 	<@authorize ifAnyGranted="ROLE_ADMINISTRATOR,ROLE_SALESMAN">
 	<div>
 		<ul class="portal-column">
-			<li id="inputorder" class="portlet">
+			<li id="portlet-inputorder" class="portlet">
 				<div class="portlet-header">${action.getText('create')}${action.getText('order')}</div>
 				<div class="portlet-content">
 					<div class="ajaxpanel" data-url="order/input"></div>
@@ -21,7 +21,7 @@
 	</@authorize>
 
 	<ul class="portal-column">
-		<li id="uninputed" class="portlet">
+		<li id="portlet-uninputed" class="portlet">
 			<div class="portlet-header">${action.getText('uninputed')}${action.getText('date')}</div>
 			<div class="portlet-content">
 				<div class="row">
@@ -35,7 +35,7 @@
 			</div>
 		</li>
 		<@authorize ifAnyGranted="ROLE_ADMINISTRATOR,ROLE_SALESMAN">
-		<li id="unpaid" class="portlet">
+		<li id="portlet-unpaid" class="portlet">
 			<div class="portlet-header">${action.getText('unpaid')}${action.getText('order')}</div>
 			<div class="portlet-content">
 				<div class="ajaxpanel" data-url="order/unpaid"></div>
@@ -46,7 +46,7 @@
 	
 	<ul class="portal-column">
 		<@authorize ifAnyGranted="ROLE_ADMINISTRATOR,ROLE_HR">
-		<li id="inputreward" class="portlet">
+		<li id="portlet-inputreward" class="portlet">
 			<div class="portlet-header">${action.getText('create')}${action.getText('reward')}</div>
 			<div class="portlet-content">
 				<div class="ajaxpanel" data-url="reward/input"></div>
@@ -54,7 +54,7 @@
 		</li>
 		</@authorize>
 		<@authorize ifAnyGranted="ROLE_ADMINISTRATOR,ROLE_SALESMAN">
-		<li id="unshipped" class="portlet">
+		<li id="portlet-unshipped" class="portlet">
 			<div class="portlet-header">${action.getText('unshipped')}${action.getText('order')}</div>
 			<div class="portlet-content">
 				<div class="ajaxpanel" data-url="order/unshipped"></div>
@@ -62,7 +62,7 @@
 		</li>
 		</@authorize>
 		<@authorize ifAnyGranted="ROLE_ADMINISTRATOR,ROLE_PLANMANAGER">
-		<li id="uncompleted" class="portlet">
+		<li id="portlet-uncompleted" class="portlet">
 			<div class="portlet-header">${action.getText('uncompleted')}${action.getText('plan')}</div>
 			<div class="portlet-content">
 				<div class="ajaxpanel" data-url="plan/uncompleted"></div>
@@ -70,7 +70,7 @@
 		</li>
 		</@authorize>
 		<@authorize ifAnyGranted="ROLE_ADMINISTRATOR,ROLE_CUSTOMERMANAGER">
-		<li id="inactive" class="portlet">
+		<li id="portlet-inactive" class="portlet">
 			<div class="portlet-header">${action.getText('inactive')}${action.getText('customer')}</div>
 			<div class="portlet-content">
 				<form method="get" action="customer" class="form-inline" target="_blank">

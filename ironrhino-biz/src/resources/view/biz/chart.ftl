@@ -7,7 +7,7 @@
 <div id="c" style="margin-bottom:10px;"></div>
 <div class="portal savable">
 	<ul class="portal-column">
-		<li class="portlet">
+		<li id="portlet-brand" class="portlet">
 			<div class="portlet-header">${action.getText('brand')}</div>
 			<div class="portlet-content">
 				<div>${action.getText('all')}${action.getText('category')}</div>
@@ -28,7 +28,7 @@
 			</div>
 		</li>
 		
-		<li class="portlet">
+		<li id="portlet-saleType" class="portlet">
 			<div class="portlet-header">${action.getText('saleType')}</div>
 			<div class="portlet-content">
 				<div>${action.getText('all')}${action.getText('category')}</div>
@@ -49,7 +49,7 @@
 			</div>
 		</li>
 		
-		<li class="portlet">
+		<li id="portlet-country" class="portlet">
 			<div class="portlet-header">${action.getText('country')}</div>
 			<div class="portlet-content">
 				<div>${action.getText('all')}${action.getText('category')}</div>
@@ -72,7 +72,7 @@
 	
 	
 	<ul class="portal-column">
-		<li class="portlet">
+		<li id="portlet-category" class="portlet">
 			<div class="portlet-header">${action.getText('category')}</div>
 			<div class="portlet-content">
 				<div>${action.getText('all')}${action.getText('brand')}</div>
@@ -93,7 +93,7 @@
 			</div>
 		</li>
 		
-		<li class="portlet">
+		<li id="portlet-region" class="portlet">
 			<div class="portlet-header">${action.getText('region')}</div>
 			<div class="portlet-content">
 				<div>${action.getText('all')}${action.getText('category')}</div>
