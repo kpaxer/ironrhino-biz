@@ -5,9 +5,9 @@
 </head>
 <body>
 <div id="c" style="margin-bottom:10px;"></div>
-<div class="portal">
-	<div class="portal-column">
-		<div class="portlet">
+<div class="portal savable">
+	<ul class="portal-column">
+		<li class="portlet">
 			<div class="portlet-header">${action.getText('brand')}</div>
 			<div class="portlet-content">
 				<div>${action.getText('all')}${action.getText('category')}</div>
@@ -26,9 +26,9 @@
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
-		</div>
+		</li>
 		
-		<div class="portlet">
+		<li class="portlet">
 			<div class="portlet-header">${action.getText('saleType')}</div>
 			<div class="portlet-content">
 				<div>${action.getText('all')}${action.getText('category')}</div>
@@ -47,9 +47,9 @@
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
-		</div>
+		</li>
 		
-		<div class="portlet">
+		<li class="portlet">
 			<div class="portlet-header">${action.getText('country')}</div>
 			<div class="portlet-content">
 				<div>${action.getText('all')}${action.getText('category')}</div>
@@ -66,13 +66,13 @@
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
-		</div>
+		</li>
 		
-	</div>
+	</ul>
 	
 	
-	<div class="portal-column">
-		<div class="portlet">
+	<ul class="portal-column">
+		<li class="portlet">
 			<div class="portlet-header">${action.getText('category')}</div>
 			<div class="portlet-content">
 				<div>${action.getText('all')}${action.getText('brand')}</div>
@@ -91,9 +91,9 @@
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
-		</div>
+		</li>
 		
-		<div class="portlet">
+		<li class="portlet">
 			<div class="portlet-header">${action.getText('region')}</div>
 			<div class="portlet-content">
 				<div>${action.getText('all')}${action.getText('category')}</div>
@@ -114,8 +114,8 @@
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
-		</div>
-	</div>
+		</li>
+	</ul>
 </div>
 
 

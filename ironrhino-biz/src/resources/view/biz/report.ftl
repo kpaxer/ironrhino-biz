@@ -11,9 +11,9 @@
 	</div>
 </div>
 
-<div class="portal">
-	<div class="portal-column">
-		<div class="portlet">
+<div class="portal savable">
+	<ul class="portal-column unstyled">
+		<li class="portlet">
 			<div class="portlet-header">${action.getText('order')}</div>
 			<div class="portlet-content">
 				<h3>${action.getText('order')}${action.getText('detail')}</h3>
@@ -105,11 +105,11 @@
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
-		</div>
-	</div>
+		</li>
+	</ul>
 	 
-	<div class="portal-column">
-		<div class="portlet">
+	<ul class="portal-column unstyled">
+		<li class="portlet">
 			<div class="portlet-header">${action.getText('reward')}</div>
 			<div class="portlet-content">
 				<h3>${action.getText('all')}${action.getText('reward')}${action.getText('detail')}</h3>
@@ -153,11 +153,11 @@
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
-		</div>
-	</div>
+		</li>
+	</ul>
 	 
-	<div class="portal-column">
-		<div class="portlet">
+	<ul class="portal-column unstyled">
+		<li class="portlet">
 			<div class="portlet-header">${action.getText('stuff')}</div>
 			<div class="portlet-content">
 				<h3>${action.getText('stock')}${action.getText('list')}</h3>
@@ -174,8 +174,8 @@
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
-		</div>
-		<div class="portlet">
+		</li>
+		<li class="portlet">
 			<div class="portlet-header">${action.getText('customer')}</div>
 			<div class="portlet-content">
 				<div>${action.getText('date')}</div>
@@ -192,8 +192,8 @@
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
-		</div>
-	</div>
+		</li>
+	</ul>
 </div>
 
 </body>
