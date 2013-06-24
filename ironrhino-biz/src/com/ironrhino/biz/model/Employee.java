@@ -31,7 +31,7 @@ public class Employee extends Entity<Long> {
 	@SearchableId
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "employee_seq")
-	@SequenceGenerator(name = "employee_seq", sequenceName = "employee_seq")
+	@SequenceGenerator(name = "employee_seq", sequenceName = "employee_seq", allocationSize = 1)
 	private Long id;
 
 	@NaturalId(mutable = true)

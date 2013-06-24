@@ -43,7 +43,7 @@ public class Station extends Entity<Long> {
 	@SearchableId
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "station_seq")
-	@SequenceGenerator(name = "station_seq", sequenceName = "station_seq")
+	@SequenceGenerator(name = "station_seq", sequenceName = "station_seq", allocationSize = 1)
 	private Long id;
 
 	@NaturalId(mutable = true)

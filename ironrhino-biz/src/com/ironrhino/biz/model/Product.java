@@ -46,7 +46,7 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 	@SearchableId
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
-	@SequenceGenerator(name = "product_seq", sequenceName = "product_seq")
+	@SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
 	private Long id;
 
 	@SearchableProperty(boost = 3)

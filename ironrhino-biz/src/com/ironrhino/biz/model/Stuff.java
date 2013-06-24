@@ -29,7 +29,7 @@ public class Stuff extends Entity<Long> implements Ordered {
 	@SearchableId
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "stuff_seq")
-	@SequenceGenerator(name = "stuff_seq", sequenceName = "stuff_seq")
+	@SequenceGenerator(name = "stuff_seq", sequenceName = "stuff_seq", allocationSize = 1)
 	private Long id;
 
 	@NaturalId(mutable = true)

@@ -31,7 +31,7 @@ public class Brand extends Entity<Long> implements Ordered {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "brand_seq")
-	@SequenceGenerator(name = "brand_seq", sequenceName = "brand_seq")
+	@SequenceGenerator(name = "brand_seq", sequenceName = "brand_seq", allocationSize = 1)
 	@SearchableId
 	private Long id;
 

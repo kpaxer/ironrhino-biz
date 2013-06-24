@@ -42,7 +42,7 @@ public class Customer extends Entity<Long> {
 	@SearchableId
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "customer_seq")
-	@SequenceGenerator(name = "customer_seq", sequenceName = "customer_seq")
+	@SequenceGenerator(name = "customer_seq", sequenceName = "customer_seq", allocationSize = 1)
 	private Long id;
 
 	@NaturalId(mutable = true)

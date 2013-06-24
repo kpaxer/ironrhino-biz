@@ -31,7 +31,7 @@ public class Category extends Entity<Long> implements Ordered {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "category_seq")
-	@SequenceGenerator(name = "category_seq", sequenceName = "category_seq")
+	@SequenceGenerator(name = "category_seq", sequenceName = "category_seq", allocationSize = 1)
 	@SearchableId
 	private Long id;
 
