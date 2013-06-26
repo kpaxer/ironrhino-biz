@@ -22,7 +22,7 @@ import com.ironrhino.biz.model.Stuff;
 import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.StuffManager;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
-import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 import com.opensymphony.xwork2.validator.annotations.Validations;
 import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
@@ -109,7 +109,7 @@ public class StuffAction extends BaseAction {
 
 	@Override
 	@InputConfig(methodName = "input")
-	@Validations(requiredFields = { @RequiredFieldValidator(type = ValidatorType.FIELD, fieldName = "stuff.name", key = "stuff.name.required") })
+	@Validations(requiredStrings = { @RequiredStringValidator(type = ValidatorType.FIELD, fieldName = "stuff.name", trim = true, key = "stuff.name.required") })
 	public String save() {
 		if (stuff.isNew()) {
 			if (stuffManager.findByNaturalId(stuff.getName()) != null) {
