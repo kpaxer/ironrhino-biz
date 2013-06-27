@@ -154,6 +154,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 	@Override
 	@Transactional(readOnly = true)
 	public void checkDelete(Order order) {
+		super.checkDelete(order);
 		if (order.isPaid() || order.isShipped())
 			throw new ErrorMessage("delete.forbidden",
 					new Object[] { order.getCode() }, "此订单已经付款或已经发货");

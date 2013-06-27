@@ -24,6 +24,7 @@ public class PlanManagerImpl extends BaseManagerImpl<Plan> implements
 	@Override
 	@Transactional(readOnly = true)
 	public void checkDelete(Plan plan) {
+		super.checkDelete(plan);
 		if (plan.isCompleted())
 			throw new ErrorMessage("delete.forbidden",
 					new Object[] { plan.getId() }, "此计划已经完成");

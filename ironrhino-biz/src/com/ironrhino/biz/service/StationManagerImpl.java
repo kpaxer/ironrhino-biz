@@ -9,7 +9,6 @@ import javax.inject.Singleton;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.service.BaseManagerImpl;
-import org.ironrhino.core.util.ErrorMessage;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.model.Order;
@@ -22,17 +21,6 @@ public class StationManagerImpl extends BaseManagerImpl<Station> implements
 
 	@Inject
 	private OrderManager orderManager;
-
-	@Override
-	@Transactional(readOnly = true)
-	public void checkDelete(Station c) {
-		DetachedCriteria dc = orderManager.detachedCriteria();
-		dc.createAlias("station", "c").add(Restrictions.eq("c.id", c.getId()));
-		if (orderManager.countByCriteria(dc) > 0)
-			throw new ErrorMessage("delete.forbidden", new Object[] { c },
-					"此货运站下面有订单");
-		;
-	}
 
 	@Transactional
 	public void merge(Station source, Station target) {
