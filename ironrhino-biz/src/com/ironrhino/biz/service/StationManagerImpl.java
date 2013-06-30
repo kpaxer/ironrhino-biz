@@ -22,6 +22,7 @@ public class StationManagerImpl extends BaseManagerImpl<Station> implements
 	@Inject
 	private OrderManager orderManager;
 
+	@Override
 	@Transactional
 	public void merge(Station source, Station target) {
 		DetachedCriteria dc = orderManager.detachedCriteria();

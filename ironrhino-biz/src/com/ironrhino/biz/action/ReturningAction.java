@@ -190,6 +190,7 @@ public class ReturningAction extends BaseAction {
 			resultPage.setCriteria(criteria);
 			resultPage = elasticSearchService.search(resultPage,
 					new Mapper<Returning>() {
+						@Override
 						public Returning map(Returning source) {
 							return entityManager.get(source.getId());
 						}

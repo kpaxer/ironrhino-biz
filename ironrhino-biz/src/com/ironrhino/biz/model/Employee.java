@@ -121,11 +121,13 @@ public class Employee extends Entity<Long> {
 		this.type = type;
 	}
 
+	@Override
 	@NotInJson
 	public boolean isNew() {
 		return id == null || id == 0;
 	}
 
+	@Override
 	public Long getId() {
 		return id;
 	}

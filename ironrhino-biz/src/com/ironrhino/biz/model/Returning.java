@@ -111,6 +111,7 @@ public class Returning extends BaseEntity implements Recordable<User> {
 		return amount;
 	}
 
+	@Override
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -146,6 +147,7 @@ public class Returning extends BaseEntity implements Recordable<User> {
 		return memo;
 	}
 
+	@Override
 	public Date getModifyDate() {
 		return modifyDate;
 	}
@@ -166,6 +168,7 @@ public class Returning extends BaseEntity implements Recordable<User> {
 		return station;
 	}
 
+	@Override
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
@@ -195,6 +198,7 @@ public class Returning extends BaseEntity implements Recordable<User> {
 		this.memo = memo;
 	}
 
+	@Override
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}

@@ -139,8 +139,9 @@ public class PlanAction extends BaseAction {
 			resultPage.setCriteria(criteria);
 			resultPage = elasticSearchService.search(resultPage,
 					new Mapper<Plan>() {
+						@Override
 						public Plan map(Plan source) {
-							Plan p = (Plan) source;
+							Plan p = source;
 							p.setProduct(productManager.get(p.getProduct()
 									.getId()));
 							return p;

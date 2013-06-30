@@ -156,8 +156,9 @@ public class CustomerAction extends BaseAction {
 			resultPage.setCriteria(criteria);
 			resultPage = elasticSearchService.search(resultPage,
 					new Mapper<Customer>() {
+						@Override
 						public Customer map(Customer source) {
-							Customer c = (Customer) source;
+							Customer c = source;
 							// c = customerManager.get(c.getId());
 							if (c.getRegion() != null)
 								c.setRegion(regionTreeControl.getRegionTree()

@@ -237,6 +237,7 @@ public class OrderAction extends BaseAction {
 			resultPage.setCriteria(criteria);
 			resultPage = elasticSearchService.search(resultPage,
 					new Mapper<Order>() {
+						@Override
 						public Order map(Order source) {
 							return orderManager.get(source.getId());
 						}

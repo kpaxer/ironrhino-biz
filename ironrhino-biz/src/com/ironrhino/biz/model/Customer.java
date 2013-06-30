@@ -112,6 +112,7 @@ public class Customer extends Entity<Long> {
 		return fax;
 	}
 
+	@Override
 	public Long getId() {
 		return id;
 	}
@@ -140,6 +141,7 @@ public class Customer extends Entity<Long> {
 		return region;
 	}
 
+	@Override
 	@NotInJson
 	public boolean isNew() {
 		return id == null || id == 0;

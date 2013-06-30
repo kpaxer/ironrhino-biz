@@ -64,6 +64,7 @@ public class Backup {
 		try {
 			final File attachment = FileUtils.zip(f);
 			mailSender.send(new MimeMessagePreparator() {
+				@Override
 				public void prepare(MimeMessage mimeMessage)
 						throws MessagingException {
 					MimeMessageHelper message = new MimeMessageHelper(

@@ -18,6 +18,7 @@ public class ProductAction extends ColumnPageAction {
 
 	private static final long serialVersionUID = 45081098210120504L;
 
+	@Override
 	public String list() {
 		if (resultPage == null)
 			resultPage = new ResultPage<Page>();

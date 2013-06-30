@@ -142,6 +142,7 @@ public class Order extends BaseEntity implements Recordable<User> {
 		return code;
 	}
 
+	@Override
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -183,6 +184,7 @@ public class Order extends BaseEntity implements Recordable<User> {
 		return memo;
 	}
 
+	@Override
 	public Date getModifyDate() {
 		return modifyDate;
 	}
@@ -235,6 +237,7 @@ public class Order extends BaseEntity implements Recordable<User> {
 		this.code = code;
 	}
 
+	@Override
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
@@ -269,6 +272,7 @@ public class Order extends BaseEntity implements Recordable<User> {
 		this.memo = memo;
 	}
 
+	@Override
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}

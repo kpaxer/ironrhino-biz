@@ -85,6 +85,7 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 	@Transient
 	private List<Attribute> attributes = new ArrayList<Attribute>();
 
+	@Override
 	public Long getId() {
 		return id;
 	}
@@ -93,6 +94,7 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 		this.id = id;
 	}
 
+	@Override
 	@NotInJson
 	public boolean isNew() {
 		return id == null || id == 0;
@@ -166,6 +168,7 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 		return sb.toString();
 	}
 
+	@Override
 	public List<Attribute> getAttributes() {
 		return attributes;
 	}
@@ -181,10 +184,12 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 		return null;
 	}
 
+	@Override
 	public void setAttributes(List<Attribute> attributes) {
 		this.attributes = attributes;
 	}
 
+	@Override
 	@NotInCopy
 	@Access(AccessType.PROPERTY)
 	@Column(name = "attributes", length = 1024)
@@ -195,6 +200,7 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 		return JsonUtils.toJson(attributes);
 	}
 
+	@Override
 	public void setAttributesAsString(String str) {
 		if (StringUtils.isNotBlank(str))
 			try {
@@ -206,6 +212,7 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 			}
 	}
 
+	@Override
 	public int getDisplayOrder() {
 		return displayOrder;
 	}
@@ -214,6 +221,7 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 		this.displayOrder = displayOrder;
 	}
 
+	@Override
 	public int compareTo(Object object) {
 		if (!(object instanceof Ordered))
 			return 0;

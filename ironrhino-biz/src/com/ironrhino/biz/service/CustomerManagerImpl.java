@@ -22,6 +22,7 @@ public class CustomerManagerImpl extends BaseManagerImpl<Customer> implements
 	@Inject
 	private OrderManager orderManager;
 
+	@Override
 	@Transactional
 	public void merge(Customer source, Customer target) {
 		if (source == null || target == null)

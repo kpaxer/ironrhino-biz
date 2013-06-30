@@ -56,8 +56,9 @@ public class SearchAction extends BaseAction {
 		resultPage.setCriteria(criteria);
 		resultPage = elasticSearchService.search(resultPage,
 				new Mapper<Page>() {
+					@Override
 					public Page map(Page source) {
-						Page p = (Page) source;
+						Page p = source;
 						Document doc = Jsoup.parse(p.getContent());
 						Elements elements = doc.select("img");
 						if (elements.size() > 0) {

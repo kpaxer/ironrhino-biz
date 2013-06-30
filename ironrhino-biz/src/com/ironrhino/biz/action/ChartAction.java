@@ -201,6 +201,7 @@ public class ChartAction extends BaseAction {
 		return SUCCESS;
 	}
 
+	@Override
 	public String view() {
 		return VIEW;
 	}
@@ -260,6 +261,7 @@ public class ChartAction extends BaseAction {
 		}
 		Map<String, BigDecimal> sortedMap = new TreeMap<String, BigDecimal>(
 				new Comparator<String>() {
+					@Override
 					public int compare(String o1, String o2) {
 						BigDecimal p1 = datamap.get(o1);
 						BigDecimal p2 = datamap.get(o2);
@@ -972,8 +974,8 @@ public class ChartAction extends BaseAction {
 		xAxisLabels.setSize(12);
 		x.setXAxisLabels(xAxisLabels);
 		x.setSteps(86400);
-		x.setRange((long) (DateUtils.beginOfDay(getFrom()).getTime() / 1000),
-				(long) (DateUtils.endOfDay(getTo()).getTime() / 1000));
+		x.setRange(DateUtils.beginOfDay(getFrom()).getTime() / 1000, DateUtils
+				.endOfDay(getTo()).getTime() / 1000);
 		chart.setX_axis(x);
 		BigDecimal max = new BigDecimal(0);
 
@@ -992,8 +994,9 @@ public class ChartAction extends BaseAction {
 			List<Object> points = new ArrayList<Object>();
 			if (list.size() == 1) {
 				OrderItem item = list.get(0);
-				points.add(new Point((long) (item.getOrder().getOrderDate()
-						.getTime() / 1000), item.getPrice()));
+				points.add(new Point(
+						item.getOrder().getOrderDate().getTime() / 1000, item
+								.getPrice()));
 			} else {
 				Date date = null;
 				BigDecimal amount = new BigDecimal(0.00);
@@ -1008,8 +1011,7 @@ public class ChartAction extends BaseAction {
 									BigDecimal.ROUND_CEILING);
 							if (max.compareTo(price) < 0)
 								max = price;
-							points.add(new Point(
-									(long) (date.getTime() / 1000), price));
+							points.add(new Point(date.getTime() / 1000, price));
 							date = item.getOrder().getOrderDate();
 							amount = new BigDecimal(0.00);
 							quantity = 0;
@@ -1021,8 +1023,8 @@ public class ChartAction extends BaseAction {
 								(double) quantity), BigDecimal.ROUND_CEILING);
 						if (max.compareTo(price) < 0)
 							max = price;
-						points.add(new Point((long) (item.getOrder()
-								.getOrderDate().getTime() / 1000), price));
+						points.add(new Point(item.getOrder().getOrderDate()
+								.getTime() / 1000, price));
 					} else {
 						if ((date != null && !DateUtils.isSameDay(item
 								.getOrder().getOrderDate(), date))) {
@@ -1031,8 +1033,7 @@ public class ChartAction extends BaseAction {
 									BigDecimal.ROUND_CEILING);
 							if (max.compareTo(price) < 0)
 								max = price;
-							points.add(new Point(
-									(long) (date.getTime() / 1000), price));
+							points.add(new Point(date.getTime() / 1000, price));
 							date = item.getOrder().getOrderDate();
 							amount = item.getSubtotal();
 							quantity = item.getQuantity();
@@ -1084,8 +1085,8 @@ public class ChartAction extends BaseAction {
 		xAxisLabels.setSize(12);
 		x.setXAxisLabels(xAxisLabels);
 		x.setSteps(86400);
-		x.setRange((long) (DateUtils.beginOfDay(getFrom()).getTime() / 1000),
-				(long) (DateUtils.endOfDay(getTo()).getTime() / 1000));
+		x.setRange(DateUtils.beginOfDay(getFrom()).getTime() / 1000, DateUtils
+				.endOfDay(getTo()).getTime() / 1000);
 		chart.setX_axis(x);
 		BigDecimal max = new BigDecimal(0);
 		String[] ids = getId();
@@ -1103,7 +1104,7 @@ public class ChartAction extends BaseAction {
 			List<Object> points = new ArrayList<Object>();
 			if (list.size() == 1) {
 				Stuffflow sf = list.get(0);
-				points.add(new Point((long) (sf.getDate().getTime() / 1000), sf
+				points.add(new Point(sf.getDate().getTime() / 1000, sf
 						.getAmount().divide(new BigDecimal(sf.getQuantity()))));
 			} else {
 				Date date = null;
@@ -1119,8 +1120,7 @@ public class ChartAction extends BaseAction {
 									BigDecimal.ROUND_CEILING);
 							if (max.compareTo(price) < 0)
 								max = price;
-							points.add(new Point(
-									(long) (date.getTime() / 1000), price));
+							points.add(new Point(date.getTime() / 1000, price));
 							date = sf.getDate();
 							amount = new BigDecimal(0.00);
 							quantity = 0;
@@ -1132,8 +1132,8 @@ public class ChartAction extends BaseAction {
 								(double) quantity), BigDecimal.ROUND_CEILING);
 						if (max.compareTo(price) < 0)
 							max = price;
-						points.add(new Point(
-								(long) (sf.getDate().getTime() / 1000), price));
+						points.add(new Point(sf.getDate().getTime() / 1000,
+								price));
 					} else {
 						if ((date != null && !DateUtils.isSameDay(sf.getDate(),
 								date))) {
@@ -1142,8 +1142,7 @@ public class ChartAction extends BaseAction {
 									BigDecimal.ROUND_CEILING);
 							if (max.compareTo(price) < 0)
 								max = price;
-							points.add(new Point(
-									(long) (date.getTime() / 1000), price));
+							points.add(new Point(date.getTime() / 1000, price));
 							date = sf.getDate();
 							amount = sf.getAmount();
 							quantity = sf.getQuantity();

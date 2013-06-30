@@ -137,8 +137,9 @@ public class StationAction extends BaseAction {
 			resultPage.setCriteria(criteria);
 			resultPage = elasticSearchService.search(resultPage,
 					new Mapper<Station>() {
+						@Override
 						public Station map(Station source) {
-							Station s = (Station) source;
+							Station s = source;
 							if (s.getRegion() != null)
 								s.setRegion(regionTreeControl.getRegionTree()
 										.getDescendantOrSelfById(

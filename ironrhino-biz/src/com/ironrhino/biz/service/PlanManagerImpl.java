@@ -30,6 +30,7 @@ public class PlanManagerImpl extends BaseManagerImpl<Plan> implements
 					new Object[] { plan.getId() }, "此计划已经完成");
 	}
 
+	@Override
 	public void complete(Plan plan) {
 		if (plan.isCompleted())
 			return;

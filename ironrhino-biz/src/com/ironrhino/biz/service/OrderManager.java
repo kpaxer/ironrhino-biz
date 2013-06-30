@@ -6,6 +6,7 @@ import com.ironrhino.biz.model.Order;
 
 public interface OrderManager extends BaseManager<Order> {
 
+	@Override
 	public void save(Order order);
 
 	public void place(Order order);

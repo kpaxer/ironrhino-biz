@@ -134,6 +134,7 @@ public class ProductAction extends BaseAction {
 			resultPage.setCriteria(criteria);
 			resultPage = elasticSearchService.search(resultPage,
 					new Mapper<Product>() {
+						@Override
 						public Product map(Product source) {
 							return productManager.get(source.getId());
 						}

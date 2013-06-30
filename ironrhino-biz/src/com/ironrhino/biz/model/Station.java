@@ -203,11 +203,13 @@ public class Station extends Entity<Long> {
 		this.cashCondition = cashCondition;
 	}
 
+	@Override
 	@NotInJson
 	public boolean isNew() {
 		return id == null || id == 0;
 	}
 
+	@Override
 	public Long getId() {
 		return id;
 	}

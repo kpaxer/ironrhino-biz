@@ -72,6 +72,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 
 	}
 
+	@Override
 	@Transactional
 	public void place(Order order) {
 		order.setCode(nextCode());
@@ -79,6 +80,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		createPlanAndModifyStock(order);
 	}
 
+	@Override
 	@Transactional
 	public void modify(Order order) {
 		sessionFactory.getCurrentSession().evict(order);
@@ -108,6 +110,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		super.save(order);
 	}
 
+	@Override
 	@Transactional
 	public void cancel(Order order) {
 		cancelPlanAndRestoreStock(order);
@@ -160,6 +163,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 					new Object[] { order.getCode() }, "此订单已经付款或已经发货");
 	}
 
+	@Override
 	@Transactional
 	public void pay(Order order) {
 		if (order.isPaid())
@@ -169,6 +173,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		save(order);
 	}
 
+	@Override
 	@Transactional
 	public void ship(Order order) {
 		if (order.isShipped())

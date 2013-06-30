@@ -53,6 +53,7 @@ public class Brand extends Entity<Long> implements Ordered {
 		this.name = name;
 	}
 
+	@Override
 	public Long getId() {
 		return id;
 	}
@@ -61,6 +62,7 @@ public class Brand extends Entity<Long> implements Ordered {
 		this.id = id;
 	}
 
+	@Override
 	@NotInJson
 	public boolean isNew() {
 		return id == null || id == 0;
@@ -74,6 +76,7 @@ public class Brand extends Entity<Long> implements Ordered {
 		this.name = name;
 	}
 
+	@Override
 	public int getDisplayOrder() {
 		return displayOrder;
 	}
@@ -82,6 +85,7 @@ public class Brand extends Entity<Long> implements Ordered {
 		this.displayOrder = displayOrder;
 	}
 
+	@Override
 	public int compareTo(Object object) {
 		if (!(object instanceof Ordered))
 			return 0;

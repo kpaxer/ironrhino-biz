@@ -24,8 +24,9 @@ public class ProductManagerImpl extends BaseManagerImpl<Product> implements
 	@Transactional(readOnly = true)
 	public void checkDelete(final Product product) {
 		final String hql = "select count(o) from Order o join o.items item join item.product p where p.id = ?";
-		Long count = (Long) executeFind(new HibernateCallback<Long>() {
+		Long count = executeFind(new HibernateCallback<Long>() {
 
+			@Override
 			public Long doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				Query q = session.createQuery(hql.toString());
