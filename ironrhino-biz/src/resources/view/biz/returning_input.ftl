@@ -4,7 +4,7 @@
 <title><#if returning.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('returning')}</title>
 </head>
 <body>
-<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax form-horizontal reset">
+<@s.form action="${actionBaseUrl}/save" method="post" cssClass="ajax form-horizontal reset">
 	<#if !returning.new>
 		<@s.hidden name="returning.id" />
 	</#if>

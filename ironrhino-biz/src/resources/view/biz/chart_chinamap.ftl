@@ -22,7 +22,7 @@ Observation.chinamap = function(container){
 </script>
 </head>
 <body>
-<form id="daterange" action="<@url value='${actionBaseUrl}/chinamap'/>" method="get" class="ajax view form-inline" data-replacement="c" style="margin-left:10px;">
+<form id="daterange" action="${actionBaseUrl}/chinamap" method="get" class="ajax view form-inline" data-replacement="c" style="margin-left:10px;">
 	<#if id??>
 	<#list id as var>
 	<input type="hidden" name="id" value="${var}" />
@@ -37,7 +37,7 @@ Observation.chinamap = function(container){
 	<@s.textfield theme="simple" name="to" cssClass="date required"/>
 	<@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
-<#assign data_file="${getUrl(actionBaseUrl+'/chinamapdata')}"/>
+<#assign data_file=actionBaseUrl+"/chinamapdata"/>
 <#if request.queryString??>
 <#assign data_file=data_file+'?'+request.queryString>
 </#if>

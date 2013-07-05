@@ -12,7 +12,7 @@
 			<td class="fieldlabel">${action.getText('saleType')}</td><td>${order.saleType.displayName!}</td>
 		</tr>
 		<tr>
-			<td class="fieldlabel">${action.getText('customer')}</td><td><#if !Parameters.printpage??><a href="${getUrl(actionBaseUrl)}?customer.id=${order.customer.id}" target="_blank"></#if>${order.customer}<#if !Parameters.printpage??></a></#if></td>
+			<td class="fieldlabel">${action.getText('customer')}</td><td><#if !Parameters.printpage??><a href="${actionBaseUrl}?customer.id=${order.customer.id}" target="_blank"></#if>${order.customer}<#if !Parameters.printpage??></a></#if></td>
 			<td class="fieldlabel">${action.getText('phone')}</td><td>${order.customer.phone!}&nbsp;${order.customer.mobile!}</td>
 			<td class="fieldlabel">${action.getText('address')}</td><td>${order.customer.fullAddress!}</td>
 		</tr>
@@ -96,7 +96,7 @@
 </#if>
 <#if !Parameters.printpage??>
 <div style="text-align:center;">
-	<a href="${getUrl(actionBaseUrl+'/view/'+order.id+'?decorator=simple&printpage=true')}" target="_blank" class="btn">${action.getText('print')}</a>
+	<a href="${actionBaseUrl+'/view/'+order.id}?decorator=simple&printpage=true" target="_blank" class="btn">${action.getText('print')}</a>
 </div>
 </#if>
 </body>

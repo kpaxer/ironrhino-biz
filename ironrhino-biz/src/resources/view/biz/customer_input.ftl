@@ -4,7 +4,7 @@
 <title><#if customer.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('customer')}</title>
 </head>
 <body>
-<@s.form action="${getUrl(actionBaseUrl+'/save')}" method="post" cssClass="ajax form-horizontal">
+<@s.form action="${actionBaseUrl}/save" method="post" cssClass="ajax form-horizontal">
 	<#if !customer.new>
 		<@s.hidden name="customer.id" />
 	</#if>
@@ -21,7 +21,7 @@
 	<@s.textfield label="%{getText('phone')}" name="customer.phone" cssStyle="width:350px;" />
 	<@s.textfield label="%{getText('mobile')}" name="customer.mobile" cssStyle="width:350px;" />
 	<@s.textfield label="%{getText('fax')}" name="customer.fax" cssStyle="width:350px;" />
-	<@s.textfield label="%{getText('tag')}" name="customer.tagsAsString" cssStyle="width:350px;" cssClass="tags" dynamicAttributes={"data-source":"${getUrl(actionBaseUrl+'/tag')}"}/>
+	<@s.textfield label="%{getText('tag')}" name="customer.tagsAsString" cssStyle="width:350px;" cssClass="tags" dynamicAttributes={"data-source":"${actionBaseUrl}/tag"}/>
 	<@s.textarea label="%{getText('memo')}" name="customer.memo" cssStyle="width:350px;height:40px;"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
