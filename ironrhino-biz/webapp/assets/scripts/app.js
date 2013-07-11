@@ -163,10 +163,11 @@
 		$('#orderItems .freegift', container).change(function() {
 			var price = $('input.price', $(this).closest('tr'));
 			if ($(this).is(':checked')) {
-				price.data('oldvalue', price.val()).val('0.00').prop(
-						'readonly', true).next('.field-error').remove();
+				price.data('oldvalue', price.val()).val('0.00')
+						.addClass('zero').prop('readonly', true)
+						.next('.field-error').remove();
 			} else {
-				var oldvalue = price.data('oldvalue');
+				var oldvalue = price.removeClass('zero').data('oldvalue');
 				if (oldvalue)
 					price.val(oldvalue);
 				else
