@@ -18,11 +18,6 @@ public class IndexAction extends BaseAction {
 	@Override
 	public String execute() {
 		boolean website = websiteHandler.isWebsite();
-		// User user = AuthzUtils.getUserDetails(User.class);
-		// if (user != null
-		// && user.getRoles().contains(UserRole.ROLE_ADMINISTRATOR)) {
-		// website = false;
-		// }
 		if (!website) {
 			targetUrl = "/biz/index";
 			return REDIRECT;
