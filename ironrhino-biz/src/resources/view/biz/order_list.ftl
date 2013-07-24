@@ -9,28 +9,17 @@
 <button type="button" class="btn" data-view="view" '
 +'data-windowoptions="{\'width\':\'950px\'}">${action.getText("view")}</button>
 <button type="button" class="btn" data-view="input" '
-+'data-windowoptions="{\'width\':\'950px\'}">${action.getText("edit")}</button>
-'
-+r'<#if !entity.paid>
-<button type="button" class="btn" data-action="pay">${action.getText("pay")}</button>
-</#if>
-<#if !entity.shipped>
-<button type="button" class="btn" data-action="ship">${action.getText("ship")}</button>
-</#if>
-<#if !(entity.paid||entity.shipped)>
-<button type="button" class="btn" data-action="delete">${action.getText("delete")}</button>
-</#if>
-'>
++'data-windowoptions="{\'width\':\'950px\'}">${action.getText("edit")}</button>'>
 <#assign bottomButtons='
 <button type="button" class="btn" data-view="input" data-windowoptions="{\'width\':\'950px\'}">${action.getText("create")}</button>
-<button type="button" class="btn" data-action="delete" data-shown="selected">${action.getText("delete")}</button>
-<button type="button" class="btn" data-action="pay" data-shown="selected">${action.getText("pay")}</button>
-<button type="button" class="btn" data-action="ship" data-shown="selected">${action.getText("ship")}</button>
+<button type="button" class="btn" data-action="delete" data-shown="selected" data-filterselector=":not(.paid):not(.shipped)">${action.getText("delete")}</button>
+<button type="button" class="btn" data-action="pay" data-shown="selected" data-filterselector=":not(.paid)">${action.getText("pay")}</button>
+<button type="button" class="btn" data-action="ship" data-shown="selected" data-filterselector=":not(.shipped)">${action.getText("ship")}</button>
 <button type="button" class="btn" data-action="reload">${action.getText("reload")}</button>
 '>
 <#if !locale?starts_with('en')>
 <#assign bottomButtons=bottomButtons+'<button type="button" class="btn more raw">${action.getText("more")}</button>'/>
 </#if>
-<@richtable entityName="order" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deletable=false searchable=true/>
+<@richtable entityName="order" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deletable=false searchable=true rowDynamicAttributes=r"{'class':'<#if entity.paid> paid</#if><#if entity.shipped> shipped</#if>'}"/>
 </body>
 </html></#escape>
