@@ -4,7 +4,7 @@
 <title>${action.getText('employee')}${action.getText('list')}</title>
 </head>
 <body>
-<#assign columns={"id":{"width":"70px"},"name":{"width":"120px","cellEdit":"click"},"type":{"width":"90px","cellEdit":"click,select,rt_select_template_type"},"phone":{"width":"100px","cellEdit":"click"},"address":{"cellEdit":"click"},"dimission":{"width":"100px","cellEdit":"click,boolean"}}>
+<#assign columns={"id":{"width":"70px"},"name":{"width":"120px","cellEdit":"click"},"type":{"width":"90px","cellEdit":"click,select,rt_select_template_type"},"phone":{"width":"100px","cellEdit":"click"},"address":{"cellEdit":"click","cssClass":"hidden-pad"},"dimission":{"width":"100px","cellEdit":"click,boolean"}}>
 <#assign actionColumnButtons=r'
 <button type="button" class="btn" data-view="input">${action.getText("edit")}</button>
 <a class="btn ajax view" href="${getUrl("/biz/reward?view=tabs&employee.id="+entity.id)}">${action.getText("reward")}</a>
