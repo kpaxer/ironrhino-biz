@@ -13,7 +13,7 @@
 					<td style="width:23%;">${action.getText('orderDate')}</td>
 					<td>${action.getText('grandTotal')}</td>
 					<td>${action.getText('station')}</td>
-					<td style="width:13%;"></td>
+					<td style="min-width:52px;"></td>
 				</tr>
 			</thead>
 			<tbody>

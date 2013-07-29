@@ -11,7 +11,7 @@
 			<td>${action.getText('product')}</td>
 			<td>${action.getText('planDate')}</td>
 			<td>${action.getText('quantity')}</td>
-			<td style="width:13%;"></td>
+			<td style="min-width:52px;"></td>
 		</tr>
 	</thead>
 	<tbody>
