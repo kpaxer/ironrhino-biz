@@ -1,7 +1,7 @@
-<#assign modernBrowser = false/>
-<#assign ua = request.getAttribute('userAgent')/>
-<#if ua?? && (ua.name!='msie' || ua.majorVersion gt 8)>
 <#assign modernBrowser = true/>
+<#assign ua = request.getAttribute('userAgent')!/>
+<#if ua?? && ua.name=='msie' && ua.majorVersion lt 9>
+<#assign modernBrowser = false/>
 </#if>
 <#if modernBrowser>
 <!DOCTYPE html>
