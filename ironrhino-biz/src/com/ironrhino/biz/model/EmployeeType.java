@@ -1,9 +1,11 @@
 package com.ironrhino.biz.model;
 
+import org.ironrhino.core.model.Displayable;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.util.LocalizedTextUtil;
 
-public enum EmployeeType {
+public enum EmployeeType implements Displayable {
 	PACKER, DELIVERYMAN, WAREHOUSEMAN, SALESMAN, MANAGER, SERVANT;
 	public String getName() {
 		return name();

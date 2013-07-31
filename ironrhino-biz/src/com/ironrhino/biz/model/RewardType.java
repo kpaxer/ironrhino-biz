@@ -1,9 +1,11 @@
 package com.ironrhino.biz.model;
 
+import org.ironrhino.core.model.Displayable;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.util.LocalizedTextUtil;
 
-public enum RewardType {
+public enum RewardType implements Displayable {
 	SALARY, BONUS, PACKING, DELIVERY, PORTAGE, TRIP, PETROL, MOBILE, DINNER;
 	public String getName() {
 		return name();

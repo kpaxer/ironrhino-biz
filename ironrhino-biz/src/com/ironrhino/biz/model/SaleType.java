@@ -1,9 +1,11 @@
 package com.ironrhino.biz.model;
 
+import org.ironrhino.core.model.Displayable;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.util.LocalizedTextUtil;
 
-public enum SaleType {
+public enum SaleType implements Displayable {
 	FACTORY, SHOP, PUSH;
 	public String getName() {
 		return name();
