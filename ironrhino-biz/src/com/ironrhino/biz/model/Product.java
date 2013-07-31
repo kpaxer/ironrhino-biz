@@ -39,7 +39,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 @Searchable(type = "product")
 @javax.persistence.Entity
 @Table(name = "product")
-public class Product extends Entity<Long> implements Ordered, Attributable {
+public class Product extends Entity<Long> implements Ordered<Product>,
+		Attributable {
 
 	private static final long serialVersionUID = 1876365527076787416L;
 
@@ -222,13 +223,12 @@ public class Product extends Entity<Long> implements Ordered, Attributable {
 	}
 
 	@Override
-	public int compareTo(Object object) {
-		if (!(object instanceof Ordered))
-			return 0;
-		Ordered ordered = (Ordered) object;
-		if (this.getDisplayOrder() != ordered.getDisplayOrder())
-			return this.getDisplayOrder() - ordered.getDisplayOrder();
-		return this.toString().compareTo(ordered.toString());
+	public int compareTo(Product product) {
+		if (product == null)
+			return 1;
+		if (this.getDisplayOrder() != product.getDisplayOrder())
+			return this.getDisplayOrder() - product.getDisplayOrder();
+		return this.toString().compareTo(product.toString());
 	}
 
 	@Override

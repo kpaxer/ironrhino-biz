@@ -25,7 +25,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 @Searchable(type = "category")
 @javax.persistence.Entity
 @Table(name = "category")
-public class Category extends Entity<Long> implements Ordered {
+public class Category extends Entity<Long> implements Ordered<Category> {
 
 	private static final long serialVersionUID = 2084288046799489929L;
 
@@ -86,13 +86,12 @@ public class Category extends Entity<Long> implements Ordered {
 	}
 
 	@Override
-	public int compareTo(Object object) {
-		if (!(object instanceof Ordered))
-			return 0;
-		Ordered ordered = (Ordered) object;
-		if (this.getDisplayOrder() != ordered.getDisplayOrder())
-			return this.getDisplayOrder() - ordered.getDisplayOrder();
-		return this.toString().compareTo(ordered.toString());
+	public int compareTo(Category category) {
+		if (category == null)
+			return 1;
+		if (this.getDisplayOrder() != category.getDisplayOrder())
+			return this.getDisplayOrder() - category.getDisplayOrder();
+		return this.toString().compareTo(category.toString());
 	}
 
 	@Override

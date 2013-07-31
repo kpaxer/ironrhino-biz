@@ -22,7 +22,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 @Searchable(type = "stuff")
 @javax.persistence.Entity
 @Table(name = "stuff")
-public class Stuff extends Entity<Long> implements Ordered {
+public class Stuff extends Entity<Long> implements Ordered<Stuff> {
 
 	private static final long serialVersionUID = 8649365520461282768L;
 
@@ -100,13 +100,12 @@ public class Stuff extends Entity<Long> implements Ordered {
 	}
 
 	@Override
-	public int compareTo(Object object) {
-		if (!(object instanceof Ordered))
-			return 0;
-		Ordered ordered = (Ordered) object;
-		if (this.getDisplayOrder() != ordered.getDisplayOrder())
-			return this.getDisplayOrder() - ordered.getDisplayOrder();
-		return this.toString().compareTo(ordered.toString());
+	public int compareTo(Stuff stuff) {
+		if (stuff == null)
+			return 1;
+		if (this.getDisplayOrder() != stuff.getDisplayOrder())
+			return this.getDisplayOrder() - stuff.getDisplayOrder();
+		return this.toString().compareTo(stuff.toString());
 	}
 
 	@Override
