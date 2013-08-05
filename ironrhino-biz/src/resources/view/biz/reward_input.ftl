@@ -11,7 +11,7 @@
 		<@s.hidden name="reward.id" />
 		<@s.textfield label="%{(negative?'支':'发')+getText('amount')}" name="reward.amount" cssClass="required double positive"/>
 		<@s.select label="%{getText('type')}" name="reward.type" list="@com.ironrhino.biz.model.RewardType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
-		<@s.textarea label="%{getText('memo')}" name="reward.memo" cssStyle="width:400px;height:50px;"/>
+		<@s.textarea label="%{getText('memo')}" name="reward.memo" cssClass="input-xxlarge" cssStyle="height:50px;"/>
 	<#else>
 		<@s.select label="%{getText('employee')}" name="employee.id" cssClass="required" list="employeeList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
 		<table class="datagrid table table-bordered">

@@ -18,7 +18,7 @@
 		<@s.textfield label="%{getText('quantity')}" name="plan.quantity" cssClass="integer positive required"/>
 		<@s.textfield label="%{getText('planDate')}" name="plan.planDate" cssClass="date required"/>
 	</#if>
-	<@s.textarea label="%{getText('memo')}" name="plan.memo" cssStyle="width:400px;height:200px;"/>
+	<@s.textarea label="%{getText('memo')}" name="plan.memo" cssClass="input-xxlarge" cssStyle="height:200px;"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

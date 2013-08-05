@@ -12,7 +12,7 @@
 	<@s.textfield label="%{getText('amount')}" name="stuffflow.amount" cssClass="double positive"/>
 	</#if>
 	<@s.textfield label="%{getText('date')}" name="stuffflow.date" cssClass="required date"/>
-	<@s.textarea label="%{getText('memo')}" name="plan.memo" cssStyle="width:400px;height:150px;"/>
+	<@s.textarea label="%{getText('memo')}" name="plan.memo" cssClass="input-xxlarge"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

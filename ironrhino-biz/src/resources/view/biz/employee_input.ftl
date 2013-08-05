@@ -11,9 +11,9 @@
 	<@s.textfield label="%{getText('name')}" name="employee.name" cssClass="required checkavailable"/>
 	<@s.select label="%{getText('type')}" name="employee.type" list="@com.ironrhino.biz.model.EmployeeType@values()" listKey="name" listValue="displayName" headerKey="" headerValue=""/>
 	<@s.textfield label="%{getText('phone')}" name="employee.phone" />
-	<@s.textfield label="%{getText('address')}" name="employee.address" cssStyle="width:400px;"/>
+	<@s.textfield label="%{getText('address')}" name="employee.address" cssClass="input-xxlarge"/>
 	<@s.checkbox label="%{getText('dimission')}" name="employee.dimission" cssClass="custom" />
-	<@s.textarea label="%{getText('memo')}" name="employee.memo" cssStyle="width:400px;height:100px;"/>
+	<@s.textarea label="%{getText('memo')}" name="employee.memo" cssClass="input-xxlarge" cssStyle="height:100px;"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

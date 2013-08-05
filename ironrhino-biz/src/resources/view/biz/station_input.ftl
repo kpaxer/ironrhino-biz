@@ -43,7 +43,7 @@
 		</table>
 		</div>
 	</div>
-	<@s.textarea label="%{getText('memo')}" name="station.memo" cssStyle="width:400px;height:40px;"/>
+	<@s.textarea label="%{getText('memo')}" name="station.memo" cssClass="input-xxlarge" cssStyle="height:40px;"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>
