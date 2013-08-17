@@ -9,7 +9,7 @@
 <button type="button" class="btn" data-view="input">${action.getText("create")}</button>
 <button type="button" class="btn confirm" data-action="save">${action.getText("save")}</button>
 <button type="button" class="btn" data-action="delete" data-shown="selected">${action.getText("delete")}</button>
-<button type="button" class="btn" data-action="reload">${action.getText("reload")}</button>
+<button type="button" class="btn reload">${action.getText("reload")}</button>
 <button type="button" class="btn" onclick="$(\'#merge\').toggle()">${action.getText("merge")}</button>
 '>
 <@richtable entityName="station" columns=columns bottomButtons=bottomButtons searchable=true/>

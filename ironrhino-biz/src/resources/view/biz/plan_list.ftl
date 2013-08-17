@@ -16,7 +16,7 @@
 <button type="button" class="btn confirm" data-action="save">${action.getText("save")}</button>
 <button type="button" class="btn" data-action="delete" data-shown="selected" data-filterselector=".uncompleted">${action.getText("delete")}</button>
 <button type="button" class="btn" data-action="complete" data-shown="selected" data-filterselector=".uncompleted">${action.getText("complete")}</button>
-<button type="button" class="btn" data-action="reload">${action.getText("reload")}</button>
+<button type="button" class="btn reload">${action.getText("reload")}</button>
 '>
 <@richtable entityName="plan" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false searchable=true rowDynamicAttributes=r"<#if !entity.completed>{'class':'uncompleted'}</#if>"/>
 </body>

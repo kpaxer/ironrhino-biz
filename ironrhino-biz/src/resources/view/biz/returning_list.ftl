@@ -12,7 +12,7 @@
 <#assign bottomButtons='
 <button type="button" class="btn" data-view="input" data-windowoptions="{\'width\':\'950px\'}">${action.getText("create")}</button>
 <button type="button" class="btn" data-action="delete" data-shown="selected">${action.getText("delete")}</button>
-<button type="button" class="btn" data-action="reload">${action.getText("reload")}</button>
+<button type="button" class="btn reload">${action.getText("reload")}</button>
 '>
 <@richtable entityName="returning" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deletable=false searchable=true/>
 </body>
