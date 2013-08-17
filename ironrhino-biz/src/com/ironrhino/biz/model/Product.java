@@ -35,7 +35,7 @@ import org.ironrhino.core.util.JsonUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-@AutoConfig(searchable = true)
+@AutoConfig
 @Searchable(type = "product")
 @javax.persistence.Entity
 @Table(name = "product")

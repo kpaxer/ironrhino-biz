@@ -20,7 +20,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableComponent;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 import org.ironrhino.core.search.elasticsearch.annotations.Store;
 
-@AutoConfig(searchable = true)
+@AutoConfig
 @Searchable(type = "stuffflow")
 @Entity
 @Table(name = "stuffflow")

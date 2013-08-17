@@ -19,7 +19,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 
-@AutoConfig(searchable = true)
+@AutoConfig
 @Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
 		+ UserRole.ROLE_PRODUCTMANAGER)
 @Searchable(type = "category")
