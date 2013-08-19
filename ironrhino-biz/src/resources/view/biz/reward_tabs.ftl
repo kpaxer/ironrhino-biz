@@ -5,9 +5,9 @@
 </head>
 <body>
 
-<#assign dataurl=actionBaseUrl+"?1=1"/>
+<#assign dataurl=actionBaseUrl/>
 <#if request.queryString??>
-<#assign dataurl=dataurl+'&'+request.queryString?replace('1=1&','')>
+<#assign dataurl=dataurl+'?'+request.queryString>
 </#if>
 <ul class="nav nav-tabs">
 	<li class="active"><a href="#all_reward" data-toggle="tab">全部</a></li>
@@ -17,9 +17,9 @@
 <div class="tab-content">
 	<div id="all_reward" class="tab-pane ajaxpanel active" data-url="${dataurl}">
 	</div>
-	<div id="positive_reward" class="tab-pane ajaxpanel manual" data-url="${dataurl}&negative=false">
+	<div id="positive_reward" class="tab-pane ajaxpanel manual" data-url="${dataurl+dataurl?contains('?')?string('&','?')}negative=false">
 	</div>
-	<div id="negative_reward" class="tab-pane ajaxpanel manual" data-url="${dataurl}&negative=true">
+	<div id="negative_reward" class="tab-pane ajaxpanel manual" data-url="${dataurl+dataurl?contains('?')?string('&','?')}negative=true">
 	</div>
 </div>
 </body>
