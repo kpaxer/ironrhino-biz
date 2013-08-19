@@ -45,9 +45,11 @@ public class Employee extends Entity<Long> {
 
 	@Enumerated
 	@UiConfig(displayOrder = 2, width = "80px")
+	@SearchableProperty(boost = 2, index = Index.NOT_ANALYZED)
 	private EmployeeType type;
 
 	@UiConfig(displayOrder = 3, width = "60px")
+	@SearchableProperty(boost = 2, index = Index.NOT_ANALYZED)
 	private boolean dimission;
 
 	@SearchableProperty(boost = 2)
