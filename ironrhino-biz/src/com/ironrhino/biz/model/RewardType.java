@@ -7,10 +7,12 @@ import com.opensymphony.xwork2.util.LocalizedTextUtil;
 
 public enum RewardType implements Displayable {
 	SALARY, BONUS, PACKING, DELIVERY, PORTAGE, TRIP, PETROL, MOBILE, DINNER;
+	@Override
 	public String getName() {
 		return name();
 	}
 
+	@Override
 	public String getDisplayName() {
 		try {
 			return LocalizedTextUtil.findText(getClass(), name(), ActionContext

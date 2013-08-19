@@ -7,10 +7,12 @@ import com.opensymphony.xwork2.util.LocalizedTextUtil;
 
 public enum EmployeeType implements Displayable {
 	PACKER, DELIVERYMAN, WAREHOUSEMAN, SALESMAN, MANAGER, SERVANT;
+	@Override
 	public String getName() {
 		return name();
 	}
 
+	@Override
 	public String getDisplayName() {
 		try {
 			return LocalizedTextUtil.findText(getClass(), name(), ActionContext
