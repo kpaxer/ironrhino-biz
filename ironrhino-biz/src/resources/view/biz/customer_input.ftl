@@ -13,7 +13,7 @@
 	<@s.hidden id="regionId" name="regionId" />
 	<label class="control-label" for="region">地区</label>
 	<div class="controls">
-	<span id="region"><#if customer.region??>${customer.region.fullname}<a class="remove" href="#">&times;</a></span><#else>...</#if></span>
+	<span id="region"><#if customer.region??>${customer.region.fullname}</#if></span>
 	</div>
 	</div>
 	<@s.textfield label="%{getText('address')}" name="customer.address" cssStyle="width:350px;"/>

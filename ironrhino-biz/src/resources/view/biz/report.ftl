@@ -34,7 +34,7 @@
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="order"/>
 					<input id="customerId" type="hidden" name="customer"/>
-					<span class="listpick" data-options="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'this','id':'#customerId'}">${action.getText('pick')}...</span>
+					<span class="listpick" data-options="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'this','id':'#customerId'}"></span>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
@@ -75,7 +75,7 @@
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="productsales"/>
 					<input id="customerId2" type="hidden" name="customer"/>
-					<span class="listpick" data-options="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'this','id':'#customerId2'}">${action.getText('pick')}...</span>
+					<span class="listpick" data-options="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'this','id':'#customerId2'}"></span>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
@@ -124,7 +124,7 @@
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="privatereward"/>
 					<input id="employeeId" type="hidden" name="id"/>
-					<span class="listpick" data-options="{'url':'<@url value="/biz/employee/pick?columns=name"/>','name':'this','id':'#employeeId'}">${action.getText('pick')}...</span>
+					<span class="listpick" data-options="{'url':'<@url value="/biz/employee/pick?columns=name"/>','name':'this','id':'#employeeId'}"></span>
 					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
 					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
 					<select name="negative" style="width:70px;"><option value="">${action.getText('all')}</option><option value="false">${action.getText('income')}</option><option value="true">${action.getText('outlay')}</option></select>
@@ -188,7 +188,7 @@
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="customer"/>
 					<input id="regionId" type="hidden" name="id"/>
-					<span class="treeselect" data-options="{'url':'<@url value="/region/children"/>','name':'this','id':'#regionId'}">${action.getText('pick')}...</span>
+					<span class="treeselect" data-options="{'url':'<@url value="/region/children"/>','name':'this','id':'#regionId'}"></span>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
