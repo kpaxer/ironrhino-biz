@@ -41,7 +41,7 @@ public class Brand extends Entity<Long> implements Ordered<Brand> {
 	@Column(nullable = false)
 	private String name;
 
-	@UiConfig(displayOrder = 2)
+	@UiConfig(displayOrder = 2, width = "100px")
 	@SearchableProperty
 	private int displayOrder;
 

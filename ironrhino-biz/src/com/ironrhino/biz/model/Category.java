@@ -41,7 +41,7 @@ public class Category extends Entity<Long> implements Ordered<Category> {
 	@Column(nullable = false)
 	private String name;
 
-	@UiConfig(displayOrder = 2)
+	@UiConfig(displayOrder = 2, width = "100px")
 	@SearchableProperty
 	private int displayOrder;
 
