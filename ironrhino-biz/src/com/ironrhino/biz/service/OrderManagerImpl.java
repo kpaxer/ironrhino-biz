@@ -29,7 +29,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		OrderManager {
 
 	@Inject
-	@Named
+	@Named("orderCodeSequence")
 	private CyclicSequence orderCodeSequence;
 
 	@Inject
