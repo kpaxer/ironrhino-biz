@@ -21,7 +21,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 import org.ironrhino.core.search.elasticsearch.annotations.Store;
 
 @AutoConfig
-@Searchable(type = "stuffflow")
+@Searchable
 @Entity
 @Table(name = "stuffflow")
 public class Stuffflow extends BaseEntity {

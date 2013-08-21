@@ -36,7 +36,7 @@ import org.ironrhino.security.model.User;
 
 import com.opensymphony.xwork2.util.CreateIfNull;
 
-@Searchable(type = "order")
+@Searchable
 @AutoConfig
 @Entity
 @Table(name = "orders")

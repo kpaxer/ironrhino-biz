@@ -32,7 +32,7 @@ import org.ironrhino.security.model.User;
 
 import com.opensymphony.xwork2.util.CreateIfNull;
 
-@Searchable(type = "returning")
+@Searchable
 @AutoConfig
 @Entity
 @Table(name = "`returning`")

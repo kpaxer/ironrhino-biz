@@ -31,7 +31,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 import org.ironrhino.core.util.StringUtils;
 
-@Searchable(type = "customer")
+@Searchable
 @AutoConfig
 @javax.persistence.Entity
 @Table(name = "customer")

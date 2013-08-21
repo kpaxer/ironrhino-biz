@@ -19,7 +19,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 
 @AutoConfig
-@Searchable(type = "stuff")
+@Searchable
 @javax.persistence.Entity
 @Table(name = "stuff")
 public class Stuff extends Entity<Long> implements Ordered<Stuff> {

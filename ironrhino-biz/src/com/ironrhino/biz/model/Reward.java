@@ -22,7 +22,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 import org.ironrhino.core.search.elasticsearch.annotations.Store;
 
 @AutoConfig
-@Searchable(type = "reward")
+@Searchable
 @Entity
 @Table(name = "reward")
 public class Reward extends BaseEntity {

@@ -22,7 +22,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 @AutoConfig
 @Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
 		+ UserRole.ROLE_PRODUCTMANAGER)
-@Searchable(type = "category")
+@Searchable
 @javax.persistence.Entity
 @Table(name = "category")
 public class Category extends Entity<Long> implements Ordered<Category> {

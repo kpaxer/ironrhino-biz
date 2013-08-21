@@ -20,7 +20,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 import org.ironrhino.core.search.elasticsearch.annotations.Store;
 
 @AutoConfig
-@Searchable(type = "plan")
+@Searchable
 @Entity
 @Table(name = "plan")
 public class Plan extends BaseEntity {
