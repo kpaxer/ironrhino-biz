@@ -15,7 +15,7 @@ import com.ironrhino.biz.model.Order;
 import com.ironrhino.biz.model.Station;
 
 @Singleton
-@Named("stationManager")
+@Named
 public class StationManagerImpl extends BaseManagerImpl<Station> implements
 		StationManager {
 

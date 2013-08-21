@@ -24,12 +24,12 @@ import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.SaleType;
 
 @Singleton
-@Named("orderManager")
+@Named
 public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		OrderManager {
 
 	@Inject
-	@Named("orderCodeSequence")
+	@Named
 	private CyclicSequence orderCodeSequence;
 
 	@Inject

@@ -8,7 +8,7 @@ import org.ironrhino.core.service.BaseManagerImpl;
 import com.ironrhino.biz.model.Reward;
 
 @Singleton
-@Named("rewardManager")
+@Named
 public class RewardManagerImpl extends BaseManagerImpl<Reward> implements
 		RewardManager {
 

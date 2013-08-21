@@ -8,7 +8,7 @@ import org.ironrhino.core.service.BaseManagerImpl;
 import com.ironrhino.biz.model.Brand;
 
 @Singleton
-@Named("brandManager")
+@Named
 public class BrandManagerImpl extends BaseManagerImpl<Brand> implements
 		BrandManager {
 

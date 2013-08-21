@@ -8,7 +8,7 @@ import org.ironrhino.core.service.BaseManagerImpl;
 import com.ironrhino.biz.model.Employee;
 
 @Singleton
-@Named("employeeManager")
+@Named
 public class EmployeeManagerImpl extends BaseManagerImpl<Employee> implements
 		EmployeeManager {
 

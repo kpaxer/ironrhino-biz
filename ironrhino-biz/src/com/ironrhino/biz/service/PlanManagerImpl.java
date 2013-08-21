@@ -14,7 +14,7 @@ import com.ironrhino.biz.model.Plan;
 import com.ironrhino.biz.model.Product;
 
 @Singleton
-@Named("planManager")
+@Named
 public class PlanManagerImpl extends BaseManagerImpl<Plan> implements
 		PlanManager {
 

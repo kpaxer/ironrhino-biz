@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ironrhino.biz.model.Product;
 
 @Singleton
-@Named("productManager")
+@Named
 public class ProductManagerImpl extends BaseManagerImpl<Product> implements
 		ProductManager {
 

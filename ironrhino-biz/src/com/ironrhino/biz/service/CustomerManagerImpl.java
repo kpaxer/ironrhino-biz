@@ -15,7 +15,7 @@ import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Order;
 
 @Singleton
-@Named("customerManager")
+@Named
 public class CustomerManagerImpl extends BaseManagerImpl<Customer> implements
 		CustomerManager {
 
