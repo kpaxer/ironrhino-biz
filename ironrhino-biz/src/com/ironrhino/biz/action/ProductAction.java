@@ -2,18 +2,18 @@ package com.ironrhino.biz.action;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
+import org.ironrhino.core.model.Persistable;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.SearchService.Mapper;
 import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
@@ -60,6 +60,10 @@ public class ProductAction extends BaseAction {
 	@Autowired(required = false)
 	private transient ElasticSearchService<Product> elasticSearchService;
 
+	public Class<? extends Persistable<?>> getEntityClass() {
+		return Product.class;
+	}
+
 	public ResultPage<Product> getResultPage() {
 		return resultPage;
 	}
@@ -104,20 +108,19 @@ public class ProductAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = productManager.detachedCriteria();
-			Criterion filtering = CriterionUtils.filter(product, "id", "name");
-			if (filtering != null)
-				dc.add(filtering);
+			Map<String, String> aliases = CriterionUtils.filter(dc,
+					getEntityClass());
 			if (StringUtils.isNotBlank(keyword))
 				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "name"));
-			if (categoryId != null)
-				dc.createAlias("category", "c").add(
-						Restrictions.eq("c.id", categoryId));
-			if (brandId != null)
-				dc.createAlias("brand", "b").add(
-						Restrictions.eq("b.id", brandId));
 			dc.addOrder(Order.asc("displayOrder"));
-			dc.createAlias("brand", "b").addOrder(Order.asc("b.name"));
-			dc.createAlias("category", "c").addOrder(Order.asc("c.name"));
+			if (aliases.containsKey("brand"))
+				dc.addOrder(Order.asc(aliases.get("brand") + ".name"));
+			else
+				dc.createAlias("brand", "b").addOrder(Order.asc("b.name"));
+			if (aliases.containsKey("category"))
+				dc.addOrder(Order.asc(aliases.get("category") + ".name"));
+			else
+				dc.createAlias("category", "c").addOrder(Order.asc("c.name"));
 			dc.addOrder(Order.asc("name"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Product>();

@@ -12,7 +12,6 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -22,6 +21,7 @@ import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
 import org.ironrhino.core.model.LabelValue;
+import org.ironrhino.core.model.Persistable;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.SearchService.Mapper;
 import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
@@ -73,6 +73,10 @@ public class CustomerAction extends BaseAction {
 	@Autowired(required = false)
 	private transient ElasticSearchService elasticSearchService;
 
+	public Class<? extends Persistable<?>> getEntityClass() {
+		return Customer.class;
+	}
+
 	public ResultPage<Customer> getResultPage() {
 		return resultPage;
 	}
@@ -113,9 +117,7 @@ public class CustomerAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = customerManager.detachedCriteria();
-			Criterion filtering = CriterionUtils.filter(customer, "id", "name");
-			if (filtering != null)
-				dc.add(filtering);
+			CriterionUtils.filter(dc, getEntityClass());
 			if (StringUtils.isNotBlank(keyword))
 				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "name",
 						"phone", "mobile", "address"));

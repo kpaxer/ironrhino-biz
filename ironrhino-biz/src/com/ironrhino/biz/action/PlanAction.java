@@ -1,47 +1,25 @@
 package com.ironrhino.biz.action;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.RangeQueryBuilder;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
-import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
-import org.ironrhino.core.model.ResultPage;
-import org.ironrhino.core.search.SearchService.Mapper;
-import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
-import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
-import org.ironrhino.core.struts.BaseAction;
-import org.ironrhino.core.util.BeanUtils;
-import org.ironrhino.core.util.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.ironrhino.core.struts.EntityAction;
 
 import com.ironrhino.biz.model.Plan;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.PlanManager;
-import com.ironrhino.biz.service.ProductManager;
 
 @Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
 		+ UserRole.ROLE_PLANMANAGER)
-public class PlanAction extends BaseAction {
+public class PlanAction extends EntityAction<Plan> {
 
 	private static final long serialVersionUID = 4331302727890834065L;
-
-	private Plan plan;
-
-	private ResultPage<Plan> resultPage;
-
-	private Product product;
 
 	private List<Product> productList;
 
@@ -50,156 +28,12 @@ public class PlanAction extends BaseAction {
 	@Inject
 	private transient PlanManager planManager;
 
-	@Inject
-	private transient ProductManager productManager;
-
-	@Autowired(required = false)
-	private transient ElasticSearchService<Plan> elasticSearchService;
-
-	public ResultPage<Plan> getResultPage() {
-		return resultPage;
-	}
-
-	public void setResultPage(ResultPage<Plan> resultPage) {
-		this.resultPage = resultPage;
-	}
-
 	public List<Plan> getUncompletedPlans() {
 		return uncompletedPlans;
 	}
 
 	public List<Product> getProductList() {
 		return productList;
-	}
-
-	public Plan getPlan() {
-		return plan;
-	}
-
-	public void setPlan(Plan plan) {
-		this.plan = plan;
-	}
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
-	@Override
-	public String execute() {
-		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
-			DetachedCriteria dc = planManager.detachedCriteria();
-			Criterion filtering = CriterionUtils.filter(plan, "id", "planDate",
-					"completeDate", "completed");
-			if (filtering != null)
-				dc.add(filtering);
-			if (StringUtils.isNotBlank(keyword))
-				dc.createAlias("product", "product").add(
-						CriterionUtils.like(keyword, MatchMode.ANYWHERE,
-								"product.name", "memo"));
-			if (product != null && product.getId() != null)
-				dc.createAlias("product", "c").add(
-						Restrictions.eq("c.id", product.getId()));
-			dc.addOrder(org.hibernate.criterion.Order.desc("planDate"));
-			if (resultPage == null)
-				resultPage = new ResultPage<Plan>();
-			resultPage.setCriteria(dc);
-			resultPage = planManager.findByResultPage(resultPage);
-		} else {
-			ElasticSearchCriteria criteria = new ElasticSearchCriteria();
-			criteria.addSort("planDate", true);
-			String query = keyword.trim();
-			if (query.matches("^\\d{4}年\\d{2}月\\d{2}日$")) {
-				StringBuilder sb = new StringBuilder();
-				sb.append(query.substring(0, 4));
-				sb.append('-');
-				sb.append(query.substring(5, 7));
-				sb.append('-');
-				sb.append(query.substring(8, 10));
-				query = sb.toString();
-			}
-			if (query.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
-				Date date = DateUtils.parseDate10(query);
-				RangeQueryBuilder qb = QueryBuilders
-						.rangeQuery("planDate")
-						.from(DateUtils.formatDatetimeISO(DateUtils
-								.beginOfDay(date)))
-						.to(DateUtils.formatDatetimeISO(DateUtils
-								.endOfDay(date)));
-				criteria.setQueryBuilder(qb);
-			} else {
-				criteria.setQuery(query);
-			}
-			criteria.setTypes(new String[] { "plan" });
-			if (resultPage == null)
-				resultPage = new ResultPage<Plan>();
-			resultPage.setCriteria(criteria);
-			resultPage = elasticSearchService.search(resultPage,
-					new Mapper<Plan>() {
-						@Override
-						public Plan map(Plan source) {
-							Plan p = source;
-							p.setProduct(productManager.get(p.getProduct()
-									.getId()));
-							return p;
-						}
-					});
-		}
-		return LIST;
-	}
-
-	@Override
-	public String input() {
-		String id = getUid();
-		if (StringUtils.isNotBlank(id))
-			plan = planManager.get(id);
-		if (plan == null) {
-			plan = new Plan();
-			if (product != null && product.getId() != null) {
-				product = productManager.get(product.getId());
-			}
-		} else {
-			product = plan.getProduct();
-		}
-		productList = productManager.findAll();
-		return INPUT;
-	}
-
-	@Override
-	public String save() {
-		if (plan == null)
-			return INPUT;
-		if (plan.isNew()) {
-			plan.setProduct(productManager.get(product.getId()));
-		} else {
-			Plan temp = plan;
-			plan = planManager.get(temp.getId());
-			if (plan.isCompleted()) {
-				plan.setMemo(temp.getMemo());
-			} else {
-				BeanUtils.copyProperties(temp, plan);
-				if (product != null
-						&& !plan.getProduct().getId().equals(product.getId())) {
-					plan.setProduct(productManager.get(product.getId()));
-				}
-			}
-		}
-		planManager.save(plan);
-		addActionMessage(getText("save.success"));
-		return SUCCESS;
-	}
-
-	@Override
-	public String delete() {
-		String[] id = getId();
-		if (id != null) {
-			planManager.delete((Serializable[]) id);
-			addActionMessage(getText("delete.success"));
-		}
-		return SUCCESS;
 	}
 
 	public String complete() {

@@ -17,6 +17,7 @@
 <button type="button" class="btn confirm" data-action="save">${action.getText("save")}</button>
 <button type="button" class="btn" data-action="delete" data-shown="selected">${action.getText("delete")}</button>
 <button type="button" class="btn reload">${action.getText("reload")}</button>
+<button type="button" class="btn filter">${action.getText("filter")}</button>
 <a class="btn hidden-tablet hidden-phone hidden-pad" data-shown="selected" href="${getUrl("/biz/chart/view?type=product")}" rel="richtable" data-windowoptions="{\'width\':\'1200px\',\'reloadonclose\':false}">${action.getText("compare")}</a>
 '>
 <@richtable entityName="product" actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons columns=columns searchable=true/>

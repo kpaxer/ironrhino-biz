@@ -16,10 +16,9 @@
 <button type="button" class="btn" data-action="pay" data-shown="selected" data-filterselector=":not(.paid)">${action.getText("pay")}</button>
 <button type="button" class="btn" data-action="ship" data-shown="selected" data-filterselector=":not(.shipped)">${action.getText("ship")}</button>
 <button type="button" class="btn reload">${action.getText("reload")}</button>
+<button type="button" class="btn filter">${action.getText("filter")}</button>
+<button type="button" class="btn more">${action.getText("more")}</button>
 '>
-<#if !locale?starts_with('en')>
-<#assign bottomButtons=bottomButtons+'<button type="button" class="btn more">${action.getText("more")}</button>'/>
-</#if>
 <@richtable entityName="order" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons celleditable=false deletable=false searchable=true rowDynamicAttributes=r"{'class':'<#if entity.paid> paid</#if><#if entity.shipped> shipped</#if>'}"/>
 </body>
 </html></#escape>

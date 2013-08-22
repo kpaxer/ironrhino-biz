@@ -10,12 +10,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
+import org.ironrhino.core.model.Persistable;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.SearchService.Mapper;
 import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
@@ -91,6 +91,10 @@ public class OrderAction extends BaseAction {
 
 	@Autowired(required = false)
 	private transient ElasticSearchService<Order> elasticSearchService;
+	
+	public Class<? extends Persistable<?>> getEntityClass() {
+		return Order.class;
+	}
 
 	public ResultPage<Order> getResultPage() {
 		return resultPage;
@@ -188,25 +192,11 @@ public class OrderAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = orderManager.detachedCriteria();
-			Criterion filtering = CriterionUtils.filter(order, "id", "code");
-			if (filtering != null)
-				dc.add(filtering);
+			CriterionUtils.filter(dc, getEntityClass());
 			if (StringUtils.isNotBlank(keyword))
 				dc.createAlias("customer", "customer").add(
 						CriterionUtils.like(keyword, MatchMode.ANYWHERE,
 								"customer.name", "code", "memo"));
-			if (customer != null && customer.getId() != null)
-				dc.createAlias("customer", "c").add(
-						Restrictions.eq("c.id", customer.getId()));
-			if (stationId != null)
-				dc.createAlias("station", "st").add(
-						Restrictions.eq("st.id", stationId));
-			if (salesman != null && salesman.getId() != null)
-				dc.createAlias("salesman", "e").add(
-						Restrictions.eq("e.id", salesman.getId()));
-			if (deliveryman != null && deliveryman.getId() != null)
-				dc.createAlias("deliveryman", "d").add(
-						Restrictions.eq("d.id", deliveryman.getId()));
 			dc.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
 			dc.addOrder(org.hibernate.criterion.Order.desc("code"));
 			if (resultPage == null)

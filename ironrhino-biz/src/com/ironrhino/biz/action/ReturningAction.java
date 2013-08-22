@@ -8,12 +8,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
+import org.ironrhino.core.model.Persistable;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.SearchService.Mapper;
 import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
@@ -75,6 +75,10 @@ public class ReturningAction extends BaseAction {
 
 	@Autowired(required = false)
 	private transient ElasticSearchService<Returning> elasticSearchService;
+	
+	public Class<? extends Persistable<?>> getEntityClass() {
+		return Returning.class;
+	}
 
 	public ResultPage<Returning> getResultPage() {
 		return resultPage;
@@ -145,10 +149,7 @@ public class ReturningAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = entityManager.detachedCriteria();
-			Criterion filtering = CriterionUtils.filter(returning, "id",
-					"returnDate");
-			if (filtering != null)
-				dc.add(filtering);
+			CriterionUtils.filter(dc, getEntityClass());
 			if (StringUtils.isNotBlank(keyword))
 				dc.createAlias("customer", "customer").add(
 						CriterionUtils.like(keyword, MatchMode.ANYWHERE,

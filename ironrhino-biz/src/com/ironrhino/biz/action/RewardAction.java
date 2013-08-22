@@ -1,21 +1,21 @@
 package com.ironrhino.biz.action;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
+import org.ironrhino.core.model.Persistable;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
 import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
@@ -60,6 +60,10 @@ public class RewardAction extends BaseAction {
 
 	@Autowired(required = false)
 	private transient ElasticSearchService<Reward> elasticSearchService;
+
+	public Class<? extends Persistable<?>> getEntityClass() {
+		return Reward.class;
+	}
 
 	@CreateIfNull
 	public List<Reward> getRewardList() {
@@ -125,21 +129,15 @@ public class RewardAction extends BaseAction {
 			return view;
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = rewardManager.detachedCriteria();
-			dc.createAlias("employee", "employee");
-			Criterion filtering = CriterionUtils.filter(reward, "id",
-					"rewardDate", "type");
-			if (filtering != null)
-				dc.add(filtering);
+			Map<String, String> aliases = CriterionUtils.filter(dc,
+					getEntityClass());
+			if (!aliases.containsKey("employee")) {
+				dc.createAlias("employee", "e");
+				aliases.put("employee", "e");
+			}
 			if (StringUtils.isNotBlank(keyword))
 				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE,
-						"employee.name", "memo"));
-			if (employee != null && employee.getId() != null)
-				dc.add(Restrictions.eq("employee.id", employee.getId()));
-			if (negative != null)
-				if (!negative)
-					dc.add(Restrictions.gt("amount", new BigDecimal(0)));
-				else
-					dc.add(Restrictions.lt("amount", new BigDecimal(0)));
+						aliases.get("employee") + ".name", "memo"));
 			dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
 			dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 			if (resultPage == null)

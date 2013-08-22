@@ -3,13 +3,13 @@ package com.ironrhino.biz.action;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
+import org.ironrhino.core.model.Persistable;
 import org.ironrhino.core.model.ResultPage;
 import org.ironrhino.core.search.elasticsearch.ElasticSearchCriteria;
 import org.ironrhino.core.search.elasticsearch.ElasticSearchService;
@@ -43,6 +43,10 @@ public class StuffflowAction extends BaseAction {
 
 	@Autowired(required = false)
 	private transient ElasticSearchService<Stuffflow> elasticSearchService;
+
+	public Class<? extends Persistable<?>> getEntityClass() {
+		return Stuffflow.class;
+	}
 
 	public boolean isOut() {
 		return out;
@@ -86,10 +90,7 @@ public class StuffflowAction extends BaseAction {
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			entityManager.setEntityClass(Stuffflow.class);
 			DetachedCriteria dc = entityManager.detachedCriteria();
-			Criterion filtering = CriterionUtils.filter(stuffflow, "id",
-					"createDate");
-			if (filtering != null)
-				dc.add(filtering);
+			CriterionUtils.filter(dc, getEntityClass());
 			if (StringUtils.isNotBlank(keyword))
 				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "memo"));
 			if (stuff != null && stuff.getId() != null)

@@ -17,9 +17,9 @@
 <div class="tab-content">
 	<div id="all_reward" class="tab-pane ajaxpanel active" data-url="${dataurl}">
 	</div>
-	<div id="positive_reward" class="tab-pane ajaxpanel manual" data-url="${dataurl+dataurl?contains('?')?string('&','?')}negative=false">
+	<div id="positive_reward" class="tab-pane ajaxpanel manual" data-url="${dataurl+dataurl?contains('?')?string('&','?')}amount=0&amount-op=GT">
 	</div>
-	<div id="negative_reward" class="tab-pane ajaxpanel manual" data-url="${dataurl+dataurl?contains('?')?string('&','?')}negative=true">
+	<div id="negative_reward" class="tab-pane ajaxpanel manual" data-url="${dataurl+dataurl?contains('?')?string('&','?')}amount=0&amount-op=LT">
 	</div>
 </div>
 </body>
