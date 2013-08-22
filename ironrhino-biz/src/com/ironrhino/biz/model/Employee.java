@@ -12,9 +12,10 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
 import org.ironrhino.core.metadata.AutoConfig;
+import org.ironrhino.core.metadata.Hidden;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.metadata.NotInJson;
-import org.ironrhino.core.metadata.RichtableConfig;
+import org.ironrhino.core.metadata.Richtable;
 import org.ironrhino.core.metadata.UiConfig;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.search.elasticsearch.annotations.Index;
@@ -26,7 +27,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 @Searchable
 @javax.persistence.Entity
 @Table(name = "employee")
-@RichtableConfig(order = "dimission,type,name", actionColumnButtons = "<button type=\"button\" class=\"btn\" data-view=\"input\">${action.getText('edit')}</button> <a class=\"btn ajax view\" href=\"${getUrl('/biz/reward/tabs?employee.id='+entity.id)}\">${action.getText('reward')}</a> <a class=\"btn\" href=\"${getUrl('/biz/reward/input?negative=true&employee.id='+entity.id)}\" rel=\"richtable\" data-windowoptions=\"{'reloadonclose':false}\">${action.getText('reward.out')}</a> <a class=\"btn\" href=\"${getUrl('/biz/reward/input?employee.id='+entity.id)}\" rel=\"richtable\" data-windowoptions=\"{'reloadonclose':false}\">${action.getText('reward.in')}</a><#if entity.type??&&entity.type.name()=='SALESMAN'> <a class=\"btn ajax view\" href=\"${getUrl('/biz/order?salesman.id='+entity.id)}\">${action.getText('salesman')}${action.getText('order')}</a></#if><#if entity.type??&&entity.type.name()=='DELIVERYMAN'> <a class=\"btn ajax view\" href=\"${getUrl('/biz/order?deliveryman.id='+entity.id)}\">${action.getText('deliveryman')}${action.getText('order')}</a></#if>")
+@Richtable(order = "dimission,type,name", actionColumnButtons = "<button type=\"button\" class=\"btn\" data-view=\"input\">${action.getText('edit')}</button> <a class=\"btn ajax view\" href=\"${getUrl('/biz/reward/tabs?employee.id='+entity.id)}\">${action.getText('reward')}</a> <a class=\"btn\" href=\"${getUrl('/biz/reward/input?negative=true&employee.id='+entity.id)}\" rel=\"richtable\" data-windowoptions=\"{'reloadonclose':false}\">${action.getText('reward.out')}</a> <a class=\"btn\" href=\"${getUrl('/biz/reward/input?employee.id='+entity.id)}\" rel=\"richtable\" data-windowoptions=\"{'reloadonclose':false}\">${action.getText('reward.in')}</a><#if entity.type??&&entity.type.name()=='SALESMAN'> <a class=\"btn ajax view\" href=\"${getUrl('/biz/order?salesman.id='+entity.id)}\">${action.getText('salesman')}${action.getText('order')}</a></#if><#if entity.type??&&entity.type.name()=='DELIVERYMAN'> <a class=\"btn ajax view\" href=\"${getUrl('/biz/order?deliveryman.id='+entity.id)}\">${action.getText('deliveryman')}${action.getText('order')}</a></#if>")
 public class Employee extends Entity<Long> {
 
 	private static final long serialVersionUID = 4207375657699283494L;
@@ -62,7 +63,7 @@ public class Employee extends Entity<Long> {
 
 	@SearchableProperty(boost = 1)
 	@Column(length = 4000)
-	@UiConfig(displayOrder = 6, type = "textarea", maxlength = 4000, hiddenInList = true)
+	@UiConfig(displayOrder = 6, type = "textarea", maxlength = 4000, hiddenInList = @Hidden(true))
 	private String memo;
 
 	@NotInCopy
