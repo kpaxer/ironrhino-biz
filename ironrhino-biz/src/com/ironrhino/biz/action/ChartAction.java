@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.inject.Inject;
 
@@ -40,6 +39,7 @@ import org.ironrhino.core.service.EntityManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
 import org.ironrhino.core.util.ErrorMessage;
+import org.ironrhino.core.util.ValueThenKeyComparator;
 
 import com.ironrhino.biz.model.Brand;
 import com.ironrhino.biz.model.Category;
@@ -259,21 +259,14 @@ public class ChartAction extends BaseAction {
 				}
 			}
 		}
-		Map<String, BigDecimal> sortedMap = new TreeMap<String, BigDecimal>(
-				new Comparator<String>() {
-					@Override
-					public int compare(String o1, String o2) {
-						BigDecimal p1 = datamap.get(o1);
-						BigDecimal p2 = datamap.get(o2);
-						if (p1 == null)
-							return -1;
-						if (p2 == null)
-							return 1;
-						int i = p2.compareTo(p1);
-						return i != 0 ? i : o1.compareTo(o2);
-					}
-				});
-		sortedMap.putAll(datamap);
+		List<Map.Entry<String, BigDecimal>> list = new ArrayList<Map.Entry<String, BigDecimal>>(
+				datamap.entrySet());
+		Collections.sort(list, ValueThenKeyComparator
+				.<String, BigDecimal> getDefaultInstance());
+		Map<String, BigDecimal> sortedMap = new LinkedHashMap<String, BigDecimal>();
+		for (Map.Entry<String, BigDecimal> entry : list) {
+			sortedMap.put(entry.getKey(), entry.getValue());
+		}
 		BigDecimal max = new BigDecimal(0);
 		if (sortedMap.size() > 0)
 			max = sortedMap.entrySet().iterator().next().getValue();
