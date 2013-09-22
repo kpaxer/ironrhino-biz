@@ -63,7 +63,7 @@ public class Employee extends Entity<Long> {
 
 	@SearchableProperty(boost = 1)
 	@Column(length = 4000)
-	@UiConfig(displayOrder = 6, type = "textarea", maxlength = 4000, hiddenInList = @Hidden(true))
+	@UiConfig(displayOrder = 6, type = "textarea", hiddenInList = @Hidden(true))
 	private String memo;
 
 	@NotInCopy

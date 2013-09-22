@@ -60,7 +60,7 @@ public class Plan extends BaseEntity {
 
 	@SearchableProperty
 	@Column(length = 4000)
-	@UiConfig(displayOrder = 6, type = "textarea", maxlength = 4000)
+	@UiConfig(displayOrder = 6, type = "textarea")
 	private String memo;
 
 	@NotInCopy
