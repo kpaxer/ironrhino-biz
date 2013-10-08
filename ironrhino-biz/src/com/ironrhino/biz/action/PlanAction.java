@@ -3,7 +3,7 @@ package com.ironrhino.biz.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -25,7 +25,7 @@ public class PlanAction extends EntityAction<Plan> {
 
 	private List<Plan> uncompletedPlans;
 
-	@Inject
+	@Autowired
 	private transient PlanManager planManager;
 
 	public List<Plan> getUncompletedPlans() {

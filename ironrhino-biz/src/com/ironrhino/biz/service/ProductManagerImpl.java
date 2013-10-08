@@ -2,21 +2,18 @@ package com.ironrhino.biz.service;
 
 import java.sql.SQLException;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.ironrhino.core.service.BaseManagerImpl;
 import org.ironrhino.core.util.ErrorMessage;
 import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.model.Product;
 
-@Singleton
-@Named
+@Component
 public class ProductManagerImpl extends BaseManagerImpl<Product> implements
 		ProductManager {
 

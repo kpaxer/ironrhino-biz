@@ -7,8 +7,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -74,24 +72,24 @@ public class OrderAction extends BaseAction {
 
 	private List<Date> uninputedDates;
 
-	@Inject
+	@Autowired
 	private transient OrderManager orderManager;
 
-	@Inject
+	@Autowired
 	private transient CustomerManager customerManager;
 
-	@Inject
+	@Autowired
 	private transient EmployeeManager employeeManager;
 
-	@Inject
+	@Autowired
 	private transient ProductManager productManager;
 
-	@Inject
+	@Autowired
 	private transient StationManager stationManager;
 
 	@Autowired(required = false)
 	private transient ElasticSearchService<Order> elasticSearchService;
-	
+
 	public Class<? extends Persistable<?>> getEntityClass() {
 		return Order.class;
 	}

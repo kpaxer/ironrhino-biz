@@ -2,23 +2,20 @@ package com.ironrhino.biz.service;
 
 import java.util.Date;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import org.ironrhino.core.service.BaseManagerImpl;
 import org.ironrhino.core.util.ErrorMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.model.Plan;
 import com.ironrhino.biz.model.Product;
 
-@Singleton
-@Named
+@Component
 public class PlanManagerImpl extends BaseManagerImpl<Plan> implements
 		PlanManager {
 
-	@Inject
+	@Autowired
 	private ProductManager productManager;
 
 	@Override

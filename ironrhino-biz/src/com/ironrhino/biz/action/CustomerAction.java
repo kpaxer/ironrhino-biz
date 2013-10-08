@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
@@ -61,13 +59,13 @@ public class CustomerAction extends BaseAction {
 
 	private int threshold;
 
-	@Inject
+	@Autowired
 	private transient CustomerManager customerManager;
 
-	@Inject
+	@Autowired
 	private transient OrderManager orderManager;
 
-	@Inject
+	@Autowired
 	private transient RegionTreeControl regionTreeControl;
 
 	@Autowired(required = false)

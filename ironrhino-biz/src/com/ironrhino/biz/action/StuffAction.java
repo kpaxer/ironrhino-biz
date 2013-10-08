@@ -2,8 +2,6 @@ package com.ironrhino.biz.action;
 
 import java.io.Serializable;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -38,12 +36,12 @@ public class StuffAction extends BaseAction {
 
 	private ResultPage<Stuff> resultPage;
 
-	@Inject
+	@Autowired
 	private transient StuffManager stuffManager;
 
 	@Autowired(required = false)
 	private transient ElasticSearchService<Stuff> elasticSearchService;
-	
+
 	public Class<? extends Persistable<?>> getEntityClass() {
 		return Stuff.class;
 	}

@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
@@ -52,10 +50,10 @@ public class RewardAction extends BaseAction {
 
 	private List<Date> uninputedDates;
 
-	@Inject
+	@Autowired
 	private transient RewardManager rewardManager;
 
-	@Inject
+	@Autowired
 	private transient EmployeeManager employeeManager;
 
 	@Autowired(required = false)

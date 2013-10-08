@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.fill.JRAbstractLRUVirtualizer;
@@ -80,28 +80,28 @@ public class ReportAction extends BaseAction {
 
 	private List<Employee> deliverymanList;
 
-	@Inject
+	@Autowired
 	private transient RewardManager rewardManager;
 
-	@Inject
+	@Autowired
 	private transient EmployeeManager employeeManager;
 
-	@Inject
+	@Autowired
 	private transient CustomerManager customerManager;
 
-	@Inject
+	@Autowired
 	private transient OrderManager orderManager;
 
-	@Inject
+	@Autowired
 	private transient StuffManager stuffManager;
 
-	@Inject
+	@Autowired
 	private transient ProductManager productManager;
 
-	@Inject
+	@Autowired
 	private transient EntityManager entityManager;
 
-	@Inject
+	@Autowired
 	private transient RegionTreeControl regionTreeControl;
 
 	public void setNegative(Boolean negative) {

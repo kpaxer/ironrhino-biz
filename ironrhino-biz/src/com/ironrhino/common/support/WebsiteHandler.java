@@ -2,25 +2,23 @@ package com.ironrhino.common.support;
 
 import java.net.URL;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.ironrhino.common.support.SettingControl;
 import org.ironrhino.core.servlet.AccessHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.ironrhino.Constants;
 
-@Named
-@Singleton
+@Component
 public class WebsiteHandler implements AccessHandler {
 
 	public static final String REQUEST_ATTR_NAME_WEBSITE = "website";
 
-	@Inject
+	@Autowired
 	private SettingControl settingControl;
 
 	@Override

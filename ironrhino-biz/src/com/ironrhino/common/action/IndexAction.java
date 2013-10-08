@@ -1,6 +1,6 @@
 package com.ironrhino.common.action;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.struts.BaseAction;
@@ -12,7 +12,7 @@ public class IndexAction extends BaseAction {
 
 	private static final long serialVersionUID = 29792886600858873L;
 
-	@Inject
+	@Autowired
 	private WebsiteHandler websiteHandler;
 
 	@Override

@@ -1,14 +1,11 @@
 package com.ironrhino.biz.service;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import org.ironrhino.core.service.BaseManagerImpl;
+import org.springframework.stereotype.Component;
 
 import com.ironrhino.biz.model.Employee;
 
-@Singleton
-@Named
+@Component
 public class EmployeeManagerImpl extends BaseManagerImpl<Employee> implements
 		EmployeeManager {
 

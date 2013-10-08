@@ -1,7 +1,5 @@
 package com.ironrhino.biz.action;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -38,7 +36,7 @@ public class StuffflowAction extends BaseAction {
 
 	private transient EntityManager<Stuffflow> entityManager;
 
-	@Inject
+	@Autowired
 	private transient StuffManager stuffManager;
 
 	@Autowired(required = false)

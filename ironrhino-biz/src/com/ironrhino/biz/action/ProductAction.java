@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -48,13 +46,13 @@ public class ProductAction extends BaseAction {
 
 	private List<Brand> brandList;
 
-	@Inject
+	@Autowired
 	private transient CategoryManager categoryManager;
 
-	@Inject
+	@Autowired
 	private transient BrandManager brandManager;
 
-	@Inject
+	@Autowired
 	private transient ProductManager productManager;
 
 	@Autowired(required = false)

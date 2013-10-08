@@ -1,6 +1,6 @@
 package com.ironrhino.common.action;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ironrhino.common.model.Page;
@@ -20,7 +20,7 @@ public class SearchAction extends BaseAction {
 
 	private static final long serialVersionUID = 3969977471985368095L;
 
-	@Inject
+	@Autowired
 	private transient ElasticSearchService<Page> elasticSearchService;
 
 	private ResultPage<Page> resultPage;

@@ -3,10 +3,6 @@ package com.ironrhino.biz.service;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -14,6 +10,9 @@ import org.ironrhino.core.sequence.CyclicSequence;
 import org.ironrhino.core.service.BaseManagerImpl;
 import org.ironrhino.core.util.DateUtils;
 import org.ironrhino.core.util.ErrorMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ironrhino.biz.model.Customer;
@@ -23,22 +22,21 @@ import com.ironrhino.biz.model.Plan;
 import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.SaleType;
 
-@Singleton
-@Named
+@Component
 public class OrderManagerImpl extends BaseManagerImpl<Order> implements
 		OrderManager {
 
-	@Inject
-	@Named("orderCodeSequence")
+	@Autowired
+	@Qualifier("orderCodeSequence")
 	private CyclicSequence orderCodeSequence;
 
-	@Inject
+	@Autowired
 	private CustomerManager customerManager;
 
-	@Inject
+	@Autowired
 	private ProductManager productManager;
 
-	@Inject
+	@Autowired
 	private PlanManager planManager;
 
 	@Override

@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
@@ -87,25 +87,25 @@ public class ChartAction extends BaseAction {
 
 	private List<Brand> brandList;
 
-	@Inject
+	@Autowired
 	private transient BrandManager brandManager;
 
-	@Inject
+	@Autowired
 	private transient CategoryManager categoryManager;
 
-	@Inject
+	@Autowired
 	private transient OrderManager orderManager;
 
-	@Inject
+	@Autowired
 	private transient ProductManager productManager;
 
-	@Inject
+	@Autowired
 	private transient StuffManager stuffManager;
 
-	@Inject
+	@Autowired
 	private transient EntityManager entityManager;
 
-	@Inject
+	@Autowired
 	private transient RegionTreeControl regionTreeControl;
 
 	public List<Category> getCategoryList() {

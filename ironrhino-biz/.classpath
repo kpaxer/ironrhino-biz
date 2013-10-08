@@ -21,7 +21,6 @@
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/hibernate-core-4.2.6.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpclient-4.3.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/httpcore-4.3.jar"/>
-	<classpathentry kind="lib" path="webapp/WEB-INF/lib/inject-api-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-common-cms-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-common-region-1.0.jar"/>
 	<classpathentry kind="lib" path="webapp/WEB-INF/lib/ironrhino-common-setting-1.0.jar"/>

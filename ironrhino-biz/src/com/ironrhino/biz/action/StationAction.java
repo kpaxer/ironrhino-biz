@@ -6,8 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
@@ -46,15 +44,15 @@ public class StationAction extends BaseAction {
 
 	private Long regionId;
 
-	@Inject
+	@Autowired
 	private transient StationManager stationManager;
 
-	@Inject
+	@Autowired
 	private transient RegionTreeControl regionTreeControl;
 
 	@Autowired(required = false)
 	private transient ElasticSearchService<Station> elasticSearchService;
-	
+
 	public Class<? extends Persistable<?>> getEntityClass() {
 		return Station.class;
 	}

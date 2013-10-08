@@ -7,9 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -20,23 +17,24 @@ import org.ironrhino.core.metadata.Trigger;
 import org.ironrhino.core.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-@Singleton
-@Named
+@Component
 @Profile(DUAL)
 public class Backup {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Inject
+	@Autowired
 	private MailSender mailSender;
 
-	@Inject
+	@Autowired
 	private Membership membership;
 
 	@Value("${backup.path:}")
