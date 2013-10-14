@@ -8,11 +8,11 @@
 <table class="table table-striped table-condensed middle">
 			<thead>
 				<tr>
-					<td>${action.getText('code')}</td>
-					<td>${action.getText('customer')}</td>
-					<td>${action.getText('orderDate')}</td>
-					<td>${action.getText('grandTotal')}</td>
-					<td style="min-width:52px;"></td>
+					<th>${action.getText('code')}</th>
+					<th>${action.getText('customer')}</th>
+					<th>${action.getText('orderDate')}</th>
+					<th>${action.getText('grandTotal')}</th>
+					<th style="min-width:52px;"></th>
 				</tr>
 			</thead>
 			<tbody>

@@ -5,7 +5,7 @@
 </head>
 <body>
 <#if uninputedDates.size() gt 0>
-<h4>${action.getText('uninputed')}${action.getText('order')}</h4>
+<h5>${action.getText('uninputed')}${action.getText('order')}</h5>
 <ul>
 	<#list uninputedDates as var>
 	<li>${var?string('yyyy-MM-dd')}</li>

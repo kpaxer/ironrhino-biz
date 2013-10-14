@@ -8,12 +8,12 @@
 <table class="table table-striped table-condensed middle unpaid_order">
 			<thead>
 				<tr>
-					<td>${action.getText('code')}</td>
-					<td style="width:20%;">${action.getText('customer')}</td>
-					<td style="width:23%;">${action.getText('orderDate')}</td>
-					<td>${action.getText('grandTotal')}</td>
-					<td>${action.getText('station')}</td>
-					<td style="min-width:52px;"></td>
+					<th>${action.getText('code')}</th>
+					<th style="width:20%;">${action.getText('customer')}</th>
+					<th style="width:23%;">${action.getText('orderDate')}</th>
+					<th>${action.getText('grandTotal')}</th>
+					<th>${action.getText('station')}</th>
+					<th style="min-width:54px;"></th>
 				</tr>
 			</thead>
 			<tbody>

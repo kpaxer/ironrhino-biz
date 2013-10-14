@@ -8,10 +8,10 @@
 <table class="table table-striped table-condensed middle">
 	<thead>
 		<tr>
-			<td>${action.getText('product')}</td>
-			<td>${action.getText('planDate')}</td>
-			<td>${action.getText('quantity')}</td>
-			<td style="min-width:52px;"></td>
+			<th>${action.getText('product')}</th>
+			<th>${action.getText('planDate')}</th>
+			<th>${action.getText('quantity')}</th>
+			<th style="min-width:52px;"></th>
 		</tr>
 	</thead>
 	<tbody>
