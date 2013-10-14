@@ -22,7 +22,7 @@
 <button type="button" class="btn" onclick="$(\'#merge\').toggle()">${action.getText("merge")}</button>
 <button type="submit" class="btn noajax" formaction="${actionBaseUrl}/vcard">${action.getText("vcard")}</button>
 '>
-<#assign searchButtons=r'<a href="chart/geo" class="hidden-tablet hidden-phone hidden-pad" target="_blank" title="按区域检索" style="line-height:30px;margin-left:2px;"><i class="icon-filter"></i></a>'/>
+<#assign searchButtons=r'<a href="chart/geo" class="hidden-tablet hidden-phone hidden-pad" target="_blank" title="按区域检索" style="line-height:30px;margin-left:2px;"><i class="glyphicon glyphicon-filter"></i></a>'/>
 <@richtable entityName="customer" columns=columns actionColumnButtons=actionColumnButtons bottomButtons=bottomButtons searchable=true/>
 
 <form id="merge" action="customer/merge" method="post" class="ajax reset form-inline" style="display:none;" onprepare="return confirm('此操作不能恢复,确定要合并?');" onsuccess="$('#customer_form').submit()">
