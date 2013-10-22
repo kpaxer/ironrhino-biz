@@ -3,7 +3,6 @@ package com.ironrhino.biz.action;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
@@ -11,6 +10,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.core.hibernate.CriteriaState;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.Persistable;
@@ -127,17 +127,20 @@ public class RewardAction extends BaseAction {
 			return view;
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = rewardManager.detachedCriteria();
-			Map<String, String> aliases = CriterionUtils.filter(dc,
+			CriteriaState criteriaState = CriterionUtils.filter(dc,
 					getEntityClass());
-			if (!aliases.containsKey("employee")) {
+			if (!criteriaState.getAliases().containsKey("employee")) {
 				dc.createAlias("employee", "e");
-				aliases.put("employee", "e");
+				criteriaState.getAliases().put("employee", "e");
 			}
 			if (StringUtils.isNotBlank(keyword))
 				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE,
-						aliases.get("employee") + ".name", "memo"));
-			dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
-			dc.addOrder(org.hibernate.criterion.Order.asc("type"));
+						criteriaState.getAliases().get("employee") + ".name",
+						"memo"));
+			if (criteriaState == null || criteriaState.getOrderings().isEmpty()) {
+				dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
+				dc.addOrder(org.hibernate.criterion.Order.asc("type"));
+			}
 			if (resultPage == null)
 				resultPage = new ResultPage<Reward>();
 			resultPage.setCriteria(dc);

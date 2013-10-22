@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.ironrhino.core.hibernate.CriteriaState;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.Persistable;
@@ -74,13 +75,16 @@ public class StuffAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = stuffManager.detachedCriteria();
-			CriterionUtils.filter(dc, getEntityClass());
+			CriteriaState criteriaState = CriterionUtils.filter(dc,
+					getEntityClass());
 			if (StringUtils.isNotBlank(keyword))
 				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "name"));
 			dc.addOrder(Order.asc("displayOrder"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuff>();
 			resultPage.setCriteria(dc);
+			if (criteriaState == null || criteriaState.getOrderings().isEmpty())
+				dc.addOrder(Order.asc("name"));
 			resultPage = stuffManager.findByResultPage(resultPage);
 		} else {
 			String query = keyword.trim();

@@ -2,12 +2,12 @@ package com.ironrhino.biz.action;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.ironrhino.core.hibernate.CriteriaState;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
@@ -106,20 +106,23 @@ public class ProductAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = productManager.detachedCriteria();
-			Map<String, String> aliases = CriterionUtils.filter(dc,
+			CriteriaState criteriaState = CriterionUtils.filter(dc,
 					getEntityClass());
 			if (StringUtils.isNotBlank(keyword))
 				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "name"));
 			dc.addOrder(Order.asc("displayOrder"));
-			if (aliases.containsKey("brand"))
-				dc.addOrder(Order.asc(aliases.get("brand") + ".name"));
+			if (criteriaState.getAliases().containsKey("brand"))
+				dc.addOrder(Order.asc(criteriaState.getAliases().get("brand")
+						+ ".name"));
 			else
 				dc.createAlias("brand", "b").addOrder(Order.asc("b.name"));
-			if (aliases.containsKey("category"))
-				dc.addOrder(Order.asc(aliases.get("category") + ".name"));
+			if (criteriaState.getAliases().containsKey("category"))
+				dc.addOrder(Order.asc(criteriaState.getAliases()
+						.get("category") + ".name"));
 			else
 				dc.createAlias("category", "c").addOrder(Order.asc("c.name"));
-			dc.addOrder(Order.asc("name"));
+			if (criteriaState == null || criteriaState.getOrderings().isEmpty())
+				dc.addOrder(Order.asc("name"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Product>();
 			resultPage.setCriteria(dc);

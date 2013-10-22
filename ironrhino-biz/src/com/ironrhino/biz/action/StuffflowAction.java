@@ -5,6 +5,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.core.hibernate.CriteriaState;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.Persistable;
@@ -88,13 +89,15 @@ public class StuffflowAction extends BaseAction {
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			entityManager.setEntityClass(Stuffflow.class);
 			DetachedCriteria dc = entityManager.detachedCriteria();
-			CriterionUtils.filter(dc, getEntityClass());
+			CriteriaState criteriaState = CriterionUtils.filter(dc,
+					getEntityClass());
 			if (StringUtils.isNotBlank(keyword))
 				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "memo"));
 			if (stuff != null && stuff.getId() != null)
 				dc.createAlias("stuff", "s").add(
 						Restrictions.eq("s.id", stuff.getId()));
-			dc.addOrder(Order.desc("date"));
+			if (criteriaState == null || criteriaState.getOrderings().isEmpty())
+				dc.addOrder(Order.desc("date"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuffflow>();
 			resultPage.setCriteria(dc);

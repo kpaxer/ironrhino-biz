@@ -13,6 +13,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.common.support.RegionTreeControl;
+import org.ironrhino.core.hibernate.CriteriaState;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.JsonConfig;
@@ -101,7 +102,8 @@ public class StationAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = stationManager.detachedCriteria();
-			CriterionUtils.filter(dc, getEntityClass());
+			CriteriaState criteriaState = CriterionUtils.filter(dc,
+					getEntityClass());
 			if (StringUtils.isNotBlank(keyword))
 				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "name",
 						"phone", "mobile", "address", "destination"));
@@ -118,7 +120,8 @@ public class StationAction extends BaseAction {
 					}
 				}
 			}
-			dc.addOrder(org.hibernate.criterion.Order.asc("id"));
+			if (criteriaState == null || criteriaState.getOrderings().isEmpty())
+				dc.addOrder(org.hibernate.criterion.Order.asc("id"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Station>();
 			resultPage.setCriteria(dc);

@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.ironrhino.core.hibernate.CriteriaState;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.model.Persistable;
@@ -190,13 +191,16 @@ public class OrderAction extends BaseAction {
 	public String execute() {
 		if (StringUtils.isBlank(keyword) || elasticSearchService == null) {
 			DetachedCriteria dc = orderManager.detachedCriteria();
-			CriterionUtils.filter(dc, getEntityClass());
+			CriteriaState criteriaState = CriterionUtils.filter(dc,
+					getEntityClass());
 			if (StringUtils.isNotBlank(keyword))
 				dc.createAlias("customer", "customer").add(
 						CriterionUtils.like(keyword, MatchMode.ANYWHERE,
 								"customer.name", "code", "memo"));
-			dc.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
-			dc.addOrder(org.hibernate.criterion.Order.desc("code"));
+			if (criteriaState == null || criteriaState.getOrderings().isEmpty()) {
+				dc.addOrder(org.hibernate.criterion.Order.desc("orderDate"));
+				dc.addOrder(org.hibernate.criterion.Order.desc("code"));
+			}
 			if (resultPage == null)
 				resultPage = new ResultPage<Order>();
 			resultPage.setCriteria(dc);
