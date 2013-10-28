@@ -7,7 +7,7 @@
 <#assign columns={"name":{"cellEdit":"click"},"displayOrder":{"cellEdit":"click","width":"100px"}}>
 <#assign actionColumnButtons=r'
 <button type="button" class="btn" data-view="input">${action.getText("edit")}</button>
-<a class="btn" href="${getUrl("/common/schema/input/category:"+entity.id+"?brief=true")}" rel="richtable">${action.getText("schema")}</a>
+<a class="btn" href="${getUrl("/common/schema/input/category:"+entity.id+"?view=brief")}" rel="richtable">${action.getText("schema")}</a>
 '>
 <@richtable entityName="category" actionColumnButtons=actionColumnButtons columns=columns searchable=true/>
 </body>
