@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.hibernate.CriteriaState;
 import org.ironrhino.core.hibernate.CriterionUtils;
 import org.ironrhino.core.metadata.Authorize;
@@ -93,9 +92,6 @@ public class StuffflowAction extends BaseAction {
 					getEntityClass());
 			if (StringUtils.isNotBlank(keyword))
 				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE, "memo"));
-			if (stuff != null && stuff.getId() != null)
-				dc.createAlias("stuff", "s").add(
-						Restrictions.eq("s.id", stuff.getId()));
 			if (criteriaState.getOrderings().isEmpty())
 				dc.addOrder(Order.desc("date"));
 			if (resultPage == null)
