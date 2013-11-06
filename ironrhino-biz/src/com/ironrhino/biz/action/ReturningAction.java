@@ -150,20 +150,16 @@ public class ReturningAction extends BaseAction {
 			DetachedCriteria dc = entityManager.detachedCriteria();
 			CriteriaState criteriaState = CriterionUtils.filter(dc,
 					getEntityClass());
-			if (StringUtils.isNotBlank(keyword))
-				dc.createAlias("customer", "customer").add(
-						CriterionUtils.like(keyword, MatchMode.ANYWHERE,
-								"customer.name", "memo"));
-			if (customer != null && customer.getId() != null)
-				dc.createAlias("customer", "c").add(
-						Restrictions.eq("c.id", customer.getId()));
-			if (stationId != null)
-				dc.createAlias("station", "st").add(
-						Restrictions.eq("st.id", stationId));
-			if (salesman != null && salesman.getId() != null)
-				dc.createAlias("salesman", "e").add(
-						Restrictions.eq("e.id", salesman.getId()));
-			if (criteriaState == null || criteriaState.getOrderings().isEmpty())
+			if (StringUtils.isNotBlank(keyword)) {
+				if (!criteriaState.getAliases().containsKey("customer")) {
+					dc.createAlias("customer", "c");
+					criteriaState.getAliases().put("customer", "c");
+				}
+				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE,
+						criteriaState.getAliases().get("customer") + ".name",
+						"memo"));
+			}
+			if (criteriaState.getOrderings().isEmpty())
 				dc.addOrder(org.hibernate.criterion.Order.desc("returnDate"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Returning>();

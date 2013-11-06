@@ -121,7 +121,7 @@ public class ProductAction extends BaseAction {
 						.get("category") + ".name"));
 			else
 				dc.createAlias("category", "c").addOrder(Order.asc("c.name"));
-			if (criteriaState == null || criteriaState.getOrderings().isEmpty())
+			if (criteriaState.getOrderings().isEmpty())
 				dc.addOrder(Order.asc("name"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Product>();

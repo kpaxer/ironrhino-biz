@@ -96,7 +96,7 @@ public class StuffflowAction extends BaseAction {
 			if (stuff != null && stuff.getId() != null)
 				dc.createAlias("stuff", "s").add(
 						Restrictions.eq("s.id", stuff.getId()));
-			if (criteriaState == null || criteriaState.getOrderings().isEmpty())
+			if (criteriaState.getOrderings().isEmpty())
 				dc.addOrder(Order.desc("date"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuffflow>();

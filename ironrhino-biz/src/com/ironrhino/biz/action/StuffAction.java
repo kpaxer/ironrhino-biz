@@ -83,7 +83,7 @@ public class StuffAction extends BaseAction {
 			if (resultPage == null)
 				resultPage = new ResultPage<Stuff>();
 			resultPage.setCriteria(dc);
-			if (criteriaState == null || criteriaState.getOrderings().isEmpty())
+			if (criteriaState.getOrderings().isEmpty())
 				dc.addOrder(Order.asc("name"));
 			resultPage = stuffManager.findByResultPage(resultPage);
 		} else {

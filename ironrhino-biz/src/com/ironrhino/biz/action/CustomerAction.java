@@ -139,7 +139,7 @@ public class CustomerAction extends BaseAction {
 						DateUtils.beginOfDay(new Date()), -threshold)));
 				dc.addOrder(org.hibernate.criterion.Order.asc("activeDate"));
 			}
-			if (criteriaState == null || criteriaState.getOrderings().isEmpty())
+			if (criteriaState.getOrderings().isEmpty())
 				dc.addOrder(org.hibernate.criterion.Order.asc("id"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Customer>();

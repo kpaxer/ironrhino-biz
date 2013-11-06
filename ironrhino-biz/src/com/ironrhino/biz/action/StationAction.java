@@ -120,7 +120,7 @@ public class StationAction extends BaseAction {
 					}
 				}
 			}
-			if (criteriaState == null || criteriaState.getOrderings().isEmpty())
+			if (criteriaState.getOrderings().isEmpty())
 				dc.addOrder(org.hibernate.criterion.Order.asc("id"));
 			if (resultPage == null)
 				resultPage = new ResultPage<Station>();

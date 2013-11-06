@@ -137,7 +137,7 @@ public class RewardAction extends BaseAction {
 				dc.add(CriterionUtils.like(keyword, MatchMode.ANYWHERE,
 						criteriaState.getAliases().get("employee") + ".name",
 						"memo"));
-			if (criteriaState == null || criteriaState.getOrderings().isEmpty()) {
+			if (criteriaState.getOrderings().isEmpty()) {
 				dc.addOrder(org.hibernate.criterion.Order.desc("rewardDate"));
 				dc.addOrder(org.hibernate.criterion.Order.asc("type"));
 			}
