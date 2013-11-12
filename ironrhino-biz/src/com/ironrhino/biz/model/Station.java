@@ -30,8 +30,6 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 import org.ironrhino.core.util.JsonUtils;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
 @Searchable
 @AutoConfig
 @javax.persistence.Entity
@@ -188,8 +186,7 @@ public class Station extends Entity<Long> {
 		if (StringUtils.isNotBlank(cashConditionAsString))
 			try {
 				this.cashCondition = JsonUtils.fromJson(cashConditionAsString,
-						new TypeReference<List<String>>() {
-						});
+						JsonUtils.STRING_LIST_TYPE);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

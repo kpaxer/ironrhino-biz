@@ -44,6 +44,9 @@ public class Product extends Entity<Long> implements Ordered<Product>,
 
 	private static final long serialVersionUID = 1876365527076787416L;
 
+	private static final TypeReference<List<Attribute>> LIST_TYPE = new TypeReference<List<Attribute>>() {
+	};
+
 	@SearchableId
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
@@ -205,9 +208,7 @@ public class Product extends Entity<Long> implements Ordered<Product>,
 	public void setAttributesAsString(String str) {
 		if (StringUtils.isNotBlank(str))
 			try {
-				attributes = JsonUtils.fromJson(str,
-						new TypeReference<List<Attribute>>() {
-						});
+				attributes = JsonUtils.fromJson(str, LIST_TYPE);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

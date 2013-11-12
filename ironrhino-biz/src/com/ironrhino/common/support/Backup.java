@@ -45,14 +45,23 @@ public class Backup {
 
 	@PostConstruct
 	public void init() {
-		membership.join(getClass().getName());
+		try {
+			membership.join(getClass().getName());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
 	}
 
 	@Trigger
 	@Scheduled(cron = "0 0 22 * * ?")
 	public void send() {
-		if (!membership.isLeader(getClass().getName()))
+		try {
+			if (!membership.isLeader(getClass().getName()))
+				return;
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			return;
+		}
 		if (StringUtils.isBlank(path))
 			return;
 		String realpath = eval(path);
