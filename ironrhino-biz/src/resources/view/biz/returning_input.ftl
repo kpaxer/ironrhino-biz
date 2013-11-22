@@ -8,6 +8,7 @@
 	<#if !returning.new>
 		<@s.hidden name="returning.id" />
 	</#if>
+	<@s.hidden name="returning.version" cssClass="version" />
 	<div class="control-group">
 		<label class="control-label" for="customerName">${action.getText('customer')}${action.getText('name')}</label>
 		<div class="controls">

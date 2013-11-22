@@ -326,6 +326,11 @@ public class OrderAction extends BaseAction {
 		Order temp = order;
 		if (!order.isNew()) {
 			order = orderManager.get(temp.getId());
+			if (temp.getVersion() > -1
+					&& temp.getVersion() < order.getVersion()) {
+				addActionError(getText("validation.version.conflict"));
+				return INPUT;
+			}
 			order.setCustomer(customer);
 			order.setDiscount(temp.getDiscount());
 			order.setOrderDate(temp.getOrderDate());

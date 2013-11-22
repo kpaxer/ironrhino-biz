@@ -8,6 +8,7 @@
 	<#if !order.new>
 		<@s.hidden name="order.id" />
 	</#if>
+	<@s.hidden name="order.version" cssClass="version" />
 	<div class="row-fluid">
 		<div class="span5" style="min-height:60px;"><@s.textfield id="customerName" label="%{getText('customer')}" name="customer.name" cssClass="required customerName"><@s.param name="after"><span class="info" style="font-style:italic;margin-left:15px;"></span></@s.param></@s.textfield></div>
 		<div class="span3"><@s.textfield label="${action.getText('date')}" name="order.orderDate" cssClass="date required"/></div>

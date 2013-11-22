@@ -255,6 +255,11 @@ public class ReturningAction extends BaseAction {
 		Returning temp = returning;
 		if (!returning.isNew()) {
 			returning = entityManager.get(temp.getId());
+			if (temp.getVersion() > -1
+					&& temp.getVersion() < returning.getVersion()) {
+				addActionError(getText("validation.version.conflict"));
+				return INPUT;
+			}
 			returning.setCustomer(customer);
 			returning.setReturnDate(temp.getReturnDate());
 			returning.setFreight(temp.getFreight());

@@ -102,7 +102,7 @@ public class Returning extends BaseEntity implements Recordable<User> {
 
 	@NotInCopy
 	@Version
-	protected int version;
+	private int version = -1;
 
 	public BigDecimal getAmount() {
 		BigDecimal amount = new BigDecimal(0.0);
@@ -227,6 +227,14 @@ public class Returning extends BaseEntity implements Recordable<User> {
 	@Override
 	public void setModifyUserDetails(User modifyUser) {
 		this.modifyUser = modifyUser;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	@Override
