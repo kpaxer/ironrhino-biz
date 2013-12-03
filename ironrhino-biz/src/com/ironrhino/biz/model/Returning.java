@@ -48,9 +48,11 @@ public class Returning extends BaseEntity implements Recordable<User> {
 	private Date returnDate = new Date();
 
 	@NotInCopy
+	@Column(updatable = false)
 	private Date createDate = new Date();
 
 	@NotInCopy
+	@Column(insertable = false)
 	private Date modifyDate;
 
 	@SearchableProperty(index = Index.NO, store = Store.YES)
@@ -81,14 +83,14 @@ public class Returning extends BaseEntity implements Recordable<User> {
 
 	@SearchableComponent
 	@NotInCopy
-	@JoinColumn(name = "createUser")
+	@JoinColumn(name = "createUser", updatable = false)
 	@ForeignKey(name = "none")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User createUser;
 
 	@SearchableComponent
 	@NotInCopy
-	@JoinColumn(name = "modifyUser")
+	@JoinColumn(name = "modifyUser", insertable = false)
 	@ForeignKey(name = "none")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User modifyUser;

@@ -41,6 +41,7 @@ public class Stuffflow extends BaseEntity {
 	private String memo;
 
 	@NotInCopy
+	@Column(updatable = false)
 	private Date createDate = new Date();
 
 	@SearchableComponent

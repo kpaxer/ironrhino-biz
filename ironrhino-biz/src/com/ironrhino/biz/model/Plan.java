@@ -65,6 +65,7 @@ public class Plan extends BaseEntity {
 
 	@NotInCopy
 	@UiConfig(displayOrder = 7, hidden = true)
+	@Column(updatable = false)
 	private Date createDate = new Date();
 
 	public Date getCreateDate() {

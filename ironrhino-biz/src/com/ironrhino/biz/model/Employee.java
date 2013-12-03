@@ -69,6 +69,7 @@ public class Employee extends Entity<Long> {
 	@NotInCopy
 	@NotInJson
 	@UiConfig(hidden = true)
+	@Column(updatable = false)
 	private Date createDate = new Date();;
 
 	public Employee() {

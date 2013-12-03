@@ -78,6 +78,7 @@ public class Station extends Entity<Long> {
 
 	@NotInCopy
 	@NotInJson
+	@Column(updatable = false)
 	private Date createDate = new Date();;
 
 	@NotInCopy

@@ -39,6 +39,7 @@ public class Reward extends BaseEntity {
 	private Date rewardDate = new Date();
 
 	@NotInCopy
+	@Column(updatable = false)
 	private Date createDate = new Date();
 
 	@SearchableProperty

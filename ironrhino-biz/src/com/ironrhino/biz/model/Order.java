@@ -62,9 +62,11 @@ public class Order extends BaseEntity implements Recordable<User> {
 	private Date orderDate = new Date();
 
 	@NotInCopy
+	@Column(updatable = false)
 	private Date createDate = new Date();
 
 	@NotInCopy
+	@Column(insertable = false)
 	private Date modifyDate;
 
 	private boolean paid;
@@ -109,13 +111,13 @@ public class Order extends BaseEntity implements Recordable<User> {
 	private Employee deliveryman;
 
 	@NotInCopy
-	@JoinColumn(name = "createUser")
+	@JoinColumn(name = "createUser", updatable = false)
 	@ForeignKey(name = "none")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User createUser;
 
 	@NotInCopy
-	@JoinColumn(name = "modifyUser")
+	@JoinColumn(name = "modifyUser", insertable = false)
 	@ForeignKey(name = "none")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User modifyUser;
