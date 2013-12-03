@@ -74,7 +74,7 @@
 			<div class="portlet-header">${action.getText('inactive')}${action.getText('customer')}</div>
 			<div class="portlet-content">
 				<form method="get" action="customer" class="form-inline" target="_blank">
-				<label for="threshold">${action.getText('days')}:</label><input type="text" id="threshold" name="threshold" value="60" style="width:50px;" cssClass="required integer positive"/>
+				<label for="threshold">${action.getText('days')}:</label><input type="text" id="threshold" name="threshold" value="60" style="width:50px;" class="required integer positive"/>
 				<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
