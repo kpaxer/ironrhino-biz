@@ -3,15 +3,13 @@ package com.ironrhino.biz.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.struts.EntityAction;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.model.Plan;
-import com.ironrhino.biz.model.Product;
 import com.ironrhino.biz.model.UserRole;
 import com.ironrhino.biz.service.PlanManager;
 
@@ -21,8 +19,6 @@ public class PlanAction extends EntityAction<Plan> {
 
 	private static final long serialVersionUID = 4331302727890834065L;
 
-	private List<Product> productList;
-
 	private List<Plan> uncompletedPlans;
 
 	@Autowired
@@ -30,10 +26,6 @@ public class PlanAction extends EntityAction<Plan> {
 
 	public List<Plan> getUncompletedPlans() {
 		return uncompletedPlans;
-	}
-
-	public List<Product> getProductList() {
-		return productList;
 	}
 
 	public String complete() {
