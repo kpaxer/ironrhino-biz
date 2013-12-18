@@ -119,7 +119,7 @@ public class Order extends BaseEntity implements Recordable<User> {
 
 	@CreateIfNull
 	@ElementCollection(fetch = FetchType.LAZY, targetClass = OrderItem.class)
-	@CollectionTable(name = "orderitem", joinColumns = @JoinColumn(name = "orderId"))
+	@CollectionTable(name = "orderitem", joinColumns = @JoinColumn(name = "orderId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)))
 	@OrderColumn(name = "lineNumber", nullable = false)
 	@Fetch(FetchMode.SUBSELECT)
 	private List<OrderItem> items = new ArrayList<OrderItem>(0);

@@ -93,7 +93,7 @@ public class Returning extends BaseEntity implements Recordable<User> {
 
 	@CreateIfNull
 	@ElementCollection(fetch = FetchType.LAZY, targetClass = ReturningItem.class)
-	@CollectionTable(name = "returningitem", joinColumns = @JoinColumn(name = "returningId"))
+	@CollectionTable(name = "returningitem", joinColumns = @JoinColumn(name = "returningId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)))
 	@OrderColumn(name = "lineNumber", nullable = false)
 	@Fetch(FetchMode.SUBSELECT)
 	private List<ReturningItem> items = new ArrayList<ReturningItem>(0);
