@@ -3,12 +3,13 @@ package com.ironrhino.biz.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.ConstraintMode;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.ForeignKey;
 
 @Embeddable
 public class ReturningItem implements Serializable {
@@ -19,8 +20,7 @@ public class ReturningItem implements Serializable {
 
 	private BigDecimal price;
 
-	@JoinColumn(name = "productId")
-	@ForeignKey(name = "none")
+	@JoinColumn(name = "productId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Product product;
 

@@ -8,10 +8,12 @@ import java.util.List;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderColumn;
@@ -21,7 +23,6 @@ import javax.persistence.Version;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.NaturalId;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
@@ -84,41 +85,35 @@ public class Order extends BaseEntity implements Recordable<User> {
 
 	@SearchableComponent
 	@NotInCopy
-	@JoinColumn(name = "customerId")
-	@ForeignKey(name = "none")
+	@JoinColumn(name = "customerId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne(optional = false)
 	private Customer customer;
 
 	@SearchableComponent
 	@NotInCopy
-	@JoinColumn(name = "stationId")
-	@ForeignKey(name = "none")
+	@JoinColumn(name = "stationId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Station station;
 
 	@SearchableComponent
 	@NotInCopy
-	@JoinColumn(name = "salesmanId")
-	@ForeignKey(name = "none")
+	@JoinColumn(name = "salesmanId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee salesman;
 
 	@SearchableComponent
 	@NotInCopy
-	@JoinColumn(name = "deliverymanId")
-	@ForeignKey(name = "none")
+	@JoinColumn(name = "deliverymanId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Employee deliveryman;
 
 	@NotInCopy
-	@JoinColumn(name = "createUser", updatable = false)
-	@ForeignKey(name = "none")
+	@JoinColumn(name = "createUser", updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User createUser;
 
 	@NotInCopy
-	@JoinColumn(name = "modifyUser", insertable = false)
-	@ForeignKey(name = "none")
+	@JoinColumn(name = "modifyUser", insertable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User modifyUser;
 

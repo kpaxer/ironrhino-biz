@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +19,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.NaturalId;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.core.metadata.AutoConfig;
@@ -83,8 +84,7 @@ public class Station extends Entity<Long> {
 
 	@NotInCopy
 	@SearchableComponent
-	@JoinColumn(name = "regionId")
-	@ForeignKey(name = "none")
+	@JoinColumn(name = "regionId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne
 	private Region region;
 

@@ -7,7 +7,9 @@ import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +20,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.ForeignKey;
 import org.hibernate.annotations.NaturalId;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
@@ -71,8 +72,7 @@ public class Product extends Entity<Long> implements Ordered<Product>,
 	@NotInJson
 	@SearchableComponent
 	@NaturalId(mutable = true)
-	@JoinColumn(name = "categoryId")
-	@ForeignKey(name = "none")
+	@JoinColumn(name = "categoryId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Category category;
 
@@ -80,8 +80,7 @@ public class Product extends Entity<Long> implements Ordered<Product>,
 	@NotInJson
 	@SearchableComponent
 	@NaturalId(mutable = true)
-	@JoinColumn(name = "brandId")
-	@ForeignKey(name = "none")
+	@JoinColumn(name = "brandId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Brand brand;
 

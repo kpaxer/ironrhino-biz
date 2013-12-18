@@ -4,14 +4,15 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ForeignKey;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
 import org.ironrhino.core.model.BaseEntity;
@@ -48,8 +49,7 @@ public class Reward extends BaseEntity {
 
 	@NotInCopy
 	@SearchableComponent
-	@JoinColumn(name = "employeeId")
-	@ForeignKey(name = "none")
+	@JoinColumn(name = "employeeId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Employee employee;
 

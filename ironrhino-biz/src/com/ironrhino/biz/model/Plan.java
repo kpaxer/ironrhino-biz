@@ -3,13 +3,14 @@ package com.ironrhino.biz.model;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ForeignKey;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.Hidden;
 import org.ironrhino.core.metadata.NotInCopy;
@@ -34,8 +35,7 @@ public class Plan extends BaseEntity {
 
 	@NotInCopy
 	@SearchableComponent
-	@JoinColumn(name = "productId")
-	@ForeignKey(name = "none")
+	@JoinColumn(name = "productId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@UiConfig(displayOrder = 1, readonly = @Readonly(expression = "entity.completed"))
 	private Product product;
