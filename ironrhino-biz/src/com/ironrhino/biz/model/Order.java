@@ -40,7 +40,7 @@ import com.opensymphony.xwork2.util.CreateIfNull;
 @Searchable
 @AutoConfig
 @Entity
-@Table(name = "orders")
+@Table(name = "orders",indexes = {@javax.persistence.Index(columnList="orderDate desc,code desc")})
 public class Order extends BaseEntity implements Recordable<User> {
 
 	private static final long serialVersionUID = -3191022860732749749L;

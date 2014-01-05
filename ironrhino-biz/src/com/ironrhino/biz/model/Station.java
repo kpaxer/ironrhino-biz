@@ -8,6 +8,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -85,7 +86,7 @@ public class Station extends Entity<Long> {
 	@NotInCopy
 	@SearchableComponent
 	@JoinColumn(name = "regionId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Region region;
 
 	public Station() {

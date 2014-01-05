@@ -24,7 +24,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 		+ UserRole.ROLE_PRODUCTMANAGER)
 @Searchable
 @javax.persistence.Entity
-@Table(name = "category")
+@Table(name = "category", indexes = { @javax.persistence.Index(columnList = "displayOrder") })
 public class Category extends Entity<Long> implements Ordered<Category> {
 
 	private static final long serialVersionUID = 2084288046799489929L;

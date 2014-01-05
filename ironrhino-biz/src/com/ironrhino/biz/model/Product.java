@@ -39,7 +39,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 @AutoConfig
 @Searchable
 @javax.persistence.Entity
-@Table(name = "product")
+@Table(name = "product", indexes = { @javax.persistence.Index(columnList = "displayOrder") })
 public class Product extends Entity<Long> implements Ordered<Product>,
 		Attributable {
 

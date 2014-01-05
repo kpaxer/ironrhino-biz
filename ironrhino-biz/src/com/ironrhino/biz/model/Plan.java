@@ -27,7 +27,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.Store;
 @AutoConfig
 @Searchable
 @Entity
-@Table(name = "plan")
+@Table(name = "plan", indexes = { @javax.persistence.Index(columnList = "planDate desc") })
 @Richtable(order = "planDate desc")
 public class Plan extends BaseEntity {
 
