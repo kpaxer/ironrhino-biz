@@ -24,7 +24,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.Store;
 @AutoConfig
 @Searchable
 @Entity
-@Table(name = "stuffflow")
+@Table(name = "stuffflow", indexes = { @javax.persistence.Index(columnList = "date desc") })
 public class Stuffflow extends BaseEntity {
 
 	private static final long serialVersionUID = -1796500601044183359L;
