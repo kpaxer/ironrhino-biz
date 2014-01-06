@@ -334,7 +334,7 @@ public class ReportAction extends BaseAction {
 		DetachedCriteria dc = customerManager.detachedCriteria();
 		String id = getUid();
 		if (StringUtils.isNotBlank(id)) {
-			Region r = regionTreeControl.getRegionTree()
+			Region r = regionTreeControl.getTree()
 					.getDescendantOrSelfById(Long.valueOf(id));
 			if (r == null)
 				return;
@@ -357,7 +357,7 @@ public class ReportAction extends BaseAction {
 		List<Customer> cl = customerManager.findListByCriteria(dc);
 		for (Customer c : cl) {
 			if (c.getRegion() != null) {
-				String address = regionTreeControl.getRegionTree()
+				String address = regionTreeControl.getTree()
 						.getDescendantOrSelfById(c.getRegion().getId())
 						.getFullname()
 						+ c.getAddress();

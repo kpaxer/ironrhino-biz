@@ -123,7 +123,7 @@ public class CustomerAction extends BaseAction {
 						"phone", "mobile", "address"));
 			Region region = null;
 			if (regionId != null) {
-				region = regionTreeControl.getRegionTree()
+				region = regionTreeControl.getTree()
 						.getDescendantOrSelfById(regionId);
 				if (region != null && !region.isRoot()) {
 					if (region.isLeaf()) {
@@ -147,7 +147,7 @@ public class CustomerAction extends BaseAction {
 			resultPage = customerManager.findByResultPage(resultPage);
 			for (Customer c : resultPage.getResult())
 				if (c.getRegion() != null)
-					c.setRegion(regionTreeControl.getRegionTree()
+					c.setRegion(regionTreeControl.getTree()
 							.getDescendantOrSelfById(c.getRegion().getId()));
 		} else {
 			String query = keyword.trim();
@@ -164,7 +164,7 @@ public class CustomerAction extends BaseAction {
 							Customer c = source;
 							// c = customerManager.get(c.getId());
 							if (c.getRegion() != null)
-								c.setRegion(regionTreeControl.getRegionTree()
+								c.setRegion(regionTreeControl.getTree()
 										.getDescendantOrSelfById(
 												c.getRegion().getId()));
 							return c;
@@ -214,7 +214,7 @@ public class CustomerAction extends BaseAction {
 		else {
 			Region region = customer.getRegion();
 			if (region != null) {
-				region = regionTreeControl.getRegionTree()
+				region = regionTreeControl.getTree()
 						.getDescendantOrSelfById(region.getId());
 				if (region != null) {
 					regionId = region.getId();
@@ -253,7 +253,7 @@ public class CustomerAction extends BaseAction {
 				}
 			}
 			if (regionId != null) {
-				Region region = regionTreeControl.getRegionTree()
+				Region region = regionTreeControl.getTree()
 						.getDescendantOrSelfById(regionId);
 				customer.setRegion(region);
 			}
@@ -271,7 +271,7 @@ public class CustomerAction extends BaseAction {
 			if (regionId != null) {
 				Region r = customer.getRegion();
 				if (r == null || !r.getId().equals(regionId)) {
-					Region region = regionTreeControl.getRegionTree()
+					Region region = regionTreeControl.getTree()
 							.getDescendantOrSelfById(regionId);
 					customer.setRegion(region);
 				}
@@ -294,7 +294,7 @@ public class CustomerAction extends BaseAction {
 		if (StringUtils.isNumeric(id)) {
 			customer = customerManager.get(Long.valueOf(id));
 			if (customer.getRegion() != null)
-				customer.setRegion(regionTreeControl.getRegionTree()
+				customer.setRegion(regionTreeControl.getTree()
 						.getDescendantOrSelfById(customer.getRegion().getId()));
 		} else {
 			return ACCESSDENIED;
@@ -355,7 +355,7 @@ public class CustomerAction extends BaseAction {
 			suggestions = new ArrayList<LabelValue>(list.size());
 			for (Customer c : list) {
 				if (c.getRegion() != null)
-					c.setRegion(regionTreeControl.getRegionTree()
+					c.setRegion(regionTreeControl.getTree()
 							.getDescendantOrSelfById(c.getRegion().getId()));
 				LabelValue lv = new LabelValue();
 				lv.setValue(c.getName());

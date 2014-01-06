@@ -109,7 +109,7 @@ public class StationAction extends BaseAction {
 						"phone", "mobile", "address", "destination"));
 			Region region = null;
 			if (regionId != null) {
-				region = regionTreeControl.getRegionTree()
+				region = regionTreeControl.getTree()
 						.getDescendantOrSelfById(regionId);
 				if (region != null && !region.isRoot()) {
 					if (region.isLeaf()) {
@@ -128,7 +128,7 @@ public class StationAction extends BaseAction {
 			resultPage = stationManager.findByResultPage(resultPage);
 			for (Station c : resultPage.getResult())
 				if (c.getRegion() != null)
-					c.setRegion(regionTreeControl.getRegionTree()
+					c.setRegion(regionTreeControl.getTree()
 							.getDescendantOrSelfById(c.getRegion().getId()));
 		} else {
 			String query = keyword.trim();
@@ -144,7 +144,7 @@ public class StationAction extends BaseAction {
 						public Station map(Station source) {
 							Station s = source;
 							if (s.getRegion() != null)
-								s.setRegion(regionTreeControl.getRegionTree()
+								s.setRegion(regionTreeControl.getTree()
 										.getDescendantOrSelfById(
 												s.getRegion().getId()));
 							return s;
@@ -167,7 +167,7 @@ public class StationAction extends BaseAction {
 		else {
 			Region region = station.getRegion();
 			if (region != null) {
-				region = regionTreeControl.getRegionTree()
+				region = regionTreeControl.getTree()
 						.getDescendantOrSelfById(region.getId());
 				if (region != null) {
 					regionId = region.getId();
@@ -206,7 +206,7 @@ public class StationAction extends BaseAction {
 				}
 			}
 			if (regionId != null) {
-				Region region = regionTreeControl.getRegionTree()
+				Region region = regionTreeControl.getTree()
 						.getDescendantOrSelfById(regionId);
 				station.setRegion(region);
 			}
@@ -224,7 +224,7 @@ public class StationAction extends BaseAction {
 			if (regionId != null) {
 				Region r = station.getRegion();
 				if (r == null || !r.getId().equals(regionId)) {
-					Region region = regionTreeControl.getRegionTree()
+					Region region = regionTreeControl.getTree()
 							.getDescendantOrSelfById(regionId);
 					station.setRegion(region);
 				}
@@ -249,7 +249,7 @@ public class StationAction extends BaseAction {
 		if (StringUtils.isNumeric(id)) {
 			station = stationManager.get(Long.valueOf(id));
 			if (station.getRegion() != null)
-				station.setRegion(regionTreeControl.getRegionTree()
+				station.setRegion(regionTreeControl.getTree()
 						.getDescendantOrSelfById(station.getRegion().getId()));
 		} else {
 			return ACCESSDENIED;

@@ -190,8 +190,8 @@ public class ChartAction extends BaseAction {
 		this.title = title;
 	}
 
-	public Region getRegionTree() {
-		return regionTreeControl.getRegionTree();
+	public Region getTree() {
+		return regionTreeControl.getTree();
 	}
 
 	@Override
@@ -243,7 +243,7 @@ public class ChartAction extends BaseAction {
 			Region r = order.getCustomer().getRegion();
 			if (r == null)
 				continue;
-			String regionName = regionTreeControl.getRegionTree()
+			String regionName = regionTreeControl.getTree()
 					.getDescendantOrSelfById(r.getId()).getAncestor(1)
 					.getName();
 			for (OrderItem item : order.getItems()) {
@@ -758,13 +758,13 @@ public class ChartAction extends BaseAction {
 		List<String> labels = new ArrayList<String>();
 		Region region = null;
 		if (StringUtils.isNumeric(location))
-			region = regionTreeControl.getRegionTree().getDescendantOrSelfById(
+			region = regionTreeControl.getTree().getDescendantOrSelfById(
 					Long.valueOf(location));
 		else
 			region = RegionUtils.parseByAddress(location,
-					regionTreeControl.getRegionTree());
+					regionTreeControl.getTree());
 		if (region == null)
-			region = regionTreeControl.getRegionTree();
+			region = regionTreeControl.getTree();
 		for (Region r : region.getChildren())
 			labels.add(r.getName());
 		labels.add(region.getName() + "未知");
@@ -796,7 +796,7 @@ public class ChartAction extends BaseAction {
 					String regionName = "其它";
 					Region r = order.getCustomer().getRegion();
 					if (r != null)
-						r = regionTreeControl.getRegionTree()
+						r = regionTreeControl.getTree()
 								.getDescendantOrSelfById(r.getId());
 					if (r != null) {
 						if (r.isDescendantOrSelfOf(region)) {
@@ -858,7 +858,7 @@ public class ChartAction extends BaseAction {
 					String regionName = "其它";
 					Region r = order.getCustomer().getRegion();
 					if (r != null)
-						r = regionTreeControl.getRegionTree()
+						r = regionTreeControl.getTree()
 								.getDescendantOrSelfById(r.getId());
 					if (r != null) {
 						if (r.isDescendantOrSelfOf(region))
