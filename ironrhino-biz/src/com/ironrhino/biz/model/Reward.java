@@ -25,7 +25,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.Store;
 @AutoConfig
 @Searchable
 @Entity
-@Table(name = "reward", indexes = { @javax.persistence.Index(columnList = "rewardDate desc,type asc") })
+@Table(name = "reward")
 public class Reward extends BaseEntity {
 
 	private static final long serialVersionUID = 1361468983711747618L;
