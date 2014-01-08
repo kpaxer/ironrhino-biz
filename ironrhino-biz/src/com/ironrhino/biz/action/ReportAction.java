@@ -13,8 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.fill.JRAbstractLRUVirtualizer;
 import net.sf.jasperreports.engine.fill.JRGzipVirtualizer;
@@ -31,6 +29,7 @@ import org.ironrhino.core.service.EntityManager;
 import org.ironrhino.core.struts.BaseAction;
 import org.ironrhino.core.util.DateUtils;
 import org.ironrhino.core.util.ErrorMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ironrhino.biz.model.Customer;
 import com.ironrhino.biz.model.Employee;
@@ -334,20 +333,13 @@ public class ReportAction extends BaseAction {
 		DetachedCriteria dc = customerManager.detachedCriteria();
 		String id = getUid();
 		if (StringUtils.isNotBlank(id)) {
-			Region r = regionTreeControl.getTree()
-					.getDescendantOrSelfById(Long.valueOf(id));
+			Region r = regionTreeControl.getTree().getDescendantOrSelfById(
+					Long.valueOf(id));
 			if (r == null)
 				return;
-			if (r.isLeaf()) {
-				dc.createAlias("region", "r").add(
-						Restrictions.eq("r.id", r.getId()));
-			} else {
-				dc.createAlias("region", "r").add(
-						Restrictions.or(
-								Restrictions.eq("r.id", r.getId()),
-								Restrictions.like("r.fullId", r.getFullId()
-										+ ".", MatchMode.START)));
-			}
+			dc.createAlias("region", "r").add(
+					Restrictions.like("r.fullId", r.getFullId(),
+							MatchMode.START));
 		} else {
 			dc.add(Restrictions.between("createDate",
 					DateUtils.beginOfDay(getFrom()),
