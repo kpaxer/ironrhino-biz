@@ -176,6 +176,9 @@ public class Order extends BaseEntity implements Recordable<User> {
 	}
 
 	public List<OrderItem> getItems() {
+		if (items != null)
+			for (OrderItem oi : items)
+				oi.setOrder(this);
 		return items;
 	}
 

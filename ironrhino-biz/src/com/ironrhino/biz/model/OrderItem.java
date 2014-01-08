@@ -9,8 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.Parent;
+import javax.persistence.Transient;
 
 @Embeddable
 public class OrderItem implements Serializable {
@@ -25,7 +24,7 @@ public class OrderItem implements Serializable {
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private Product product;
 
-	@Parent
+	@Transient
 	private Order order;
 
 	public Order getOrder() {
