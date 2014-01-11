@@ -42,7 +42,8 @@ import com.opensymphony.xwork2.util.CreateIfNull;
 @Entity
 @Table(name = "orders", indexes = {
 		@javax.persistence.Index(columnList = "paid"),
-		@javax.persistence.Index(columnList = "shipped") })
+		@javax.persistence.Index(columnList = "shipped"),
+		@javax.persistence.Index(columnList = "orderDate desc") })
 public class Order extends BaseEntity implements Recordable<User> {
 
 	private static final long serialVersionUID = -3191022860732749749L;
