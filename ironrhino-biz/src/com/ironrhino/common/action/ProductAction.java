@@ -34,7 +34,7 @@ public class ProductAction extends ColumnPageAction {
 			if (elements.size() > 0) {
 				Element ele = elements.get(0);
 				Page page = new Page();
-				page.setPagepath(p.getPagepath());
+				page.setPath(p.getPath());
 				page.setTitle(p.getTitle());
 				page.setContent(ele.attr("src"));
 				list.add(page);
