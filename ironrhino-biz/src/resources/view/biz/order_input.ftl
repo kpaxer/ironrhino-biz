@@ -53,7 +53,7 @@
 			<#list 0..size as index>
 				<tr>
 					<td>
-						<@s.select id="" theme="simple" name="productId" value="${(productId[index])!}" cssClass="required fetchprice chosen decrease" cssStyle="width:260px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue=""/>
+						<@s.select id="" theme="simple" name="productId" value="${(productId[index])!}" cssClass="required fetchprice chosen" cssStyle="width:260px;" list="productList" listKey="id" listValue="fullname" headerKey="" headerValue=""/>
 						<span class="info" style="font-style:italic;margin-left:5px;"></span>
 					</td>
 					<td><@s.textfield theme="simple" name="order.items[${index}].quantity" cssClass="required integer positive quantity" cssStyle="width:40px;"/></td>
