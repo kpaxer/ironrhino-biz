@@ -15,8 +15,8 @@
 <#assign bottomButtons='
 <button type="button" class="btn" data-view="input">${action.getText("create")}</button>
 <button type="button" class="btn confirm" data-action="save">${action.getText("save")}</button>
-<button type="button" class="btn" data-action="delete" data-shown="selected" data-filterselector=".uncompleted">${action.getText("delete")}</button>
-<button type="button" class="btn" data-action="complete" data-shown="selected" data-filterselector=".uncompleted">${action.getText("complete")}</button>
+<button type="button" class="btn confirm" data-action="delete" data-shown="selected" data-filterselector=".uncompleted">${action.getText("delete")}</button>
+<button type="button" class="btn confirm" data-action="complete" data-shown="selected" data-filterselector=".uncompleted">${action.getText("complete")}</button>
 <button type="button" class="btn reload">${action.getText("reload")}</button>
 <button type="button" class="btn filter">${action.getText("filter")}</button>
 '>

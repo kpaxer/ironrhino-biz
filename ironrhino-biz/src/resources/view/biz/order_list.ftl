@@ -12,9 +12,9 @@
 +'data-windowoptions="{\'width\':\'950px\'}">${action.getText("edit")}</button>'>
 <#assign bottomButtons='
 <button type="button" class="btn" data-view="input" data-windowoptions="{\'width\':\'950px\'}">${action.getText("create")}</button>
-<button type="button" class="btn" data-action="delete" data-shown="selected" data-filterselector=":not(.paid):not(.shipped)">${action.getText("delete")}</button>
-<button type="button" class="btn" data-action="pay" data-shown="selected" data-filterselector=":not(.paid)">${action.getText("pay")}</button>
-<button type="button" class="btn" data-action="ship" data-shown="selected" data-filterselector=":not(.shipped)">${action.getText("ship")}</button>
+<button type="button" class="btn confirm" data-action="delete" data-shown="selected" data-filterselector=":not(.paid):not(.shipped)">${action.getText("delete")}</button>
+<button type="button" class="btn confirm" data-action="pay" data-shown="selected" data-filterselector=":not(.paid)">${action.getText("pay")}</button>
+<button type="button" class="btn confirm" data-action="ship" data-shown="selected" data-filterselector=":not(.shipped)">${action.getText("ship")}</button>
 <button type="button" class="btn reload">${action.getText("reload")}</button>
 <button type="button" class="btn filter">${action.getText("filter")}</button>
 <button type="button" class="btn more">${action.getText("more")}</button>
