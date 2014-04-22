@@ -9,11 +9,11 @@
 		<@s.hidden name="station.id" />
 	</#if>
 	<@s.textfield label="%{getText('name')}" name="station.name" cssClass="required checkavailable"/>
-	<div class="control-group treeselect" data-options="{'url':'<@url value="/region/children"/>','name':'#region','id':'#regionId'}">
-	<@s.hidden id="regionId" name="regionId" />
+	<div class="control-group treeselect" data-options="{'url':'<@url value="/region/children"/>'}">
+	<@s.hidden cssClass="treeselect-id" name="regionId" />
 	<label class="control-label" for="region">地区</label>
 	<div class="controls">
-	<span id="region"><#if station.region??>${station.region.fullname}</#if></span>
+	<span class="treeselect-name"><#if station.region??>${station.region.fullname}</#if></span>
 	</div>
 	</div>
 	<@s.textfield label="%{getText('address')}" name="station.address"/>
