@@ -17,7 +17,7 @@
     
 	<div>
 		<div id="orderItems">
-		<table class="table table-bordered middle" style="table-layout:fixed;">
+		<table class="table table-bordered table-fixed middle">
 			<thead>
 				<tr>
 					<td style="width:47%;">${action.getText('product')}</td>
