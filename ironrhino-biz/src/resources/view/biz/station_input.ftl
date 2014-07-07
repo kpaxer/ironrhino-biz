@@ -4,7 +4,7 @@
 <title><#if station.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('station')}</title>
 </head>
 <body>
-<@s.form action="${actionBaseUrl}/save" method="post" cssClass="ajax form-horizontal">
+<@s.form action="${actionBaseUrl}/save" method="post" cssClass="ajax form-horizontal sequential_create">
 	<#if !station.new>
 		<@s.hidden name="station.id" />
 	</#if>
