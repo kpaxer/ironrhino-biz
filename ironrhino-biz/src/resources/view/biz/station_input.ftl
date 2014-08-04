@@ -4,13 +4,13 @@
 <title><#if station.new>${action.getText('create')}<#else>${action.getText('edit')}</#if>${action.getText('station')}</title>
 </head>
 <body>
-<@s.form action="${actionBaseUrl}/save" method="post" cssClass="ajax form-horizontal sequential_create">
+<@s.form action="${actionBaseUrl}/save" method="post" class="ajax form-horizontal sequential_create">
 	<#if !station.new>
 		<@s.hidden name="station.id" />
 	</#if>
-	<@s.textfield label="%{getText('name')}" name="station.name" cssClass="required checkavailable"/>
+	<@s.textfield label="%{getText('name')}" name="station.name" class="required checkavailable"/>
 	<div class="control-group treeselect" data-options="{'url':'<@url value="/region/children"/>'}">
-	<@s.hidden cssClass="treeselect-id" name="regionId" />
+	<@s.hidden class="treeselect-id" name="regionId" />
 	<label class="control-label" for="region">地区</label>
 	<div class="controls">
 	<span class="treeselect-name"><#if station.region??>${station.region.fullname}</#if></span>
@@ -43,7 +43,7 @@
 		</table>
 		</div>
 	</div>
-	<@s.textarea label="%{getText('memo')}" name="station.memo" cssClass="input-xxlarge" cssStyle="height:40px;"/>
+	<@s.textarea label="%{getText('memo')}" name="station.memo" class="input-xxlarge" cssStyle="height:40px;"/>
 	<@s.submit value="%{getText('save')}" />
 </@s.form>
 </body>

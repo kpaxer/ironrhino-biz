@@ -13,16 +13,16 @@
 				<div>${action.getText('all')}${action.getText('category')}</div>
 				<form action="chart/view" method="get" class="form-inline ajax view" data-replacement="c">
 					<input type="hidden" name="type" value="brand"/>
-					<@s.textfield theme="simple" id="" name="from" cssClass="date required"/>
-					<@s.textfield theme="simple" id="" name="to" cssClass="date required"/>
+					<@s.textfield theme="simple" id="" name="from" class="date required"/>
+					<@s.textfield theme="simple" id="" name="to" class="date required"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/> 
 				</form>
 				<div style="clear:left;">${action.getText('single')}${action.getText('category')}</div>
 				<form action="chart/view" method="get" class="form-inline ajax view" data-replacement="c">
 					<input type="hidden" name="type" value="brand"/>
-					<@s.select theme="simple" cssClass="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
-					<@s.textfield theme="simple" id="" name="from" cssClass="date required"/>
-					<@s.textfield theme="simple" id="" name="to" cssClass="date required"/>
+					<@s.select theme="simple" class="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
+					<@s.textfield theme="simple" id="" name="from" class="date required"/>
+					<@s.textfield theme="simple" id="" name="to" class="date required"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
@@ -34,16 +34,16 @@
 				<div>${action.getText('all')}${action.getText('category')}</div>
 				<form action="chart/view" method="get" class="form-inline ajax view" data-replacement="c">
 					<input type="hidden" name="type" value="saletype"/>
-					<@s.textfield theme="simple" id="" name="from" cssClass="date required"/>
-					<@s.textfield theme="simple" id="" name="to" cssClass="date required"/>
+					<@s.textfield theme="simple" id="" name="from" class="date required"/>
+					<@s.textfield theme="simple" id="" name="to" class="date required"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('single')}${action.getText('category')}</div>
 				<form action="chart/view" method="get" class="form-inline ajax view" data-replacement="c">
 					<input type="hidden" name="type" value="saletype"/>
-					<@s.select theme="simple" cssClass="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
-					<@s.textfield theme="simple" id="" name="from" cssClass="date required"/>
-					<@s.textfield theme="simple" id="" name="to" cssClass="date required"/>
+					<@s.select theme="simple" class="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
+					<@s.textfield theme="simple" id="" name="from" class="date required"/>
+					<@s.textfield theme="simple" id="" name="to" class="date required"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
@@ -54,15 +54,15 @@
 			<div class="portlet-content">
 				<div>${action.getText('all')}${action.getText('category')}</div>
 				<form action="chart/chinamap" method="get" class="form-inline" target="_blank" data-replacement="c">
-					<@s.textfield theme="simple" id="" name="from" cssClass="date required"/>
-					<@s.textfield theme="simple" id="" name="to" cssClass="date required"/>
+					<@s.textfield theme="simple" id="" name="from" class="date required"/>
+					<@s.textfield theme="simple" id="" name="to" class="date required"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('single')}${action.getText('category')}</div>
 				<form action="chart/chinamap" method="get" class="form-inline" target="_blank" data-replacement="c">
-					<@s.select theme="simple" cssClass="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
-					<@s.textfield theme="simple" id="" name="from" cssClass="date required"/>
-					<@s.textfield theme="simple" id="" name="to" cssClass="date required"/>
+					<@s.select theme="simple" class="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
+					<@s.textfield theme="simple" id="" name="from" class="date required"/>
+					<@s.textfield theme="simple" id="" name="to" class="date required"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
@@ -78,16 +78,16 @@
 				<div>${action.getText('all')}${action.getText('brand')}</div>
 				<form action="chart/view" method="get" class="form-inline ajax view" data-replacement="c">
 					<input type="hidden" name="type" value="category"/>
-					<@s.textfield theme="simple" id="" name="from" cssClass="date required"/>
-					<@s.textfield theme="simple" id="" name="to" cssClass="date required"/>
+					<@s.textfield theme="simple" id="" name="from" class="date required"/>
+					<@s.textfield theme="simple" id="" name="to" class="date required"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('single')}${action.getText('brand')}</div>
 				<form action="chart/view" method="get" class="form-inline ajax view" data-replacement="c">
 					<input type="hidden" name="type" value="category"/>
-					<@s.select theme="simple" cssClass="required" name="id" list="brandList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
-					<@s.textfield theme="simple" id="" name="from" cssClass="date required"/>
-					<@s.textfield theme="simple" id="" name="to" cssClass="date required"/>
+					<@s.select theme="simple" class="required" name="id" list="brandList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
+					<@s.textfield theme="simple" id="" name="from" class="date required"/>
+					<@s.textfield theme="simple" id="" name="to" class="date required"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
@@ -100,17 +100,17 @@
 				<form action="chart/view" method="get" class="form-inline ajax view" data-replacement="c">
 					<input type="hidden" name="type" value="region"/>
 					<input id="location" type="hidden" name="location"/><span class="treeselect" data-options="{'url':'<@url value="/region/children"/>','name':'this','id':'#location'}"></span>
-					<@s.textfield theme="simple" id="" name="from" cssClass="date required"/>
-					<@s.textfield theme="simple" id="" name="to" cssClass="date required"/>
+					<@s.textfield theme="simple" id="" name="from" class="date required"/>
+					<@s.textfield theme="simple" id="" name="to" class="date required"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('single')}${action.getText('category')}</div>
 				<form action="chart/view" method="get" class="form-inline ajax view" data-replacement="c">
 					<input type="hidden" name="type" value="region"/>
 					<input id="location2" type="hidden" name="location"/><span class="treeselect"  data-options="{'url':'<@url value="/region/children"/>','name':'this','id':'#location2'}"></span>
-					<@s.select theme="simple" cssClass="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
-					<@s.textfield theme="simple" id="" name="from" cssClass="date required"/>
-					<@s.textfield theme="simple" id="" name="to" cssClass="date required"/>
+					<@s.select theme="simple" class="required" name="id" list="categoryList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
+					<@s.textfield theme="simple" id="" name="from" class="date required"/>
+					<@s.textfield theme="simple" id="" name="to" class="date required"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>

@@ -20,14 +20,14 @@
 				<div style="clear:left;">${action.getText('date')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="order"/>
-					<@s.textfield id="" name="date" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="date" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('range')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="order"/>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('customer')} ${action.getText('range')}</div>
@@ -35,40 +35,40 @@
 					<input type="hidden" name="type" value="order"/>
 					<input id="customerId" type="hidden" name="customer"/>
 					<span class="listpick" data-options="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'this','id':'#customerId'}"></span>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('salesman')} ${action.getText('range')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="order"/>
-					<@s.select theme="simple" cssClass="required" cssStyle="width:80px;" name="salesman" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.select theme="simple" class="required" cssStyle="width:80px;" name="salesman" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('deliveryman')} ${action.getText('range')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="order"/>
-					<@s.select theme="simple" cssClass="required" cssStyle="width:80px;" name="deliveryman" list="deliverymanList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.select theme="simple" class="required" cssStyle="width:80px;" name="deliveryman" list="deliverymanList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('saleType')} ${action.getText('range')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="order"/>
-					<@s.select theme="simple" name="saletype" cssClass="required" cssStyle="width:80px;" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" headerKey="" headerValue="%{getText('select')}"/>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.select theme="simple" name="saletype" class="required" cssStyle="width:80px;" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" headerKey="" headerValue="%{getText('select')}"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<h3 style="clear:left;">${action.getText('product')}${action.getText('sales')}</h3>
 				<div>${action.getText('range')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="productsales"/>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('customer')} ${action.getText('range')}</div>
@@ -76,32 +76,32 @@
 					<input type="hidden" name="type" value="productsales"/>
 					<input id="customerId2" type="hidden" name="customer"/>
 					<span class="listpick" data-options="{'url':'<@url value="/biz/customer/pick?columns=name,fullAddress"/>','name':'this','id':'#customerId2'}"></span>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('salesman')} ${action.getText('range')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="productsales"/>
-					<@s.select theme="simple" cssClass="required" cssStyle="width:80px;" name="salesman" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.select theme="simple" class="required" cssStyle="width:80px;" name="salesman" list="salesmanList" listKey="id" listValue="name" headerKey="" headerValue="%{getText('select')}"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('saleType')} ${action.getText('range')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="productsales"/>
-					<@s.select theme="simple" name="saletype" cssClass="required" cssStyle="width:80px;" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" headerKey="" headerValue="%{getText('select')}"/>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.select theme="simple" name="saletype" class="required" cssStyle="width:80px;" list="@com.ironrhino.biz.model.SaleType@values()" listKey="name" listValue="displayName" headerKey="" headerValue="%{getText('select')}"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<h3 style="clear:left;">${action.getText('sales')}</h3>
 				<div>${action.getText('range')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="dailysales"/>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
@@ -115,8 +115,8 @@
 				<h3>${action.getText('all')}${action.getText('reward')}${action.getText('detail')}</h3>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="privatereward"/>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<select name="negative" style="width:70px;"><option value="">${action.getText('all')}</option><option value="false">${action.getText('income')}</option><option value="true">${action.getText('outlay')}</option></select>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
@@ -125,8 +125,8 @@
 					<input type="hidden" name="type" value="privatereward"/>
 					<input id="employeeId" type="hidden" name="id"/>
 					<span class="listpick" data-options="{'url':'<@url value="/biz/employee/pick?columns=name"/>','name':'this','id':'#employeeId'}"></span>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<select name="negative" style="width:70px;"><option value="">${action.getText('all')}</option><option value="false">${action.getText('income')}</option><option value="true">${action.getText('outlay')}</option></select>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
@@ -134,21 +134,21 @@
 				<div>${action.getText('date')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="reward"/>
-					<@s.textfield id="" name="date" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="date" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('range')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="reward"/>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<h3 style="clear:left;">${action.getText('all')}${action.getText('reward')}${action.getText('statistics')}</h3>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="aggregationreward"/>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<select name="negative" style="width:70px;"><option value="">${action.getText('all')}</option><option value="false">${action.getText('income')}</option><option value="true">${action.getText('outlay')}</option></select>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
@@ -169,8 +169,8 @@
 				<h3>${action.getText('stuffflow')}${action.getText('statistics')}</h3>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="stuffflow"/>
-					<@s.textfield id="" name="from" cssClass="date required" theme="simple"/>	
-					<@s.textfield id="" name="to" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="from" class="date required" theme="simple"/>	
+					<@s.textfield id="" name="to" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 			</div>
@@ -181,7 +181,7 @@
 				<div>${action.getText('date')}</div>
 				<form action="report/jasper" method="post" class="report form-inline">
 					<input type="hidden" name="type" value="customer"/>
-					<@s.textfield id="" name="date" cssClass="date required" theme="simple"/>
+					<@s.textfield id="" name="date" class="date required" theme="simple"/>
 					<@s.submit theme="simple" value="%{getText('confirm')}"/>
 				</form>
 				<div style="clear:left;">${action.getText('region')}</div>

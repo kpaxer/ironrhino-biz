@@ -4,7 +4,7 @@
 <title>${action.getText('customer')}${action.getText('list')}</title>
 </head>
 <body>
-<#assign columns={"name":{"width":"120px","cellEdit":"click"},"address":{"cssClass":"excludeIfNotEdited hidden-pad","template":r'<#if entity.region??><#if !Parameters.regionId??><a class="region" title="点击查看${entity.region.fullname}所有客户" href="customer?regionId=${entity.region.id}"></#if>${entity.region.fullname}<#if !Parameters.regionId??></a></#if></#if>${value!}'},"linkman":{"cellEdit":"click","width":"80px"},"phone":{"cellEdit":"click","width":"100px"},"mobile":{"cellEdit":"click","width":"100px"},"fax":{"cellEdit":"click","width":"100px"}}>
+<#assign columns={"name":{"width":"120px","cellEdit":"click"},"address":{"class":"excludeIfNotEdited hidden-pad","template":r'<#if entity.region??><#if !Parameters.regionId??><a class="region" title="点击查看${entity.region.fullname}所有客户" href="customer?regionId=${entity.region.id}"></#if>${entity.region.fullname}<#if !Parameters.regionId??></a></#if></#if>${value!}'},"linkman":{"cellEdit":"click","width":"80px"},"phone":{"cellEdit":"click","width":"100px"},"mobile":{"cellEdit":"click","width":"100px"},"fax":{"cellEdit":"click","width":"100px"}}>
 <#assign actionColumnButtons=r'
 <button type="button" class="btn" data-view="view">${action.getText("view")}</button>
 <button type="button" class="btn" data-view="input">${action.getText("edit")}</button>

@@ -33,8 +33,8 @@ Observation.chinamap = function(container){
 	<input type="hidden" name="${name}" value="${Parameters[name]}" />
 	</#if>
 	</#list>
-	<@s.textfield theme="simple" name="from" cssClass="date required"/>
-	<@s.textfield theme="simple" name="to" cssClass="date required"/>
+	<@s.textfield theme="simple" name="from" class="date required"/>
+	<@s.textfield theme="simple" name="to" class="date required"/>
 	<@s.submit theme="simple" value="%{getText('confirm')}"/>
 </form>
 <#assign data_file=actionBaseUrl+"/chinamapdata"/>
