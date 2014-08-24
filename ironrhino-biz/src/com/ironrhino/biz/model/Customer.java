@@ -24,7 +24,6 @@ import org.hibernate.annotations.NaturalId;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
-import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.search.elasticsearch.annotations.Index;
 import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
@@ -32,6 +31,8 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableComponent;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 import org.ironrhino.core.util.StringUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Searchable
 @AutoConfig
@@ -72,11 +73,11 @@ public class Customer extends Entity<Long> {
 	private String memo;
 
 	@NotInCopy
-	@NotInJson
+	@JsonIgnore
 	private Date activeDate = new Date();
 
 	@NotInCopy
-	@NotInJson
+	@JsonIgnore
 	@Column(updatable = false)
 	private Date createDate = new Date();
 
@@ -144,7 +145,7 @@ public class Customer extends Entity<Long> {
 	}
 
 	@Override
-	@NotInJson
+	@JsonIgnore
 	public boolean isNew() {
 		return id == null || id == 0;
 	}
@@ -211,7 +212,7 @@ public class Customer extends Entity<Long> {
 		this.tags = tags;
 	}
 
-	@NotInJson
+	@JsonIgnore
 	@Access(AccessType.PROPERTY)
 	@Column(name = "tags", length = 500)
 	public String getTagsAsString() {

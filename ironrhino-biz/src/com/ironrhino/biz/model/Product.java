@@ -23,7 +23,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.NaturalId;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
-import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Attributable;
 import org.ironrhino.core.model.Attribute;
 import org.ironrhino.core.model.Entity;
@@ -34,6 +33,7 @@ import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 import org.ironrhino.core.util.JsonUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 @AutoConfig
@@ -69,7 +69,7 @@ public class Product extends Entity<Long> implements Ordered<Product>,
 	private int displayOrder;
 
 	@NotInCopy
-	@NotInJson
+	@JsonIgnore
 	@SearchableComponent
 	@NaturalId(mutable = true)
 	@JoinColumn(name = "categoryId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
@@ -77,7 +77,7 @@ public class Product extends Entity<Long> implements Ordered<Product>,
 	private Category category;
 
 	@NotInCopy
-	@NotInJson
+	@JsonIgnore
 	@SearchableComponent
 	@NaturalId(mutable = true)
 	@JoinColumn(name = "brandId", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
@@ -98,7 +98,7 @@ public class Product extends Entity<Long> implements Ordered<Product>,
 	}
 
 	@Override
-	@NotInJson
+	@JsonIgnore
 	public boolean isNew() {
 		return id == null || id == 0;
 	}

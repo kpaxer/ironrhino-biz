@@ -24,13 +24,14 @@ import org.hibernate.annotations.NaturalId;
 import org.ironrhino.common.model.Region;
 import org.ironrhino.core.metadata.AutoConfig;
 import org.ironrhino.core.metadata.NotInCopy;
-import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableComponent;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
 import org.ironrhino.core.util.JsonUtils;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Searchable
 @AutoConfig
@@ -74,12 +75,12 @@ public class Station extends Entity<Long> {
 	private String memo;
 
 	@NotInCopy
-	@NotInJson
+	@JsonIgnore
 	@Transient
 	private List<String> cashCondition = new ArrayList<String>();
 
 	@NotInCopy
-	@NotInJson
+	@JsonIgnore
 	@Column(updatable = false)
 	private Date createDate = new Date();;
 
@@ -203,7 +204,7 @@ public class Station extends Entity<Long> {
 	}
 
 	@Override
-	@NotInJson
+	@JsonIgnore
 	public boolean isNew() {
 		return id == null || id == 0;
 	}

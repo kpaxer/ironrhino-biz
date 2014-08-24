@@ -10,7 +10,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NaturalId;
 import org.ironrhino.core.metadata.Authorize;
 import org.ironrhino.core.metadata.AutoConfig;
-import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.metadata.UiConfig;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
@@ -18,6 +17,8 @@ import org.ironrhino.core.search.elasticsearch.annotations.Index;
 import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @AutoConfig
 @Authorize(ifAnyGranted = UserRole.ROLE_ADMINISTRATOR + ","
@@ -63,7 +64,7 @@ public class Brand extends Entity<Long> implements Ordered<Brand> {
 	}
 
 	@Override
-	@NotInJson
+	@JsonIgnore
 	public boolean isNew() {
 		return id == null || id == 0;
 	}

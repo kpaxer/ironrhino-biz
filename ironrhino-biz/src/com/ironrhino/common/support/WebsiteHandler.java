@@ -14,17 +14,12 @@ import org.springframework.stereotype.Component;
 import com.ironrhino.Constants;
 
 @Component
-public class WebsiteHandler implements AccessHandler {
+public class WebsiteHandler extends AccessHandler {
 
 	public static final String REQUEST_ATTR_NAME_WEBSITE = "website";
 
 	@Autowired
 	private SettingControl settingControl;
-
-	@Override
-	public String getPattern() {
-		return null;
-	}
 
 	@Override
 	public boolean handle(HttpServletRequest request,

@@ -11,12 +11,13 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
 import org.ironrhino.core.metadata.AutoConfig;
-import org.ironrhino.core.metadata.NotInJson;
 import org.ironrhino.core.model.Entity;
 import org.ironrhino.core.model.Ordered;
 import org.ironrhino.core.search.elasticsearch.annotations.Searchable;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableId;
 import org.ironrhino.core.search.elasticsearch.annotations.SearchableProperty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @AutoConfig
 @Searchable
@@ -61,7 +62,7 @@ public class Stuff extends Entity<Long> implements Ordered<Stuff> {
 	}
 
 	@Override
-	@NotInJson
+	@JsonIgnore
 	public boolean isNew() {
 		return id == null || id == 0;
 	}
